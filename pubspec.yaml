@@ -38,7 +38,7 @@ dependencies:
   english_words: ^4.0.0
   http: ^0.13.4
   flutter_staggered_animations: "^1.0.0"
-
+  flutter_speed_dial: ^4.6.6
 
 dev_dependencies:
   flutter_test:

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 void main() {
   runApp(const MyApp());
@@ -45,19 +46,20 @@ class Account extends StatefulWidget {
 class _AccountState extends State<Account> {
   final _suggestions = <WordPair>[];
   final _biggerFont = const TextStyle(fontSize: 12.0);
+  ValueNotifier<bool> isDialOpen = ValueNotifier(false);
   int _counter = 0;
 
-  void _incrementCounter() {
+  void createAlertDialog(BuildContext context) {
     //     setState(() {
     //       // This call to setState tells the Flutter framework that something has
     //       // changed in this State, which causes it to rerun the build method below
     // so that the display can reflect the updated values. If we changed
     // _counter without calling setState(), then the build method would not be
     // called again, and so nothing would appear to happen.
-    _counter++;
+
   }
 
-  String generateRandomHCMUTAccount (int len) {
+  String generateRandomHCMUTAccount(int len) {
     var r = Random();
     return "hientm177" + String.fromCharCodes(List.generate(len, (index) => r.nextInt(33) + 89)) + "@hcmut.edu.vn";
   }
@@ -76,13 +78,39 @@ class _AccountState extends State<Account> {
 
         body: _buildAccountList(),
 
-        floatingActionButton: FloatingActionButton(
-          onPressed: _incrementCounter,
-          tooltip: 'Increment',
-          child: const Icon(
-            Icons.add,
-            color: Colors.yellowAccent,
-          ),
+        floatingActionButton:  SpeedDial(
+          animatedIcon: AnimatedIcons.menu_close,
+          openCloseDial: isDialOpen,
+          backgroundColor: Colors.blueAccent,
+          overlayColor: Colors.grey,
+          overlayOpacity: 0.5,
+          spacing: 15,
+          spaceBetweenChildren: 10,
+          closeManually: true,
+          children: [
+            SpeedDialChild(
+                child: Icon(Icons.share_rounded),
+                label: 'Share app',
+                backgroundColor: Colors.blue,
+                onTap: (){
+                  print('Share Tapped');
+                }
+            ),
+            SpeedDialChild(
+                child: Icon(Icons.keyboard),
+                label: 'Enter registration code ',
+                onTap: (){
+                  print('Registration Tapped');
+                }
+            ),
+            SpeedDialChild(
+                child: Icon(Icons.camera_enhance),
+                label: 'Scan QR Code',
+                onTap: (){
+                  print('Camera Tapped');
+                }
+            ),
+          ],
         ),
     );
   }
