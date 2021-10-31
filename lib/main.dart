@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -56,16 +57,21 @@ class _AccountState extends State<Account> {
     _counter++;
   }
 
-  String generateRandomString(int len) {
+  String generateRandomHCMUTAccount (int len) {
     var r = Random();
-    return String.fromCharCodes(List.generate(len, (index) => r.nextInt(33) + 89));
+    return "hientm177" + String.fromCharCodes(List.generate(len, (index) => r.nextInt(33) + 89)) + "@hcmut.edu.vn";
   }
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('BOTP Auth'),
+          title: const Text(
+            "BOTP Auth",
+            textAlign: TextAlign.center,
+          )
         ),
 
         body: _buildAccountList(),
@@ -75,7 +81,7 @@ class _AccountState extends State<Account> {
           tooltip: 'Increment',
           child: const Icon(
             Icons.add,
-            color: Colors.black,
+            color: Colors.yellowAccent,
           ),
         ),
     );
@@ -97,22 +103,21 @@ class _AccountState extends State<Account> {
   }
 
   Widget _buildRow(WordPair pair) {
-    return
-
-      Card(
-          child: ListTile(
-            leading: FlutterLogo(size: 50.0),
-            title: Text(
-              "Facebook account",
-              style: _biggerFont,
-            ),
-            subtitle: Text(generateRandomString(5) + "@hcmut.edu.vn"),
-
-            trailing: Icon(
-              Icons.facebook,
-              size: 35.0,),
-          )
-      );
+    return Card(
+      child: ListTile(
+        leading: const FlutterLogo(size: 50.0),
+        title: Text(
+          "Facebook account",
+          style: _biggerFont,
+        ),
+        subtitle: Container(
+          child: Text(generateRandomHCMUTAccount(5)),
+        ),
+          trailing: const Icon(
+            Icons.navigate_next,
+            size: 35.0,
+          ),
+    ));
   }
 }
 
