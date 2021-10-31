@@ -79,7 +79,7 @@ class _AccountState extends State<Account> {
         body: _buildAccountList(),
 
         floatingActionButton:  SpeedDial(
-          animatedIcon: AnimatedIcons.menu_close,
+          animatedIcon: AnimatedIcons.menu_close  ,
           openCloseDial: isDialOpen,
           backgroundColor: Colors.blueAccent,
           overlayColor: Colors.grey,
@@ -133,7 +133,8 @@ class _AccountState extends State<Account> {
   Widget _buildRow(WordPair pair) {
     return Card(
       child: ListTile(
-        leading: const FlutterLogo(size: 50.0),
+        leading:  Image.network("https://bit.ly/3nQWmts",
+        scale: 1,),
         title: Text(
           "Facebook account",
           style: _biggerFont,
@@ -141,11 +142,9 @@ class _AccountState extends State<Account> {
         subtitle: Container(
           child: Text(generateRandomHCMUTAccount(5)),
         ),
-          trailing: const Icon(
-            Icons.navigate_next,
-            size: 35.0,
-          ),
-    ));
+          trailing: const Icon(Icons.navigate_next),
+    )
+    );
   }
 }
 
