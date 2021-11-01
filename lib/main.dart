@@ -64,6 +64,11 @@ class _AccountState extends State<Account> {
     return "hientm177" + String.fromCharCodes(List.generate(len, (index) => r.nextInt(33) + 89)) + "@hcmut.edu.vn";
   }
 
+  String generateRandomOTPCode({int len = 6}) {
+    var r = Random();
+    return String.fromCharCodes(List.generate(len ~/ 2, (index) => r.nextInt(10) + 48)) + " " + String.fromCharCodes(List.generate(len ~/ 2, (index) => r.nextInt(10) + 48));
+  }
+
 
 
   @override
@@ -135,15 +140,50 @@ class _AccountState extends State<Account> {
       child: ListTile(
         leading:  Image.network("https://bit.ly/3nQWmts",
         scale: 1,),
-        title: Text(
-          "Facebook account",
-          style: _biggerFont,
+        title: Container (
+          padding: const EdgeInsets.only(top: 10.0),
+          child: const Text(
+            "Facebook account",
+            style: TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          )
         ),
-        subtitle: Container(
-          child: Text(generateRandomHCMUTAccount(5)),
+        subtitle: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 2.0),
+                  child: Text(
+                    generateRandomHCMUTAccount(5),
+                    style: const TextStyle(
+                      fontSize: 12.0,
+                      color: Color(0xFF3D3D3D),
+                    )
+                  )
+              )
+            ),
+            Align(
+                alignment: Alignment.centerLeft,
+                child:
+                  Container(
+                    padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    child: Text(
+                      generateRandomOTPCode(),
+                      style: const TextStyle(
+                        fontSize: 24.0,
+                        color: Color(0xFFE81616)
+                        )
+                      )
+                    )
+                  )
+            ]
         ),
-          trailing: const Icon(Icons.navigate_next),
-    )
+        trailing: const Icon(Icons.navigate_next),
+      )
     );
   }
 }
