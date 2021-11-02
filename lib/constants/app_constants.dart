@@ -1,0 +1,1 @@
+// App constants (for different application)
