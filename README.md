@@ -1,4 +1,4 @@
-# BOTP
+# BOTP - Thesis
 
 A new Flutter project.
 
