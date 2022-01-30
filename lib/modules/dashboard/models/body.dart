@@ -59,23 +59,23 @@ class _BodyState extends State<Body> {
         closeManually: true,
         children: [
           SpeedDialChild(
-            child: const Icon(Icons.share_rounded),
-            label: 'Share app',
+            child: const Icon(Icons.logout),
+            label: 'Sign out',
             backgroundColor: Colors.blue,
             // onTap: (){
             //   print('Share Tapped');
             // }
           ),
           SpeedDialChild(
-            child: const Icon(Icons.keyboard),
-            label: 'Enter registration code ',
+            child: const Icon(Icons.settings),
+            label: 'Setting',
             // onTap: (){
             //   print('Registration Tapped');
             // }
           ),
           SpeedDialChild(
-            child: const Icon(Icons.camera_enhance),
-            label: 'Scan QR Code',
+            child: const Icon(Icons.qr_code),
+            label: 'Account info',
             // onTap: (){
             //   print('Camera Tapped');
             // }
@@ -86,6 +86,8 @@ class _BodyState extends State<Body> {
   }
 
   Widget _buildAccountList() {
+    var accountList = ['Netflix', 'Shopee', 'Lazada'];
+    final _random = Random();
     return ListView.builder(
         padding: const EdgeInsets.all(15.0),
         itemBuilder: /*1*/ (context, i) {
@@ -96,46 +98,73 @@ class _BodyState extends State<Body> {
           if (index >= _suggestions.length) {
             _suggestions.addAll(generateWordPairs().take(20)); /*4*/
           }
-          return _buildRow(_suggestions[index]);
+
+          return _buildRow(accountList[_random.nextInt(accountList.length)]);
         });
   }
 
-  Widget _buildRow(WordPair pair) {
-    return Card(
-        child: ListTile(
-      leading: Image.network(
-        "https://bit.ly/3nQWmts",
-        scale: 1,
-      ),
-      title: Container(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: const Text(
-            "Facebook account",
-            style: TextStyle(
-              fontSize: 14.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          )),
-      subtitle: Column(children: [
-        Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 2.0),
-                child: Text(generateRandomHCMUTAccount(5),
-                    style: const TextStyle(
-                      fontSize: 12.0,
-                      color: Color(0xFF3D3D3D),
-                    )))),
-        Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-                padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                child: Text(generateRandomOTPCode(),
-                    style: const TextStyle(
-                        fontSize: 24.0, color: Color(0xFFE81616)))))
-      ]),
-      trailing: const Icon(Icons.navigate_next),
-    ));
+  Widget _buildRow(String account) {
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return Dialog(
+              // shape: RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.circular(40)),
+              elevation: 16,
+              child: ListView(
+                shrinkWrap: true,
+                children: <Widget>[
+                  const SizedBox(height: 20),
+                  const Center(child: Text('Authentication info')),
+                  const SizedBox(height: 20),
+                  Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 5,
+                        horizontal: 20,
+                      ),
+                      child: Text(account,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold))
+
+                  ),
+
+                ],
+              ),
+            );
+          },
+        );
+      },
+      child: Card(
+          child: ListTile(
+        // leading: Image.network(
+        //   "https://bit.ly/3nQWmts",
+        //   scale: 1,
+        // ),
+        title: Container(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Text(
+              account + " account",
+              style: const TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            )),
+        subtitle: Column(children: [
+          Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 2.0),
+                  child: Text(generateRandomHCMUTAccount(5),
+                      style: const TextStyle(
+                        fontSize: 12.0,
+                        color: Color(0xFF3D3D3D),
+                      )))),
+        ]),
+        trailing: const Icon(Icons.navigate_next),
+      )),
+    );
   }
 }
