@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
 import 'package:botp_auth/modules/dashboard/screens/dashboard_screen.dart';
 import 'package:botp_auth/modules/signin/screens/signin_screen.dart';
-import 'package:botp_auth/modules/signup/screens/signup_screen.dart';
+import 'package:botp_auth/modules/signup/screens/register_account_screen.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
 
@@ -11,14 +11,14 @@ class ImportAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-            automaticallyImplyLeading: true,
-            backgroundColor: kPrimaryColor,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () => Navigator.pop(context, false),
-            )),
+    return const Scaffold(
+        // appBar: AppBar(
+        //     automaticallyImplyLeading: true,
+        //     backgroundColor: kPrimaryColor,
+        //     leading: IconButton(
+        //       icon: const Icon(Icons.arrow_back),
+        //       onPressed: () => Navigator.pop(context, false),
+        //     )),
         body: const Body());
   }
 }
@@ -44,7 +44,7 @@ class Body extends StatelessWidget {
           press: () {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) {
-              return const DashboardScreen();
+              return const MainAppScreen();
             }));
           },
           primary: Colors.white,
