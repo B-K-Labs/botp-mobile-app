@@ -4,42 +4,44 @@ import 'package:botp_auth/constants/app_constants.dart';
 class RoundedInputField extends StatelessWidget {
   final String hintText;
 
-  const RoundedInputField(
-      {Key? key, required this.hintText,})
-      : super(key: key);
+  const RoundedInputField({
+    Key? key,
+    required this.hintText,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return const TextFieldContainer(
         child: TextField(
-          style: TextStyle(fontWeight: FontWeight.normal),
-          decoration: InputDecoration(
-              icon: Icon(Icons.person, color: kPrimaryColor),
-              hintText: "Your private key",
-              border: InputBorder.none),
-        ));
+      style: TextStyle(fontWeight: FontWeight.normal),
+      decoration: InputDecoration(
+          icon: Icon(Icons.person, color: kPrimaryColor),
+          hintText: "Your private key",
+          border: InputBorder.none),
+    ));
   }
 }
 
 class RoundedPasswordField extends StatelessWidget {
   final String hintText;
 
-  const RoundedPasswordField(
-      {Key? key, required this.hintText,})
-      : super(key: key);
+  const RoundedPasswordField({
+    Key? key,
+    required this.hintText,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const TextFieldContainer(
+    return TextFieldContainer(
         child: TextField(
-          obscureText: true,
-          style: TextStyle(fontWeight: FontWeight.normal),
-          decoration: InputDecoration(
-              icon: Icon(Icons.lock, color: kPrimaryColor),
-              suffixIcon: Icon(Icons.visibility, color: kPrimaryColor),
-              hintText: "Password",
-              border: InputBorder.none),
-        ));
+      obscureText: true,
+      style: const TextStyle(fontWeight: FontWeight.normal),
+      decoration: InputDecoration(
+          icon: const Icon(Icons.lock, color: kPrimaryColor),
+          suffixIcon: const Icon(Icons.visibility, color: kPrimaryColor),
+          hintText: hintText,
+          border: InputBorder.none),
+    ));
   }
 }
 
