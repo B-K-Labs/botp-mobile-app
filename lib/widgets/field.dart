@@ -1,6 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
 
+class RoundedInputFormField extends StatelessWidget {
+  final String hintText;
+  final String? Function(String?)? validator;
+  final Function(String?) onChanged;
+  const RoundedInputFormField({
+    Key? key,
+    required this.hintText,
+    required this.validator,
+    required this.onChanged,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFieldContainer(
+        child: TextFormField(
+      style: const TextStyle(fontWeight: FontWeight.normal),
+      decoration: const InputDecoration(
+          icon: Icon(Icons.person, color: kPrimaryColor),
+          hintText: "Your private key",
+          border: InputBorder.none),
+      validator: validator,
+      onChanged: onChanged,
+    ));
+  }
+}
+
 class RoundedInputField extends StatelessWidget {
   final String hintText;
 

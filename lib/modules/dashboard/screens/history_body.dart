@@ -10,7 +10,20 @@ class HistoryBody extends StatefulWidget {
 class _HistoryBodyState extends State<HistoryBody> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+        body: Column(children: [
+      Container(
+        height: 200,
+        alignment: const Alignment(0.0, 0.0),
+        child: const Text(
+          "Lookup History",
+          style: TextStyle(fontWeight: FontWeight.normal, fontSize: 25.00),
+        ),
+      ),
+      Expanded(
+        child: Container(),
+      )
+    ]));
   }
 }
 

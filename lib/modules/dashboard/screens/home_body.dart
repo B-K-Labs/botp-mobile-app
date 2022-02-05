@@ -11,6 +11,17 @@ class HomeBody extends StatefulWidget {
 class _HomeBodyState extends State<HomeBody> {
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 
+  final accountList = [
+    'Netflix',
+    'Shopee',
+    'Lazada',
+    'The Coffee House',
+    'Steam',
+    'Google',
+    'Facebook'
+  ];
+  final emailNameList = ['hien.itgenius', 'hkneee', 'ureshii'];
+  final emailDomainList = ['gmail.com', 'edu.com', 'outlook.com'];
   // int _counter = 0;
 
   void createAlertDialog(BuildContext context) {
@@ -22,12 +33,17 @@ class _HomeBodyState extends State<HomeBody> {
     // called again, and so nothing would appear to happen.
   }
 
-  String generateRandomHCMUTAccount(int len) {
-    var r = Random();
-    return "hientm177" +
-        String.fromCharCodes(
-            List.generate(len, (index) => r.nextInt(33) + 89)) +
-        "@hcmut.edu.vn";
+  T getRandom<T>(_list) {
+    final _random = Random();
+    return _list[_random.nextInt(_list.length)];
+  }
+
+  String generateRandomHCMUTAccount() {
+    return getRandom(emailNameList) +
+        // String.fromCharCodes(
+        //     List.generate(len, (index) => r.nextInt(33) + 89)) +
+        "@" +
+        getRandom(emailDomainList);
   }
 
   String generateRandomOTPCode({int len = 6}) {
@@ -41,26 +57,28 @@ class _HomeBodyState extends State<HomeBody> {
 
   @override
   Widget build(BuildContext context) {
+    // Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: _buildAccountList(),
-    );
+        body: Column(children: [
+      Container(
+        height: 200,
+        alignment: const Alignment(0.0, 0.0),
+        child: const Text(
+          "Authentication",
+          style: TextStyle(fontWeight: FontWeight.normal, fontSize: 25.00),
+        ),
+      ),
+      Expanded(
+        child: _buildAccountList(),
+      )
+    ]));
   }
 
   Widget _buildAccountList() {
-    var accountList = [
-      'Netflix',
-      'Shopee',
-      'Lazada',
-      'The Coffee House',
-      'Steam',
-      'Google',
-      'Facebook'
-    ];
-    final _random = Random();
     return ListView.builder(
         padding: const EdgeInsets.all(15.0),
         itemBuilder: /*1*/ (context, i) {
-          return _buildRow(accountList[_random.nextInt(accountList.length)]);
+          return _buildRow(getRandom(accountList));
         });
   }
 
@@ -82,7 +100,6 @@ class _HomeBodyState extends State<HomeBody> {
                   const SizedBox(height: 20),
                   Container(
                       padding: const EdgeInsets.symmetric(
-                        vertical: 5,
                         horizontal: 20,
                       ),
                       child: Text(account)),
@@ -92,35 +109,50 @@ class _HomeBodyState extends State<HomeBody> {
           },
         );
       },
-      child: Card(
-          child: ListTile(
-        // leading: Image.network(
-        //   "https://bit.ly/3nQWmts",
-        //   scale: 1,
-        // ),
-        title: Container(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Text(
-              account + " account",
-              style: const TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            )),
-        subtitle: Column(children: [
-          Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 2.0),
-                  child: Text(generateRandomHCMUTAccount(5),
-                      style: const TextStyle(
-                        fontSize: 12.0,
-                        color: Color(0xFF3D3D3D),
-                      )))),
-        ]),
-        trailing: const Icon(Icons.navigate_next),
-      )),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+              bottomLeft: Radius.circular(10),
+              bottomRight: Radius.circular(10)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: const Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Card(
+            child: ListTile(
+          leading: Image.network("https://bit.ly/3nQWmts",
+              scale: 1, fit: BoxFit.fitWidth),
+          title: Container(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: Text(
+                account + " account",
+                style: const TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+          subtitle: Column(children: [
+            Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 3.0),
+                    child: Text(generateRandomHCMUTAccount(),
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                          color: Color(0xFF3D3D3D),
+                        )))),
+          ]),
+          trailing: const Icon(Icons.navigate_next),
+        )),
+      ),
     );
   }
 }

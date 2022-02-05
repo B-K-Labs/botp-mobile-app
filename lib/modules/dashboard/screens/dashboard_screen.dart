@@ -1,4 +1,3 @@
-import 'package:botp_auth/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/modules/dashboard/screens/account_body.dart';
 import 'package:botp_auth/modules/dashboard/screens/history_body.dart';
@@ -31,7 +30,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
         body: getBody(),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: kPrimaryColor,
+          selectedItemColor: Colors.orange,
           currentIndex: currentIndex,
           items: const [
             BottomNavigationBarItem(
