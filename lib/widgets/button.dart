@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
 
@@ -6,13 +8,14 @@ abstract class Button extends StatelessWidget {
   const Button({Key? key}) : super(key: key);
 }
 
-class ButtonNoBorder extends Button {
+// Primary button
+class AppNormalButton extends Button {
   final String text;
   final Function press;
   final Color primary, backgroundColor;
   final String buttonType;
 
-  const ButtonNoBorder({
+  const AppNormalButton({
     Key? key,
     required this.text,
     required this.press,
@@ -44,13 +47,14 @@ class ButtonNoBorder extends Button {
   }
 }
 
-class ButtonWithBorder extends Button {
+// Secondary button
+class AppBorderedButton extends Button {
   final String text;
   final Function press;
   final Color primary, backgroundColor, borderColor;
   final String buttonType;
 
-  const ButtonWithBorder(
+  const AppBorderedButton(
       {Key? key,
       required this.text,
       required this.press,
@@ -83,12 +87,13 @@ class ButtonWithBorder extends Button {
   }
 }
 
-class SubButton extends Button {
+// Sub (small/text) button
+class AppSubButton extends Button {
   final String text;
   final Function press;
   final Color primary;
 
-  const SubButton({
+  const AppSubButton({
     Key? key,
     required this.text,
     required this.press,
@@ -105,5 +110,35 @@ class SubButton extends Button {
             tapTargetSize: MaterialTapTargetSize.shrinkWrap),
         onPressed: () => press(),
         child: Text(text));
+  }
+}
+
+// Icon button
+class AppIconButton extends Button {
+  final IconData iconData;
+  final Color color;
+  final Function onPressed;
+  final double size;
+
+  const AppIconButton(
+      {Key? key,
+      required this.iconData,
+      required this.color,
+      required this.onPressed,
+      this.size = 36.0})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        height: size,
+        width: size,
+        child: IconButton(
+          padding: const EdgeInsets.all(0.0),
+          constraints: const BoxConstraints(),
+          icon: Icon(iconData, size: size),
+          color: color,
+          onPressed: () => onPressed(),
+        ));
   }
 }
