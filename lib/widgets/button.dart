@@ -1,18 +1,17 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
 
-// Button abstract
-abstract class Button extends StatelessWidget {
-  const Button({Key? key}) : super(key: key);
+// Base Button
+abstract class AppButton extends StatelessWidget {
+  const AppButton({Key? key}) : super(key: key);
 }
 
-// Primary button
-class AppNormalButton extends Button {
+// Normal Button
+class AppNormalButton extends AppButton {
   final String text;
   final Function press;
   final Color primary, backgroundColor;
+  final Color? borderColor;
   final String buttonType;
 
   const AppNormalButton({
@@ -21,6 +20,7 @@ class AppNormalButton extends Button {
     required this.press,
     required this.primary,
     required this.backgroundColor,
+    this.borderColor,
     this.buttonType = 'full',
   }) : super(key: key);
 
@@ -33,7 +33,9 @@ class AppNormalButton extends Button {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(kBorderRadiusCircular),
               side: BorderSide(
-                  color: backgroundColor, width: 1, style: BorderStyle.solid)),
+                  color: borderColor != null ? (borderColor)! : backgroundColor,
+                  width: 1,
+                  style: BorderStyle.solid)),
           primary: primary,
           backgroundColor: backgroundColor,
           textStyle: const TextStyle(fontWeight: FontWeight.bold),
@@ -47,48 +49,8 @@ class AppNormalButton extends Button {
   }
 }
 
-// Secondary button
-class AppBorderedButton extends Button {
-  final String text;
-  final Function press;
-  final Color primary, backgroundColor, borderColor;
-  final String buttonType;
-
-  const AppBorderedButton(
-      {Key? key,
-      required this.text,
-      required this.press,
-      required this.primary,
-      required this.backgroundColor,
-      required this.borderColor,
-      this.buttonType = 'full'})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: buttonType == 'full' ? double.infinity : null,
-      child: OutlinedButton(
-        style: OutlinedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(kBorderRadiusCircular),
-              side: BorderSide(
-                  color: borderColor, width: 1, style: BorderStyle.solid)),
-          primary: primary,
-          backgroundColor: backgroundColor,
-          textStyle: const TextStyle(fontWeight: FontWeight.bold),
-          padding: EdgeInsets.symmetric(
-              vertical: 16, horizontal: buttonType == 'short' ? 8 : 32),
-        ),
-        onPressed: () => press(),
-        child: Text(text),
-      ),
-    );
-  }
-}
-
-// Sub (small/text) button
-class AppSubButton extends Button {
+// Sub Button
+class AppSubButton extends AppButton {
   final String text;
   final Function press;
   final Color primary;
@@ -113,8 +75,8 @@ class AppSubButton extends Button {
   }
 }
 
-// Icon button
-class AppIconButton extends Button {
+// Icon Button
+class AppIconButton extends AppButton {
   final IconData iconData;
   final Color color;
   final Function onPressed;
@@ -125,7 +87,7 @@ class AppIconButton extends Button {
       required this.iconData,
       required this.color,
       required this.onPressed,
-      this.size = 36.0})
+      this.size = 24.0})
       : super(key: key);
 
   @override
