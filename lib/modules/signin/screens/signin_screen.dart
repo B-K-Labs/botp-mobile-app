@@ -1,4 +1,5 @@
 import 'package:botp_auth/modules/signin/bloc/signin_bloc.dart';
+import 'package:botp_auth/modules/signup/screens/register_account_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:botp_auth/constants/app_constants.dart';
@@ -6,6 +7,7 @@ import 'package:botp_auth/modules/signin/repositories/signin_repository.dart';
 import 'package:botp_auth/modules/dashboard/screens/dashboard_screen.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -38,6 +40,12 @@ class _SignInBodyState extends State<SignInBody> {
   // final _formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+    FlutterNativeSplash.remove();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -46,19 +54,25 @@ class _SignInBodyState extends State<SignInBody> {
           SignInBloc(signInRepository: context.read<SignInRepository>()),
       child: Background(
           child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Text("Welcome back to BOTP!",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0)),
-          SizedBox(height: size.height * 0.1),
-          const Text("Enter your password",
-              style: TextStyle(fontWeight: FontWeight.normal)),
-          SizedBox(height: size.height * 0.03),
-          const RoundedPasswordField(hintText: 'Password'),
-          SizedBox(height: size.height * 0.03),
-          const Text('or'),
-          SizedBox(height: size.height * 0.03),
-          RoundedButton(
+          const SizedBox(height: 72.0),
+          Text("Welcome back!",
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4
+                  ?.copyWith(color: AppColors.primaryColor)),
+          const SizedBox(height: 96.0),
+          Text("Enter your password",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  ?.copyWith(color: AppColors.grayColor04)),
+          const SizedBox(height: 24.0),
+          const PasswordField(hintText: 'Password'),
+          const SizedBox(height: 36.0),
+          ButtonNoBorder(
             text: "Sign in",
             press: () {
               Navigator.pushReplacement(context, MaterialPageRoute(
@@ -68,7 +82,19 @@ class _SignInBodyState extends State<SignInBody> {
               ));
             },
             primary: Colors.white,
-            backgroundColor: kPrimaryColor,
+            backgroundColor: AppColors.primaryColor,
+          ),
+          const SizedBox(height: 60.0),
+          SubButton(
+            text: "Sign up",
+            press: () {
+              Navigator.pushReplacement(context, MaterialPageRoute(
+                builder: (context) {
+                  return const SignUpScreen();
+                },
+              ));
+            },
+            primary: AppColors.primaryColor,
           ),
         ],
       )),
@@ -120,9 +146,8 @@ class Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SizedBox(
-        height: size.height,
-        width: double.infinity,
+    return Container(
+        padding: const EdgeInsets.symmetric(horizontal: kMarginCommon),
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[

@@ -36,9 +36,9 @@ class Body extends StatelessWidget {
         const Text("Register new BOTP account",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0)),
         SizedBox(height: size.height * 0.1),
-        const RoundedPasswordField(hintText: "Password"),
+        const PasswordField(hintText: "Password"),
         SizedBox(height: size.height * 0.03),
-        RoundedButton(
+        ButtonNoBorder(
           text: "Sign up",
           press: () {
             Navigator.pushReplacement(context,
@@ -47,12 +47,12 @@ class Body extends StatelessWidget {
             }));
           },
           primary: Colors.white,
-          backgroundColor: kPrimaryColor,
+          backgroundColor: AppColors.primaryColor,
         ),
         SizedBox(height: size.height * 0.03),
         const Text('or'),
         SizedBox(height: size.height * 0.03),
-        RoundedButton(
+        ButtonNoBorder(
           text: "Import an existing account",
           press: () {
             Navigator.pushReplacement(context,
@@ -61,9 +61,9 @@ class Body extends StatelessWidget {
             }));
           },
           primary: Colors.white,
-          backgroundColor: kPrimaryColor,
+          backgroundColor: AppColors.primaryColor,
         ),
-        RoundedButton(
+        ButtonNoBorder(
           text: "Sign in here",
           press: () {
             Navigator.pushReplacement(context,
@@ -72,7 +72,7 @@ class Body extends StatelessWidget {
             }));
           },
           primary: Colors.black,
-          backgroundColor: kPrimaryLightColor,
+          backgroundColor: AppColors.primaryColorLight,
         ),
       ],
     ));
