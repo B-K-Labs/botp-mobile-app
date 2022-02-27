@@ -72,7 +72,7 @@ class AppSubButton extends AppButton {
             textStyle: Theme.of(context)
                 .textTheme
                 .bodyText1
-                ?.copyWith(fontWeight: FontWeight.bold),
+                ?.copyWith(fontWeight: FontWeight.normal),
             primary: primary,
             padding: EdgeInsets.zero,
             minimumSize: Size.zero,

@@ -18,17 +18,17 @@ abstract class AppInputFieldState<T extends AppInputField> extends State<T> {
 // Normal Input
 class AppNormalInputField extends AppInputField {
   final String hintText;
-  final String? Function(String?)? validator;
-  final Function(String?) onChanged;
-  final IconData? prefixIconData, suffixIconData;
+  // final String? Function(String?)? validator;
+  // final Function(String?) onChanged;
+  final IconData? iconData, suffixIconData;
   final Function? onTapSuffix;
 
   const AppNormalInputField({
     Key? key,
     this.hintText = '',
-    required this.validator,
-    required this.onChanged,
-    this.prefixIconData,
+    // required this.validator,
+    // required this.onChanged,
+    this.iconData,
     this.suffixIconData,
     this.onTapSuffix,
   }) : super(key: key);
@@ -40,19 +40,44 @@ class AppNormalInputField extends AppInputField {
 class _AppNormalInputState extends AppInputFieldState<AppNormalInputField> {
   @override
   Widget build(BuildContext context) {
+    // Style
+    TextStyle? _style = Theme.of(context)
+        .textTheme
+        .bodyText1
+        ?.copyWith(fontWeight: FontWeight.normal);
     // Prefix icon
-    Icon? icon = widget.prefixIconData != null
-        ? Icon((widget.prefixIconData)!, color: AppColors.grayColor03)
+    Widget? _icon = widget.iconData != null
+        ? Icon((widget.iconData)!, color: AppColors.grayColor03)
         : null;
     // Suffix icon
-    Icon? suffixIcon = widget.suffixIconData != null
-        ? Icon((widget.suffixIconData)!, color: AppColors.grayColor03)
+    Widget? _suffixIcon = widget.suffixIconData != null
+        ? GestureDetector(
+            onTap: widget.onTapSuffix != null
+                ? () {
+                    (widget.onTapSuffix)!();
+                  }
+                : null,
+            child: Icon(widget.suffixIconData, color: AppColors.grayColor03))
         : null;
+    // Borders
+    InputBorder _border = OutlineInputBorder(
+        borderSide: const BorderSide(color: AppColors.grayColor03, width: 1.0),
+        borderRadius: BorderRadius.circular(kBorderRadiusCircular));
+    InputBorder _focusedBorder = OutlineInputBorder(
+        borderSide: const BorderSide(color: AppColors.primaryColor, width: 2.0),
+        borderRadius: BorderRadius.circular(kBorderRadiusCircular));
+
+    // Return final text field
     return TextFormField(
+      cursorColor: AppColors.primaryColor,
+      style: _style,
       decoration: InputDecoration(
-        icon: icon,
-        suffixIcon: suffixIcon,
-        hintText: widget.hintText,
+        icon: _icon,
+        suffixIcon: _suffixIcon,
+        hintText: value,
+        contentPadding: const EdgeInsets.all(16.0),
+        border: _border,
+        focusedBorder: _focusedBorder,
       ),
     );
   }
@@ -81,37 +106,44 @@ class _AppPasswordInputFieldState
 
   @override
   Widget build(BuildContext context) {
+    // Style
+    TextStyle? _style = Theme.of(context)
+        .textTheme
+        .bodyText1
+        ?.copyWith(fontWeight: FontWeight.normal);
+    // Suffix Icon
+    Widget _suffixIcon = GestureDetector(
+      onTap: () {
+        setState(() {
+          _obscureText = !_obscureText;
+        });
+      },
+      child: _obscureText
+          ? const Icon(Icons.visibility, color: AppColors.grayColor03)
+          : const Icon(Icons.visibility_off, color: AppColors.grayColor03),
+    );
+    // Borders
+    OutlineInputBorder _border = OutlineInputBorder(
+      borderSide: const BorderSide(color: AppColors.grayColor03, width: 1.0),
+      borderRadius: BorderRadius.circular(kBorderRadiusCircular),
+    );
+    OutlineInputBorder _focusedBorder = OutlineInputBorder(
+      borderSide: const BorderSide(color: AppColors.primaryColor, width: 2.0),
+      borderRadius: BorderRadius.circular(kBorderRadiusCircular),
+    );
+
+    // Return final text field
     return TextFormField(
-      cursorColor: AppColors.blackColor,
+      cursorColor: AppColors.primaryColor,
       obscureText: _obscureText,
-      style: Theme.of(context)
-          .textTheme
-          .bodyText1
-          ?.copyWith(fontWeight: FontWeight.normal),
+      style: _style,
       decoration: InputDecoration(
-          suffixIcon: GestureDetector(
-            onTap: () {
-              setState(() {
-                _obscureText = !_obscureText;
-              });
-            },
-            child: _obscureText
-                ? const Icon(Icons.visibility, color: AppColors.grayColor03)
-                : const Icon(Icons.visibility_off,
-                    color: AppColors.grayColor03),
-          ),
-          hintText: value,
-          contentPadding: const EdgeInsets.all(16.0),
-          border: OutlineInputBorder(
-            borderSide:
-                const BorderSide(color: AppColors.grayColor03, width: 1.0),
-            borderRadius: BorderRadius.circular(kBorderRadiusCircular),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide:
-                const BorderSide(color: AppColors.grayColor04, width: 2.0),
-            borderRadius: BorderRadius.circular(kBorderRadiusCircular),
-          )),
+        suffixIcon: _suffixIcon,
+        hintText: value,
+        contentPadding: const EdgeInsets.all(16.0),
+        border: _border,
+        focusedBorder: _focusedBorder,
+      ),
     );
   }
 }

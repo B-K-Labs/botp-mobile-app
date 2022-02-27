@@ -35,7 +35,7 @@ class AppColors {
 const kBorderRadiusCircular = 10.0;
 
 // Margin
-const kMarginCommon = 20.0;
+const kPaddingHorizontal = 20.0;
 
 // Shadow
 const kShadowBlur = 10.0;

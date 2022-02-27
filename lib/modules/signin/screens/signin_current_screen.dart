@@ -1,6 +1,6 @@
 import 'package:botp_auth/modules/signin/bloc/signin_bloc.dart';
-import 'package:botp_auth/modules/signup/screens/register_account_screen.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:botp_auth/modules/signin/screens/signin_other_screen.dart';
+import 'package:botp_auth/modules/signup/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:botp_auth/constants/app_constants.dart';
@@ -11,8 +11,8 @@ import 'package:botp_auth/widgets/button.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class SignInScreen extends StatelessWidget {
-  const SignInScreen({Key? key}) : super(key: key);
+class SignInCurrentScreen extends StatelessWidget {
+  const SignInCurrentScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,19 +26,19 @@ class SignInScreen extends StatelessWidget {
           //       icon: const Icon(Icons.arrow_back),
           //       onPressed: () => Navigator.pop(context, false),
           //     )),
-          body: SignInBody()),
+          body: SignInCurrentBody()),
     );
   }
 }
 
-class SignInBody extends StatefulWidget {
-  const SignInBody({Key? key}) : super(key: key);
+class SignInCurrentBody extends StatefulWidget {
+  const SignInCurrentBody({Key? key}) : super(key: key);
 
   @override
-  _SignInBodyState createState() => _SignInBodyState();
+  _SignInCurrentBodyState createState() => _SignInCurrentBodyState();
 }
 
-class _SignInBodyState extends State<SignInBody> {
+class _SignInCurrentBodyState extends State<SignInCurrentBody> {
   // final _formKey = GlobalKey<FormState>();
 
   @override
@@ -94,12 +94,18 @@ class _SignInBodyState extends State<SignInBody> {
                     iconData: FontAwesomeIcons.fingerprint,
                     color: AppColors.primaryColor,
                     onPressed: () {},
-                    size: 24.0))
+                    size: 24.0)),
           ]),
           const SizedBox(height: 60.0),
           AppSubButton(
             text: "Import existing account",
-            press: () {},
+            press: () {
+              Navigator.pushReplacement(context, MaterialPageRoute(
+                builder: (context) {
+                  return const SignInOtherScreen();
+                },
+              ));
+            },
             primary: AppColors.primaryColor,
           ),
           const SizedBox(height: 12.0),
@@ -165,7 +171,7 @@ class Background extends StatelessWidget {
   Widget build(BuildContext context) {
     // Size size = MediaQuery.of(context).size;
     return Container(
-        padding: const EdgeInsets.symmetric(horizontal: kMarginCommon),
+        padding: const EdgeInsets.symmetric(horizontal: kPaddingHorizontal),
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[

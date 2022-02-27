@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
 import 'package:botp_auth/modules/dashboard/screens/dashboard_screen.dart';
-import 'package:botp_auth/modules/signin/screens/signin_screen.dart';
-import 'package:botp_auth/modules/signup/screens/register_account_screen.dart';
+import 'package:botp_auth/modules/signin/screens/signin_current_screen.dart';
+import 'package:botp_auth/modules/signin/screens/signin_other_screen.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
 
-class ImportAccountScreen extends StatelessWidget {
-  const ImportAccountScreen({Key? key}) : super(key: key);
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +33,9 @@ class Body extends StatelessWidget {
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const Text("Import existing BOTP account",
+        const Text("Register new BOTP account",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0)),
         SizedBox(height: size.height * 0.1),
-        const InputForm2(hintText: "Your private key"),
         const PasswordField(hintText: "Password"),
         SizedBox(height: size.height * 0.03),
         AppNormalButton(
@@ -54,11 +53,11 @@ class Body extends StatelessWidget {
         const Text('or'),
         SizedBox(height: size.height * 0.03),
         AppNormalButton(
-          text: "Register new BOTP account",
+          text: "Import an existing account",
           press: () {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) {
-              return const SignUpScreen();
+              return const SignInOtherScreen();
             }));
           },
           primary: Colors.white,
@@ -69,7 +68,7 @@ class Body extends StatelessWidget {
           press: () {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) {
-              return const SignInScreen();
+              return const SignInCurrentScreen();
             }));
           },
           primary: Colors.black,
