@@ -38,13 +38,15 @@ dependencies:
   english_words: ^4.0.0
   http: ^0.13.4
   flutter_staggered_animations: "^1.0.0"
-  flutter_speed_dial: ^4.6.6
+  flutter_speed_dial: ^5.0.0+1
   flutter_svg: ^1.0.3
   flutter_bloc: ^8.0.1
   i18n: ^3.4.1
-  google_fonts: ^2.2.0
+  google_fonts: ^2.3.1
   fluro: ^2.0.3
   flutter_launcher_icons: ^0.9.2
+  fluent_ui: ^3.9.0
+  flutter_native_splash: ^2.0.5
 
 dev_dependencies:
   flutter_test:
@@ -99,12 +101,6 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-  fonts:
-    - family: Roboto
-      fonts:
-        - asset: assets/fonts/Roboto/Roboto-Regular.ttf
-        - asset: assets/fonts/Roboto/Roboto-Italic.ttf
-          style: italic
 
 flutter_icons:
   android: true
