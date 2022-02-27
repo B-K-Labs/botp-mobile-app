@@ -39,7 +39,7 @@ class Body extends StatelessWidget {
         const InputForm2(hintText: "Your private key"),
         const PasswordField(hintText: "Password"),
         SizedBox(height: size.height * 0.03),
-        ButtonNoBorder(
+        AppNormalButton(
           text: "Sign up",
           press: () {
             Navigator.pushReplacement(context,
@@ -53,7 +53,7 @@ class Body extends StatelessWidget {
         SizedBox(height: size.height * 0.03),
         const Text('or'),
         SizedBox(height: size.height * 0.03),
-        ButtonNoBorder(
+        AppNormalButton(
           text: "Register new BOTP account",
           press: () {
             Navigator.pushReplacement(context,
@@ -64,7 +64,7 @@ class Body extends StatelessWidget {
           primary: Colors.white,
           backgroundColor: AppColors.primaryColor,
         ),
-        ButtonNoBorder(
+        AppNormalButton(
           text: "Sign in here",
           press: () {
             Navigator.pushReplacement(context,

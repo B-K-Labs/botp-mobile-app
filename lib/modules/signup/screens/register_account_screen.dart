@@ -38,7 +38,7 @@ class Body extends StatelessWidget {
         SizedBox(height: size.height * 0.1),
         const PasswordField(hintText: "Password"),
         SizedBox(height: size.height * 0.03),
-        ButtonNoBorder(
+        AppNormalButton(
           text: "Sign up",
           press: () {
             Navigator.pushReplacement(context,
@@ -52,7 +52,7 @@ class Body extends StatelessWidget {
         SizedBox(height: size.height * 0.03),
         const Text('or'),
         SizedBox(height: size.height * 0.03),
-        ButtonNoBorder(
+        AppNormalButton(
           text: "Import an existing account",
           press: () {
             Navigator.pushReplacement(context,
@@ -63,7 +63,7 @@ class Body extends StatelessWidget {
           primary: Colors.white,
           backgroundColor: AppColors.primaryColor,
         ),
-        ButtonNoBorder(
+        AppNormalButton(
           text: "Sign in here",
           press: () {
             Navigator.pushReplacement(context,

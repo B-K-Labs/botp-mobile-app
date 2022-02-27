@@ -1,5 +1,6 @@
 import 'package:botp_auth/modules/signin/bloc/signin_bloc.dart';
 import 'package:botp_auth/modules/signup/screens/register_account_screen.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:botp_auth/constants/app_constants.dart';
@@ -8,6 +9,7 @@ import 'package:botp_auth/modules/dashboard/screens/dashboard_screen.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -47,7 +49,6 @@ class _SignInBodyState extends State<SignInBody> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
         body: BlocProvider(
       create: (context) =>
@@ -65,28 +66,45 @@ class _SignInBodyState extends State<SignInBody> {
                   ?.copyWith(color: AppColors.primaryColor)),
           const SizedBox(height: 96.0),
           Text("Enter your password",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1
-                  ?.copyWith(color: AppColors.grayColor04)),
+              style: Theme.of(context).textTheme.bodyText1),
           const SizedBox(height: 24.0),
-          const PasswordField(hintText: 'Password'),
+          const AppPasswordInputField(),
           const SizedBox(height: 36.0),
-          ButtonNoBorder(
-            text: "Sign in",
-            press: () {
-              Navigator.pushReplacement(context, MaterialPageRoute(
-                builder: (context) {
-                  return const MainAppScreen();
-                },
-              ));
-            },
-            primary: Colors.white,
-            backgroundColor: AppColors.primaryColor,
-          ),
+          Row(children: <Widget>[
+            Expanded(
+                child: AppNormalButton(
+              text: "Sign in",
+              press: () {
+                Navigator.pushReplacement(context, MaterialPageRoute(
+                  builder: (context) {
+                    return const MainAppScreen();
+                  },
+                ));
+              },
+              primary: AppColors.whiteColor,
+              backgroundColor: AppColors.primaryColor,
+            )),
+            const SizedBox(
+              width: 12.0,
+            ),
+            SizedBox(
+                width: 48.0,
+                height: 48.0,
+                child: AppIconButton(
+                    iconData: FontAwesomeIcons.fingerprint,
+                    color: AppColors.primaryColor,
+                    onPressed: () {},
+                    size: 24.0))
+          ]),
           const SizedBox(height: 60.0),
-          SubButton(
-            text: "Sign up",
+          AppSubButton(
+            text: "Import existing account",
+            press: () {},
+            primary: AppColors.primaryColor,
+          ),
+          const SizedBox(height: 12.0),
+          AppSubButton(
+            text: "Create new account",
             press: () {
               Navigator.pushReplacement(context, MaterialPageRoute(
                 builder: (context) {
@@ -145,7 +163,7 @@ class Background extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    // Size size = MediaQuery.of(context).size;
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: kMarginCommon),
         child: Stack(
