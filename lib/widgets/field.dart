@@ -61,11 +61,11 @@ class _AppNormalInputState extends AppInputFieldState<AppNormalInputField> {
         : null;
     // Borders
     InputBorder _border = OutlineInputBorder(
-        borderSide: const BorderSide(color: AppColors.grayColor03, width: 1.0),
-        borderRadius: BorderRadius.circular(kBorderRadiusCircular));
+        borderSide: const BorderSide(color: AppColors.grayColor02, width: 1.0),
+        borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large));
     InputBorder _focusedBorder = OutlineInputBorder(
         borderSide: const BorderSide(color: AppColors.primaryColor, width: 2.0),
-        borderRadius: BorderRadius.circular(kBorderRadiusCircular));
+        borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large));
 
     // Return final text field
     return TextFormField(
@@ -124,12 +124,12 @@ class _AppPasswordInputFieldState
     );
     // Borders
     OutlineInputBorder _border = OutlineInputBorder(
-      borderSide: const BorderSide(color: AppColors.grayColor03, width: 1.0),
-      borderRadius: BorderRadius.circular(kBorderRadiusCircular),
+      borderSide: const BorderSide(color: AppColors.grayColor02, width: 1.0),
+      borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large),
     );
     OutlineInputBorder _focusedBorder = OutlineInputBorder(
       borderSide: const BorderSide(color: AppColors.primaryColor, width: 2.0),
-      borderRadius: BorderRadius.circular(kBorderRadiusCircular),
+      borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large),
     );
 
     // Return final text field
@@ -266,7 +266,7 @@ class _TextFieldContainer extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         color: AppColors.primaryColorLight,
-        borderRadius: BorderRadius.circular(kBorderRadiusCircular),
+        borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large),
       ),
       child: textField,
     );

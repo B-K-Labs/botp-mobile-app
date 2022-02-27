@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
-import 'package:botp_auth/modules/dashboard/screens/dashboard_screen.dart';
+import 'package:botp_auth/modules/app/screens/app_screen.dart';
 import 'package:botp_auth/modules/signin/screens/signin_current_screen.dart';
 import 'package:botp_auth/modules/signup/screens/signup_screen.dart';
 import 'package:botp_auth/widgets/field.dart';

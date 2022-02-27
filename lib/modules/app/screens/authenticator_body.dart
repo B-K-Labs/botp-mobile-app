@@ -1,3 +1,4 @@
+import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -38,12 +39,25 @@ class _HomeBodyState extends State<HomeBody> {
     return _list[_random.nextInt(_list.length)];
   }
 
+  String generateRandomAgentImage() {
+    return getRandom([
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1200px-Facebook_Logo_%282019%29.png",
+      "https://cdn.chanhtuoi.com/uploads/2020/06/logo-lazada-2.png",
+      "https://senyumpeople.com/wp-content/uploads/2015/10/shopee.png",
+      "http://static.ybox.vn/2019/5/5/1559293422415-53327481_2294812427459437_7857033109093482496_n.jpg"
+    ]);
+  }
+
   String generateRandomHCMUTAccount() {
     return getRandom(emailNameList) +
         // String.fromCharCodes(
         //     List.generate(len, (index) => r.nextInt(33) + 89)) +
         "@" +
         getRandom(emailDomainList);
+  }
+
+  int generateRandomTransactionStatus() {
+    return getRandom([0, 1, 2, 3]);
   }
 
   String generateRandomOTPCode({int len = 6}) {
@@ -208,54 +222,29 @@ class _HomeBodyState extends State<HomeBody> {
     return GestureDetector(
       onTap: () => _openAlertBox(account: account),
       child: Container(
-        // decoration: BoxDecoration(
-        //   color: Colors.white,
-        //   borderRadius: const BorderRadius.only(
-        //       topLeft: Radius.circular(8),
-        //       topRight: Radius.circular(8),
-        //       bottomLeft: Radius.circular(8),
-        //       bottomRight: Radius.circular(8)),
-        //   boxShadow: [
-        //     BoxShadow(
-        //       color: Colors.grey.withOpacity(0.5),
-        //       spreadRadius: 5,
-        //       blurRadius: 7,
-        //       offset: const Offset(0, 3), // changes position of shadow
-        //     ),
-        //   ],
-        // ),
-        child: Card(
-            // shape: RoundedRectangleBorder(
-            //   side: const BorderSide(color: Colors.white70, width: 1),
-            //   borderRadius: BorderRadius.circular(8),
-            // ),
-            // shadowColor: Colors.white,
-            child: ListTile(
-          leading: Image.network("https://bit.ly/3nQWmts",
-              scale: 1, fit: BoxFit.fitWidth),
-          title: Container(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: Text(
-                account + " account",
-                style: const TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              )),
-          subtitle: Column(children: [
-            Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 3.0),
-                    child: Text(generateRandomHCMUTAccount(),
-                        style: const TextStyle(
-                          fontSize: 16.0,
-                          color: Color(0xFF3D3D3D),
-                        )))),
-          ]),
-          trailing: const Icon(Icons.navigate_next),
-        )),
-      ),
+          // decoration: BoxDecoration(
+          //   color: Colors.white,
+          //   borderRadius: const BorderRadius.only(
+          //       topLeft: Radius.circular(8),
+          //       topRight: Radius.circular(8),
+          //       bottomLeft: Radius.circular(8),
+          //       bottomRight: Radius.circular(8)),
+          //   boxShadow: [
+          //     BoxShadow(
+          //       color: Colors.grey.withOpacity(0.5),
+          //       spreadRadius: 5,
+          //       blurRadius: 7,
+          //       offset: const Offset(0, 3), // changes position of shadow
+          //     ),
+          //   ],
+          // ),
+          child: AppTransactionItemMain(
+              isLasted: false,
+              agentName: account,
+              timestamp: "11:45 - 21/02/2022",
+              email: generateRandomHCMUTAccount(),
+              urlImage: generateRandomAgentImage(),
+              transStatus: generateRandomTransactionStatus())),
     );
   }
 }

@@ -31,8 +31,11 @@ class AppColors {
   static const blackColor = Color(0xFF000000);
 }
 
-// Border radius
-const kBorderRadiusCircular = 10.0;
+class AppBorderRadiusCircular {
+  static const large = 10.0;
+  static const medium = 8.0;
+  static const small = 6.0;
+}
 
 // Margin
 const kPaddingHorizontal = 20.0;

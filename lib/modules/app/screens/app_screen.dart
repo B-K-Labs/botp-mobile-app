@@ -1,7 +1,9 @@
+import 'package:botp_auth/constants/app_constants.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:botp_auth/modules/dashboard/screens/account_body.dart';
-import 'package:botp_auth/modules/dashboard/screens/history_body.dart';
-import 'package:botp_auth/modules/dashboard/screens/home_body.dart';
+import 'package:botp_auth/modules/app/screens/account_body.dart';
+import 'package:botp_auth/modules/app/screens/history_app.dart';
+import 'package:botp_auth/modules/app/screens/authenticator_body.dart';
 
 class MainAppScreen extends StatefulWidget {
   const MainAppScreen({Key? key}) : super(key: key);
@@ -29,20 +31,22 @@ class _MainAppScreenState extends State<MainAppScreen> {
         //     )),
         body: getBody(),
         bottomNavigationBar: BottomNavigationBar(
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.orange,
+          selectedItemColor: AppColors.primaryColor,
           currentIndex: currentIndex,
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: Icon(FluentIcons.home, size: 32.0),
               label: "Home",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search),
+              icon: Icon(Icons.search, size: 32.0),
               label: "History",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
+              icon: Icon(Icons.person, size: 32.0),
               label: "Account",
             ),
           ],

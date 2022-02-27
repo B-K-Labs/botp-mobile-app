@@ -1,5 +1,4 @@
-import 'package:botp_auth/modules/signin/screens/signin_current_screen.dart';
-// import 'package:fluro/fluro.dart';
+import 'package:botp_auth/modules/signup/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -89,6 +88,6 @@ class _AppInitializationState extends State<AppInitialization> {
 
   @override
   Widget build(BuildContext context) {
-    return const SignInCurrentScreen();
+    return const SignUpScreen();
   }
 }

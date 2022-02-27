@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:botp_auth/constants/app_constants.dart';
 import 'package:botp_auth/modules/signin/repositories/signin_repository.dart';
-import 'package:botp_auth/modules/dashboard/screens/dashboard_screen.dart';
+import 'package:botp_auth/modules/app/screens/app_screen.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -40,12 +40,6 @@ class SignInCurrentBody extends StatefulWidget {
 
 class _SignInCurrentBodyState extends State<SignInCurrentBody> {
   // final _formKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-    FlutterNativeSplash.remove();
-  }
 
   @override
   Widget build(BuildContext context) {

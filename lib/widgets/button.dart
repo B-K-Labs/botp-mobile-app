@@ -31,7 +31,8 @@ class AppNormalButton extends AppButton {
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(kBorderRadiusCircular),
+              borderRadius:
+                  BorderRadius.circular(AppBorderRadiusCircular.large),
               side: BorderSide(
                   color: borderColor != null ? (borderColor)! : backgroundColor,
                   width: 1,
