@@ -47,6 +47,7 @@ dependencies:
   flutter_launcher_icons: ^0.9.2
   fluent_ui: ^3.9.0
   flutter_native_splash: ^2.0.5
+  font_awesome_flutter: ^9.2.0
 
 dev_dependencies:
   flutter_test:
