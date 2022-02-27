@@ -82,51 +82,154 @@ class _HomeBodyState extends State<HomeBody> {
         });
   }
 
-  Widget _buildRow(String account) {
-    return GestureDetector(
-      onTap: () {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return Dialog(
-              // shape: RoundedRectangleBorder(
-              //     borderRadius: BorderRadius.circular(40)),
-              elevation: 16,
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  const SizedBox(height: 20),
-                  const Center(child: Text('Authentication info')),
-                  const SizedBox(height: 20),
-                  Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                      ),
-                      child: Text(account)),
-                ],
-              ),
-            );
-          },
+  Color myColor = const Color(0xff00bfa5);
+  _openDialog(account) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          // shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.circular(40)),
+          elevation: 16,
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              const SizedBox(height: 20),
+              const Center(child: Text('Authentication info')),
+              const SizedBox(height: 20),
+              Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                  ),
+                  child: Text(account)),
+            ],
+          ),
         );
       },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: const Offset(0, 3), // changes position of shadow
+    );
+  }
+
+  _openAlertBox({required String account}) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(32.0))),
+            contentPadding: const EdgeInsets.only(top: 10.0),
+            content: SizedBox(
+              width: 300.0,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        account,
+                        style: const TextStyle(fontSize: 24.0),
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Icon(
+                            Icons.star_border,
+                            color: myColor,
+                            size: 30.0,
+                          ),
+                          Icon(
+                            Icons.star_border,
+                            color: myColor,
+                            size: 30.0,
+                          ),
+                          Icon(
+                            Icons.star_border,
+                            color: myColor,
+                            size: 30.0,
+                          ),
+                          Icon(
+                            Icons.star_border,
+                            color: myColor,
+                            size: 30.0,
+                          ),
+                          Icon(
+                            Icons.star_border,
+                            color: myColor,
+                            size: 30.0,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5.0,
+                  ),
+                  const Divider(
+                    color: Colors.grey,
+                    height: 4.0,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 30.0, right: 30.0),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: "Add Review",
+                        border: InputBorder.none,
+                      ),
+                      maxLines: 8,
+                    ),
+                  ),
+                  InkWell(
+                    child: Container(
+                      padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                      decoration: BoxDecoration(
+                        color: myColor,
+                        borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(32.0),
+                            bottomRight: Radius.circular(32.0)),
+                      ),
+                      child: const Text(
+                        "Rate Product",
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
+          );
+        });
+  }
+
+  Widget _buildRow(String account) {
+    return GestureDetector(
+      onTap: () => _openAlertBox(account: account),
+      child: Container(
+        // decoration: BoxDecoration(
+        //   color: Colors.white,
+        //   borderRadius: const BorderRadius.only(
+        //       topLeft: Radius.circular(8),
+        //       topRight: Radius.circular(8),
+        //       bottomLeft: Radius.circular(8),
+        //       bottomRight: Radius.circular(8)),
+        //   boxShadow: [
+        //     BoxShadow(
+        //       color: Colors.grey.withOpacity(0.5),
+        //       spreadRadius: 5,
+        //       blurRadius: 7,
+        //       offset: const Offset(0, 3), // changes position of shadow
+        //     ),
+        //   ],
+        // ),
         child: Card(
+            // shape: RoundedRectangleBorder(
+            //   side: const BorderSide(color: Colors.white70, width: 1),
+            //   borderRadius: BorderRadius.circular(8),
+            // ),
+            // shadowColor: Colors.white,
             child: ListTile(
           leading: Image.network("https://bit.ly/3nQWmts",
               scale: 1, fit: BoxFit.fitWidth),
