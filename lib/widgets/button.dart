@@ -38,7 +38,10 @@ class AppNormalButton extends AppButton {
                   style: BorderStyle.solid)),
           primary: primary,
           backgroundColor: backgroundColor,
-          textStyle: const TextStyle(fontWeight: FontWeight.bold),
+          textStyle: Theme.of(context)
+              .textTheme
+              .bodyText1
+              ?.copyWith(fontWeight: FontWeight.bold),
           padding: EdgeInsets.symmetric(
               vertical: 16, horizontal: buttonType == 'short' ? 8 : 32),
         ),
@@ -66,6 +69,10 @@ class AppSubButton extends AppButton {
   Widget build(BuildContext context) {
     return TextButton(
         style: TextButton.styleFrom(
+            textStyle: Theme.of(context)
+                .textTheme
+                .bodyText1
+                ?.copyWith(fontWeight: FontWeight.bold),
             primary: primary,
             padding: EdgeInsets.zero,
             minimumSize: Size.zero,
