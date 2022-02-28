@@ -97,31 +97,31 @@ class _HomeBodyState extends State<HomeBody> {
   }
 
   Color myColor = const Color(0xff00bfa5);
-  _openDialog(account) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Dialog(
-          // shape: RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.circular(40)),
-          elevation: 16,
-          child: ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              const SizedBox(height: 20),
-              const Center(child: Text('Authentication info')),
-              const SizedBox(height: 20),
-              Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                  ),
-                  child: Text(account)),
-            ],
-          ),
-        );
-      },
-    );
-  }
+  // _openDialog(account) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return Dialog(
+  //         // shape: RoundedRectangleBorder(
+  //         //     borderRadius: BorderRadius.circular(40)),
+  //         elevation: 16,
+  //         child: ListView(
+  //           shrinkWrap: true,
+  //           children: <Widget>[
+  //             const SizedBox(height: 20),
+  //             const Center(child: Text('Authentication info')),
+  //             const SizedBox(height: 20),
+  //             Container(
+  //                 padding: const EdgeInsets.symmetric(
+  //                   horizontal: 20,
+  //                 ),
+  //                 child: Text(account)),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   _openAlertBox({required String account}) {
     return showDialog(

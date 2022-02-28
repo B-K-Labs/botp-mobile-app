@@ -8,7 +8,6 @@ import 'package:botp_auth/modules/signin/repositories/signin_repository.dart';
 import 'package:botp_auth/modules/app/screens/app_screen.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SignInCurrentScreen extends StatelessWidget {
