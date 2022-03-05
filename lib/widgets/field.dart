@@ -59,14 +59,17 @@ class _AppNormalInputState extends AppInputFieldState<AppNormalInputField> {
                 : null,
             child: Icon(widget.suffixIconData, color: AppColors.grayColor03))
         : null;
-    // Borders
-    InputBorder _border = OutlineInputBorder(
+    // Borders5
+    OutlineInputBorder _border = OutlineInputBorder(
         borderSide: const BorderSide(color: AppColors.grayColor02, width: 1.0),
         borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large));
-    InputBorder _focusedBorder = OutlineInputBorder(
-        borderSide: const BorderSide(color: AppColors.primaryColor, width: 2.0),
+    OutlineInputBorder _focusedBorder = OutlineInputBorder(
+        borderSide: const BorderSide(color: AppColors.primaryColor, width: 1.5),
         borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large));
-
+    OutlineInputBorder _errorBorder = OutlineInputBorder(
+      borderSide: const BorderSide(color: AppColors.redColor, width: 2.0),
+      borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large),
+    );
     // Return final text field
     return TextFormField(
       cursorColor: AppColors.primaryColor,
@@ -78,6 +81,7 @@ class _AppNormalInputState extends AppInputFieldState<AppNormalInputField> {
         contentPadding: const EdgeInsets.all(16.0),
         border: _border,
         focusedBorder: _focusedBorder,
+        errorBorder: _errorBorder,
       ),
     );
   }
@@ -86,11 +90,13 @@ class _AppNormalInputState extends AppInputFieldState<AppNormalInputField> {
 // Password Input Field
 class AppPasswordInputField extends AppInputField {
   final String hintText;
+  final TextEditingController controller;
   // final String? Function(String?)? validator;
   // final Function(String?) onChanged;
 
   const AppPasswordInputField({
     Key? key,
+    required this.controller,
     this.hintText = '',
     // required this.validator,
     // required this.onChanged
@@ -128,12 +134,17 @@ class _AppPasswordInputFieldState
       borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large),
     );
     OutlineInputBorder _focusedBorder = OutlineInputBorder(
-      borderSide: const BorderSide(color: AppColors.primaryColor, width: 2.0),
+      borderSide: const BorderSide(color: AppColors.primaryColor, width: 1.5),
+      borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large),
+    );
+    OutlineInputBorder _errorBorder = OutlineInputBorder(
+      borderSide: const BorderSide(color: AppColors.redColor, width: 2.0),
       borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large),
     );
 
     // Return final text field
     return TextFormField(
+      controller: widget.controller,
       cursorColor: AppColors.primaryColor,
       obscureText: _obscureText,
       style: _style,
@@ -143,6 +154,7 @@ class _AppPasswordInputFieldState
         contentPadding: const EdgeInsets.all(16.0),
         border: _border,
         focusedBorder: _focusedBorder,
+        errorBorder: _errorBorder,
       ),
     );
   }

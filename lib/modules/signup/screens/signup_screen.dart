@@ -1,3 +1,5 @@
+import 'package:botp_auth/constants/api_path.dart';
+import 'package:botp_auth/utils/services/rest_api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
 import 'package:botp_auth/modules/app/screens/app_screen.dart';
@@ -34,8 +36,50 @@ class SignUpBody extends StatefulWidget {
 }
 
 class _SignUpBodyState extends State<SignUpBody> {
+  final TextEditingController _passwordController = TextEditingController();
+  late ScaffoldMessengerState scaffoldMessenger;
+
+  bool _isLoading = false;
+  // Sign up function
+  signUp(password) async {
+    print("Posting data");
+    Map data = {'password': password};
+    final response = await post(urlSignUp, data);
+    setState(() {
+      _isLoading = false;
+    });
+    print(response);
+    if (response != null) {
+      scaffoldMessenger.showSnackBar(
+          const SnackBar(content: Text("Done! Check your terminal")));
+    } else {
+      scaffoldMessenger
+          .showSnackBar(const SnackBar(content: Text("ERROR :<<<")));
+    }
+  }
+
+  // On submit
+  onSubmitSignUp() {
+    print(_isLoading);
+    if (_isLoading) {
+      print("Please wait for response: sign up request");
+      return;
+    }
+    if (_passwordController.text.isEmpty) {
+      scaffoldMessenger
+          .showSnackBar(const SnackBar(content: Text("Please enter password")));
+      return;
+    }
+    signUp(_passwordController.text);
+    // Navigator.pushReplacement(context,
+    //     MaterialPageRoute(builder: (context) {
+    //       return const MainAppScreen();
+    //     }));
+  }
+
   @override
   Widget build(BuildContext context) {
+    scaffoldMessenger = ScaffoldMessenger.of(context);
     return Background(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -51,16 +95,11 @@ class _SignUpBodyState extends State<SignUpBody> {
         const SizedBox(height: 96.0),
         Text('Password', style: Theme.of(context).textTheme.bodyText1),
         const SizedBox(height: 12.0),
-        const AppPasswordInputField(),
+        AppPasswordInputField(controller: _passwordController),
         const SizedBox(height: 36.0),
         AppNormalButton(
           text: "Create account",
-          press: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) {
-              return const MainAppScreen();
-            }));
-          },
+          press: onSubmitSignUp,
           primary: AppColors.whiteColor,
           backgroundColor: AppColors.primaryColor,
         ),

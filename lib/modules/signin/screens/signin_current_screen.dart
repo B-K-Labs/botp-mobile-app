@@ -1,3 +1,4 @@
+import 'package:botp_auth/constants/api_path.dart';
 import 'package:botp_auth/modules/signin/bloc/signin_bloc.dart';
 import 'package:botp_auth/modules/signin/screens/signin_other_screen.dart';
 import 'package:botp_auth/modules/signup/screens/signup_screen.dart';
@@ -40,6 +41,7 @@ class SignInCurrentBody extends StatefulWidget {
 class _SignInCurrentBodyState extends State<SignInCurrentBody> {
   // final _formKey = GlobalKey<FormState>();
 
+  final TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +63,7 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
           Text("Enter your password",
               style: Theme.of(context).textTheme.bodyText1),
           const SizedBox(height: 24.0),
-          const AppPasswordInputField(),
+          AppPasswordInputField(controller: _passwordController),
           const SizedBox(height: 36.0),
           Row(children: <Widget>[
             Expanded(

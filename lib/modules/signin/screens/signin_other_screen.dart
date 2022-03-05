@@ -31,6 +31,8 @@ class SignInOtherBody extends StatefulWidget {
 }
 
 class _SignInOtherBodyState extends State<SignInOtherBody> {
+  final TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -51,7 +53,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
         const SizedBox(height: 24.0),
         Text("Password", style: Theme.of(context).textTheme.bodyText1),
         const SizedBox(height: 12.0),
-        const AppPasswordInputField(),
+        AppPasswordInputField(controller: _passwordController),
         const SizedBox(height: 36.0),
         AppNormalButton(
           text: "Sign up",

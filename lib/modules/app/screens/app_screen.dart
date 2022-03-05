@@ -13,13 +13,16 @@ class MainAppScreen extends StatefulWidget {
 }
 
 class _MainAppScreenState extends State<MainAppScreen> {
-  int currentIndex = 0;
-  final Widget _homeBody = const HomeBody();
+  int _currentIndex = 0;
+  final Widget _authenticatorBody = const AuthenticatorBody();
   final Widget _historyBody = const HistoryBody();
   final Widget _accountBody = const AccountBody();
 
   @override
   Widget build(BuildContext context) {
+    // Icon attribute
+    const _selectedIconSize = 32.0, _unselectedIconSize = 24.0;
+
     return Scaffold(
         // appBar: AppBar(
         //     title: const Text("Home"),
@@ -31,22 +34,27 @@ class _MainAppScreenState extends State<MainAppScreen> {
         //     )),
         body: getBody(),
         bottomNavigationBar: BottomNavigationBar(
-          showSelectedLabels: false,
+          // showSelectedLabels: false,
           showUnselectedLabels: false,
           type: BottomNavigationBarType.fixed,
+          backgroundColor: AppColors.whiteColor,
+          unselectedItemColor: AppColors.grayColor04,
           selectedItemColor: AppColors.primaryColor,
-          currentIndex: currentIndex,
+          currentIndex: _currentIndex,
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(FluentIcons.home, size: 32.0),
-              label: "Home",
+              icon: Icon(Icons.home_outlined, size: _unselectedIconSize),
+              activeIcon: Icon(Icons.home, size: _selectedIconSize),
+              label: "Authenticator",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search, size: 32.0),
+              icon: Icon(Icons.search_outlined, size: _unselectedIconSize),
+              activeIcon: Icon(Icons.search, size: _selectedIconSize),
               label: "History",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person, size: 32.0),
+              icon: Icon(Icons.person_outlined, size: _unselectedIconSize),
+              activeIcon: Icon(Icons.person, size: _selectedIconSize),
               label: "Account",
             ),
           ],
@@ -55,9 +63,9 @@ class _MainAppScreenState extends State<MainAppScreen> {
   }
 
   Widget getBody() {
-    if (currentIndex == 0) {
-      return _homeBody;
-    } else if (currentIndex == 1) {
+    if (_currentIndex == 0) {
+      return _authenticatorBody;
+    } else if (_currentIndex == 1) {
       return _historyBody;
     } else {
       return _accountBody;
@@ -66,7 +74,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
 
   void onTapHandler(int index) {
     setState(() {
-      currentIndex = index;
+      _currentIndex = index;
     });
   }
 }
