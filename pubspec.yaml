@@ -48,6 +48,8 @@ dependencies:
   fluent_ui: ^3.9.0
   flutter_native_splash: ^2.0.5
   font_awesome_flutter: ^9.2.0
+  formz: ^0.4.1
+  shared_preferences: ^2.0.13
 
 dev_dependencies:
   flutter_test:
