@@ -1,3 +1,4 @@
+import 'package:botp_auth/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class HistoryBody extends StatefulWidget {
@@ -15,9 +16,12 @@ class _HistoryBodyState extends State<HistoryBody> {
       Container(
         height: 200,
         alignment: const Alignment(0.0, 0.0),
-        child: const Text(
-          "Lookup History",
-          style: TextStyle(fontWeight: FontWeight.normal, fontSize: 25.00),
+        child: Text(
+          "History",
+          style: Theme.of(context)
+              .textTheme
+              .headline4
+              ?.copyWith(color: AppColors.primaryColor),
         ),
       ),
       Expanded(

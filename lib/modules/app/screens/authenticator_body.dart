@@ -1,15 +1,16 @@
+import 'package:botp_auth/constants/app_constants.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-class HomeBody extends StatefulWidget {
-  const HomeBody({Key? key}) : super(key: key);
+class AuthenticatorBody extends StatefulWidget {
+  const AuthenticatorBody({Key? key}) : super(key: key);
 
   @override
-  _HomeBodyState createState() => _HomeBodyState();
+  _AuthenticatorBodyState createState() => _AuthenticatorBodyState();
 }
 
-class _HomeBodyState extends State<HomeBody> {
+class _AuthenticatorBodyState extends State<AuthenticatorBody> {
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 
   final accountList = [
@@ -77,9 +78,12 @@ class _HomeBodyState extends State<HomeBody> {
       Container(
         height: 200,
         alignment: const Alignment(0.0, 0.0),
-        child: const Text(
-          "Authentication",
-          style: TextStyle(fontWeight: FontWeight.normal, fontSize: 25.00),
+        child: Text(
+          "Authenticator",
+          style: Theme.of(context)
+              .textTheme
+              .headline4
+              ?.copyWith(color: AppColors.primaryColor),
         ),
       ),
       Expanded(
@@ -96,155 +100,16 @@ class _HomeBodyState extends State<HomeBody> {
         });
   }
 
-  Color myColor = const Color(0xff00bfa5);
-  // _openDialog(account) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return Dialog(
-  //         // shape: RoundedRectangleBorder(
-  //         //     borderRadius: BorderRadius.circular(40)),
-  //         elevation: 16,
-  //         child: ListView(
-  //           shrinkWrap: true,
-  //           children: <Widget>[
-  //             const SizedBox(height: 20),
-  //             const Center(child: Text('Authentication info')),
-  //             const SizedBox(height: 20),
-  //             Container(
-  //                 padding: const EdgeInsets.symmetric(
-  //                   horizontal: 20,
-  //                 ),
-  //                 child: Text(account)),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
-  _openAlertBox({required String account}) {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(32.0))),
-            contentPadding: const EdgeInsets.only(top: 10.0),
-            content: SizedBox(
-              width: 300.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        account,
-                        style: const TextStyle(fontSize: 24.0),
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Icon(
-                            Icons.star_border,
-                            color: myColor,
-                            size: 30.0,
-                          ),
-                          Icon(
-                            Icons.star_border,
-                            color: myColor,
-                            size: 30.0,
-                          ),
-                          Icon(
-                            Icons.star_border,
-                            color: myColor,
-                            size: 30.0,
-                          ),
-                          Icon(
-                            Icons.star_border,
-                            color: myColor,
-                            size: 30.0,
-                          ),
-                          Icon(
-                            Icons.star_border,
-                            color: myColor,
-                            size: 30.0,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5.0,
-                  ),
-                  const Divider(
-                    color: Colors.grey,
-                    height: 4.0,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 30.0, right: 30.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: "Add Review",
-                        border: InputBorder.none,
-                      ),
-                      maxLines: 8,
-                    ),
-                  ),
-                  InkWell(
-                    child: Container(
-                      padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                      decoration: BoxDecoration(
-                        color: myColor,
-                        borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(32.0),
-                            bottomRight: Radius.circular(32.0)),
-                      ),
-                      child: const Text(
-                        "Rate Product",
-                        style: TextStyle(color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
   Widget _buildRow(String account) {
     return GestureDetector(
-      onTap: () => _openAlertBox(account: account),
-      child: Container(
-          // decoration: BoxDecoration(
-          //   color: Colors.white,
-          //   borderRadius: const BorderRadius.only(
-          //       topLeft: Radius.circular(8),
-          //       topRight: Radius.circular(8),
-          //       bottomLeft: Radius.circular(8),
-          //       bottomRight: Radius.circular(8)),
-          //   boxShadow: [
-          //     BoxShadow(
-          //       color: Colors.grey.withOpacity(0.5),
-          //       spreadRadius: 5,
-          //       blurRadius: 7,
-          //       offset: const Offset(0, 3), // changes position of shadow
-          //     ),
-          //   ],
-          // ),
-          child: AppTransactionItemMain(
-              isLasted: false,
-              agentName: account,
-              timestamp: "11:45 - 21/02/2022",
-              email: generateRandomHCMUTAccount(),
-              urlImage: generateRandomAgentImage(),
-              transStatus: generateRandomTransactionStatus())),
+      onTap: () {},
+      child: AppTransactionItemMain(
+          isLasted: false,
+          agentName: account,
+          timestamp: "11:45 - 21/02/2022",
+          email: generateRandomHCMUTAccount(),
+          urlImage: generateRandomAgentImage(),
+          transStatus: generateRandomTransactionStatus()),
     );
   }
 }
