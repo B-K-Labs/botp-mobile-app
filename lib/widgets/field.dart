@@ -2,21 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
 
 // Note: ALl fields are using TextFormField
-
-// Base Input Field
-abstract class AppInputField extends StatefulWidget {
-  const AppInputField({Key? key}) : super(key: key);
-}
-
-abstract class AppInputFieldState<T extends AppInputField> extends State<T> {
-  late String value = '';
-
-  @override
-  Widget build(BuildContext context);
-}
-
 // Normal Input
-class AppNormalInputField extends AppInputField {
+class AppNormalInputField extends StatefulWidget {
   final String hintText;
   // final String? Function(String?)? validator;
   // final Function(String?) onChanged;
@@ -37,7 +24,7 @@ class AppNormalInputField extends AppInputField {
   _AppNormalInputState createState() => _AppNormalInputState();
 }
 
-class _AppNormalInputState extends AppInputFieldState<AppNormalInputField> {
+class _AppNormalInputState extends State<AppNormalInputField> {
   @override
   Widget build(BuildContext context) {
     // Style
@@ -77,7 +64,7 @@ class _AppNormalInputState extends AppInputFieldState<AppNormalInputField> {
       decoration: InputDecoration(
         icon: _icon,
         suffixIcon: _suffixIcon,
-        hintText: value,
+        hintText: widget.hintText,
         contentPadding: const EdgeInsets.all(16.0),
         border: _border,
         focusedBorder: _focusedBorder,
@@ -88,7 +75,7 @@ class _AppNormalInputState extends AppInputFieldState<AppNormalInputField> {
 }
 
 // Password Input Field
-class AppPasswordInputField extends AppInputField {
+class AppPasswordInputField extends StatefulWidget {
   final String hintText;
   final TextEditingController controller;
   // final String? Function(String?)? validator;
@@ -106,8 +93,7 @@ class AppPasswordInputField extends AppInputField {
   _AppPasswordInputFieldState createState() => _AppPasswordInputFieldState();
 }
 
-class _AppPasswordInputFieldState
-    extends AppInputFieldState<AppPasswordInputField> {
+class _AppPasswordInputFieldState extends State<AppPasswordInputField> {
   bool _obscureText = true;
 
   @override
@@ -150,137 +136,12 @@ class _AppPasswordInputFieldState
       style: _style,
       decoration: InputDecoration(
         suffixIcon: _suffixIcon,
-        hintText: value,
+        hintText: widget.hintText,
         contentPadding: const EdgeInsets.all(16.0),
         border: _border,
         focusedBorder: _focusedBorder,
         errorBorder: _errorBorder,
       ),
-    );
-  }
-}
-
-// ============================== Migrate to the new one above
-
-// Password Input Field
-class AppPasswordInput extends StatefulWidget {
-  final String hintText;
-  final String? Function(String?)? validator;
-  final Function(String?) onChanged;
-  final IconData? prefixIconData;
-
-  const AppPasswordInput(
-      {Key? key,
-      this.hintText = '',
-      required this.validator,
-      required this.onChanged,
-      this.prefixIconData})
-      : super(key: key);
-
-  @override
-  _AppPasswordInputState createState() => _AppPasswordInputState();
-}
-
-class _AppPasswordInputState extends State<AppPasswordInput> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-// ============
-class InputForm2 extends StatelessWidget {
-  final String hintText;
-
-  const InputForm2({
-    Key? key,
-    required this.hintText,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return _TextFieldContainer(
-        textField: TextField(
-      style: const TextStyle(fontWeight: FontWeight.normal),
-      decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.person, color: AppColors.primaryColor),
-          hintText: hintText,
-          border: InputBorder.none),
-    ));
-  }
-}
-
-class InputFormField extends StatelessWidget {
-  final String hintText;
-  final String? Function(String?)? validator;
-  final Function(String?) onChanged;
-  const InputFormField({
-    Key? key,
-    required this.hintText,
-    required this.validator,
-    required this.onChanged,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return _TextFieldContainer(
-        textField: TextFormField(
-      style: Theme.of(context).textTheme.bodyText1,
-      decoration: InputDecoration(
-          icon: const Icon(Icons.person, color: AppColors.primaryColor),
-          hintText: hintText,
-          border: InputBorder.none),
-      validator: validator,
-      onChanged: onChanged,
-    ));
-  }
-}
-
-class PasswordField extends StatelessWidget {
-  final String hintText;
-
-  const PasswordField({
-    Key? key,
-    required this.hintText,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return _TextFieldContainer(
-        textField: TextField(
-      obscureText: true,
-      style: const TextStyle(fontWeight: FontWeight.normal),
-      decoration: InputDecoration(
-          icon: const Icon(Icons.lock, color: AppColors.primaryColor),
-          suffixIcon:
-              const Icon(Icons.visibility, color: AppColors.primaryColor),
-          hintText: hintText,
-          border: InputBorder.none),
-    ));
-  }
-}
-
-class _TextFieldContainer extends StatelessWidget {
-  final Widget textField;
-  final Color? borderColor;
-
-  const _TextFieldContainer(
-      {Key? key, required this.textField, this.borderColor})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 16.0),
-      padding: const EdgeInsets.symmetric(
-        vertical: 4,
-        horizontal: 12,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.primaryColorLight,
-        borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large),
-      ),
-      child: textField,
     );
   }
 }

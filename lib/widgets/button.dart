@@ -2,12 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
 
 // Base Button
-abstract class AppButton extends StatelessWidget {
-  const AppButton({Key? key}) : super(key: key);
-}
+// class AppButton extends StatefulWidget {
+//   const AppButton({Key? key}) : super(key: key);
+//
+//   @override
+//   _AppButtonState createState() => _AppButtonState();
+// }
+//
+// class _AppButtonState extends State<AppButton> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container();
+//   }
+// }
 
 // Normal Button
-class AppNormalButton extends AppButton {
+class AppNormalButton extends StatelessWidget {
   final String text;
   final Function press;
   final Color primary, backgroundColor;
@@ -54,7 +64,7 @@ class AppNormalButton extends AppButton {
 }
 
 // Sub Button
-class AppSubButton extends AppButton {
+class AppSubButton extends StatelessWidget {
   final String text;
   final Function press;
   final Color primary;
@@ -84,7 +94,7 @@ class AppSubButton extends AppButton {
 }
 
 // Icon Button
-class AppIconButton extends AppButton {
+class AppIconButton extends StatelessWidget {
   final IconData iconData;
   final Color color;
   final Function onPressed;
