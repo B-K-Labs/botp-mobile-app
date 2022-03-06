@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:botp_auth/constants/api_path.dart';
 import 'package:botp_auth/modules/signin/models/signin_model.dart';
 import 'package:botp_auth/utils/services/rest_api_service.dart';

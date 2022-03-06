@@ -40,26 +40,10 @@ class _SignUpBodyState extends State<SignUpBody> {
   late ScaffoldMessengerState scaffoldMessenger;
 
   bool _isLoading = false;
-  // Sign up function
-  signUp(password) async {
-    print("Posting data");
-    try {
-      final response = SignUpRepository.signUp(_passwordController.text);
-      setState(() {
-        _isLoading = false;
-      });
-      scaffoldMessenger.showSnackBar(
-          const SnackBar(content: Text("Done! Check your terminal")));
-    } catch (e) {
-      scaffoldMessenger.showSnackBar(SnackBar(content: Text(e.toString())));
-    }
-  }
 
   // On submit
   onSubmitSignUp() {
-    print(_isLoading);
     if (_isLoading) {
-      print("Please wait for response: sign up request");
       return;
     }
     if (_passwordController.text.isEmpty) {
@@ -67,11 +51,23 @@ class _SignUpBodyState extends State<SignUpBody> {
           .showSnackBar(const SnackBar(content: Text("Please enter password")));
       return;
     }
-    signUp(_passwordController.text);
-    // Navigator.pushReplacement(context,
-    //     MaterialPageRoute(builder: (context) {
-    //       return const MainAppScreen();
-    //     }));
+    setState(() {
+      _isLoading = true;
+    });
+    SignUpRepository.signUp(_passwordController.text).then((data) {
+      setState(() {
+        _isLoading = false;
+      });
+      scaffoldMessenger.showSnackBar(
+          const SnackBar(content: Text("Done! Check your terminal")));
+      print(
+          "Account BC: ${data.bcAddress}\nPublic key: ${data.publicKey}\nPrivate key: ${data.privateKey}\nEncrypted private key: ${data.encryptedPrivateKey}\nStatus: ${data.status}");
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return const MainAppScreen();
+      }));
+    }).catchError((e) {
+      scaffoldMessenger.showSnackBar(SnackBar(content: Text(e.toString())));
+    });
   }
 
   @override

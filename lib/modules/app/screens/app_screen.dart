@@ -1,5 +1,5 @@
 import 'package:botp_auth/constants/app_constants.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:botp_auth/modules/signup/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/modules/app/screens/account_body.dart';
 import 'package:botp_auth/modules/app/screens/history_app.dart';
@@ -24,14 +24,16 @@ class _MainAppScreenState extends State<MainAppScreen> {
     const _selectedIconSize = 32.0, _unselectedIconSize = 24.0;
 
     return Scaffold(
-        // appBar: AppBar(
-        //     title: const Text("Home"),
-        //     automaticallyImplyLeading: true,
-        //     backgroundColor: kPrimaryColor,
-        //     leading: IconButton(
-        //       icon: const Icon(Icons.arrow_back),
-        //       onPressed: () => Navigator.pop(context, false),
-        //     )),
+        appBar: AppBar(
+            title: const Text("Home"),
+            automaticallyImplyLeading: true,
+            backgroundColor: AppColors.primaryColor,
+            leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const SignUpScreen();
+                    })))),
         body: getBody(),
         bottomNavigationBar: BottomNavigationBar(
           // showSelectedLabels: false,
