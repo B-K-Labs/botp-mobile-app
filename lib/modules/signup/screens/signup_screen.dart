@@ -1,5 +1,5 @@
-import 'package:botp_auth/constants/api_path.dart';
-import 'package:botp_auth/utils/services/rest_api_service.dart';
+import 'package:botp_auth/modules/signup/models/signup_model.dart';
+import 'package:botp_auth/modules/signup/repositories/signup_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
 import 'package:botp_auth/modules/app/screens/app_screen.dart';
@@ -43,18 +43,15 @@ class _SignUpBodyState extends State<SignUpBody> {
   // Sign up function
   signUp(password) async {
     print("Posting data");
-    Map data = {'password': password};
-    final response = await post(urlSignUp, data);
-    setState(() {
-      _isLoading = false;
-    });
-    print(response);
-    if (response != null) {
+    try {
+      final response = SignUpRepository.signUp(_passwordController.text);
+      setState(() {
+        _isLoading = false;
+      });
       scaffoldMessenger.showSnackBar(
           const SnackBar(content: Text("Done! Check your terminal")));
-    } else {
-      scaffoldMessenger
-          .showSnackBar(const SnackBar(content: Text("ERROR :<<<")));
+    } catch (e) {
+      scaffoldMessenger.showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
 

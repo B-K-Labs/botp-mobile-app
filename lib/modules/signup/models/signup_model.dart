@@ -3,7 +3,7 @@ class SignUpResponseModel {
   String publicKey;
   String privateKey;
   String encryptedPrivateKey;
-  String status;
+  bool status;
 
   SignUpResponseModel(
     this.bcAddress,

@@ -4,10 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 Map<String, String> _headers = {
-  "Accept": "*/*",
-  "Accept-Encoding": "gzip, deflate, br",
   "Content-Type": "application/json",
-  "Connection": "keep-alive",
 };
 
 Future<http.Response> get(url) async {
