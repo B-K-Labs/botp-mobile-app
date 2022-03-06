@@ -1,9 +1,8 @@
-import 'package:botp_auth/modules/signup/models/signup_model.dart';
+import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/modules/signup/repositories/signup_repository.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
-import 'package:botp_auth/modules/app/screens/app_screen.dart';
-import 'package:botp_auth/modules/signin/screens/signin_other_screen.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
 
@@ -61,10 +60,9 @@ class _SignUpBodyState extends State<SignUpBody> {
       scaffoldMessenger.showSnackBar(
           const SnackBar(content: Text("Done! Check your terminal")));
       print(
-          "Account BC: ${data.bcAddress}\nPublic key: ${data.publicKey}\nPrivate key: ${data.privateKey}\nEncrypted private key: ${data.encryptedPrivateKey}\nStatus: ${data.status}");
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return const MainAppScreen();
-      }));
+          "Create account successfully!\n\tAccount BC: ${data.bcAddress}\n\tPublic key: ${data.publicKey}\n\tPrivate key: ${data.privateKey}\n\tEncrypted private key: ${data.encryptedPrivateKey}\n\tStatus: ${data.status}");
+      Application.router.navigateTo(context, "/authenticator",
+          transition: TransitionType.inFromRight);
     }).catchError((e) {
       scaffoldMessenger.showSnackBar(SnackBar(content: Text(e.toString())));
     });
@@ -100,11 +98,7 @@ class _SignUpBodyState extends State<SignUpBody> {
         AppSubButton(
           text: "Import existing account",
           press: () {
-            Navigator.pushReplacement(context, MaterialPageRoute(
-              builder: (context) {
-                return const SignInOtherScreen();
-              },
-            ));
+            Application.router.navigateTo(context, '/signin/other');
           },
           primary: AppColors.primaryColor,
         ),

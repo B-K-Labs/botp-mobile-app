@@ -1,3 +1,4 @@
+import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/api_path.dart';
 import 'package:botp_auth/modules/signin/bloc/signin_bloc.dart';
 import 'package:botp_auth/modules/signin/screens/signin_other_screen.dart';
@@ -70,11 +71,7 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
                 child: AppNormalButton(
               text: "Sign in",
               press: () {
-                Navigator.pushReplacement(context, MaterialPageRoute(
-                  builder: (context) {
-                    return const MainAppScreen();
-                  },
-                ));
+                Application.router.navigateTo(context, "/authenticator");
               },
               primary: AppColors.whiteColor,
               backgroundColor: AppColors.primaryColor,
@@ -95,11 +92,7 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
           AppSubButton(
             text: "Import existing account",
             press: () {
-              Navigator.pushReplacement(context, MaterialPageRoute(
-                builder: (context) {
-                  return const SignInOtherScreen();
-                },
-              ));
+              Application.router.navigateTo(context, "/signin/other");
             },
             primary: AppColors.primaryColor,
           ),
@@ -107,11 +100,7 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
           AppSubButton(
             text: "Create new account",
             press: () {
-              Navigator.pushReplacement(context, MaterialPageRoute(
-                builder: (context) {
-                  return const SignUpScreen();
-                },
-              ));
+              Application.router.navigateTo(context, "/signup");
             },
             primary: AppColors.primaryColor,
           ),
@@ -119,39 +108,6 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
       )),
     ));
   }
-
-  // Widget _passwordField() {
-  // return BlocBuilder(builder: (context, state) {
-  //   return TextFormField(
-  //       decoration: const InputDecoration(
-  //         icon: Icon(Icons.password),
-  //         hintText: "Password",
-  //       ),
-  //       validator: (value) => null,
-  //       onChanged: (value) => context
-  //           .read<SignInBloc>()
-  //           .add(SignInPasswordChanged(password: value)));
-  // });
-  // }
-
-  // Widget _signInButton() {
-  //   return BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
-  //     return state.formStatus is FormSubmitting
-  //         ? const CircularProgressIndicator()
-  //         : RoundedButton(
-  //             text: "Sign up here",
-  //             press: () {
-  //               Navigator.pushReplacement(context, MaterialPageRoute(
-  //                 builder: (context) {
-  //                   return const SignUpScreen();
-  //                 },
-  //               ));
-  //             },
-  //             primary: Colors.black,
-  //             backgroundColor: kPrimaryLightColor,
-  //           );
-  //   });
-  // }
 }
 
 class Background extends StatelessWidget {

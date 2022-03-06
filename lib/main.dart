@@ -1,4 +1,7 @@
+import 'package:botp_auth/configs/routes/application.dart';
+import 'package:botp_auth/configs/routes/routes.dart';
 import 'package:botp_auth/modules/signup/screens/signup_screen.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -15,13 +18,36 @@ void main() {
   // Splash screen initialization
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  // Fluro routing initialization
-  // final router = FluroRouter();
+  // Run app
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  _MyAppState() {
+    final router = FluroRouter();
+    Routes.configureRoutes(router);
+    Application.router = router;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initialization();
+  }
+
+  void initialization() async {
+    // Initialize the app (i.e load essential resources)
+
+    // Remove splash screen
+    FlutterNativeSplash.remove();
+  }
 
   // This widget is the root of your application.
   @override
@@ -61,33 +87,8 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         textTheme: _appTheme,
       ),
-      home: const AppInitialization(),
+      // onGenerateRoute: Application.router.generator, // It would use root path first (i.e "/")
+      home: SignUpScreen(),
     );
-  }
-}
-
-// App Initialization
-class AppInitialization extends StatefulWidget {
-  const AppInitialization({Key? key}) : super(key: key);
-
-  @override
-  _AppInitializationState createState() => _AppInitializationState();
-}
-
-class _AppInitializationState extends State<AppInitialization> {
-  @override
-  void initState() {
-    super.initState();
-    initialization();
-  }
-
-  void initialization() async {
-    // Initialize the app (i.e load essential resources)
-    FlutterNativeSplash.remove();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return const SignUpScreen();
   }
 }

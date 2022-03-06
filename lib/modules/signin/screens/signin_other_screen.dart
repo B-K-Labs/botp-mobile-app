@@ -1,3 +1,4 @@
+import 'package:botp_auth/configs/routes/application.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
 import 'package:botp_auth/modules/app/screens/app_screen.dart';
@@ -56,12 +57,9 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
         AppPasswordInputField(controller: _passwordController),
         const SizedBox(height: 36.0),
         AppNormalButton(
-          text: "Sign up",
+          text: "Import account",
           press: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) {
-              return const MainAppScreen();
-            }));
+            Application.router.navigateTo(context, "/authenticator");
           },
           primary: AppColors.whiteColor,
           backgroundColor: AppColors.primaryColor,
@@ -70,10 +68,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
         AppSubButton(
           text: "Sign in with current account",
           press: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) {
-              return const SignInCurrentScreen();
-            }));
+            Application.router.navigateTo(context, "/signin/current");
           },
           primary: AppColors.primaryColor,
         ),
@@ -81,10 +76,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
         AppSubButton(
           text: "Create new account",
           press: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) {
-              return const SignUpScreen();
-            }));
+            Application.router.navigateTo(context, "/signup");
           },
           primary: AppColors.primaryColor,
         ),
