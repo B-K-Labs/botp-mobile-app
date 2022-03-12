@@ -19,6 +19,12 @@ Future<http.Response> post(url, body) async {
       encoding: convert.Encoding.getByName("utf-8"));
 }
 
+Future<http.Response> put(url, body) async {
+  return await http.put(Uri.parse(url),
+      body: convert.jsonEncode(body),
+      encoding: convert.Encoding.getByName("utf-8"));
+}
+
 Future<http.Response> patch(url, body) async {
   return await http.patch(Uri.parse(url),
       body: convert.jsonEncode(body),

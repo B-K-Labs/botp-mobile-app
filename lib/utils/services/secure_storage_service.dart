@@ -1,1 +1,1 @@
-// Native API to native services e.g Camera, Gallery
+// User credentials, API tokens, secret API keys would be stored in Android Keystore using flutter_secure_storage plugins
