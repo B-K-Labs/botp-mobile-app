@@ -54,9 +54,6 @@ class _SignUpBodyState extends State<SignUpBody> {
       _isLoading = true;
     });
     SignUpRepository.signUp(_passwordController.text).then((data) {
-      setState(() {
-        _isLoading = false;
-      });
       scaffoldMessenger.showSnackBar(
           const SnackBar(content: Text("Done! Check your terminal")));
       print(
@@ -65,7 +62,11 @@ class _SignUpBodyState extends State<SignUpBody> {
           transition: TransitionType.inFromRight);
     }).catchError((e) {
       scaffoldMessenger.showSnackBar(SnackBar(content: Text(e.toString())));
-    });
+    }).whenComplete(() => {
+          setState(() {
+            _isLoading = false;
+          })
+        });
   }
 
   @override

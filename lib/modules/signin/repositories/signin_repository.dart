@@ -11,7 +11,7 @@ class SignInRepository {
       'password': password,
       'hashedPrivateKey': hashedPrivateKey,
     };
-    http.Response res = await post(urlSignIn, data);
+    http.Response res = await post(BotpAPI.urlSignIn, data);
     if (res.statusCode == 200) {
       return SignInResponseModel.fromJson(json.decode(res.body));
     }

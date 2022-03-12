@@ -1,5 +1,5 @@
-import 'package:botp_auth/modules/signin/bloc/signin_events.dart';
-import 'package:botp_auth/modules/signin/bloc/signin_states.dart';
+import 'package:botp_auth/modules/signin/bloc/signin_event.dart';
+import 'package:botp_auth/modules/signin/bloc/signin_state.dart';
 import 'package:botp_auth/modules/signin/models/form_submission_status.dart';
 import 'package:botp_auth/modules/signin/repositories/signin_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
