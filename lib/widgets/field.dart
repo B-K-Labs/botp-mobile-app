@@ -3,14 +3,14 @@ import 'package:botp_auth/constants/app_constants.dart';
 
 // Note: ALl fields are using TextFormField
 // Normal Input
-class AppNormalInputField extends StatefulWidget {
+class NormalInputFieldWidget extends StatefulWidget {
   final String hintText;
   // final String? Function(String?)? validator;
   // final Function(String?) onChanged;
   final IconData? iconData, suffixIconData;
   final Function? onTapSuffix;
 
-  const AppNormalInputField({
+  const NormalInputFieldWidget({
     Key? key,
     this.hintText = '',
     // required this.validator,
@@ -21,10 +21,10 @@ class AppNormalInputField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AppNormalInputState createState() => _AppNormalInputState();
+  _NormalInputFieldWidgetState createState() => _NormalInputFieldWidgetState();
 }
 
-class _AppNormalInputState extends State<AppNormalInputField> {
+class _NormalInputFieldWidgetState extends State<NormalInputFieldWidget> {
   @override
   Widget build(BuildContext context) {
     // Style
@@ -75,13 +75,13 @@ class _AppNormalInputState extends State<AppNormalInputField> {
 }
 
 // Password Input Field
-class AppPasswordInputField extends StatefulWidget {
+class PasswordInputFieldWidget extends StatefulWidget {
   final String hintText;
   final TextEditingController controller;
   // final String? Function(String?)? validator;
   // final Function(String?) onChanged;
 
-  const AppPasswordInputField({
+  const PasswordInputFieldWidget({
     Key? key,
     required this.controller,
     this.hintText = '',
@@ -90,10 +90,11 @@ class AppPasswordInputField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AppPasswordInputFieldState createState() => _AppPasswordInputFieldState();
+  _PasswordInputFieldWidgetState createState() =>
+      _PasswordInputFieldWidgetState();
 }
 
-class _AppPasswordInputFieldState extends State<AppPasswordInputField> {
+class _PasswordInputFieldWidgetState extends State<PasswordInputFieldWidget> {
   bool _obscureText = true;
 
   @override

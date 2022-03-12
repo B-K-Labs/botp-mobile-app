@@ -17,14 +17,14 @@ import 'package:botp_auth/constants/app_constants.dart';
 // }
 
 // Normal Button
-class AppNormalButton extends StatelessWidget {
+class NormalButtonWidget extends StatelessWidget {
   final String text;
   final Function press;
   final Color primary, backgroundColor;
   final Color? borderColor;
   final String buttonType;
 
-  const AppNormalButton({
+  const NormalButtonWidget({
     Key? key,
     required this.text,
     required this.press,
@@ -64,12 +64,12 @@ class AppNormalButton extends StatelessWidget {
 }
 
 // Sub Button
-class AppSubButton extends StatelessWidget {
+class SubButtonWidget extends StatelessWidget {
   final String text;
   final Function press;
   final Color primary;
 
-  const AppSubButton({
+  const SubButtonWidget({
     Key? key,
     required this.text,
     required this.press,
@@ -94,13 +94,13 @@ class AppSubButton extends StatelessWidget {
 }
 
 // Icon Button
-class AppIconButton extends StatelessWidget {
+class IconButtonWdiget extends StatelessWidget {
   final IconData iconData;
   final Color color;
   final Function onPressed;
   final double size;
 
-  const AppIconButton(
+  const IconButtonWdiget(
       {Key? key,
       required this.iconData,
       required this.color,
