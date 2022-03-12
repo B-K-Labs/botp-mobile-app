@@ -6,7 +6,7 @@
 
 class BotpAPI {
   static const _protocol = "http://";
-  static const _server = "192.168.33.15";
+  static const _server = "192.168.33.17";
   static const _port1 = "9000";
   static const _port2 = "9090";
   static const _basePath = "/api/v1";
