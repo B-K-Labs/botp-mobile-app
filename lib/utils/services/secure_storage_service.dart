@@ -27,15 +27,14 @@ class SecureStorageUtils {
       await _securePrefsInstance.delete(key: key);
 
   // Additional methods
-  static Future<Map<String, dynamic>> getAllMapValues() async {
-    Map<String, String> secureLocalValues =
-        await _securePrefsInstance.readAll();
-    Map<String, dynamic> returnValue = {};
-    secureLocalValues.entries.map((entry) =>
-        returnValue[entry.key] = returnValue[json.decode(entry.value)]);
-    return returnValue;
+  static Future<Map<String, dynamic>> getAllMaps() async {
+    Map<String, String> secureLocalMap = await _securePrefsInstance.readAll();
+    Map<String, dynamic> returnMap = {};
+    secureLocalMap.entries
+        .map((entry) => returnMap[entry.key] = json.decode(entry.value));
+    return returnMap;
   }
 
-  static Future<void> removeAllMapValues() async =>
+  static Future<void> removeAllMaps() async =>
       await _securePrefsInstance.deleteAll();
 }

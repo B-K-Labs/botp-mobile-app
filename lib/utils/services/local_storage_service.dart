@@ -27,5 +27,14 @@ class LocalStorageUtils {
       await _prefsInstance.remove(key);
 
   // Additional methods
-  static bool containKey(String key) => _prefsInstance.containsKey(key);
+  static Future<Map<String, dynamic>> getAllMaps() async {
+    Set<String> localKeys = _prefsInstance.getKeys();
+    Map<String, dynamic> returnMap = {};
+    for (String key in localKeys) {
+      returnMap[key] = json.decode(_prefsInstance.getString(key)!);
+    }
+    return returnMap;
+  }
+
+  static Future<bool> removeAllMaps() async => await _prefsInstance.clear();
 }
