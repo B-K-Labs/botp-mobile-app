@@ -60,11 +60,11 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
           Text("Enter your password",
               style: Theme.of(context).textTheme.bodyText1),
           const SizedBox(height: 24.0),
-          AppPasswordInputField(controller: _passwordController),
+          PasswordInputFieldWidget(controller: _passwordController),
           const SizedBox(height: 36.0),
           Row(children: <Widget>[
             Expanded(
-                child: AppNormalButton(
+                child: NormalButtonWidget(
               text: "Sign in",
               press: () {
                 Application.router.navigateTo(context, "/authenticator");
@@ -78,14 +78,14 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
             SizedBox(
                 width: 48.0,
                 height: 48.0,
-                child: AppIconButton(
+                child: IconButtonWdiget(
                     iconData: FontAwesomeIcons.fingerprint,
                     color: AppColors.primaryColor,
                     onPressed: () {},
                     size: 24.0)),
           ]),
           const SizedBox(height: 60.0),
-          AppSubButton(
+          SubButtonWidget(
             text: "Import existing account",
             press: () {
               Application.router.navigateTo(context, "/signin/other");
@@ -93,7 +93,7 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
             primary: AppColors.primaryColor,
           ),
           const SizedBox(height: 12.0),
-          AppSubButton(
+          SubButtonWidget(
             text: "Create new account",
             press: () {
               Application.router.navigateTo(context, "/signup");

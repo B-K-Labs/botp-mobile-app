@@ -31,7 +31,7 @@ class WelcomeBody extends StatelessWidget {
                   .headline4
                   ?.copyWith(color: AppColors.primaryColor)),
           const SizedBox(height: 96.0),
-          AppNormalButton(
+          NormalButtonWidget(
               text: 'Import an account',
               press: () {
                 Navigator.pushReplacement(context,
@@ -42,7 +42,7 @@ class WelcomeBody extends StatelessWidget {
               primary: AppColors.whiteColor,
               backgroundColor: AppColors.primaryColor),
           const SizedBox(height: 24.0),
-          AppNormalButton(
+          NormalButtonWidget(
             text: 'Create new account',
             press: () {
               Navigator.pushReplacement(context,

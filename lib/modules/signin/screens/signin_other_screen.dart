@@ -50,13 +50,14 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
         const SizedBox(height: 96.0),
         Text("Private key", style: Theme.of(context).textTheme.bodyText1),
         const SizedBox(height: 12.0),
-        AppNormalInputField(suffixIconData: Icons.qr_code, onTapSuffix: () {}),
+        NormalInputFieldWidget(
+            suffixIconData: Icons.qr_code, onTapSuffix: () {}),
         const SizedBox(height: 24.0),
         Text("Password", style: Theme.of(context).textTheme.bodyText1),
         const SizedBox(height: 12.0),
-        AppPasswordInputField(controller: _passwordController),
+        PasswordInputFieldWidget(controller: _passwordController),
         const SizedBox(height: 36.0),
-        AppNormalButton(
+        NormalButtonWidget(
           text: "Import account",
           press: () {
             Application.router.navigateTo(context, "/authenticator");
@@ -65,7 +66,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
           backgroundColor: AppColors.primaryColor,
         ),
         const SizedBox(height: 60.0),
-        AppSubButton(
+        SubButtonWidget(
           text: "Sign in with current account",
           press: () {
             Application.router.navigateTo(context, "/signin/current");
@@ -73,7 +74,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
           primary: AppColors.primaryColor,
         ),
         const SizedBox(height: 12.0),
-        AppSubButton(
+        SubButtonWidget(
           text: "Create new account",
           press: () {
             Application.router.navigateTo(context, "/signup");

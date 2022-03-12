@@ -87,16 +87,16 @@ class _SignUpBodyState extends State<SignUpBody> {
         const SizedBox(height: 96.0),
         Text('Password', style: Theme.of(context).textTheme.bodyText1),
         const SizedBox(height: 12.0),
-        AppPasswordInputField(controller: _passwordController),
+        PasswordInputFieldWidget(controller: _passwordController),
         const SizedBox(height: 36.0),
-        AppNormalButton(
+        NormalButtonWidget(
           text: "Create account",
           press: onSubmitSignUp,
           primary: AppColors.whiteColor,
           backgroundColor: AppColors.primaryColor,
         ),
         const SizedBox(height: 60.0),
-        AppSubButton(
+        SubButtonWidget(
           text: "Import existing account",
           press: () {
             Application.router.navigateTo(context, '/signin/other');

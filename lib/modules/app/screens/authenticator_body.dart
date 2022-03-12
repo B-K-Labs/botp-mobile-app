@@ -103,7 +103,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
   Widget _buildRow(String account) {
     return GestureDetector(
       onTap: () {},
-      child: AppTransactionItemMain(
+      child: TransactionItemWidget(
           isLasted: false,
           agentName: account,
           timestamp: "11:45 - 21/02/2022",
