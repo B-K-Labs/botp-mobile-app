@@ -4,8 +4,8 @@ class SessionDataModel {
   final int sessionType;
   SessionDataModel({required this.sessionType});
   SessionDataModel.fromJSON(Map<String, dynamic> json)
-      : sessionType = json["type"] ?? 0;
-  Map<String, dynamic> toJSON() => {"type": sessionType};
+      : sessionType = json["sessionType"] ?? 0;
+  Map<String, dynamic> toJSON() => {"sessionType": sessionType};
 }
 
 // Credential Data
@@ -16,8 +16,9 @@ class CredentialSessionDataModel {
       {required this.token, required this.effectiveTime});
   CredentialSessionDataModel.fromJSON(Map<String, dynamic> json)
       : token = json["token"],
-        effectiveTime = json["duration"];
-  Map<String, dynamic> toJSON() => {"type": token, "duration": effectiveTime};
+        effectiveTime = json["effectiveTime"];
+  Map<String, dynamic> toJSON() =>
+      {"type": token, "effectiveTime": effectiveTime};
 }
 
 class CredentialKeysDataModel {

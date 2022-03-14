@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocalStorageUtils {
   static late SharedPreferences _prefsInstance;
 
+  static get storage => _prefsInstance;
+
   // Initializing function: call from initState() function of mainApp()
   static init() async {
     _prefsInstance = await SharedPreferences.getInstance();
@@ -13,10 +15,9 @@ class LocalStorageUtils {
   }
 
   // Basic methods
-  static getMapValue(String key,
-      [Map<String, dynamic> defaultValue = const {}]) async {
+  static Future<Map<String, dynamic>?> getMapValue(String key) async {
     var localValue = _prefsInstance.getString(key);
-    return localValue != null ? json.decode(localValue) : defaultValue;
+    return localValue != null ? json.decode(localValue) : null;
   }
 
   static Future<bool> setMapValue(

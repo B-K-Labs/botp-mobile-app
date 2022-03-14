@@ -12,52 +12,45 @@ class UserData {
   static const _credentialProfile = "credential_profile_data";
 
   // Called in mainApp()
-  static init() {
-    LocalStorageUtils.init();
-    SecureStorageUtils.init();
+  static init() async {
+    await LocalStorageUtils.init();
+    await SecureStorageUtils.init();
   }
 
   // Session
-  static Future<SessionDataModel> getSessionData() async =>
-      SessionDataModel.fromJSON(await LocalStorageUtils.getMapValue(_session));
-
-  static setSessionData({int? sessionType}) async {
-    if (sessionType == null) return;
-    return await LocalStorageUtils.setMapValue(
-        _session, SessionDataModel(sessionType: sessionType).toJSON());
+  static Future<SessionDataModel?> getSessionData() async {
+    final data = await LocalStorageUtils.getMapValue(_session);
+    return data != null ? SessionDataModel.fromJSON(data) : null;
   }
 
-  // Credential Session
-  static Future<CredentialSessionDataModel> getCredentialSessionData() async =>
-      CredentialSessionDataModel.fromJSON(
-          await SecureStorageUtils.getMapValue(_credentialSession));
+  static setSessionData(int sessionType) async =>
+      await LocalStorageUtils.setMapValue(
+          _session, SessionDataModel(sessionType: sessionType).toJSON());
 
-  static setCredentialSessionData(String? token, String? activeTime) async {
-    if (token == null && activeTime == null) return;
-    CredentialSessionDataModel data = await getCredentialSessionData();
+  // Credential Session
+  static Future<CredentialSessionDataModel?> getCredentialSessionData() async {
+    final data = await SecureStorageUtils.getMapValue(_credentialSession);
+    return data != null ? CredentialSessionDataModel.fromJSON(data) : null;
+  }
+
+  static setCredentialSessionData(String token, String effectiveTime) async {
     return await SecureStorageUtils.setMapValue(
         _credentialSession,
-        CredentialSessionDataModel(
-                token: token ?? data.token,
-                effectiveTime: activeTime ?? data.effectiveTime)
+        CredentialSessionDataModel(token: token, effectiveTime: effectiveTime)
             .toJSON());
   }
 
   // Credential Keys
-  static Future<CredentialKeysDataModel> getCredentialKeysData() async =>
-      CredentialKeysDataModel.fromJSON(
-          await SecureStorageUtils.getMapValue(_credentialKeys));
-
-  static setCredentialKeysData(String? publicKey, String? privateKey) async {
-    if (publicKey == null && privateKey == null) return;
-    CredentialKeysDataModel data = await getCredentialKeysData();
-    return await SecureStorageUtils.setMapValue(
-        _credentialKeys,
-        CredentialKeysDataModel(
-                publicKey: publicKey ?? data.publicKey,
-                privateKey: privateKey ?? data.privateKey)
-            .toJSON());
+  static Future<CredentialKeysDataModel?> getCredentialKeysData() async {
+    final data = await SecureStorageUtils.getMapValue(_credentialKeys);
+    return data != null ? CredentialKeysDataModel.fromJSON(data) : null;
   }
+
+  static setCredentialKeysData(String publicKey, String privateKey) async =>
+      await SecureStorageUtils.setMapValue(
+          _credentialKeys,
+          CredentialKeysDataModel(publicKey: publicKey, privateKey: privateKey)
+              .toJSON());
 
   // Wipe out data for signing out
   static destroyAllData() async {
@@ -65,6 +58,6 @@ class UserData {
     await LocalStorageUtils.removeAllMaps();
     await SecureStorageUtils.removeAllMaps();
     // Set initial session
-    await setSessionData(sessionType: 0);
+    await setSessionData(0);
   }
 }

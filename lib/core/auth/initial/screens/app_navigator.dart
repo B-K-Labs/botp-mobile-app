@@ -1,3 +1,4 @@
+import 'package:botp_auth/core/auth/signup/screens/signup_screen.dart';
 import 'package:botp_auth/core/session/session_cubit.dart';
 import 'package:botp_auth/core/session/session_state.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,7 @@ class AppNavigator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SessionCubit, SessionState>(builder: (context, state) {
-      return const Navigator(pages: []);
+      return Navigator(pages: []);
     });
   }
 }

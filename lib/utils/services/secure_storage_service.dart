@@ -6,17 +6,16 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class SecureStorageUtils {
   static late FlutterSecureStorage _securePrefsInstance;
 
+  static get storage => _securePrefsInstance;
+
   static init() {
     _securePrefsInstance = const FlutterSecureStorage();
   }
 
   // Basic methods
-  static Future<Map<String, dynamic>> getMapValue(String key,
-      [Map<String, dynamic> defaultValue = const {}]) async {
+  static Future<Map<String, dynamic>?> getMapValue(String key) async {
     var secureLocalValue = await _securePrefsInstance.read(key: key);
-    return secureLocalValue != null
-        ? json.decode(secureLocalValue)
-        : defaultValue;
+    return secureLocalValue != null ? json.decode(secureLocalValue) : null;
   }
 
   static Future<void> setMapValue(

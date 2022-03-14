@@ -1,12 +1,12 @@
+import 'package:botp_auth/core/auth/auth_cubit.dart';
 import 'package:botp_auth/core/auth/initial/screens/app_navigator.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/configs/routes/routes.dart';
 import 'package:botp_auth/core/auth/auth_repository.dart';
 import 'package:botp_auth/core/auth/signup/screens/signup_screen.dart';
 import 'package:botp_auth/core/session/session_cubit.dart';
+import 'package:botp_auth/core/session/session_state.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
-import 'package:botp_auth/utils/services/local_storage_service.dart';
-import 'package:botp_auth/utils/services/secure_storage_service.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
@@ -51,8 +51,7 @@ class _MyAppState extends State<MyApp> {
 
   void initialization() async {
     // Initialize the app (i.e load essential resources)
-    UserData.init(); // Storage for user
-
+    await UserData.init(); // Storage for user
     // Remove splash screens
     FlutterNativeSplash.remove();
   }
@@ -101,12 +100,20 @@ class _MyAppState extends State<MyApp> {
       ),
       // onGenerateRoute: Application.router.generator, // It would use root path first (i.e "/")
       home: RepositoryProvider(
-        create: (context) => AuthRepository(),
-        child: BlocProvider(
+          create: (context) => AuthRepository(),
+          child: BlocProvider(
             create: (context) =>
                 SessionCubit(authRepository: context.read<AuthRepository>()),
-            child: const SignUpScreen()),
-      ),
+            child: BlocBuilder<SessionCubit, SessionState>(
+              builder: (context, state) {
+                return BlocProvider(
+                  create: (context) =>
+                      AuthCubit(sessionCubit: context.read<SessionCubit>()),
+                  child: const SignUpScreen(),
+                );
+              },
+            ),
+          )),
     );
   }
 }

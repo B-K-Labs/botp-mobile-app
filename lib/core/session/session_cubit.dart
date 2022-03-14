@@ -13,10 +13,14 @@ class SessionCubit extends Cubit<SessionState> {
 
   void initUserSession() async {
     final sessionData = await UserData.getSessionData();
-    if (sessionData.sessionType == 0) {
-      UserData.setSessionData(sessionType: 1);
+    if (sessionData == null || sessionData.sessionType == 0) {
+      print("Session type=${UserData.getSessionData()} - Welcome to app!");
+      UserData.setSessionData(1);
       // Walkthrough here
-    } else if (sessionData.sessionType == 1) {}
+    } else if (sessionData.sessionType == 1) {
+      print(
+          "Session type=${UserData.getSessionData()} - Which one you wanna do");
+    }
     emit(UnauthenticatedSessionState());
   }
 

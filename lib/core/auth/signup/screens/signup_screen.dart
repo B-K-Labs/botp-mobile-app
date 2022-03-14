@@ -1,12 +1,10 @@
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/core/auth/auth_repository.dart';
-import 'package:botp_auth/core/auth/signup/bloc/signup_bloc.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -33,7 +31,7 @@ class _SignUpBodyState extends State<SignUpBody> {
   bool _isLoading = false;
 
   // On submit
-  onSubmitSignUp() {
+  onSubmitSignUp() async {
     if (_isLoading) {
       return;
     }
