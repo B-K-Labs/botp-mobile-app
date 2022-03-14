@@ -1,9 +1,16 @@
+import 'package:botp_auth/core/auth/initial/screens/app_navigator.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/configs/routes/routes.dart';
-import 'package:botp_auth/modules/signup/screens/signup_screen.dart';
+import 'package:botp_auth/core/auth/auth_repository.dart';
+import 'package:botp_auth/core/auth/signup/screens/signup_screen.dart';
+import 'package:botp_auth/core/session/session_cubit.dart';
+import 'package:botp_auth/core/storage/user_data.dart';
+import 'package:botp_auth/utils/services/local_storage_service.dart';
+import 'package:botp_auth/utils/services/secure_storage_service.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/foundation.dart';
@@ -15,7 +22,7 @@ void main() {
     final license = await rootBundle.loadString('google_fonts/OFL.txt');
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
   });
-  // Splash screen initialization
+  // Splash screens initialization
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   // Run app
@@ -44,14 +51,17 @@ class _MyAppState extends State<MyApp> {
 
   void initialization() async {
     // Initialize the app (i.e load essential resources)
+    UserData.init(); // Storage for user
 
-    // Remove splash screen
+    // Remove splash screens
     FlutterNativeSplash.remove();
   }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // THEME
+    // Test Theme
     TextTheme _appTheme = TextTheme(
       bodyText1: GoogleFonts.roboto(
           textStyle: const TextStyle(
@@ -79,6 +89,8 @@ class _MyAppState extends State<MyApp> {
               fontWeight: FontWeight.bold,
               fontStyle: FontStyle.normal)),
     );
+    // Data Theme
+    // ... Implement later
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'BOTP Authenticator',
@@ -88,7 +100,13 @@ class _MyAppState extends State<MyApp> {
         textTheme: _appTheme,
       ),
       // onGenerateRoute: Application.router.generator, // It would use root path first (i.e "/")
-      home: SignUpScreen(),
+      home: RepositoryProvider(
+        create: (context) => AuthRepository(),
+        child: BlocProvider(
+            create: (context) =>
+                SessionCubit(authRepository: context.read<AuthRepository>()),
+            child: const SignUpScreen()),
+      ),
     );
   }
 }

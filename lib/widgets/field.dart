@@ -4,6 +4,7 @@ import 'package:botp_auth/constants/app_constants.dart';
 // Note: ALl fields are using TextFormField
 // Normal Input
 class NormalInputFieldWidget extends StatefulWidget {
+  final TextEditingController controller;
   final String hintText;
   // final String? Function(String?)? validator;
   // final Function(String?) onChanged;
@@ -12,6 +13,7 @@ class NormalInputFieldWidget extends StatefulWidget {
 
   const NormalInputFieldWidget({
     Key? key,
+    required this.controller,
     this.hintText = '',
     // required this.validator,
     // required this.onChanged,
@@ -59,6 +61,7 @@ class _NormalInputFieldWidgetState extends State<NormalInputFieldWidget> {
     );
     // Return final text field
     return TextFormField(
+      controller: widget.controller,
       cursorColor: AppColors.primaryColor,
       style: _style,
       decoration: InputDecoration(
