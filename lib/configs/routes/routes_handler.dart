@@ -1,14 +1,15 @@
+import 'package:botp_auth/core/auth/initial/screens/app_navigator.dart';
+import 'package:botp_auth/core/auth/signin/screens/signin_current_screen.dart';
+import 'package:botp_auth/core/auth/signin/screens/signin_other_screen.dart';
+import 'package:botp_auth/core/auth/signup/screens/signup_screen.dart';
 import 'package:botp_auth/modules/app/screens/app_screen.dart';
-import 'package:botp_auth/modules/page404/screens/page404_screen.dart';
-import 'package:botp_auth/modules/signin/screens/signin_other_screen.dart';
-import 'package:botp_auth/modules/signin/screens/signin_current_screen.dart';
-import 'package:botp_auth/modules/signup/screens/signup_screen.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
-var notFoundHandler =
+// App navigator
+var appNavigatorHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-  return PageNotFoundScreen();
+  return const AppNavigator();
 });
 
 // Sign up
