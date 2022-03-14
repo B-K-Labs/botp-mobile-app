@@ -1,1 +1,0 @@
-// Walkthrough screens (when the application starts for the first time)
