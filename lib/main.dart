@@ -1,5 +1,4 @@
 import 'package:botp_auth/core/auth/auth_cubit.dart';
-import 'package:botp_auth/core/auth/initial/screens/app_navigator.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/configs/routes/routes.dart';
 import 'package:botp_auth/core/auth/auth_repository.dart';
@@ -16,14 +15,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-void main() {
-  // License registering (for google_fonts)
+void main() async {
+  // License registering for google_fonts
   LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString('google_fonts/OFL.txt');
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
   });
-  // Splash screens initialization
+  // For accessing behind platforms (e.g flashscreen, shared preferences)
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // Splash screens initialization at later
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   // Run app
   runApp(const MyApp());
@@ -38,6 +38,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   _MyAppState() {
+    // Routes setting up
     final router = FluroRouter();
     Routes.configureRoutes(router);
     Application.router = router;
@@ -46,14 +47,15 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    initialization();
-  }
-
-  void initialization() async {
-    // Initialize the app (i.e load essential resources)
-    await UserData.init(); // Storage for user
+    initiatePrefs().whenComplete(() {
+      setState(() {});
+    });
     // Remove splash screens
     FlutterNativeSplash.remove();
+  }
+
+  initiatePrefs() async {
+    await UserData.init();
   }
 
   // This widget is the root of your application.

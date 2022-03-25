@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:botp_auth/constants/api_path.dart';
 import 'package:botp_auth/utils/services/rest_api_service.dart';
 import 'package:http/http.dart' as http;
-import 'package:crypto/crypto.dart';
+// import 'package:crypto/crypto.dart';
 
 class AuthRepository {
   Future<SignUpResponseModel> signUp(String password) async {
@@ -19,11 +19,11 @@ class AuthRepository {
 
   Future<SignInResponseModel> signIn(String privateKey, String password) async {
     // Hash with SHA-265-1
-    var key = utf8.encode(password);
-    var bytes = utf8.encode(privateKey);
-    var hmacSha256 = Hmac(sha256, key);
-    var digest = hmacSha256.convert(bytes);
-    print(digest);
+    // var key = utf8.encode(password);
+    // var bytes = utf8.encode(privateKey);
+    // var hmacSha256 = Hmac(sha256, key);
+    // var digest = hmacSha256.convert(bytes);
+
     Map<String, dynamic> data = {
       'hashedPrivateKey': privateKey,
       'password': password,

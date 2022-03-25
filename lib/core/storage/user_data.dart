@@ -13,8 +13,8 @@ class UserData {
 
   // Called in mainApp()
   static init() async {
-    await LocalStorageUtils.init();
-    await SecureStorageUtils.init();
+    dynamic normalPrefs = await LocalStorageUtils.init();
+    dynamic securePrefs = await SecureStorageUtils.init();
   }
 
   // Session

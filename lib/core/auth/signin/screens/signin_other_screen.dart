@@ -49,11 +49,11 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
         .then((data) {
       scaffoldMessenger.showSnackBar(
           const SnackBar(content: Text("Import account successfully!")));
-      print("Import account successfully!\n\tStatue: ${data.status}");
-      Application.router.navigateTo(
-        context,
-        "/authenticator",
-      );
+      // print("Import account successfully!\n\tStatue: ${data.status}");
+      // Application.router.navigateTo(
+      //   context,
+      //   "/authenticator",
+      // );
     }).catchError((e) {
       scaffoldMessenger.showSnackBar(SnackBar(content: Text(e.toString())));
     }).whenComplete(() => {

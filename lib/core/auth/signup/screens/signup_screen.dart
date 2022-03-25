@@ -46,10 +46,10 @@ class _SignUpBodyState extends State<SignUpBody> {
     AuthRepository().signUp(_passwordController.text).then((data) {
       scaffoldMessenger.showSnackBar(
           const SnackBar(content: Text("Create account successfully!")));
-      print(
-          "Create account successfully!\n\tAccount BC: ${data.bcAddress}\n\tPublic key: ${data.publicKey}\n\tPrivate key: ${data.privateKey}\n\tEncrypted private key: ${data.encryptedPrivateKey}\n\tStatus: ${data.status}");
-      Application.router.navigateTo(context, "/authenticator",
-          transition: TransitionType.inFromRight);
+      // print(
+      //     "Create account successfully!\n\tAccount BC: ${data.bcAddress}\n\tPublic key: ${data.publicKey}\n\tPrivate key: ${data.privateKey}\n\tEncrypted private key: ${data.encryptedPrivateKey}\n\tStatus: ${data.status}");
+      // Application.router.navigateTo(context, "/authenticator",
+      //     transition: TransitionType.inFromRight);
     }).catchError((e) {
       scaffoldMessenger.showSnackBar(SnackBar(content: Text(e.toString())));
     }).whenComplete(() => {

@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "BOTP Authenticator",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug" // debug, profile, and release
+        }
+    ]
+}
