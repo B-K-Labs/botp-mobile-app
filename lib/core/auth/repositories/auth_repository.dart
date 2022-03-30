@@ -10,7 +10,7 @@ class AuthRepository {
     Map<String, dynamic> data = {
       'password': password,
     };
-    http.Response res = await post(BotpAPI.signUpUrl, data);
+    http.Response res = await post(BotpAPI.signUpUrl.toString(), data);
     if (res.statusCode == 200) {
       return SignUpResponseModel.fromJson(json.decode(res.body));
     }
@@ -28,7 +28,7 @@ class AuthRepository {
       'hashedPrivateKey': privateKey,
       'password': password,
     };
-    http.Response res = await post(BotpAPI.signInUrl, data);
+    http.Response res = await post(BotpAPI.signInUrl.toString(), data);
     if (res.statusCode == 200) {
       return SignInResponseModel.fromJson(json.decode(res.body));
     }
