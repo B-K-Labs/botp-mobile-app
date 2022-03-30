@@ -45,6 +45,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    // Initiate other stuff e.g AWS, Firebase (we don't use that)
     // Remove splash screens
     FlutterNativeSplash.remove();
   }
@@ -52,10 +53,6 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // THEME
-
-    // Data Theme
-    // ... Implement later
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'BOTP Authenticator',

@@ -11,8 +11,24 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SignUpBody(),
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        elevation: 0,
+        backgroundColor: Colors.white10,
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.close,
+              color: AppColors.blackColor,
+            ),
+            onPressed: () => Navigator.pop(context, false),
+          ),
+        ],
+      ),
+      body: const SafeArea(
+        child: SignUpBody(),
+      ),
     );
   }
 }
@@ -74,7 +90,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                 .textTheme
                 .headline4
                 ?.copyWith(color: AppColors.primaryColor)),
-        const SizedBox(height: 96.0),
+        const SizedBox(height: 60.0),
         Text('Password', style: Theme.of(context).textTheme.bodyText1),
         const SizedBox(height: 12.0),
         PasswordInputFieldWidget(controller: _passwordController),

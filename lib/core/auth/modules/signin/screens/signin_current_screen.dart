@@ -14,19 +14,24 @@ class SignInCurrentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //     automaticallyImplyLeading: true,
-      //     backgroundColor: kPrimaryColor,
-      //     leading: IconButton(
-      //       icon: const Icon(Icons.arrow_back),
-      //       onPressed: () => Navigator.pop(context, false),
-      //     )),
-      body: BlocProvider(
-        create: (context) =>
-            SignInBloc(authRepository: context.read<AuthRepository>()),
-        child: const SignInCurrentBody(),
-      ),
-    );
+        appBar: AppBar(
+            automaticallyImplyLeading: true,
+            elevation: 0,
+            backgroundColor: Colors.white10,
+            leading: IconButton(
+              icon: const Icon(
+                Icons.close,
+                color: AppColors.blackColor,
+              ),
+              onPressed: () => Navigator.pop(context, false),
+            )),
+        body: SafeArea(
+          child: BlocProvider(
+            create: (context) =>
+                SignInBloc(authRepository: context.read<AuthRepository>()),
+            child: const SignInCurrentBody(),
+          ),
+        ));
   }
 }
 
@@ -55,7 +60,7 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
                   .textTheme
                   .headline4
                   ?.copyWith(color: AppColors.primaryColor)),
-          const SizedBox(height: 96.0),
+          const SizedBox(height: 60.0),
           Text("Enter your password",
               style: Theme.of(context).textTheme.bodyText1),
           const SizedBox(height: 24.0),

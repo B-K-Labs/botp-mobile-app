@@ -10,7 +10,22 @@ class SignInOtherScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: SignInOtherBody());
+    return Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          elevation: 0,
+          backgroundColor: Colors.white10,
+          actions: [
+            IconButton(
+              icon: const Icon(
+                Icons.close,
+                color: AppColors.blackColor,
+              ),
+              onPressed: () => Navigator.pop(context, false),
+            ),
+          ],
+        ),
+        body: const SafeArea(child: SignInOtherBody()));
   }
 }
 
@@ -71,13 +86,13 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const SizedBox(height: 72.0),
+        // const SizedBox(height: 36.0),
         Text("Import an existing account",
             style: Theme.of(context)
                 .textTheme
                 .headline4
                 ?.copyWith(color: AppColors.primaryColor)),
-        const SizedBox(height: 96.0),
+        const SizedBox(height: 72.0),
         Text("Private key", style: Theme.of(context).textTheme.bodyText1),
         const SizedBox(height: 12.0),
         NormalInputFieldWidget(
