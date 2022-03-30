@@ -1,7 +1,7 @@
-import 'package:botp_auth/core/auth/auth_cubit.dart';
-import 'package:botp_auth/core/auth/auth_repository.dart';
-import 'package:botp_auth/core/auth/signup/bloc/signup_event.dart';
-import 'package:botp_auth/core/auth/signup/bloc/signup_state.dart';
+import 'package:botp_auth/core/auth/cubit/auth_cubit.dart';
+import 'package:botp_auth/core/auth/repositories/auth_repository.dart';
+import 'package:botp_auth/core/auth/modules/signup/bloc/signup_event.dart';
+import 'package:botp_auth/core/auth/modules/signup/bloc/signup_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {

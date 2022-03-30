@@ -1,4 +1,4 @@
-import 'package:botp_auth/core/session/session_cubit.dart';
+import 'package:botp_auth/core/session/cubit/session_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 enum AuthState { signInCurrent, signInOther, signUp }

@@ -1,10 +1,13 @@
-part of 'session_cubit.dart';
+abstract class SessionState {}
 
-abstract class SessionState extends Equatable {
-  const SessionState();
+// When open app
+class UnknownSessionState extends SessionState {}
 
-  @override
-  List<Object> get props => [];
-}
+// Completely signed out
+class BlankSessionState extends SessionState {}
 
-class SessionInitial extends SessionState {}
+// When out-of-session, just requires password
+class UnauthenticatedSessionState extends SessionState {}
+
+// Can access the app
+class AuthenticatedSessionState extends SessionState {}

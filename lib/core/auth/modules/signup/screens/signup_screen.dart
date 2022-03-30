@@ -1,5 +1,5 @@
 import 'package:botp_auth/configs/routes/application.dart';
-import 'package:botp_auth/core/auth/auth_repository.dart';
+import 'package:botp_auth/core/auth/repositories/auth_repository.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';

@@ -5,15 +5,16 @@
 // 2. Production: your public url
 
 class BotpAPI {
-  static const _protocol = "http://";
-  static const _server = "192.168.34.10";
-  static const _port1 = "9090";
-  static const _port2 = "9000";
+  static const _protocol = "https";
+  static const _host = "botp-main.herokuapp.com";
   static const _basePath = "/api/v1";
-  static const _urlRoot1 = "$_protocol$_server:$_port1$_basePath";
-  static const _urlRoot2 = "$_protocol$_server:$_port2$_basePath";
 
-  static const urlSignUp = "$_urlRoot1/signup";
-  static const urlSignIn = "$_urlRoot1/import";
-  static const urlReceiveOTP = "$_urlRoot1/otp/receive";
+  static var signUpUrl =
+      Uri(scheme: _protocol, host: _host, path: '$_basePath/signup');
+  static var signInUrl =
+      Uri(scheme: _protocol, host: _host, path: '$_basePath/signin');
+  static var userKycUrl =
+      Uri(scheme: _protocol, host: _host, path: '$_basePath/user/doKYC');
+  static var receiveOtpUrl =
+      Uri(scheme: _protocol, host: _host, path: '$_basePath/otp/receive');
 }

@@ -11,30 +11,23 @@ class UserData {
   static const _credentialAccount = "credential_account_data";
   static const _credentialProfile = "credential_profile_data";
 
-  // Called in mainApp()
-  static init() async {
-    dynamic normalPrefs = await LocalStorageUtils.init();
-    dynamic securePrefs = await SecureStorageUtils.init();
-  }
-
   // Session
   static Future<SessionDataModel?> getSessionData() async {
-    final data = await LocalStorageUtils.getMapValue(_session);
+    final data = await LocalStorage.getValue(_session);
     return data != null ? SessionDataModel.fromJSON(data) : null;
   }
 
-  static setSessionData(int sessionType) async =>
-      await LocalStorageUtils.setMapValue(
-          _session, SessionDataModel(sessionType: sessionType).toJSON());
+  static setSessionData(int sessionType) async => await LocalStorage.setValue(
+      _session, SessionDataModel(sessionType: sessionType).toJSON());
 
   // Credential Session
   static Future<CredentialSessionDataModel?> getCredentialSessionData() async {
-    final data = await SecureStorageUtils.getMapValue(_credentialSession);
+    final data = await SecureStorage.getSecureValue(_credentialSession);
     return data != null ? CredentialSessionDataModel.fromJSON(data) : null;
   }
 
   static setCredentialSessionData(String token, String effectiveTime) async {
-    return await SecureStorageUtils.setMapValue(
+    return await SecureStorage.setSecureValue(
         _credentialSession,
         CredentialSessionDataModel(token: token, effectiveTime: effectiveTime)
             .toJSON());
@@ -42,21 +35,21 @@ class UserData {
 
   // Credential Keys
   static Future<CredentialKeysDataModel?> getCredentialKeysData() async {
-    final data = await SecureStorageUtils.getMapValue(_credentialKeys);
+    final data = await SecureStorage.getSecureValue(_credentialKeys);
     return data != null ? CredentialKeysDataModel.fromJSON(data) : null;
   }
 
   static setCredentialKeysData(String publicKey, String privateKey) async =>
-      await SecureStorageUtils.setMapValue(
+      await SecureStorage.setSecureValue(
           _credentialKeys,
           CredentialKeysDataModel(publicKey: publicKey, privateKey: privateKey)
               .toJSON());
 
   // Wipe out data for signing out
-  static destroyAllData() async {
+  static clear() async {
     // Remove all user data
-    await LocalStorageUtils.removeAllMaps();
-    await SecureStorageUtils.removeAllMaps();
+    await LocalStorage.removeAllValues();
+    await SecureStorage.removeAllSecureValues();
     // Set initial session
     await setSessionData(0);
   }

@@ -3,32 +3,35 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LocalStorageUtils {
+class LocalStorage {
   static late SharedPreferences _prefsInstance;
 
-  static get storage => _prefsInstance;
+  static get storage async => _prefsInstance;
 
-  // Initializing function: call from initState() function of mainApp()
+  // (?) Initializing function: call from initState() function of mainApp()
   static init() async {
     _prefsInstance = await SharedPreferences.getInstance();
-    return _prefsInstance;
   }
 
   // Basic methods
-  static Future<Map<String, dynamic>?> getMapValue(String key) async {
+  static Future<Map<String, dynamic>?> getValue(String key) async {
+    await init();
     var localValue = _prefsInstance.getString(key);
     return localValue != null ? json.decode(localValue) : null;
   }
 
-  static Future<bool> setMapValue(
-          String key, Map<String, dynamic> value) async =>
-      await _prefsInstance.setString(key, json.encode(value));
+  static Future<bool> setValue(String key, Map<String, dynamic> value) async {
+    await init();
+    return await _prefsInstance.setString(key, json.encode(value));
+  }
 
-  static Future<bool> removeMapValue(String key) async =>
-      await _prefsInstance.remove(key);
+  static Future<bool> removeValue(String key) async {
+    await init();
+    return await _prefsInstance.remove(key);
+  }
 
   // Additional methods
-  static Future<Map<String, dynamic>> getAllMaps() async {
+  static Future<Map<String, dynamic>> getAllValues() async {
     Set<String> localKeys = _prefsInstance.getKeys();
     Map<String, dynamic> returnMap = {};
     for (String key in localKeys) {
@@ -37,5 +40,8 @@ class LocalStorageUtils {
     return returnMap;
   }
 
-  static Future<bool> removeAllMaps() async => await _prefsInstance.clear();
+  static Future<bool> removeAllValues() async {
+    await init();
+    return await _prefsInstance.clear();
+  }
 }

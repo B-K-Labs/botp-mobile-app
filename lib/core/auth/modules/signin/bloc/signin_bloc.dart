@@ -1,6 +1,6 @@
-import 'package:botp_auth/core/auth/auth_repository.dart';
-import 'package:botp_auth/core/auth/signin/bloc/signin_event.dart';
-import 'package:botp_auth/core/auth/signin/bloc/signin_state.dart';
+import 'package:botp_auth/core/auth/repositories/auth_repository.dart';
+import 'package:botp_auth/core/auth/modules/signin/bloc/signin_event.dart';
+import 'package:botp_auth/core/auth/modules/signin/bloc/signin_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:botp_auth/common/statuses/form_submission_status.dart';
 

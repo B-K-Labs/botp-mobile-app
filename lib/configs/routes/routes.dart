@@ -24,7 +24,7 @@ class Routes {
   // Routes configuration
   static void configureRoutes(FluroRouter router) {
     // Normal routes
-    router.define(appNavigator, handler: appNavigatorHandler);
+    // router.define(appNavigator, handler: appNavigatorHandler);
     router.define(signUp, handler: signUpHandler);
     router.define(signInCurrent, handler: signInCurrentHandler);
     router.define(signInOther, handler: signInOtherHandler);

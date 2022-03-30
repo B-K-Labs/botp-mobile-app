@@ -1,4 +1,4 @@
-import 'package:botp_auth/core/auth/auth_model.dart';
+import 'package:botp_auth/core/auth/models/auth_model.dart';
 import 'dart:convert';
 import 'package:botp_auth/constants/api_path.dart';
 import 'package:botp_auth/utils/services/rest_api_service.dart';
@@ -10,7 +10,7 @@ class AuthRepository {
     Map<String, dynamic> data = {
       'password': password,
     };
-    http.Response res = await post(BotpAPI.urlSignUp, data);
+    http.Response res = await post(BotpAPI.signUpUrl, data);
     if (res.statusCode == 200) {
       return SignUpResponseModel.fromJson(json.decode(res.body));
     }
@@ -28,7 +28,7 @@ class AuthRepository {
       'hashedPrivateKey': privateKey,
       'password': password,
     };
-    http.Response res = await post(BotpAPI.urlSignIn, data);
+    http.Response res = await post(BotpAPI.signInUrl, data);
     if (res.statusCode == 200) {
       return SignInResponseModel.fromJson(json.decode(res.body));
     }
