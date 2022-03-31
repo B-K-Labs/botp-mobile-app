@@ -1,4 +1,7 @@
+import 'package:botp_auth/common/state/form_submission_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
+import 'package:botp_auth/core/auth/modules/signin/bloc/signin_event.dart';
+import 'package:botp_auth/core/auth/modules/signin/bloc/signin_state.dart';
 import 'package:botp_auth/core/auth/repositories/auth_repository.dart';
 import 'package:botp_auth/core/auth/modules/signin/bloc/signin_bloc.dart';
 import 'package:flutter/material.dart';
@@ -38,68 +41,113 @@ class SignInCurrentBody extends StatefulWidget {
 
 class _SignInCurrentBodyState extends State<SignInCurrentBody> {
   // final _formKey = GlobalKey<FormState>();
-
-  final TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Background(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const SizedBox(height: 16.0),
-          Text("Welcome back!",
-              style: Theme.of(context)
-                  .textTheme
-                  .headline4
-                  ?.copyWith(color: AppColors.primaryColor)),
-          const SizedBox(height: 60.0),
-          Text("Enter your password",
-              style: Theme.of(context).textTheme.bodyText1),
-          const SizedBox(height: 24.0),
-          PasswordInputFieldWidget(controller: _passwordController),
-          const SizedBox(height: 36.0),
-          Row(children: <Widget>[
-            Expanded(
-                child: NormalButtonWidget(
-              text: "Sign in",
-              press: () {
-                Application.router.navigateTo(context, "/authenticator");
-              },
-              primary: AppColors.whiteColor,
-              backgroundColor: AppColors.primaryColor,
-            )),
-            const SizedBox(
-              width: 12.0,
-            ),
-            SizedBox(
-                width: 48.0,
-                height: 48.0,
-                child: IconButtonWdiget(
-                    iconData: FontAwesomeIcons.fingerprint,
-                    color: AppColors.primaryColor,
-                    onPressed: () {},
-                    size: 24.0)),
-          ]),
-          const SizedBox(height: 60.0),
-          SubButtonWidget(
-            text: "Import existing account",
-            press: () {
-              Application.router.navigateTo(context, "/signin/other");
-            },
-            primary: AppColors.primaryColor,
-          ),
-          const SizedBox(height: 12.0),
-          SubButtonWidget(
-            text: "Create new account",
-            press: () {
-              Application.router.navigateTo(context, "/signup");
-            },
-            primary: AppColors.primaryColor,
-          ),
-        ],
-      )),
+    return Background(
+        child: Stack(
+      children: [_signInCurrentForm(context), _otherOptions()],
+    ));
+  }
+
+  void _showSnackBar(context, message) {
+    final snackBar = SnackBar(content: message);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  Widget _signInCurrentForm(context) {
+    return BlocListener<SignInBloc, SignInState>(
+        listener: (context, state) {
+          final formStatus = state.formStatus;
+          if (formStatus is FormStatusFailed) {
+            {
+              _showSnackBar(context, formStatus.exception.toString());
+            }
+          }
+        },
+        child: Form(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            const SizedBox(height: 16.0),
+            Text("Welcome back!",
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    ?.copyWith(color: AppColors.primaryColor)),
+            const SizedBox(height: 60.0),
+            Text("Enter your password",
+                style: Theme.of(context).textTheme.bodyText1),
+            const SizedBox(height: 24.0),
+            _passwordField(),
+            const SizedBox(height: 36.0),
+            Row(children: <Widget>[
+              Expanded(child: _signInCurrentButton()),
+              const SizedBox(
+                width: 12.0,
+              ),
+              _signInFingerprint(),
+            ]),
+          ],
+        )));
+  }
+
+  Widget _passwordField() {
+    return BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
+      _passwordValidator(value) => state.validatePassword(value);
+      _passwordOnChanged(value) => context
+          .read<SignInBloc>()
+          .add(SignInPasswordChanged(password: value));
+      return PasswordInputFieldWidget(
+          validator: _passwordValidator, onChanged: _passwordOnChanged);
+    });
+  }
+
+  Widget _signInCurrentButton() {
+    return BlocBuilder<SignInBloc, SignInState>(
+        builder: (context, state) => state.formStatus is FormStatusSubmitting
+            ? const CircularProgressIndicator()
+            : NormalButtonWidget(
+                text: "Sign in",
+                press: () {
+                  Application.router.navigateTo(context, "/authenticator");
+                },
+                primary: AppColors.whiteColor,
+                backgroundColor: AppColors.primaryColor,
+              ));
+  }
+
+  Widget _signInFingerprint() {
+    return SizedBox(
+        width: 48.0,
+        height: 48.0,
+        child: IconButtonWdiget(
+            iconData: FontAwesomeIcons.fingerprint,
+            color: AppColors.primaryColor,
+            onPressed: () {},
+            size: 24.0));
+  }
+
+  Widget _otherOptions() {
+    return Column(
+      children: [
+        const SizedBox(height: 60.0),
+        SubButtonWidget(
+          text: "Import existing account",
+          press: () {
+            Application.router.navigateTo(context, "/signin/other");
+          },
+          primary: AppColors.primaryColor,
+        ),
+        const SizedBox(height: 12.0),
+        SubButtonWidget(
+          text: "Create new account",
+          press: () {
+            Application.router.navigateTo(context, "/signup");
+          },
+          primary: AppColors.primaryColor,
+        ),
+      ],
     );
   }
 }

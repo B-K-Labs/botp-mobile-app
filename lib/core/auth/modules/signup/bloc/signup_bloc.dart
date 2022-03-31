@@ -1,3 +1,4 @@
+import 'package:botp_auth/common/state/form_submission_status.dart';
 import 'package:botp_auth/core/auth/cubit/auth_cubit.dart';
 import 'package:botp_auth/core/auth/repositories/auth_repository.dart';
 import 'package:botp_auth/core/auth/modules/signup/bloc/signup_event.dart';
@@ -10,15 +11,20 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
   SignUpBloc({required this.authRepository, required this.authCubit})
       : super(SignUpState()) {
-    on<SignUpPasswordChanged>(
+    // On changed
+    on<SignUpEventPasswordChanged>(
         (event, emit) => emit(state.copyWith(password: event.password)));
-    /*on<SignUpSubmitted>((event, emit) {
-      try {
-        signUpRepository.signUp(state.password);
-      }
-      catch {
 
+    // On submitted
+    on<SignUpEventSubmitted>((event, emit) {
+      emit(state.copyWith(formStatus: FormStatusSubmitting()));
+      try {
+        authRepository.signUp(state.password);
+        // Store local storage
+        emit(state.copyWith(formStatus: FormStatusSuccess()));
+      } on Exception catch (e) {
+        emit(state.copyWith(formStatus: FormStatusFailed(e)));
       }
-    });*/
+    });
   }
 }

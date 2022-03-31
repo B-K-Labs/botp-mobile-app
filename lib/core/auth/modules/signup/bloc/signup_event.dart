@@ -1,9 +1,9 @@
 abstract class SignUpEvent {}
 
-class SignUpPasswordChanged extends SignUpEvent {
+class SignUpEventPasswordChanged extends SignUpEvent {
   final String password;
 
-  SignUpPasswordChanged({required this.password});
+  SignUpEventPasswordChanged({required this.password});
 }
 
-class SignUpSubmitted extends SignUpEvent {}
+class SignUpEventSubmitted extends SignUpEvent {}

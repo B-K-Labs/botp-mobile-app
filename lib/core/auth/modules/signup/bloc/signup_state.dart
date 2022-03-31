@@ -1,21 +1,27 @@
-import 'package:botp_auth/common/statuses/form_submission_status.dart';
+import 'package:botp_auth/common/state/form_submission_status.dart';
 
 class SignUpState {
   // Password
   final String password;
-  bool get isValidPassword => RegExp(
-          r'''^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\\\|\;\:\'\"\,\<\.\>\/\?]).{8,}$''')
-      .hasMatch(password);
+  get validatePassword => password.isEmpty
+      ? "Missing password"
+      : password.length < 8
+          ? "Password must be at least 6 characters"
+          : RegExp(r'''^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\\\|\;\:\'\"\,\<\.\>\/\?]).{6,}$''')
+                  .hasMatch(password)
+              ? ""
+              : "Password must contain one uppercase, one lowercase, one digit, and one special character";
 
   // Form status
-  final FormSubmissionStatus formStatus;
+  final FormStatus formStatus;
 
   // Constructors
   SignUpState(
-      {this.password = '', this.formStatus = const InitialFormStatus()});
+      {this.password = '', this.formStatus = const FormStatusInitial()});
 
-  SignUpState copyWith(
-      {required String password, required FormSubmissionStatus formStatus}) {
-    return SignUpState(password: password, formStatus: formStatus);
+  SignUpState copyWith({password, formStatus}) {
+    return SignUpState(
+        password: password ?? this.password,
+        formStatus: formStatus ?? this.formStatus);
   }
 }

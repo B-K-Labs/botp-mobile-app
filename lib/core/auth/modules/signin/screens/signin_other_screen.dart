@@ -1,9 +1,14 @@
+import 'package:botp_auth/common/state/form_submission_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
+import 'package:botp_auth/core/auth/modules/signin/bloc/signin_bloc.dart';
+import 'package:botp_auth/core/auth/modules/signin/bloc/signin_event.dart';
+import 'package:botp_auth/core/auth/modules/signin/bloc/signin_state.dart';
 import 'package:botp_auth/core/auth/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignInOtherScreen extends StatelessWidget {
   const SignInOtherScreen({Key? key}) : super(key: key);
@@ -37,79 +42,97 @@ class SignInOtherBody extends StatefulWidget {
 }
 
 class _SignInOtherBodyState extends State<SignInOtherBody> {
-  final TextEditingController _privateKeyController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  late ScaffoldMessengerState scaffoldMessenger;
-  bool _isLoading = false;
-
-  onSbumitSignIn() {
-    if (_isLoading) {
-      return;
-    }
-    if (_privateKeyController.text.isEmpty) {
-      scaffoldMessenger.showSnackBar(
-          const SnackBar(content: Text("Please enter private key")));
-      return;
-    }
-    if (_passwordController.text.isEmpty) {
-      scaffoldMessenger
-          .showSnackBar(const SnackBar(content: Text("Please enter password")));
-      return;
-    }
-    setState(() {
-      _isLoading = true;
-    });
-    AuthRepository()
-        .signIn(_privateKeyController.text, _passwordController.text)
-        .then((data) {
-      scaffoldMessenger.showSnackBar(
-          const SnackBar(content: Text("Import account successfully!")));
-      // print("Import account successfully!\n\tStatue: ${data.status}");
-      // Application.router.navigateTo(
-      //   context,
-      //   "/authenticator",
-      // );
-    }).catchError((e) {
-      scaffoldMessenger.showSnackBar(SnackBar(content: Text(e.toString())));
-    }).whenComplete(() => {
-              setState(() {
-                _isLoading = false;
-              })
-            });
-  }
-
   @override
   Widget build(BuildContext context) {
-    scaffoldMessenger = ScaffoldMessenger.of(context);
-    return Background(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        // const SizedBox(height: 36.0),
-        Text("Import an existing account",
-            style: Theme.of(context)
-                .textTheme
-                .headline4
-                ?.copyWith(color: AppColors.primaryColor)),
-        const SizedBox(height: 72.0),
-        Text("Private key", style: Theme.of(context).textTheme.bodyText1),
-        const SizedBox(height: 12.0),
-        NormalInputFieldWidget(
-            controller: _privateKeyController,
-            suffixIconData: Icons.qr_code,
-            onTapSuffix: () {}),
-        const SizedBox(height: 24.0),
-        Text("Password", style: Theme.of(context).textTheme.bodyText1),
-        const SizedBox(height: 12.0),
-        PasswordInputFieldWidget(controller: _passwordController),
-        const SizedBox(height: 36.0),
-        NormalButtonWidget(
-          text: "Import account",
-          press: onSbumitSignIn,
-          primary: AppColors.whiteColor,
-          backgroundColor: AppColors.primaryColor,
-        ),
+    return BlocProvider(
+        create: (context) =>
+            SignInBloc(authRepository: context.read<AuthRepository>()),
+        child: Background(
+            child:
+                Stack(children: [_signInOtherForm(context), _otherOptions()])));
+  }
+
+  void _showSnackBar(context, message) {
+    final snackBar = SnackBar(content: message);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  Widget _signInOtherForm(context) {
+    return BlocListener<SignInBloc, SignInState>(
+        listener: (context, state) {
+          final formStatus = state.formStatus;
+          if (formStatus is FormStatusFailed) {
+            _showSnackBar(context, formStatus.exception.toString());
+          }
+        },
+        child: Form(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            // const SizedBox(height: 36.0),
+            Text("Import an existing account",
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    ?.copyWith(color: AppColors.primaryColor)),
+            const SizedBox(height: 72.0),
+            Text("Private key", style: Theme.of(context).textTheme.bodyText1),
+            const SizedBox(height: 12.0),
+            _privateKeyField(),
+            const SizedBox(height: 24.0),
+            Text("Password", style: Theme.of(context).textTheme.bodyText1),
+            const SizedBox(height: 12.0),
+            _passwordField(),
+            const SizedBox(height: 36.0),
+            _signInOtherButton(),
+          ],
+        )));
+  }
+
+  Widget _signInOtherButton() {
+    return BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
+      onSignIn() => context.read<SignInBloc>().add(SignInSubmitted());
+      return state.formStatus is FormStatusSubmitting
+          ? const CircularProgressIndicator()
+          : NormalButtonWidget(
+              text: "Import account",
+              press: onSignIn,
+              primary: AppColors.whiteColor,
+              backgroundColor: AppColors.primaryColor,
+            );
+    });
+  }
+
+  Widget _privateKeyField() {
+    return BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
+      _privateKeyValidator(value) => state.validatePrivateKey(value);
+      _privateKeyOnChanged(value) => context
+          .read<SignInBloc>()
+          .add(SignInPrivateKeyChanged(privateKey: value));
+      _onNavigateQrCode() => null;
+      return NormalInputFieldWidget(
+          validator: _privateKeyValidator,
+          onChanged: _privateKeyOnChanged,
+          suffixIconData: Icons.qr_code,
+          onTapSuffixIcon: _onNavigateQrCode);
+    });
+  }
+
+  Widget _passwordField() {
+    return BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
+      _passwordValidator(value) => state.validatePassword(value);
+      _passwordOnChanged(value) => context
+          .read<SignInBloc>()
+          .add(SignInPasswordChanged(password: value));
+      return PasswordInputFieldWidget(
+          validator: _passwordValidator, onChanged: _passwordOnChanged);
+    });
+  }
+
+  Widget _otherOptions() {
+    return Column(
+      children: [
         const SizedBox(height: 60.0),
         SubButtonWidget(
           text: "Sign in with current account",
@@ -127,7 +150,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
           primary: AppColors.primaryColor,
         ),
       ],
-    ));
+    );
   }
 }
 

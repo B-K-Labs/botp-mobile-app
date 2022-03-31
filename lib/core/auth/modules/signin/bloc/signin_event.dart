@@ -1,9 +1,9 @@
 abstract class SignInEvent {}
 
-class SignInUsernameChanged extends SignInEvent {
-  final String username;
+class SignInPrivateKeyChanged extends SignInEvent {
+  final String privateKey;
 
-  SignInUsernameChanged({required this.username});
+  SignInPrivateKeyChanged({required this.privateKey});
 }
 
 class SignInPasswordChanged extends SignInEvent {

@@ -1,20 +1,33 @@
-import 'package:botp_auth/common/statuses/form_submission_status.dart';
+import 'package:botp_auth/common/state/form_submission_status.dart';
 
 class SignInState {
-  final String username;
+  // Private key
+  final String privateKey;
+  get validatePrivateKey => null;
+  // Password
   final String password;
-  final FormSubmissionStatus formStatus;
+  get validatePassword => password.isEmpty
+      ? "Missing password"
+      : password.length < 8
+          ? "Password must be at least 6 characters"
+          : RegExp(r'''^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\\\|\;\:\'\"\,\<\.\>\/\?]).{6,}$''')
+                  .hasMatch(password)
+              ? ""
+              : "Password must contain one uppercase, one lowercase, one digit, and one special character";
+
+  // Form status
+  final FormStatus formStatus;
 
   SignInState({
-    this.username = '',
+    this.privateKey = '',
     this.password = '',
-    this.formStatus = const InitialFormStatus(),
+    this.formStatus = const FormStatusInitial(),
   });
 
   SignInState copyWith(
-      {String? username, String? password, FormSubmissionStatus? formStatus}) {
+      {String? privateKey, String? password, FormStatus? formStatus}) {
     return SignInState(
-      username: username ?? this.username,
+      privateKey: privateKey ?? this.privateKey,
       password: password ?? this.password,
       formStatus: formStatus ?? this.formStatus,
     );
