@@ -1,25 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
 
+// Borders
+OutlineInputBorder _border = OutlineInputBorder(
+  borderSide: const BorderSide(color: AppColors.grayColor02, width: 1.0),
+  borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large),
+);
+OutlineInputBorder _focusedBorder = OutlineInputBorder(
+  borderSide: const BorderSide(color: AppColors.primaryColor, width: 1.5),
+  borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large),
+);
+OutlineInputBorder _errorBorder = OutlineInputBorder(
+  borderSide: const BorderSide(color: AppColors.redColor, width: 2.0),
+  borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large),
+);
+
 // Note: ALl fields are using TextFormField
 // Normal Input
 class NormalInputFieldWidget extends StatefulWidget {
-  final TextEditingController controller;
   final String hintText;
-  // final String? Function(String?)? validator;
-  // final Function(String?) onChanged;
+  final dynamic validator;
+  final dynamic onChanged;
   final IconData? iconData, suffixIconData;
-  final Function? onTapSuffix;
+  final dynamic onTapIcon, onTapSuffixIcon;
 
   const NormalInputFieldWidget({
     Key? key,
-    required this.controller,
     this.hintText = '',
-    // required this.validator,
-    // required this.onChanged,
+    required this.validator,
+    required this.onChanged,
     this.iconData,
     this.suffixIconData,
-    this.onTapSuffix,
+    this.onTapIcon,
+    this.onTapSuffixIcon,
   }) : super(key: key);
 
   @override
@@ -36,32 +49,28 @@ class _NormalInputFieldWidgetState extends State<NormalInputFieldWidget> {
         ?.copyWith(fontWeight: FontWeight.normal);
     // Prefix icon
     Widget? _icon = widget.iconData != null
-        ? Icon((widget.iconData)!, color: AppColors.grayColor03)
+        ? GestureDetector(
+            onTap: widget.onTapIcon != null
+                ? () {
+                    widget.onTapIcon();
+                  }
+                : null,
+            child: Icon((widget.iconData)!, color: AppColors.grayColor03))
         : null;
     // Suffix icon
     Widget? _suffixIcon = widget.suffixIconData != null
         ? GestureDetector(
-            onTap: widget.onTapSuffix != null
+            onTap: widget.onTapSuffixIcon != null
                 ? () {
-                    (widget.onTapSuffix)!();
+                    widget.onTapSuffixIcon();
                   }
                 : null,
             child: Icon(widget.suffixIconData, color: AppColors.grayColor03))
         : null;
-    // Borders5
-    OutlineInputBorder _border = OutlineInputBorder(
-        borderSide: const BorderSide(color: AppColors.grayColor02, width: 1.0),
-        borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large));
-    OutlineInputBorder _focusedBorder = OutlineInputBorder(
-        borderSide: const BorderSide(color: AppColors.primaryColor, width: 1.5),
-        borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large));
-    OutlineInputBorder _errorBorder = OutlineInputBorder(
-      borderSide: const BorderSide(color: AppColors.redColor, width: 2.0),
-      borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large),
-    );
     // Return final text field
     return TextFormField(
-      controller: widget.controller,
+      validator: widget.validator,
+      onChanged: widget.onChanged,
       cursorColor: AppColors.primaryColor,
       style: _style,
       decoration: InputDecoration(
@@ -80,17 +89,15 @@ class _NormalInputFieldWidgetState extends State<NormalInputFieldWidget> {
 // Password Input Field
 class PasswordInputFieldWidget extends StatefulWidget {
   final String hintText;
-  final TextEditingController controller;
-  // final String? Function(String?)? validator;
-  // final Function(String?) onChanged;
+  final dynamic validator;
+  final dynamic onChanged;
 
-  const PasswordInputFieldWidget({
-    Key? key,
-    required this.controller,
-    this.hintText = '',
-    // required this.validator,
-    // required this.onChanged
-  }) : super(key: key);
+  const PasswordInputFieldWidget(
+      {Key? key,
+      this.hintText = '',
+      required this.validator,
+      required this.onChanged})
+      : super(key: key);
 
   @override
   _PasswordInputFieldWidgetState createState() =>
@@ -118,23 +125,11 @@ class _PasswordInputFieldWidgetState extends State<PasswordInputFieldWidget> {
           ? const Icon(Icons.visibility, color: AppColors.grayColor03)
           : const Icon(Icons.visibility_off, color: AppColors.grayColor03),
     );
-    // Borders
-    OutlineInputBorder _border = OutlineInputBorder(
-      borderSide: const BorderSide(color: AppColors.grayColor02, width: 1.0),
-      borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large),
-    );
-    OutlineInputBorder _focusedBorder = OutlineInputBorder(
-      borderSide: const BorderSide(color: AppColors.primaryColor, width: 1.5),
-      borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large),
-    );
-    OutlineInputBorder _errorBorder = OutlineInputBorder(
-      borderSide: const BorderSide(color: AppColors.redColor, width: 2.0),
-      borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large),
-    );
 
     // Return final text field
     return TextFormField(
-      controller: widget.controller,
+      validator: widget.validator,
+      onChanged: widget.onChanged,
       cursorColor: AppColors.primaryColor,
       obscureText: _obscureText,
       style: _style,
