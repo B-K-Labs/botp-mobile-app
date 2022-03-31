@@ -106,7 +106,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
 
   Widget _privateKeyField() {
     return BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
-      _privateKeyValidator(value) => state.validatePrivateKey(value);
+      _privateKeyValidator(value) => state.validatePrivateKey;
       _privateKeyOnChanged(value) => context
           .read<SignInBloc>()
           .add(SignInPrivateKeyChanged(privateKey: value));
@@ -121,7 +121,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
 
   Widget _passwordField() {
     return BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
-      _passwordValidator(value) => state.validatePassword(value);
+      _passwordValidator(value) => state.validatePassword;
       _passwordOnChanged(value) => context
           .read<SignInBloc>()
           .add(SignInPasswordChanged(password: value));

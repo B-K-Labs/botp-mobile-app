@@ -94,7 +94,7 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
 
   Widget _passwordField() {
     return BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
-      _passwordValidator(value) => state.validatePassword(value);
+      _passwordValidator(value) => state.validatePassword;
       _passwordOnChanged(value) => context
           .read<SignInBloc>()
           .add(SignInPasswordChanged(password: value));

@@ -92,7 +92,7 @@ class _SignUpBodyState extends State<SignUpBody> {
 
   Widget _passwordField() {
     return BlocBuilder<SignUpBloc, SignUpState>(builder: (context, state) {
-      _passwordValidator(value) => state.validatePassword(value);
+      _passwordValidator(value) => state.validatePassword;
       _passwordOnChanged(value) => context
           .read<SignUpBloc>()
           .add(SignUpEventPasswordChanged(password: value));
