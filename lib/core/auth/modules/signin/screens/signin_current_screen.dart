@@ -15,16 +15,10 @@ class SignInCurrentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            automaticallyImplyLeading: true,
-            elevation: 0,
-            backgroundColor: Colors.white10,
-            leading: IconButton(
-              icon: const Icon(
-                Icons.close,
-                color: AppColors.blackColor,
-              ),
-              onPressed: () => Navigator.pop(context, false),
-            )),
+          automaticallyImplyLeading: true,
+          elevation: 0,
+          backgroundColor: Colors.white10,
+        ),
         body: SafeArea(
           child: BlocProvider(
             create: (context) =>
@@ -54,7 +48,7 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const SizedBox(height: 72.0),
+          const SizedBox(height: 16.0),
           Text("Welcome back!",
               style: Theme.of(context)
                   .textTheme
