@@ -5,6 +5,7 @@ import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/configs/routes/routes.dart';
 import 'package:botp_auth/core/auth/repositories/auth_repository.dart';
 import 'package:botp_auth/core/auth/modules/signup/screens/signup_screen.dart';
+import 'package:botp_auth/core/session/cubit/session_cubit.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/app_constants.dart';
@@ -54,11 +55,20 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'BOTP Authenticator',
-      theme: mapAppThemeData[AppTheme.light],
-      // onGenerateRoute: Application.router.generator, // It would use root path first (i.e "/")
-      home: const SignUpScreen(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'BOTP Authenticator',
+        theme: mapAppThemeData[AppTheme.light],
+        // onGenerateRoute: Application.router.generator, // It would use root path first (i.e "/")
+        home: MultiRepositoryProvider(
+            providers: [
+              RepositoryProvider(create: (context) => AuthRepository())
+            ],
+            child: BlocProvider(
+                create: (context) => SessionCubit(
+                    authRepository: context.read<AuthRepository>()),
+                child: BlocProvider(
+                    create: (context) =>
+                        AuthCubit(sessionCubit: context.read<SessionCubit>()),
+                    child: const SignUpScreen()))));
   }
 }
