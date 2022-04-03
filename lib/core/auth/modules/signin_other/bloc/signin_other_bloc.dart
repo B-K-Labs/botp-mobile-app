@@ -1,21 +1,21 @@
+import 'package:botp_auth/core/auth/auth_repository.dart';
+import 'package:botp_auth/core/auth/modules/signin_other/bloc/signin_other_event.dart';
+import 'package:botp_auth/core/auth/modules/signin_other/bloc/signin_other_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:botp_auth/core/auth/repositories/auth_repository.dart';
-import 'package:botp_auth/core/auth/modules/signin/bloc/signin_event.dart';
-import 'package:botp_auth/core/auth/modules/signin/bloc/signin_state.dart';
 import 'package:botp_auth/common/state/form_submission_status.dart';
 
-class SignInBloc extends Bloc<SignInEvent, SignInState> {
+class SignInOtherBloc extends Bloc<SignInOtherEvent, SignInOtherState> {
   final AuthRepository authRepository;
 
-  SignInBloc({required this.authRepository}) : super(SignInState()) {
+  SignInOtherBloc({required this.authRepository}) : super(SignInOtherState()) {
     // On changed
-    on<SignInPrivateKeyChanged>(
+    on<SignInOtherPrivateKeyChanged>(
         (event, emit) => emit(state.copyWith(privateKey: event.privateKey)));
-    on<SignInPasswordChanged>(
+    on<SignInOtherPasswordChanged>(
         (event, emit) => emit(state.copyWith(password: event.password)));
 
     // On submitted
-    on<SignInSubmitted>((event, emit) async {
+    on<SignInOtherSubmitted>((event, emit) async {
       emit(state.copyWith(formStatus: FormStatusSubmitting()));
       try {
         await authRepository.signIn(state.privateKey, state.password);

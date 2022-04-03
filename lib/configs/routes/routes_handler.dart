@@ -1,6 +1,6 @@
 // import 'package:botp_auth/core/auth/modules/initial/screens/app_navigator.dart';
-import 'package:botp_auth/core/auth/modules/signin/screens/signin_current_screen.dart';
-import 'package:botp_auth/core/auth/modules/signin/screens/signin_other_screen.dart';
+import 'package:botp_auth/core/auth/modules/signin_current/screens/signin_current_screen.dart';
+import 'package:botp_auth/core/auth/modules/signin_other/screens/signin_other_screen.dart';
 import 'package:botp_auth/core/auth/modules/signup/screens/signup_screen.dart';
 import 'package:botp_auth/modules/app/screens/app_screen.dart';
 import 'package:fluro/fluro.dart';

@@ -1,4 +1,4 @@
-import 'package:botp_auth/constants/app_constants.dart';
+import 'package:botp_auth/constants/theme.dart';
 import 'package:flutter/material.dart';
 
 class TransactionStatusWidget extends StatelessWidget {

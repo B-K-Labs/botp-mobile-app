@@ -1,9 +1,9 @@
 import 'package:botp_auth/common/state/form_submission_status.dart';
 
-class SignInState {
+class SignInOtherState {
   // Private key
   final String privateKey;
-  get validatePrivateKey => null;
+  String? get validatePrivateKey => null;
   // Password
   final String password;
   String? get validatePassword => password.isEmpty
@@ -18,15 +18,15 @@ class SignInState {
   // Form status
   final FormStatus formStatus;
 
-  SignInState({
+  SignInOtherState({
     this.privateKey = '',
     this.password = '',
     this.formStatus = const FormStatusInitial(),
   });
 
-  SignInState copyWith(
+  SignInOtherState copyWith(
       {String? privateKey, String? password, FormStatus? formStatus}) {
-    return SignInState(
+    return SignInOtherState(
       privateKey: privateKey ?? this.privateKey,
       password: password ?? this.password,
       formStatus: formStatus ?? this.formStatus,

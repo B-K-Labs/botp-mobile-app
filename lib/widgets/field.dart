@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:botp_auth/constants/app_constants.dart';
+import 'package:botp_auth/constants/theme.dart';
 
 // Borders
 OutlineInputBorder _border = OutlineInputBorder(
@@ -19,8 +19,8 @@ OutlineInputBorder _errorBorder = OutlineInputBorder(
 // Normal Input
 class NormalInputFieldWidget extends StatefulWidget {
   final String hintText;
-  final dynamic validator;
-  final dynamic onChanged;
+  final String? Function(String?) validator;
+  final void Function(String?) onChanged;
   final IconData? iconData, suffixIconData;
   final dynamic onTapIcon, onTapSuffixIcon;
 
@@ -89,8 +89,8 @@ class _NormalInputFieldWidgetState extends State<NormalInputFieldWidget> {
 // Password Input Field
 class PasswordInputFieldWidget extends StatefulWidget {
   final String hintText;
-  final dynamic validator;
-  final dynamic onChanged;
+  final String? Function(String?) validator;
+  final void Function(String?) onChanged;
 
   const PasswordInputFieldWidget(
       {Key? key,

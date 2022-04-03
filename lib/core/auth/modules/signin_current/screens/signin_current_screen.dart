@@ -1,12 +1,12 @@
 import 'package:botp_auth/common/state/form_submission_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
-import 'package:botp_auth/core/auth/modules/signin/bloc/signin_event.dart';
-import 'package:botp_auth/core/auth/modules/signin/bloc/signin_state.dart';
-import 'package:botp_auth/core/auth/repositories/auth_repository.dart';
-import 'package:botp_auth/core/auth/modules/signin/bloc/signin_bloc.dart';
+import 'package:botp_auth/core/auth/auth_repository.dart';
+import 'package:botp_auth/core/auth/modules/signin_current/bloc/signin_current_bloc.dart';
+import 'package:botp_auth/core/auth/modules/signin_current/bloc/signin_current_event.dart';
+import 'package:botp_auth/core/auth/modules/signin_current/bloc/signin_current_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:botp_auth/constants/app_constants.dart';
+import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -24,8 +24,8 @@ class SignInCurrentScreen extends StatelessWidget {
         ),
         body: SafeArea(
           child: BlocProvider(
-            create: (context) =>
-                SignInBloc(authRepository: context.read<AuthRepository>()),
+            create: (context) => SignInCurrentBloc(
+                authRepository: context.read<AuthRepository>()),
             child: const SignInCurrentBody(),
           ),
         ));
@@ -55,7 +55,7 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
   }
 
   Widget _signInCurrentForm(context) {
-    return BlocListener<SignInBloc, SignInState>(
+    return BlocListener<SignInCurrentBloc, SignInCurrentState>(
         listener: (context, state) {
           final formStatus = state.formStatus;
           if (formStatus is FormStatusFailed) {
@@ -93,18 +93,19 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
   }
 
   Widget _passwordField() {
-    return BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
+    return BlocBuilder<SignInCurrentBloc, SignInCurrentState>(
+        builder: (context, state) {
       _passwordValidator(value) => state.validatePassword;
       _passwordOnChanged(value) => context
-          .read<SignInBloc>()
-          .add(SignInPasswordChanged(password: value));
+          .read<SignInCurrentBloc>()
+          .add(SignInCurrentPasswordChanged(password: value));
       return PasswordInputFieldWidget(
           validator: _passwordValidator, onChanged: _passwordOnChanged);
     });
   }
 
   Widget _signInCurrentButton() {
-    return BlocBuilder<SignInBloc, SignInState>(
+    return BlocBuilder<SignInCurrentBloc, SignInCurrentState>(
         builder: (context, state) => state.formStatus is FormStatusSubmitting
             ? const CircularProgressIndicator()
             : NormalButtonWidget(

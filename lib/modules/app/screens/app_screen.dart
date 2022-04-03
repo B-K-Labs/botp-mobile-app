@@ -1,4 +1,4 @@
-import 'package:botp_auth/constants/app_constants.dart';
+import 'package:botp_auth/constants/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/modules/app/screens/account_body.dart';
 import 'package:botp_auth/modules/app/screens/history_app.dart';

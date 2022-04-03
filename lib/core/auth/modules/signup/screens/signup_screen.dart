@@ -1,12 +1,11 @@
 import 'package:botp_auth/common/state/form_submission_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
-import 'package:botp_auth/core/auth/cubit/auth_cubit.dart';
+import 'package:botp_auth/core/auth/auth_repository.dart';
 import 'package:botp_auth/core/auth/modules/signup/bloc/signup_bloc.dart';
 import 'package:botp_auth/core/auth/modules/signup/bloc/signup_event.dart';
 import 'package:botp_auth/core/auth/modules/signup/bloc/signup_state.dart';
-import 'package:botp_auth/core/auth/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:botp_auth/constants/app_constants.dart';
+import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,9 +48,8 @@ class _SignUpBodyState extends State<SignUpBody> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => SignUpBloc(
-            authRepository: context.read<AuthRepository>(),
-            authCubit: context.read<AuthCubit>()),
+        create: (context) =>
+            SignUpBloc(authRepo: context.read<AuthRepository>()),
         child: Background(
             child: Stack(children: [_signUpForm(context), _otherOptions()])));
   }

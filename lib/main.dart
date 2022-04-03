@@ -1,18 +1,19 @@
-import 'package:botp_auth/configs/themes/app_themes.dart';
-import 'package:botp_auth/constants/theme.dart';
-import 'package:botp_auth/core/auth/cubit/auth_cubit.dart';
-import 'package:botp_auth/configs/routes/application.dart';
-import 'package:botp_auth/configs/routes/routes.dart';
-import 'package:botp_auth/core/auth/repositories/auth_repository.dart';
-import 'package:botp_auth/core/auth/modules/signup/screens/signup_screen.dart';
-import 'package:botp_auth/core/session/cubit/session_cubit.dart';
-import 'package:fluro/fluro.dart';
+import 'package:botp_auth/core/auth/auth_repository.dart';
+import 'package:botp_auth/core/auth/modules/initial/welcome_screen.dart';
+import 'package:botp_auth/core/auth/modules/signin_current/screens/signin_current_screen.dart';
+import 'package:botp_auth/core/session/session_cubit.dart';
+import 'package:botp_auth/core/session/session_state.dart';
+import 'package:botp_auth/modules/app/screens/app_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:botp_auth/constants/app_constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:botp_auth/configs/themes/app_themes.dart';
+import 'package:botp_auth/constants/theme.dart';
+import 'package:botp_auth/configs/routes/application.dart';
+import 'package:botp_auth/configs/routes/routes.dart';
+import 'package:fluro/fluro.dart';
 
 void main() async {
   // License registering for google_fonts
@@ -46,7 +47,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    // Initiate other stuff e.g AWS, Firebase (we don't use that)
+    // (not used) Initiate backend services e.g AWS, Firebase
     // Remove splash screens
     FlutterNativeSplash.remove();
   }
@@ -66,9 +67,27 @@ class _MyAppState extends State<MyApp> {
             child: BlocProvider(
                 create: (context) => SessionCubit(
                     authRepository: context.read<AuthRepository>()),
-                child: BlocProvider(
-                    create: (context) =>
-                        AuthCubit(sessionCubit: context.read<SessionCubit>()),
-                    child: const SignUpScreen()))));
+                child: const AppNavigator())));
+  }
+}
+
+// Main navigation
+class AppNavigator extends StatelessWidget {
+  const AppNavigator({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SessionCubit, SessionState>(builder: (context, state) {
+      return Navigator(pages: [
+        if (state is UnknownSessionState)
+          const MaterialPage(child: CircularProgressIndicator()),
+        if (state is UnauthenticatedSessionState)
+          const MaterialPage(child: WelcomeScreen()),
+        if (state is ExpiredSessionState)
+          const MaterialPage(child: SignInCurrentScreen()),
+        if (state is AuthenticatedSessionState)
+          const MaterialPage(child: MainAppScreen()),
+      ], onPopPage: (route, result) => route.didPop(result));
+    });
   }
 }
