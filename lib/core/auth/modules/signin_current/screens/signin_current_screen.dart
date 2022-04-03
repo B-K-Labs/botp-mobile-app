@@ -108,20 +108,21 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
 
   Widget _signInCurrentButton() {
     return BlocBuilder<SignInCurrentBloc, SignInCurrentState>(
-        builder: (context, state) => state.formStatus is FormStatusSubmitting
-            ? const CircularProgressIndicator()
-            : NormalButtonWidget(
-                text: "Sign in",
-                press: () {
-                  if (_formKey.currentState!.validate()) {
-                    context
-                        .read<SignInCurrentBloc>()
-                        .add(SignInCurrentSubmitted());
-                  }
-                },
-                primary: AppColors.whiteColor,
-                backgroundColor: AppColors.primaryColor,
-              ));
+        builder: (context, state) {
+      final onSignInCurrent = state.formStatus is FormStatusSubmitting
+          ? null
+          : () {
+              if (_formKey.currentState!.validate()) {
+                context.read<SignInCurrentBloc>().add(SignInCurrentSubmitted());
+              }
+            };
+      return NormalButtonWidget(
+        text: "Sign in",
+        press: onSignInCurrent,
+        primary: AppColors.whiteColor,
+        backgroundColor: AppColors.primaryColor,
+      );
+    });
   }
 
   Widget _signInFingerprint() {

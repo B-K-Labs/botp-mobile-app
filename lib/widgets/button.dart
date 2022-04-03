@@ -1,25 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/theme.dart';
 
-// Base Button
-// class AppButton extends StatefulWidget {
-//   const AppButton({Key? key}) : super(key: key);
-//
-//   @override
-//   _AppButtonState createState() => _AppButtonState();
-// }
-//
-// class _AppButtonState extends State<AppButton> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container();
-//   }
-// }
-
 // Normal Button
 class NormalButtonWidget extends StatelessWidget {
   final String text;
-  final Function press;
+  final VoidCallback? press;
   final Color primary, backgroundColor;
   final Color? borderColor;
   final String buttonType;
@@ -42,7 +27,7 @@ class NormalButtonWidget extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           shape: RoundedRectangleBorder(
               borderRadius:
-                  BorderRadius.circular(AppBorderRadiusCircular.large),
+                  BorderRadius.circular(AppBorderRadiusCircular.medium),
               side: BorderSide(
                   color: borderColor != null ? (borderColor)! : backgroundColor,
                   width: 1,
@@ -56,7 +41,7 @@ class NormalButtonWidget extends StatelessWidget {
           padding: EdgeInsets.symmetric(
               vertical: 16, horizontal: buttonType == 'short' ? 8 : 32),
         ),
-        onPressed: () => press(),
+        onPressed: press,
         child: Text(text),
       ),
     );
@@ -66,7 +51,7 @@ class NormalButtonWidget extends StatelessWidget {
 // Sub Button
 class SubButtonWidget extends StatelessWidget {
   final String text;
-  final Function press;
+  final VoidCallback? press;
   final Color primary;
 
   const SubButtonWidget({
@@ -88,7 +73,7 @@ class SubButtonWidget extends StatelessWidget {
             padding: EdgeInsets.zero,
             minimumSize: Size.zero,
             tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-        onPressed: () => press(),
+        onPressed: press,
         child: Text(text));
   }
 }

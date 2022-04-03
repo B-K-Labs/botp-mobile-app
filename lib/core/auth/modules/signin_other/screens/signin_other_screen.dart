@@ -19,16 +19,8 @@ class SignInOtherScreen extends StatelessWidget {
         appBar: AppBar(
           automaticallyImplyLeading: true,
           elevation: 0,
-          backgroundColor: Colors.white10,
-          actions: [
-            IconButton(
-              icon: const Icon(
-                Icons.close,
-                color: AppColors.blackColor,
-              ),
-              onPressed: () => Navigator.pop(context, false),
-            ),
-          ],
+          foregroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).primaryColorLight,
         ),
         body: const SafeArea(child: SignInOtherBody()));
   }
@@ -94,22 +86,6 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
             )));
   }
 
-  Widget _signInOtherButton() {
-    return BlocBuilder<SignInOtherBloc, SignInOtherState>(
-        builder: (context, state) => state.formStatus is FormStatusSubmitting
-            ? const CircularProgressIndicator()
-            : NormalButtonWidget(
-                text: "Import account",
-                press: () {
-                  if (_formKey.currentState!.validate()) {
-                    context.read<SignInOtherBloc>().add(SignInOtherSubmitted());
-                  }
-                },
-                primary: AppColors.whiteColor,
-                backgroundColor: AppColors.primaryColor,
-              ));
-  }
-
   Widget _privateKeyField() {
     return BlocBuilder<SignInOtherBloc, SignInOtherState>(
         builder: (context, state) {
@@ -135,6 +111,25 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
           .add(SignInOtherPasswordChanged(password: value));
       return PasswordInputFieldWidget(
           validator: _passwordValidator, onChanged: _passwordOnChanged);
+    });
+  }
+
+  Widget _signInOtherButton() {
+    return BlocBuilder<SignInOtherBloc, SignInOtherState>(
+        builder: (context, state) {
+      final onSignInOther = state.formStatus is FormStatusSubmitting
+          ? null
+          : () {
+              if (_formKey.currentState!.validate()) {
+                context.read<SignInOtherBloc>().add(SignInOtherSubmitted());
+              }
+            };
+      return NormalButtonWidget(
+        text: "Import account",
+        press: onSignInOther,
+        primary: AppColors.whiteColor,
+        backgroundColor: AppColors.primaryColor,
+      );
     });
   }
 

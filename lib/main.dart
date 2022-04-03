@@ -10,7 +10,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:botp_auth/configs/themes/app_themes.dart';
-import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/configs/routes/routes.dart';
 import 'package:fluro/fluro.dart';

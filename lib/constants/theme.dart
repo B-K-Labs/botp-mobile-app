@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 
-enum AppTheme {
-  light,
-  dark,
-}
-
-// Font sizes from https://api.flutter.dev/flutter/material/TextTheme-class.html
-class AppFontSizes {
-  static const headline4 = 32.0;
-  static const headline5 = 25.0;
-  static const headline6 = 20.0;
-  static const body1 = 16.0;
-  static const body2 = 14.0;
-}
+// Font sizes from
+// 1. https://api.flutter.dev/flutter/material/TextTheme-class.html
+// 2. https://material.io/design/typography/the-type-system.html#type-scale
+// @@ deprecated
+// class AppFontSizes {
+//   static const headline4 = 32.0;
+//   static const headline5 = 25.0;
+//   static const headline6 = 20.0;
+//   static const body1 = 16.0;
+//   static const body2 = 14.0;
+// }
 
 // Color
 class AppColors {
@@ -37,9 +35,9 @@ class AppColors {
 
 // Border radius
 class AppBorderRadiusCircular {
-  static const large = 10.0;
-  static const medium = 8.0;
-  static const small = 6.0;
+  static const large = 8.0;
+  static const medium = 6.0;
+  static const small = 4.0;
 }
 
 // Margin

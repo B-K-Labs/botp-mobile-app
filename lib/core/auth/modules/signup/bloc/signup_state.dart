@@ -5,7 +5,7 @@ class SignUpState {
   final String password;
   String? get validatePassword => password.isEmpty
       ? "Missing password"
-      : password.length < 8
+      : password.length < 6
           ? "Password must be at least 6 characters"
           : RegExp(r'''^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\\\|\;\:\'\"\,\<\.\>\/\?]).{6,}$''')
                   .hasMatch(password)

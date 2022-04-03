@@ -45,6 +45,8 @@ class SignUpBody extends StatefulWidget {
 }
 
 class _SignUpBodyState extends State<SignUpBody> {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -68,24 +70,25 @@ class _SignUpBodyState extends State<SignUpBody> {
           }
         },
         child: Form(
+            key: _formKey,
             child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const SizedBox(height: 16.0),
-            Text("Create new account",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    ?.copyWith(color: AppColors.primaryColor)),
-            const SizedBox(height: 60.0),
-            Text('Password', style: Theme.of(context).textTheme.bodyText1),
-            const SizedBox(height: 12.0),
-            _passwordField(),
-            const SizedBox(height: 36.0),
-            _signUpButton(),
-          ],
-        )));
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const SizedBox(height: 16.0),
+                Text("Create new account",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline4
+                        ?.copyWith(color: AppColors.primaryColor)),
+                const SizedBox(height: 60.0),
+                Text('Password', style: Theme.of(context).textTheme.bodyText1),
+                const SizedBox(height: 12.0),
+                _passwordField(),
+                const SizedBox(height: 36.0),
+                _signUpButton(),
+              ],
+            )));
   }
 
   Widget _passwordField() {
@@ -101,15 +104,19 @@ class _SignUpBodyState extends State<SignUpBody> {
 
   Widget _signUpButton() {
     return BlocBuilder<SignUpBloc, SignUpState>(builder: (context, state) {
-      onSignUp() => context.read<SignUpBloc>().add(SignUpEventSubmitted());
-      return state.formStatus is FormStatusSubmitting
-          ? const CircularProgressIndicator()
-          : NormalButtonWidget(
-              text: "Create account",
-              press: onSignUp,
-              primary: AppColors.whiteColor,
-              backgroundColor: AppColors.primaryColor,
-            );
+      final onSignUp = state.formStatus is FormStatusSubmitting
+          ? null
+          : () {
+              if (_formKey.currentState!.validate()) {
+                context.read<SignUpBloc>().add(SignUpEventSubmitted());
+              }
+            };
+      return NormalButtonWidget(
+        text: "Create account",
+        press: onSignUp,
+        primary: AppColors.whiteColor,
+        backgroundColor: AppColors.primaryColor,
+      );
     });
   }
 
