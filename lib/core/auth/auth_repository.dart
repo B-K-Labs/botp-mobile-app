@@ -34,8 +34,6 @@ class AuthRepository {
       'password': password,
     };
 
-    print(
-        'Data: $hashedPrivateKey, $password, URL ${BotpAPI.signInUrl.toString()}');
     try {
       http.Response res = await post(BotpAPI.signInUrl.toString(), data);
       if (res.statusCode == HttpStatus.ok) {

@@ -1,6 +1,6 @@
-// Public Data
 import 'package:botp_auth/constants/storage.dart';
 
+// Public Data
 class SessionDataModel {
   final SessionType sessionType;
 
@@ -8,6 +8,27 @@ class SessionDataModel {
   SessionDataModel.fromJSON(Map<String, dynamic> json)
       : sessionType = SessionType.values[json["sessionType"]];
   Map<String, dynamic> toJSON() => {"sessionType": sessionType.index};
+}
+
+class PreferenceDataModel {
+  final TransactionDisplayingType transDisplayType;
+  final Language lang;
+  final AppTheme theme;
+
+  PreferenceDataModel(
+      {required this.transDisplayType,
+      required this.lang,
+      required this.theme});
+  PreferenceDataModel.fromJSON(Map<String, dynamic> json)
+      : transDisplayType =
+            TransactionDisplayingType.values[json["transactionDisplayingType"]],
+        lang = Language.values[json["language"]],
+        theme = AppTheme.values[json["theme"]];
+  Map<String, dynamic> toJSON() => {
+        "transactionDisplayingType": transDisplayType.index,
+        "language": lang.index,
+        "theme": theme.index,
+      };
 }
 
 // Credential Data
@@ -24,16 +45,57 @@ class CredentialSessionDataModel {
       {"type": token, "effectiveTime": effectiveTime};
 }
 
-class CredentialKeysDataModel {
+class CredentialAccountDataModel {
+  final String bcAddress;
   final String publicKey;
   final String privateKey;
 
-  CredentialKeysDataModel({required this.publicKey, required this.privateKey});
-  CredentialKeysDataModel.fromJSON(Map<String, dynamic> json)
+  CredentialAccountDataModel(
+      {required this.publicKey,
+      required this.privateKey,
+      required this.bcAddress});
+  CredentialAccountDataModel.fromJSON(Map<String, dynamic> json)
       : publicKey = json["publiKey"],
-        privateKey = json["privateKey"];
+        privateKey = json["privateKey"],
+        bcAddress = json["bcAddress"];
   Map<String, dynamic> toJSON() => {
         "publicKey": publicKey,
         "privateKey": privateKey,
+        "bcAddress": bcAddress
+      };
+}
+
+class CredentialAgentsDataModel {
+  final List<String> listAgentBcAddress;
+
+  CredentialAgentsDataModel({required this.listAgentBcAddress});
+  CredentialAgentsDataModel.fromJSON(Map<String, dynamic> json)
+      : listAgentBcAddress = json["listAgentBcAddress"];
+  Map<String, dynamic> toJSON() => {
+        "listAgentBcAddress": listAgentBcAddress,
+      };
+}
+
+class CredentialProfileDataModel {
+  final String fullName;
+  final int age;
+  final String gender;
+  final String debitor;
+
+  CredentialProfileDataModel(
+      {required this.fullName,
+      required this.age,
+      required this.gender,
+      required this.debitor});
+  CredentialProfileDataModel.fromJSON(Map<String, dynamic> json)
+      : fullName = json["fullName"],
+        age = json["age"],
+        gender = json["gender"],
+        debitor = json["debitor"];
+  Map<String, dynamic> toJSON() => {
+        "fullName": fullName,
+        "age": age,
+        "gender": gender,
+        "debitor": debitor,
       };
 }

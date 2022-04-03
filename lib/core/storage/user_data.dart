@@ -4,40 +4,72 @@ import 'package:botp_auth/utils/services/local_storage_service.dart';
 import 'package:botp_auth/utils/services/secure_storage_service.dart';
 
 class UserData {
-  // Session
+  // Session: session type
   static Future<SessionDataModel?> getSessionData() async {
-    final data = await LocalStorage.getValue(KUserData.session);
+    final data = await LocalStorage.getValue(UserDataType.session);
     return data != null ? SessionDataModel.fromJSON(data) : null;
   }
 
   static setSessionData(SessionType sessionType) async =>
-      await LocalStorage.setValue(KUserData.session,
+      await LocalStorage.setValue(UserDataType.session,
           SessionDataModel(sessionType: sessionType).toJSON());
 
-  // Credential Session
+  // Preferences: theme, language, transaction displaying type
+  static Future<PreferenceDataModel?> getPreferencesData() async {
+    final data = await LocalStorage.getValue(UserDataType.preferences);
+    return data != null ? PreferenceDataModel.fromJSON(data) : null;
+  }
+
+  static setPreferencesData(TransactionDisplayingType transDisplayType,
+          Language lang, AppTheme theme) async =>
+      await LocalStorage.setValue(
+          UserDataType.preferences,
+          PreferenceDataModel(
+                  transDisplayType: transDisplayType, lang: lang, theme: theme)
+              .toJSON());
+
+  // Credential Session: token, expired time
   static Future<CredentialSessionDataModel?> getCredentialSessionData() async {
     final data =
-        await SecureStorage.getSecureValue(KUserData.credentialSession);
+        await SecureStorage.getSecureValue(UserDataType.credentialSession);
     return data != null ? CredentialSessionDataModel.fromJSON(data) : null;
   }
 
   static setCredentialSessionData(String token, String effectiveTime) async {
     return await SecureStorage.setSecureValue(
-        KUserData.credentialSession,
+        UserDataType.credentialSession,
         CredentialSessionDataModel(token: token, effectiveTime: effectiveTime)
             .toJSON());
   }
 
-  // Credential Keys
-  static Future<CredentialKeysDataModel?> getCredentialKeysData() async {
-    final data = await SecureStorage.getSecureValue(KUserData.credentialKeys);
-    return data != null ? CredentialKeysDataModel.fromJSON(data) : null;
+  // Credential Account: blockchain address, public/private key
+  static Future<CredentialAccountDataModel?> getCredentialAccountData() async {
+    final data =
+        await SecureStorage.getSecureValue(UserDataType.credentialAccount);
+    return data != null ? CredentialAccountDataModel.fromJSON(data) : null;
   }
 
-  static setCredentialKeysData(String publicKey, String privateKey) async =>
+  static setCredentialAccountData(
+          String bcAddress, String publicKey, String privateKey) async =>
       await SecureStorage.setSecureValue(
-          KUserData.credentialKeys,
-          CredentialKeysDataModel(publicKey: publicKey, privateKey: privateKey)
+          UserDataType.credentialAccount,
+          CredentialAccountDataModel(
+                  bcAddress: bcAddress,
+                  publicKey: publicKey,
+                  privateKey: privateKey)
+              .toJSON());
+
+  // Credential Account: blockchain address, public/private key
+  static Future<CredentialAgentsDataModel?> getCredentialAgentsData() async {
+    final data =
+        await SecureStorage.getSecureValue(UserDataType.credentialAgents);
+    return data != null ? CredentialAgentsDataModel.fromJSON(data) : null;
+  }
+
+  static setCredentialAgentsData(List<String> listAgentBcAddress) async =>
+      await SecureStorage.setSecureValue(
+          UserDataType.credentialAgents,
+          CredentialAgentsDataModel(listAgentBcAddress: listAgentBcAddress)
               .toJSON());
 
   // Wipe out data for signing out
