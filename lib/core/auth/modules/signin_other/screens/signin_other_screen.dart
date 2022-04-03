@@ -42,6 +42,8 @@ class SignInOtherBody extends StatefulWidget {
 }
 
 class _SignInOtherBodyState extends State<SignInOtherBody> {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -53,7 +55,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
   }
 
   void _showSnackBar(context, message) {
-    final snackBar = SnackBar(content: message);
+    final snackBar = SnackBar(content: Text(message));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
@@ -66,43 +68,46 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
           }
         },
         child: Form(
+            key: _formKey,
             child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            // const SizedBox(height: 36.0),
-            Text("Import an existing account",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    ?.copyWith(color: AppColors.primaryColor)),
-            const SizedBox(height: 72.0),
-            Text("Private key", style: Theme.of(context).textTheme.bodyText1),
-            const SizedBox(height: 12.0),
-            _privateKeyField(),
-            const SizedBox(height: 24.0),
-            Text("Password", style: Theme.of(context).textTheme.bodyText1),
-            const SizedBox(height: 12.0),
-            _passwordField(),
-            const SizedBox(height: 36.0),
-            _signInOtherButton(),
-          ],
-        )));
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                // const SizedBox(height: 36.0),
+                Text("Import an existing account",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline4
+                        ?.copyWith(color: AppColors.primaryColor)),
+                const SizedBox(height: 72.0),
+                Text("Private key",
+                    style: Theme.of(context).textTheme.bodyText1),
+                const SizedBox(height: 12.0),
+                _privateKeyField(),
+                const SizedBox(height: 24.0),
+                Text("Password", style: Theme.of(context).textTheme.bodyText1),
+                const SizedBox(height: 12.0),
+                _passwordField(),
+                const SizedBox(height: 36.0),
+                _signInOtherButton(),
+              ],
+            )));
   }
 
   Widget _signInOtherButton() {
     return BlocBuilder<SignInOtherBloc, SignInOtherState>(
-        builder: (context, state) {
-      onSignIn() => context.read<SignInOtherBloc>().add(SignInOtherSubmitted());
-      return state.formStatus is FormStatusSubmitting
-          ? const CircularProgressIndicator()
-          : NormalButtonWidget(
-              text: "Import account",
-              press: onSignIn,
-              primary: AppColors.whiteColor,
-              backgroundColor: AppColors.primaryColor,
-            );
-    });
+        builder: (context, state) => state.formStatus is FormStatusSubmitting
+            ? const CircularProgressIndicator()
+            : NormalButtonWidget(
+                text: "Import account",
+                press: () {
+                  if (_formKey.currentState!.validate()) {
+                    context.read<SignInOtherBloc>().add(SignInOtherSubmitted());
+                  }
+                },
+                primary: AppColors.whiteColor,
+                backgroundColor: AppColors.primaryColor,
+              ));
   }
 
   Widget _privateKeyField() {

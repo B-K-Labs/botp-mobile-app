@@ -12,7 +12,7 @@ class BotpAPI {
   static var signUpUrl =
       Uri(scheme: _protocol, host: _host, path: '$_basePath/signup');
   static var signInUrl =
-      Uri(scheme: _protocol, host: _host, path: '$_basePath/signin');
+      Uri(scheme: _protocol, host: _host, path: '$_basePath/import');
   static var userKycUrl =
       Uri(scheme: _protocol, host: _host, path: '$_basePath/user/doKYC');
   static var receiveOtpUrl =

@@ -8,12 +8,12 @@ class SignInCurrentState {
   final String password;
   String? get validatePassword => password.isEmpty
       ? "Missing password"
-      : password.length < 8
+      : password.length < 6
           ? "Password must be at least 6 characters"
           : RegExp(r'''^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\\\|\;\:\'\"\,\<\.\>\/\?]).{6,}$''')
                   .hasMatch(password)
               ? null
-              : "Password must contain one uppercase, one lowercase, one digit, and one special character";
+              : "Password must contain one uppercase, lowercase, digit, and one special character";
 
   // Form status
   final FormStatus formStatus;

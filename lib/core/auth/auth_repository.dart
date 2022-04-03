@@ -27,12 +27,15 @@ class AuthRepository {
   // Sign in
   Future<SignInResponseModel> signIn(String privateKey, String password) async {
     // Hash the private key with SHA-256
-    String hashedPrivateKey = hashSHA265(privateKey, password).toString();
+    String hashedPrivateKey = hashSHA265(privateKey).toString();
 
     Map<String, dynamic> data = {
       'hashedPrivateKey': hashedPrivateKey,
       'password': password,
     };
+
+    print(
+        'Data: $hashedPrivateKey, $password, URL ${BotpAPI.signInUrl.toString()}');
     try {
       http.Response res = await post(BotpAPI.signInUrl.toString(), data);
       if (res.statusCode == HttpStatus.ok) {

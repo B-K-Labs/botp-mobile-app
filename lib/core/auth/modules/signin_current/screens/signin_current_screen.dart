@@ -40,7 +40,8 @@ class SignInCurrentBody extends StatefulWidget {
 }
 
 class _SignInCurrentBodyState extends State<SignInCurrentBody> {
-  // final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -50,7 +51,7 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
   }
 
   void _showSnackBar(context, message) {
-    final snackBar = SnackBar(content: message);
+    final snackBar = SnackBar(content: Text(message));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
@@ -65,31 +66,32 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
           }
         },
         child: Form(
+            key: _formKey,
             child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const SizedBox(height: 16.0),
-            Text("Welcome back!",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    ?.copyWith(color: AppColors.primaryColor)),
-            const SizedBox(height: 60.0),
-            Text("Enter your password",
-                style: Theme.of(context).textTheme.bodyText1),
-            const SizedBox(height: 24.0),
-            _passwordField(),
-            const SizedBox(height: 36.0),
-            Row(children: <Widget>[
-              Expanded(child: _signInCurrentButton()),
-              const SizedBox(
-                width: 12.0,
-              ),
-              _signInFingerprint(),
-            ]),
-          ],
-        )));
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const SizedBox(height: 16.0),
+                Text("Welcome back!",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline4
+                        ?.copyWith(color: AppColors.primaryColor)),
+                const SizedBox(height: 60.0),
+                Text("Enter your password",
+                    style: Theme.of(context).textTheme.bodyText1),
+                const SizedBox(height: 24.0),
+                _passwordField(),
+                const SizedBox(height: 36.0),
+                Row(children: <Widget>[
+                  Expanded(child: _signInCurrentButton()),
+                  const SizedBox(
+                    width: 12.0,
+                  ),
+                  _signInFingerprint(),
+                ]),
+              ],
+            )));
   }
 
   Widget _passwordField() {
@@ -111,7 +113,11 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
             : NormalButtonWidget(
                 text: "Sign in",
                 press: () {
-                  Application.router.navigateTo(context, "/authenticator");
+                  if (_formKey.currentState!.validate()) {
+                    context
+                        .read<SignInCurrentBloc>()
+                        .add(SignInCurrentSubmitted());
+                  }
                 },
                 primary: AppColors.whiteColor,
                 backgroundColor: AppColors.primaryColor,
