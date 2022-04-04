@@ -1,3 +1,4 @@
+import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
@@ -102,7 +103,9 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
 
   Widget _buildRow(String account) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        // Application.router.navigateTo(context, "/")
+      },
       child: TransactionItemWidget(
           isLasted: false,
           agentName: account,
