@@ -15,7 +15,7 @@ class SessionCubit extends Cubit<SessionState> {
   void initUserSession() async {
     final sessionData = await UserData.getSessionData();
     // * Note: Fresh app now
-    UserData.clear();
+    await UserData.clear();
     // First time
     if (sessionData == null ||
         sessionData.sessionType == SessionType.firstTime) {

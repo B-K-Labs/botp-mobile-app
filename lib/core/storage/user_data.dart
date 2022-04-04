@@ -72,12 +72,9 @@ class UserData {
           CredentialAgentsDataModel(listAgentBcAddress: listAgentBcAddress)
               .toJSON());
 
-  // Wipe out data for signing out
+  // Wipe out data for e.g signing out
   static clear() async {
-    // Remove all user data
     await LocalStorage.removeAllValues();
     await SecureStorage.removeAllSecureValues();
-    // Set initial session
-    await setSessionData(SessionType.unauthenticated);
   }
 }
