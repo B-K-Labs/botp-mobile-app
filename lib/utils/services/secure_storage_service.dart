@@ -4,37 +4,35 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecureStorage {
-  static FlutterSecureStorage? _securePrefsInstance;
+  static const FlutterSecureStorage _securePrefsInstance =
+      FlutterSecureStorage();
 
   // Secure storage instance
-  static get secureStorage {
-    // Ensure it can retrieve the instance
-    _securePrefsInstance ??= const FlutterSecureStorage();
-    return _securePrefsInstance;
-  }
+  static FlutterSecureStorage get secureStorage => _securePrefsInstance;
 
   // Basic methods
   static Future<Map<String, dynamic>?> getSecureValue(String key) async {
-    var secureLocalValue = secureStorage.read(key: key);
+    var secureLocalValue = await secureStorage.read(key: key);
     return secureLocalValue != null ? json.decode(secureLocalValue) : null;
   }
 
   static Future<void> setSecureValue(
           String key, Map<String, dynamic> value) async =>
-      secureStorage.write(key: key, value: json.encode(value));
+      await secureStorage.write(key: key, value: json.encode(value));
 
   static Future<void> removeSecureValue(String key) async =>
-      secureStorage.delete(key: key);
+      await secureStorage.delete(key: key);
 
   // Additional methods
   static Future<Map<String, dynamic>> getAllSecureValues() async {
-    Map<String, String> secureLocalMap = secureStorage.readAll();
+    Map<String, String> secureLocalMap = await secureStorage.readAll();
     Map<String, dynamic> returnMap = {};
+    // Decode all map values
     secureLocalMap.entries
         .map((entry) => returnMap[entry.key] = json.decode(entry.value));
     return returnMap;
   }
 
   static Future<void> removeAllSecureValues() async =>
-      secureStorage.deleteAll();
+      await secureStorage.deleteAll();
 }

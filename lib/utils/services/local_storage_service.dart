@@ -1,4 +1,4 @@
-// Store and get data from the local storage using shared_preferences plugins
+// Store user preferences and other trivial data
 // Singleton class: https://stackoverflow.com/questions/58389285/how-to-create-singleton-class-of-sharedpreferences-in-flutter
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,10 +7,10 @@ class LocalStorage {
   static SharedPreferences? _prefsInstance;
 
   // Local storage instance
-  static get localStorage async {
+  static Future<SharedPreferences> get localStorage async {
     // Ensure it can retrieve the instance
     _prefsInstance ??= await SharedPreferences.getInstance();
-    return _prefsInstance;
+    return _prefsInstance!;
   }
 
   // Basic methods
