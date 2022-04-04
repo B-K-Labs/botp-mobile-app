@@ -79,8 +79,7 @@ class AppNavigator extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SessionCubit, SessionState>(builder: (context, state) {
       return Navigator(pages: [
-        if (state is UnknownSessionState)
-          const MaterialPage(child: CircularProgressIndicator()),
+        if (state is UnknownSessionState) const MaterialPage(child: Scaffold()),
         if (state is UnauthenticatedSessionState)
           const MaterialPage(child: WelcomeScreen()),
         if (state is ExpiredSessionState)

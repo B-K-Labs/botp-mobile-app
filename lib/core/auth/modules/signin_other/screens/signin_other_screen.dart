@@ -4,6 +4,7 @@ import 'package:botp_auth/core/auth/auth_repository.dart';
 import 'package:botp_auth/core/auth/modules/signin_other/bloc/signin_other_bloc.dart';
 import 'package:botp_auth/core/auth/modules/signin_other/bloc/signin_other_state.dart';
 import 'package:botp_auth/core/auth/modules/signin_other/bloc/signin_other_event.dart';
+import 'package:botp_auth/core/session/session_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/widgets/field.dart';
@@ -39,8 +40,9 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) =>
-            SignInOtherBloc(authRepository: context.read<AuthRepository>()),
+        create: (context) => SignInOtherBloc(
+            authRepository: context.read<AuthRepository>(),
+            sessionCubit: context.read<SessionCubit>()),
         child: Background(
             child:
                 Stack(children: [_signInOtherForm(context), _otherOptions()])));

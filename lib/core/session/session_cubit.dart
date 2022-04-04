@@ -14,6 +14,8 @@ class SessionCubit extends Cubit<SessionState> {
 
   void initUserSession() async {
     final sessionData = await UserData.getSessionData();
+    // * Note: Fresh app now
+    UserData.clear();
     // First time
     if (sessionData == null ||
         sessionData.sessionType == SessionType.firstTime) {
@@ -30,11 +32,10 @@ class SessionCubit extends Cubit<SessionState> {
     }
   }
 
-  // void showAuth() {
-  //   emit(AuthenticatedSessionState());
-  // }
-
-  // void showSession() {}
+  // When authenticated successfully
+  void launchSession() {
+    emit(AuthenticatedSessionState());
+  }
 
   Future<void> signOut() async {
     bool result = await authRepository.signOut();

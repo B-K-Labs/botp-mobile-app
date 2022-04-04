@@ -3,13 +3,16 @@ import 'package:botp_auth/constants/storage.dart';
 import 'package:botp_auth/core/auth/auth_repository.dart';
 import 'package:botp_auth/core/auth/modules/signup/bloc/signup_event.dart';
 import 'package:botp_auth/core/auth/modules/signup/bloc/signup_state.dart';
+import 'package:botp_auth/core/session/session_cubit.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   final AuthRepository authRepo;
+  final SessionCubit sessionCubit;
 
-  SignUpBloc({required this.authRepo}) : super(SignUpState()) {
+  SignUpBloc({required this.authRepo, required this.sessionCubit})
+      : super(SignUpState()) {
     // On changed
     on<SignUpEventPasswordChanged>(
         (event, emit) => emit(state.copyWith(password: event.password)));
@@ -18,13 +21,14 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     on<SignUpEventSubmitted>((event, emit) async {
       emit(state.copyWith(formStatus: FormStatusSubmitting()));
       try {
-        final res = await authRepo.signUp(state.password);
-        // Store local storage
-        if (res.status) {
-          // Change session type
+        final signUpResult = await authRepo.signUp(state.password);
+        if (signUpResult.status) {
           UserData.setSessionData(SessionType.authenticated);
+          sessionCubit.launchSession();
+          emit(state.copyWith(formStatus: FormStatusSuccess()));
+        } else {
+          throw Exception("Unknown error on sign up");
         }
-        emit(state.copyWith(formStatus: FormStatusSuccess()));
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: FormStatusFailed(e)));
       }
