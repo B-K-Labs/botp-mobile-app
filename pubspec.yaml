@@ -53,6 +53,7 @@ dependencies:
   equatable: ^2.0.3
   flutter_secure_storage: ^5.0.2
   universal_html: ^2.0.8
+  local_auth: ^1.1.11
 
 dev_dependencies:
   flutter_test:
