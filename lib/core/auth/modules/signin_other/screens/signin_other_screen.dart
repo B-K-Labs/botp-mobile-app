@@ -20,8 +20,6 @@ class SignInOtherScreen extends StatelessWidget {
         appBar: AppBar(
           automaticallyImplyLeading: true,
           elevation: 0,
-          foregroundColor: Theme.of(context).primaryColor,
-          backgroundColor: Theme.of(context).primaryColorLight,
         ),
         body: const SafeArea(child: SignInOtherBody()));
   }
@@ -44,8 +42,10 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
             authRepository: context.read<AuthRepository>(),
             sessionCubit: context.read<SessionCubit>()),
         child: Background(
-            child:
-                Stack(children: [_signInOtherForm(context), _otherOptions()])));
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [_signInOtherForm(context), _otherOptions()])));
   }
 
   void _showSnackBar(context, message) {
@@ -137,6 +137,8 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
 
   Widget _otherOptions() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 60.0),
         SubButtonWidget(

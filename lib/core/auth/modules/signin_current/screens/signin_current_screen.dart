@@ -47,7 +47,9 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
   @override
   Widget build(BuildContext context) {
     return Background(
-        child: Stack(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [_signInCurrentForm(context), _otherOptions()],
     ));
   }
@@ -140,6 +142,8 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
 
   Widget _otherOptions() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 60.0),
         SubButtonWidget(

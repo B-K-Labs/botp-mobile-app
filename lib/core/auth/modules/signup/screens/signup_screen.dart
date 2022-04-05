@@ -20,16 +20,6 @@ class SignUpScreen extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         elevation: 0,
-        backgroundColor: Colors.white10,
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.close,
-              color: AppColors.blackColor,
-            ),
-            onPressed: () => Navigator.pop(context, false),
-          ),
-        ],
       ),
       body: const SafeArea(
         child: SignUpBody(),
@@ -55,7 +45,10 @@ class _SignUpBodyState extends State<SignUpBody> {
             authRepo: context.read<AuthRepository>(),
             sessionCubit: context.read<SessionCubit>()),
         child: Background(
-            child: Stack(children: [_signUpForm(context), _otherOptions()])));
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [_signUpForm(context), _otherOptions()])));
   }
 
   void _showSnackBar(context, message) {
@@ -124,16 +117,19 @@ class _SignUpBodyState extends State<SignUpBody> {
 
   // 2. Other options (would be deprecated soon)
   Widget _otherOptions() {
-    return Column(children: [
-      const SizedBox(height: 60.0),
-      SubButtonWidget(
-        text: "Import existing account",
-        press: () {
-          Application.router.navigateTo(context, '/signin/other');
-        },
-        primary: AppColors.primaryColor,
-      ),
-    ]);
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 60.0),
+          SubButtonWidget(
+            text: "Import existing account",
+            press: () {
+              Application.router.navigateTo(context, '/signin/other');
+            },
+            primary: AppColors.primaryColor,
+          ),
+        ]);
   }
 }
 
