@@ -12,6 +12,6 @@ class _AuthenticateTransactionScreenState
     extends State<AuthenticateTransactionScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(child: Text("Hello"));
+    return const Text("Hello");
   }
 }

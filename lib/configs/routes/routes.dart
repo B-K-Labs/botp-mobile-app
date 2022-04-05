@@ -19,16 +19,14 @@ class Routes {
   static String history = "/history";
   static String historyTransaction = "/history/:transaction_id";
   // + Account
-  static String account = "/account";
+  static String settings = "/settings";
 
   // Routes configuration
   static void configureRoutes(FluroRouter router) {
-    // Normal routes
-    // router.define(appNavigator, handler: appNavigatorHandler);
+    router.define(appNavigator, handler: appNavigatorHandler);
     router.define(signUp, handler: signUpHandler);
     router.define(signInCurrent, handler: signInCurrentHandler);
     router.define(signInOther, handler: signInOtherHandler);
-    router.define(signUp, handler: signUpHandler);
     router.define(authenticator, handler: authenticatorHandler);
   }
 }
