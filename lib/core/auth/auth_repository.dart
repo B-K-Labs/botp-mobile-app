@@ -10,9 +10,7 @@ import 'package:http/http.dart' as http;
 class AuthRepository {
   // Sign up
   Future<SignUpResponseModel> signUp(String password) async {
-    Map<String, dynamic> data = {
-      'password': password,
-    };
+    final data = SignUpRequestModel(password).toJSON();
     try {
       http.Response res = await post(BotpAPI.signUpUrl.toString(), data);
       if (res.statusCode == HttpStatus.ok) {
@@ -26,14 +24,9 @@ class AuthRepository {
 
   // Sign in
   Future<SignInResponseModel> signIn(String privateKey, String password) async {
-    // Hash the private key with SHA-256
     String hashedPrivateKey = hashSHA265(privateKey).toString();
-
-    Map<String, dynamic> data = {
-      'hashedPrivateKey': hashedPrivateKey,
-      'password': password,
-    };
-
+    final data = SignInRequestModel(hashedPrivateKey, password)
+        .toJSON(); // Hash the private key by SHA-256
     try {
       http.Response res = await post(BotpAPI.signInUrl.toString(), data);
       if (res.statusCode == HttpStatus.ok) {

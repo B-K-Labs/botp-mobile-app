@@ -50,11 +50,11 @@ class UserData {
   }
 
   static setCredentialAccountData(
-          String bcAddress, String publicKey, String privateKey) async =>
+          String address, String publicKey, String privateKey) async =>
       await SecureStorage.setSecureValue(
           UserDataType.credentialAccount,
           CredentialAccountDataModel(
-                  bcAddress: bcAddress,
+                  address: address,
                   publicKey: publicKey,
                   privateKey: privateKey)
               .toJSON());
