@@ -1,20 +1,22 @@
+// Sign in
 class SignInRequestModel {
+  final String address;
   final String password;
-  final String hashedPrivateKey;
-  SignInRequestModel(this.hashedPrivateKey, this.password);
+  SignInRequestModel(this.address, this.password);
   Map<String, dynamic> toJSON() => ({
-        'hashedPrivateKey': hashedPrivateKey,
-        'password': password,
+        "bcAddress": address,
+        "password": password,
       });
 }
 
 class SignInResponseModel {
-  bool status;
+  final bool status;
   SignInResponseModel(this.status);
-  SignInResponseModel.fromJson(Map<String, dynamic> json)
-      : status = json['status'];
+  SignInResponseModel.fromJSON(Map<String, dynamic> json)
+      : status = json["status"];
 }
 
+// Sign up
 class SignUpRequestModel {
   final String password;
   SignUpRequestModel(this.password);
@@ -40,4 +42,22 @@ class SignUpResponseModel {
         privateKey = json['privateKey'],
         encryptedPrivateKey = json['encryptedPrivateKey'],
         status = json['status'];
+}
+
+// Import account
+class ImportRequestModel {
+  final String hashedPrivateKey;
+  final String password;
+  ImportRequestModel(this.hashedPrivateKey, this.password);
+  Map<String, dynamic> toJSON() => ({
+        'hashedPrivateKey': hashedPrivateKey,
+        'password': password, // TODO: change to new password
+      });
+}
+
+class ImportResponseModel {
+  bool status;
+  ImportResponseModel(this.status);
+  ImportResponseModel.fromJson(Map<String, dynamic> json)
+      : status = json['status'];
 }
