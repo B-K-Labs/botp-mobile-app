@@ -66,10 +66,10 @@ class UserData {
     return data != null ? CredentialAgentsDataModel.fromJSON(data) : null;
   }
 
-  static setCredentialAgentsData(List<String> listAgentBcAddress) async =>
+  static setCredentialAgentsData(List<String> listAgentAddresses) async =>
       await SecureStorage.setSecureValue(
           UserDataType.credentialAgents,
-          CredentialAgentsDataModel(listAgentBcAddress: listAgentBcAddress)
+          CredentialAgentsDataModel(listAgentAddresses: listAgentAddresses)
               .toJSON());
 
   // Wipe out data for e.g signing out
