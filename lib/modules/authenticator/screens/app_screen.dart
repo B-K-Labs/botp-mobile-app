@@ -1,8 +1,8 @@
 import 'package:botp_auth/constants/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:botp_auth/modules/app/screens/account_body.dart';
-import 'package:botp_auth/modules/app/screens/history_app.dart';
-import 'package:botp_auth/modules/app/screens/authenticator_body.dart';
+import 'package:botp_auth/modules/authenticator/screens/account_body.dart';
+import 'package:botp_auth/modules/authenticator/screens/history_app.dart';
+import 'package:botp_auth/modules/authenticator/screens/authenticator_body.dart';
 
 class MainAppScreen extends StatefulWidget {
   const MainAppScreen({Key? key}) : super(key: key);

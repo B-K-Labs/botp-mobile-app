@@ -1,5 +1,5 @@
 import 'package:botp_auth/constants/storage.dart';
-import 'package:botp_auth/core/auth/auth_repository.dart';
+import 'package:botp_auth/core/authentication/auth_repository.dart';
 import 'package:botp_auth/core/session/session_state.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

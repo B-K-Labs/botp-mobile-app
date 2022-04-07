@@ -1,9 +1,9 @@
-import 'package:botp_auth/common/state/form_submission_status.dart';
+import 'package:botp_auth/common/state/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
-import 'package:botp_auth/core/auth/auth_repository.dart';
-import 'package:botp_auth/core/auth/modules/signin_current/bloc/signin_current_bloc.dart';
-import 'package:botp_auth/core/auth/modules/signin_current/bloc/signin_current_event.dart';
-import 'package:botp_auth/core/auth/modules/signin_current/bloc/signin_current_state.dart';
+import 'package:botp_auth/core/authentication/auth_repository.dart';
+import 'package:botp_auth/modules/authentication/signin_current/bloc/signin_current_bloc.dart';
+import 'package:botp_auth/modules/authentication/signin_current/bloc/signin_current_event.dart';
+import 'package:botp_auth/modules/authentication/signin_current/bloc/signin_current_state.dart';
 import 'package:botp_auth/core/session/session_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,7 +63,7 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
     return BlocListener<SignInCurrentBloc, SignInCurrentState>(
         listener: (context, state) {
           final formStatus = state.formStatus;
-          if (formStatus is FormStatusFailed) {
+          if (formStatus is RequestStatusFailed) {
             {
               _showSnackBar(context, formStatus.exception.toString());
             }
@@ -113,7 +113,7 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
   Widget _signInCurrentButton() {
     return BlocBuilder<SignInCurrentBloc, SignInCurrentState>(
         builder: (context, state) {
-      final onSignInCurrent = state.formStatus is FormStatusSubmitting
+      final onSignInCurrent = state.formStatus is RequestStatusSubmitting
           ? null
           : () {
               if (_formKey.currentState!.validate()) {
@@ -147,7 +147,7 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
       children: [
         const SizedBox(height: 60.0),
         SubButtonWidget(
-          text: "Import existing account",
+          text: "Import existing security",
           press: () {
             Application.router.navigateTo(context, "/signin/other");
           },
@@ -155,7 +155,7 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
         ),
         const SizedBox(height: 12.0),
         SubButtonWidget(
-          text: "Create new account",
+          text: "Create new security",
           press: () {
             Application.router.navigateTo(context, "/signup");
           },

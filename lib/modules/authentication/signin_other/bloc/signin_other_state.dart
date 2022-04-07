@@ -1,4 +1,4 @@
-import 'package:botp_auth/common/state/form_submission_status.dart';
+import 'package:botp_auth/common/state/request_status.dart';
 
 class SignInOtherState {
   // Private key
@@ -16,16 +16,16 @@ class SignInOtherState {
               : "Password must contain one uppercase, lowercase, digit, and one special character";
 
   // Form status
-  final FormStatus formStatus;
+  final RequestStatus formStatus;
 
   SignInOtherState({
     this.privateKey = '',
     this.password = '',
-    this.formStatus = const FormStatusInitial(),
+    this.formStatus = const RequestStatusInitial(),
   });
 
   SignInOtherState copyWith(
-      {String? privateKey, String? password, FormStatus? formStatus}) {
+      {String? privateKey, String? password, RequestStatus? formStatus}) {
     return SignInOtherState(
       privateKey: privateKey ?? this.privateKey,
       password: password ?? this.password,

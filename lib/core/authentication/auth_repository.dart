@@ -1,6 +1,6 @@
 import 'package:botp_auth/utils/tools/crypto.dart';
 import 'package:universal_html/html.dart';
-import 'package:botp_auth/core/auth/auth_model.dart';
+import 'package:botp_auth/core/authentication/auth_model.dart';
 import 'dart:convert';
 import 'package:botp_auth/constants/api_path.dart';
 import 'package:botp_auth/utils/services/rest_api_service.dart';
@@ -29,7 +29,7 @@ class AuthRepository {
     throw Exception('Failed to sign in');
   }
 
-  // Import account
+  // Import security
 
   // Sign out
   Future<bool> signOut() async {

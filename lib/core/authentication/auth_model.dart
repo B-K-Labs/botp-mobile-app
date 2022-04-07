@@ -44,7 +44,7 @@ class SignUpResponseModel {
         status = json['status'];
 }
 
-// Import account
+// Import security
 class ImportRequestModel {
   final String hashedPrivateKey;
   final String password;

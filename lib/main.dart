@@ -1,10 +1,10 @@
 import 'package:botp_auth/constants/storage.dart';
-import 'package:botp_auth/core/auth/auth_repository.dart';
-import 'package:botp_auth/core/auth/modules/initial/welcome_screen.dart';
-import 'package:botp_auth/core/auth/modules/signin_current/screens/signin_current_screen.dart';
+import 'package:botp_auth/core/authentication/auth_repository.dart';
+import 'package:botp_auth/modules/authentication/initial/welcome_screen.dart';
+import 'package:botp_auth/modules/authentication/signin_current/screens/signin_current_screen.dart';
 import 'package:botp_auth/core/session/session_cubit.dart';
 import 'package:botp_auth/core/session/session_state.dart';
-import 'package:botp_auth/modules/app/screens/app_screen.dart';
+import 'package:botp_auth/modules/authenticator/screens/app_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -59,7 +59,10 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         title: 'BOTP Authenticator',
         theme: mapAppThemeData[AppTheme.light],
-        // onGenerateRoute: Application.router.generator, // It would use root path first (i.e "/")
+        // - Fluro is not used anymore
+        // onGenerateRoute: Application.router.generator, // It would use the root path first (i.e "/")
+        // - Provide repository outside the BLoC
+        // Why here https://stackoverflow.com/questions/68137041/flutter-bloc-why-are-repositories-declared-on-the-ui-and-not-the-backend
         home: MultiRepositoryProvider(
             providers: [
               RepositoryProvider(create: (context) => AuthRepository())

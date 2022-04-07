@@ -37,7 +37,7 @@ class TransactionStatusWidget extends StatelessWidget {
   }
 }
 
-// Transaction Item (auth page)
+// Transaction Item (authentication page)
 class TransactionItemWidget extends StatefulWidget {
   final bool isLasted;
   final String agentName;

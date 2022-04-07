@@ -1,4 +1,4 @@
-import 'package:botp_auth/common/state/form_submission_status.dart';
+import 'package:botp_auth/common/state/request_status.dart';
 
 class SignUpState {
   // Password
@@ -13,11 +13,11 @@ class SignUpState {
               : "Password must contain one uppercase, one lowercase, one digit, and one special character";
 
   // Form status
-  final FormStatus formStatus;
+  final RequestStatus formStatus;
 
   // Constructors
   SignUpState(
-      {this.password = '', this.formStatus = const FormStatusInitial()});
+      {this.password = '', this.formStatus = const RequestStatusInitial()});
 
   SignUpState copyWith({password, formStatus}) {
     return SignUpState(

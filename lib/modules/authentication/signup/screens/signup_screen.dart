@@ -1,9 +1,9 @@
-import 'package:botp_auth/common/state/form_submission_status.dart';
+import 'package:botp_auth/common/state/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
-import 'package:botp_auth/core/auth/auth_repository.dart';
-import 'package:botp_auth/core/auth/modules/signup/bloc/signup_bloc.dart';
-import 'package:botp_auth/core/auth/modules/signup/bloc/signup_event.dart';
-import 'package:botp_auth/core/auth/modules/signup/bloc/signup_state.dart';
+import 'package:botp_auth/core/authentication/auth_repository.dart';
+import 'package:botp_auth/modules/authentication/signup/bloc/signup_bloc.dart';
+import 'package:botp_auth/modules/authentication/signup/bloc/signup_event.dart';
+import 'package:botp_auth/modules/authentication/signup/bloc/signup_state.dart';
 import 'package:botp_auth/core/session/session_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/theme.dart';
@@ -60,7 +60,7 @@ class _SignUpBodyState extends State<SignUpBody> {
     return BlocListener<SignUpBloc, SignUpState>(
         listener: (context, state) {
           final formStatus = state.formStatus;
-          if (formStatus is FormStatusFailed) {
+          if (formStatus is RequestStatusFailed) {
             _showSnackBar(context, formStatus.exception.toString());
           }
         },
@@ -71,7 +71,7 @@ class _SignUpBodyState extends State<SignUpBody> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const SizedBox(height: 16.0),
-                Text("Create new account",
+                Text("Create new security",
                     style: Theme.of(context)
                         .textTheme
                         .headline4
@@ -99,7 +99,7 @@ class _SignUpBodyState extends State<SignUpBody> {
 
   Widget _signUpButton() {
     return BlocBuilder<SignUpBloc, SignUpState>(builder: (context, state) {
-      final onSignUp = state.formStatus is FormStatusSubmitting
+      final onSignUp = state.formStatus is RequestStatusSubmitting
           ? null
           : () {
               if (_formKey.currentState!.validate()) {
@@ -107,7 +107,7 @@ class _SignUpBodyState extends State<SignUpBody> {
               }
             };
       return NormalButtonWidget(
-        text: "Create account",
+        text: "Create security",
         press: onSignUp,
         primary: AppColors.whiteColor,
         backgroundColor: AppColors.primaryColor,
@@ -123,7 +123,7 @@ class _SignUpBodyState extends State<SignUpBody> {
         children: [
           const SizedBox(height: 60.0),
           SubButtonWidget(
-            text: "Import existing account",
+            text: "Import existing security",
             press: () {
               Application.router.navigateTo(context, '/signin/other');
             },

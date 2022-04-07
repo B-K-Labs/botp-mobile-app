@@ -14,7 +14,7 @@ class UserData {
       await LocalStorage.setValue(UserDataType.session,
           SessionDataModel(sessionType: sessionType).toJSON());
 
-  // Preferences: theme, language, transaction displaying type
+  // Preferences: theme, language, transactions displaying type
   static Future<PreferenceDataModel?> getPreferencesData() async {
     final data = await LocalStorage.getValue(UserDataType.preferences);
     return data != null ? PreferenceDataModel.fromJSON(data) : null;

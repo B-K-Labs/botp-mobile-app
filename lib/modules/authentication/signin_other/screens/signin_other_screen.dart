@@ -1,9 +1,9 @@
-import 'package:botp_auth/common/state/form_submission_status.dart';
+import 'package:botp_auth/common/state/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
-import 'package:botp_auth/core/auth/auth_repository.dart';
-import 'package:botp_auth/core/auth/modules/signin_other/bloc/signin_other_bloc.dart';
-import 'package:botp_auth/core/auth/modules/signin_other/bloc/signin_other_state.dart';
-import 'package:botp_auth/core/auth/modules/signin_other/bloc/signin_other_event.dart';
+import 'package:botp_auth/core/authentication/auth_repository.dart';
+import 'package:botp_auth/modules/authentication/signin_other/bloc/signin_other_bloc.dart';
+import 'package:botp_auth/modules/authentication/signin_other/bloc/signin_other_state.dart';
+import 'package:botp_auth/modules/authentication/signin_other/bloc/signin_other_event.dart';
 import 'package:botp_auth/core/session/session_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/theme.dart';
@@ -57,7 +57,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
     return BlocListener<SignInOtherBloc, SignInOtherState>(
         listener: (context, state) {
           final formStatus = state.formStatus;
-          if (formStatus is FormStatusFailed) {
+          if (formStatus is RequestStatusFailed) {
             _showSnackBar(context, formStatus.exception.toString());
           }
         },
@@ -68,7 +68,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 // const SizedBox(height: 36.0),
-                Text("Import an existing account",
+                Text("Import an existing security",
                     style: Theme.of(context)
                         .textTheme
                         .headline4
@@ -119,7 +119,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
   Widget _signInOtherButton() {
     return BlocBuilder<SignInOtherBloc, SignInOtherState>(
         builder: (context, state) {
-      final onSignInOther = state.formStatus is FormStatusSubmitting
+      final onSignInOther = state.formStatus is RequestStatusSubmitting
           ? null
           : () {
               if (_formKey.currentState!.validate()) {
@@ -127,7 +127,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
               }
             };
       return NormalButtonWidget(
-        text: "Import account",
+        text: "Import security",
         press: onSignInOther,
         primary: AppColors.whiteColor,
         backgroundColor: AppColors.primaryColor,
@@ -142,7 +142,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
       children: [
         const SizedBox(height: 60.0),
         SubButtonWidget(
-          text: "Sign in with current account",
+          text: "Sign in with current security",
           press: () {
             Application.router.navigateTo(context, "/signin/current");
           },
@@ -150,7 +150,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
         ),
         const SizedBox(height: 12.0),
         SubButtonWidget(
-          text: "Create new account",
+          text: "Create new security",
           press: () {
             Application.router.navigateTo(context, "/signup");
           },
