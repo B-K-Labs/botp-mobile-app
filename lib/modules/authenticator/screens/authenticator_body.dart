@@ -73,7 +73,6 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
 
   @override
   Widget build(BuildContext context) {
-    // Size size = MediaQuery.of(context).size;
     return Scaffold(
         body: Column(children: [
       Container(

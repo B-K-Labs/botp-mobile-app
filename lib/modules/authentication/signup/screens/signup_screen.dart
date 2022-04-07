@@ -22,6 +22,7 @@ class SignUpScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: const SafeArea(
+        minimum: EdgeInsets.all(kPaddingSafeArea),
         child: SignUpBody(),
       ),
     );
@@ -44,11 +45,10 @@ class _SignUpBodyState extends State<SignUpBody> {
         create: (context) => SignUpBloc(
             authRepo: context.read<AuthRepository>(),
             sessionCubit: context.read<SessionCubit>()),
-        child: Background(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [_signUpForm(context), _otherOptions()])));
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [_signUpForm(context), _otherOptions()]));
   }
 
   void _showSnackBar(context, message) {
@@ -130,26 +130,5 @@ class _SignUpBodyState extends State<SignUpBody> {
             primary: AppColors.primaryColor,
           ),
         ]);
-  }
-}
-
-class Background extends StatelessWidget {
-  final Widget child;
-
-  const Background({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.symmetric(horizontal: kPaddingHorizontal),
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            child,
-          ],
-        ));
   }
 }

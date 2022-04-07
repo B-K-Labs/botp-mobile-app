@@ -79,13 +79,13 @@ class SubButtonWidget extends StatelessWidget {
 }
 
 // Icon Button
-class IconButtonWdiget extends StatelessWidget {
+class IconButtonWidget extends StatelessWidget {
   final IconData iconData;
   final Color color;
   final Function onPressed;
   final double size;
 
-  const IconButtonWdiget(
+  const IconButtonWidget(
       {Key? key,
       required this.iconData,
       required this.color,

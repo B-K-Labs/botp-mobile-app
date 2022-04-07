@@ -21,9 +21,10 @@ class SignInCurrentScreen extends StatelessWidget {
         appBar: AppBar(
           automaticallyImplyLeading: true,
           elevation: 0,
-          backgroundColor: Colors.white10,
+          // backgroundColor: Colors.white10,
         ),
         body: SafeArea(
+          minimum: const EdgeInsets.all(kPaddingSafeArea),
           child: BlocProvider(
             create: (context) => SignInCurrentBloc(
                 authRepository: context.read<AuthRepository>(),
@@ -46,12 +47,11 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Background(
-        child: Column(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [_signInCurrentForm(context), _otherOptions()],
-    ));
+    );
   }
 
   void _showSnackBar(context, message) {
@@ -133,7 +133,7 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
     return SizedBox(
         width: 48.0,
         height: 48.0,
-        child: IconButtonWdiget(
+        child: IconButtonWidget(
             iconData: FontAwesomeIcons.fingerprint,
             color: AppColors.primaryColor,
             onPressed: () {},
@@ -163,27 +163,5 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
         ),
       ],
     );
-  }
-}
-
-class Background extends StatelessWidget {
-  final Widget child;
-
-  const Background({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    // Size size = MediaQuery.of(context).size;
-    return Container(
-        padding: const EdgeInsets.symmetric(horizontal: kPaddingHorizontal),
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            child,
-          ],
-        ));
   }
 }

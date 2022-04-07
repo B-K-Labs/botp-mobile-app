@@ -21,7 +21,9 @@ class SignInOtherScreen extends StatelessWidget {
           automaticallyImplyLeading: true,
           elevation: 0,
         ),
-        body: const SafeArea(child: SignInOtherBody()));
+        body: const SafeArea(
+            minimum: EdgeInsets.all(kPaddingSafeArea),
+            child: SignInOtherBody()));
   }
 }
 
@@ -41,11 +43,10 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
         create: (context) => SignInOtherBloc(
             authRepository: context.read<AuthRepository>(),
             sessionCubit: context.read<SessionCubit>()),
-        child: Background(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [_signInOtherForm(context), _otherOptions()])));
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [_signInOtherForm(context), _otherOptions()]));
   }
 
   void _showSnackBar(context, message) {
@@ -158,26 +159,5 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
         ),
       ],
     );
-  }
-}
-
-class Background extends StatelessWidget {
-  final Widget child;
-
-  const Background({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.symmetric(horizontal: kPaddingHorizontal),
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            child,
-          ],
-        ));
   }
 }

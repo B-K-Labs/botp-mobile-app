@@ -40,8 +40,8 @@ class AppBorderRadiusCircular {
   static const small = 4.0;
 }
 
-// Margin
-const kPaddingHorizontal = 20.0;
+// Safe area
+const kPaddingSafeArea = 20.0;
 
 // Shadow
 const kShadowBlur = 10.0;

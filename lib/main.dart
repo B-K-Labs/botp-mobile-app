@@ -1,6 +1,6 @@
 import 'package:botp_auth/constants/storage.dart';
 import 'package:botp_auth/core/authentication/auth_repository.dart';
-import 'package:botp_auth/modules/authentication/initial/welcome_screen.dart';
+import 'package:botp_auth/modules/authentication/initial/screens/welcome_screen.dart';
 import 'package:botp_auth/modules/authentication/signin_current/screens/signin_current_screen.dart';
 import 'package:botp_auth/core/session/session_cubit.dart';
 import 'package:botp_auth/core/session/session_state.dart';
