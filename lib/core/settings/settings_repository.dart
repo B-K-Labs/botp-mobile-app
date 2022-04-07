@@ -10,10 +10,10 @@ class SettingsRepository {
   Future<KYCResponseModel> kyc(String address, String fullName, int age,
       String gender, String debitor) async {
     final data =
-        KYCRequestModel(address, fullName, age, gender, debitor).toJSON();
+        KYCRequestModel(address, fullName, age, gender, debitor).toJson();
     http.Response result = await post(BotpAPI.userKycUrl.toString(), data);
     if (result.statusCode == HttpStatus.ok) {
-      return KYCResponseModel.fromJSON(json.decode(result.body));
+      return KYCResponseModel.fromJson(json.decode(result.body));
     }
     throw Exception("Failed to do KYC");
   }

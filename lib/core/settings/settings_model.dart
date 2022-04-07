@@ -6,7 +6,7 @@ class KYCRequestModel {
   final String debitor;
   KYCRequestModel(
       this.address, this.fullName, this.age, this.gender, this.debitor);
-  Map<String, dynamic> toJSON() => ({
+  Map<String, dynamic> toJson() => ({
         "bcAddress": address,
         "info": {
           "fullName": fullName,
@@ -26,7 +26,7 @@ class KYCResponseModel {
   final String data;
   KYCResponseModel(this.fromAddress, this.toAddress, this.nonce, this.gasPrice,
       this.gasLimit, this.data);
-  KYCResponseModel.fromJSON(Map<String, dynamic> json)
+  KYCResponseModel.fromJson(Map<String, dynamic> json)
       : fromAddress = json["from"],
         toAddress = json["nonce"],
         nonce = json["nonce"],
