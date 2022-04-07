@@ -68,7 +68,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 // const SizedBox(height: 36.0),
-                Text("Import an existing security",
+                Text("Import an existing account",
                     style: Theme.of(context)
                         .textTheme
                         .headline4
@@ -127,7 +127,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
               }
             };
       return NormalButtonWidget(
-        text: "Import security",
+        text: "Import account",
         press: onSignInOther,
         primary: AppColors.whiteColor,
         backgroundColor: AppColors.primaryColor,
@@ -142,7 +142,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
       children: [
         const SizedBox(height: 60.0),
         SubButtonWidget(
-          text: "Sign in with current security",
+          text: "Sign in with current account",
           press: () {
             Application.router.navigateTo(context, "/signin/current");
           },
@@ -150,7 +150,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
         ),
         const SizedBox(height: 12.0),
         SubButtonWidget(
-          text: "Create new security",
+          text: "Create new account",
           press: () {
             Application.router.navigateTo(context, "/signup");
           },

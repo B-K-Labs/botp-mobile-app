@@ -31,7 +31,7 @@ class WelcomeBody extends StatelessWidget {
                   ?.copyWith(color: AppColors.primaryColor)),
           const SizedBox(height: 96.0),
           NormalButtonWidget(
-              text: 'Import an security',
+              text: 'Import an account',
               press: () {
                 Application.router.navigateTo(context, "/signin/other",
                     transition: TransitionType.inFromRight);
@@ -40,7 +40,7 @@ class WelcomeBody extends StatelessWidget {
               backgroundColor: AppColors.primaryColor),
           const SizedBox(height: 24.0),
           NormalButtonWidget(
-            text: 'Create new security',
+            text: 'Create new account',
             press: () {
               Application.router.navigateTo(context, "/signup",
                   transition: TransitionType.inFromRight);

@@ -147,7 +147,7 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
       children: [
         const SizedBox(height: 60.0),
         SubButtonWidget(
-          text: "Import existing security",
+          text: "Import existing account",
           press: () {
             Application.router.navigateTo(context, "/signin/other");
           },
@@ -155,7 +155,7 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
         ),
         const SizedBox(height: 12.0),
         SubButtonWidget(
-          text: "Create new security",
+          text: "Create new account",
           press: () {
             Application.router.navigateTo(context, "/signup");
           },

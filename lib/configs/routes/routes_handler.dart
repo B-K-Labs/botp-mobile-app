@@ -23,13 +23,13 @@ var signUpHandler =
   return const SignUpScreen();
 });
 
-// - Sign In (current security)
+// - Sign In (current account)
 var signInCurrentHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
   return const SignInCurrentScreen();
 });
 
-// - Sign in (other security)
+// - Sign in (other account)
 var signInOtherHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
   return const SignInOtherScreen();
