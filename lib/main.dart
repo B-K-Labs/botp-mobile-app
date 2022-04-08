@@ -4,7 +4,7 @@ import 'package:botp_auth/modules/authentication/initial/screens/welcome_screen.
 import 'package:botp_auth/modules/authentication/signin_current/screens/signin_current_screen.dart';
 import 'package:botp_auth/core/session/session_cubit.dart';
 import 'package:botp_auth/core/session/session_state.dart';
-import 'package:botp_auth/modules/app/authenticator/screens/app_screen.dart';
+import 'package:botp_auth/modules/botp/authenticator/screens/authenticator_main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -21,7 +21,7 @@ void main() async {
     final license = await rootBundle.loadString('google_fonts/OFL.txt');
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
   });
-  // Accessing behind platforms e.g flashscreen, shared preferences
+  // Accessing behind platforms e.g splashscreen, shared preferences
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   // Splash screens initialization
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -90,7 +90,7 @@ class AppNavigator extends StatelessWidget {
           if (state is ExpiredSessionState)
             const MaterialPage(child: SignInCurrentScreen()),
           if (state is AuthenticatedSessionState)
-            const MaterialPage(child: MainAppScreen()),
+            const MaterialPage(child: AuthenticatorMainScreen()),
         ],
         onPopPage: (route, result) => route.didPop(result),
       );

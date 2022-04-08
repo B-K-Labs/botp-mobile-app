@@ -1,17 +1,63 @@
-// import 'package:botp_auth/configs/routes/application.dart';
+import 'dart:math';
 import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
 
-class AuthenticatorBody extends StatefulWidget {
-  const AuthenticatorBody({Key? key}) : super(key: key);
+class AuthenticatorMainScreen extends StatefulWidget {
+  const AuthenticatorMainScreen({Key? key}) : super(key: key);
 
   @override
-  _AuthenticatorBodyState createState() => _AuthenticatorBodyState();
+  State<AuthenticatorMainScreen> createState() =>
+      _AuthenticatorMainScreenState();
 }
 
-class _AuthenticatorBodyState extends State<AuthenticatorBody> {
+class _AuthenticatorMainScreenState extends State<AuthenticatorMainScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text("BOTP Authenticator"),
+          actions: [
+            Icon(Icons.search, color: AppColors.whiteColor),
+            CircleAvatar(
+              backgroundColor: AppColors.primaryColor,
+            )
+          ],
+        ),
+        body: const SafeArea(
+            minimum: EdgeInsets.all(kPaddingSafeArea),
+            child: AuthenticatorMainBody()));
+  }
+}
+
+class AuthenticatorMainBody extends StatefulWidget {
+  const AuthenticatorMainBody({Key? key}) : super(key: key);
+
+  @override
+  State<AuthenticatorMainBody> createState() => _AuthenticatorMainBodyState();
+}
+
+class _AuthenticatorMainBodyState extends State<AuthenticatorMainBody> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      Container(
+        height: 200,
+        alignment: const Alignment(0.0, 0.0),
+        child: Text(
+          "Authenticator",
+          style: Theme.of(context)
+              .textTheme
+              .headline4
+              ?.copyWith(color: AppColors.primaryColor),
+        ),
+      ),
+      Expanded(
+        child: _buildAccountList(),
+      )
+    ]);
+  }
+
   ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 
   final accountList = [
@@ -71,27 +117,6 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
             List.generate(len ~/ 2, (index) => r.nextInt(10) + 48));
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: Column(children: [
-      Container(
-        height: 200,
-        alignment: const Alignment(0.0, 0.0),
-        child: Text(
-          "Authenticator",
-          style: Theme.of(context)
-              .textTheme
-              .headline4
-              ?.copyWith(color: AppColors.primaryColor),
-        ),
-      ),
-      Expanded(
-        child: _buildAccountList(),
-      )
-    ]));
-  }
-
   Widget _buildAccountList() {
     return ListView.builder(
         padding: const EdgeInsets.all(15.0),
@@ -113,28 +138,5 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
           urlImage: generateRandomAgentImage(),
           transStatus: generateRandomTransactionStatus()),
     );
-  }
-}
-
-class Background extends StatelessWidget {
-  final Widget child;
-
-  const Background({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return SizedBox(
-        height: size.height,
-        width: double.infinity,
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            child,
-          ],
-        ));
   }
 }
