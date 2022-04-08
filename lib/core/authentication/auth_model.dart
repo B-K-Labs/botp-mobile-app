@@ -1,10 +1,10 @@
 // Sign in
 class SignInRequestModel {
-  final String address;
+  final String bcAddress;
   final String password;
-  SignInRequestModel(this.address, this.password);
+  SignInRequestModel(this.bcAddress, this.password);
   Map<String, dynamic> toJson() => ({
-        "bcAddress": address,
+        "bcAddress": bcAddress,
         "password": password,
       });
 }
@@ -24,20 +24,20 @@ class SignUpRequestModel {
 }
 
 class SignUpResponseModel {
-  String address;
+  String bcAddress;
   String publicKey;
   String privateKey;
   String encryptedPrivateKey;
   bool status;
   SignUpResponseModel(
-    this.address,
+    this.bcAddress,
     this.publicKey,
     this.privateKey,
     this.encryptedPrivateKey,
     this.status,
   );
   SignUpResponseModel.fromJson(Map<String, dynamic> json)
-      : address = json['bcAddress'],
+      : bcAddress = json['bcAddress'],
         publicKey = json['publicKey'],
         privateKey = json['privateKey'],
         encryptedPrivateKey = json['encryptedPrivateKey'],
@@ -47,11 +47,11 @@ class SignUpResponseModel {
 // Import account
 class ImportRequestModel {
   final String hashedPrivateKey;
-  final String password;
-  ImportRequestModel(this.hashedPrivateKey, this.password);
+  final String newPassword;
+  ImportRequestModel(this.hashedPrivateKey, this.newPassword);
   Map<String, dynamic> toJson() => ({
         'hashedPrivateKey': hashedPrivateKey,
-        'password': password, // TODO: change to new password
+        'password': newPassword, // TODO: change to new password
       });
 }
 

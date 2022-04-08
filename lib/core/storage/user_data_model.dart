@@ -32,44 +32,47 @@ class PreferenceDataModel {
 }
 
 // Credential Data
-class CredentialSessionDataModel {
-  final String token;
-  final String effectiveTime;
-
-  CredentialSessionDataModel(
-      {required this.token, required this.effectiveTime});
-  CredentialSessionDataModel.fromJSON(Map<String, dynamic> json)
-      : token = json["token"],
-        effectiveTime = json["effectiveTime"];
-  Map<String, dynamic> toJSON() =>
-      {"type": token, "effectiveTime": effectiveTime};
-}
+// class CredentialSessionDataModel {
+//   final String token;
+//   final String effectiveTime;
+//
+//   CredentialSessionDataModel(
+//       {required this.token, required this.effectiveTime});
+//   CredentialSessionDataModel.fromJSON(Map<String, dynamic> json)
+//       : token = json["token"],
+//         effectiveTime = json["effectiveTime"];
+//   Map<String, dynamic> toJSON() =>
+//       {"type": token, "effectiveTime": effectiveTime};
+// }
 
 class CredentialAccountDataModel {
-  final String address;
+  final String bcAddress;
   final String publicKey;
   final String privateKey;
 
   CredentialAccountDataModel(
       {required this.publicKey,
       required this.privateKey,
-      required this.address});
+      required this.bcAddress});
   CredentialAccountDataModel.fromJSON(Map<String, dynamic> json)
       : publicKey = json["publiKey"],
         privateKey = json["privateKey"],
-        address = json["bcAddress"];
-  Map<String, dynamic> toJSON() =>
-      {"publicKey": publicKey, "privateKey": privateKey, "bcAddress": address};
+        bcAddress = json["bcAddress"];
+  Map<String, dynamic> toJSON() => {
+        "publicKey": publicKey,
+        "privateKey": privateKey,
+        "bcAddress": bcAddress
+      };
 }
 
 class CredentialAgentsDataModel {
-  final List<String> listAgentAddresses;
+  final List<String> listAgentBcAddresses;
 
-  CredentialAgentsDataModel({required this.listAgentAddresses});
+  CredentialAgentsDataModel({required this.listAgentBcAddresses});
   CredentialAgentsDataModel.fromJSON(Map<String, dynamic> json)
-      : listAgentAddresses = json["listAgentBcAddresses"];
+      : listAgentBcAddresses = json["listAgentBcAddresses"];
   Map<String, dynamic> toJSON() => {
-        "listAgentBcAddresses": listAgentAddresses,
+        "listAgentBcAddresses": listAgentBcAddresses,
       };
 }
 

@@ -18,8 +18,8 @@ class AuthRepository {
   }
 
   // Sign in
-  Future<SignInResponseModel> signIn(String address, String password) async {
-    final data = SignInRequestModel(address, password).toJson();
+  Future<SignInResponseModel> signIn(String bcAddress, String password) async {
+    final data = SignInRequestModel(bcAddress, password).toJson();
     http.Response result = await post(BotpAPI.signInUrl.toString(), data);
     if (result.statusCode == HttpStatus.ok) {
       return SignInResponseModel.fromJson(json.decode(result.body));
@@ -29,9 +29,9 @@ class AuthRepository {
 
   // Import account
   Future<ImportResponseModel> importAccount(
-      String privateKey, String password) async {
+      String privateKey, String newPassword) async {
     String hashedPrivateKey = hashSHA265(privateKey).toString();
-    final data = ImportRequestModel(hashedPrivateKey, password)
+    final data = ImportRequestModel(hashedPrivateKey, newPassword)
         .toJson(); // Hash the private key by SHA-256
     http.Response result = await post(BotpAPI.signInUrl.toString(), data);
     if (result.statusCode == HttpStatus.ok) {

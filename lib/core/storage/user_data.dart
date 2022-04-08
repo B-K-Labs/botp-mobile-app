@@ -29,18 +29,18 @@ class UserData {
               .toJSON());
 
   // Credential Session: token, expired time
-  static Future<CredentialSessionDataModel?> getCredentialSessionData() async {
-    final data =
-        await SecureStorage.getSecureValue(UserDataType.credentialSession);
-    return data != null ? CredentialSessionDataModel.fromJSON(data) : null;
-  }
-
-  static setCredentialSessionData(String token, String effectiveTime) async {
-    return await SecureStorage.setSecureValue(
-        UserDataType.credentialSession,
-        CredentialSessionDataModel(token: token, effectiveTime: effectiveTime)
-            .toJSON());
-  }
+  // static Future<CredentialSessionDataModel?> getCredentialSessionData() async {
+  //   final data =
+  //       await SecureStorage.getSecureValue(UserDataType.credentialSession);
+  //   return data != null ? CredentialSessionDataModel.fromJSON(data) : null;
+  // }
+  //
+  // static setCredentialSessionData(String token, String effectiveTime) async {
+  //   return await SecureStorage.setSecureValue(
+  //       UserDataType.credentialSession,
+  //       CredentialSessionDataModel(token: token, effectiveTime: effectiveTime)
+  //           .toJSON());
+  // }
 
   // Credential Account: blockchain address, public/private key
   static Future<CredentialAccountDataModel?> getCredentialAccountData() async {
@@ -50,11 +50,11 @@ class UserData {
   }
 
   static setCredentialAccountData(
-          String address, String publicKey, String privateKey) async =>
+          String bcAddress, String publicKey, String privateKey) async =>
       await SecureStorage.setSecureValue(
           UserDataType.credentialAccount,
           CredentialAccountDataModel(
-                  address: address,
+                  bcAddress: bcAddress,
                   publicKey: publicKey,
                   privateKey: privateKey)
               .toJSON());
@@ -66,10 +66,10 @@ class UserData {
     return data != null ? CredentialAgentsDataModel.fromJSON(data) : null;
   }
 
-  static setCredentialAgentsData(List<String> listAgentAddresses) async =>
+  static setCredentialAgentsData(List<String> listAgentBcAddresses) async =>
       await SecureStorage.setSecureValue(
           UserDataType.credentialAgents,
-          CredentialAgentsDataModel(listAgentAddresses: listAgentAddresses)
+          CredentialAgentsDataModel(listAgentBcAddresses: listAgentBcAddresses)
               .toJSON());
 
   // Wipe out data for e.g signing out

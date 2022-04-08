@@ -1,4 +1,4 @@
-import 'package:botp_auth/common/state/request_status.dart';
+import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/constants/storage.dart';
 import 'package:botp_auth/core/authentication/auth_repository.dart';
 import 'package:botp_auth/modules/authentication/signup/bloc/signup_event.dart';

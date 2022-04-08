@@ -1,19 +1,13 @@
-import 'package:botp_auth/common/state/request_status.dart';
+import 'package:botp_auth/common/states/request_status.dart';
+import 'package:botp_auth/common/validators/authentication.dart';
 
 class SignInOtherState {
   // Private key
   final String privateKey;
-  String? get validatePrivateKey => null;
+  String? get validatePrivateKey => privateKeyValidator(privateKey);
   // Password
   final String password;
-  String? get validatePassword => password.isEmpty
-      ? "Missing password"
-      : password.length < 6
-          ? "Password must be at least 6 characters"
-          : RegExp(r'''^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\\\|\;\:\'\"\,\<\.\>\/\?]).{6,}$''')
-                  .hasMatch(password)
-              ? null
-              : "Password must contain one uppercase, lowercase, digit, and one special character";
+  String? get validatePassword => passwordNormalValidator(password);
 
   // Form status
   final RequestStatus formStatus;

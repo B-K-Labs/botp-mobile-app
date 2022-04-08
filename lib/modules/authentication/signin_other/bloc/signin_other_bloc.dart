@@ -5,7 +5,7 @@ import 'package:botp_auth/modules/authentication/signin_other/bloc/signin_other_
 import 'package:botp_auth/core/session/session_cubit.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:botp_auth/common/state/request_status.dart';
+import 'package:botp_auth/common/states/request_status.dart';
 
 class SignInOtherBloc extends Bloc<SignInOtherEvent, SignInOtherState> {
   final AuthRepository authRepository;

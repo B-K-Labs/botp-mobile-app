@@ -7,10 +7,10 @@ import 'package:http/http.dart' as http;
 import 'package:universal_html/html.dart';
 
 class SettingsRepository {
-  Future<KYCResponseModel> kyc(String address, String fullName, int age,
+  Future<KYCResponseModel> kyc(String bcAddress, String fullName, int age,
       String gender, String debitor) async {
     final data =
-        KYCRequestModel(address, fullName, age, gender, debitor).toJson();
+        KYCRequestModel(bcAddress, fullName, age, gender, debitor).toJson();
     http.Response result = await post(BotpAPI.userKycUrl.toString(), data);
     if (result.statusCode == HttpStatus.ok) {
       return KYCResponseModel.fromJson(json.decode(result.body));

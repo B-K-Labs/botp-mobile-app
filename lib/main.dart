@@ -16,14 +16,14 @@ import 'package:botp_auth/configs/routes/routes.dart';
 import 'package:fluro/fluro.dart';
 
 void main() async {
-  // License registering for google_fonts
+  // google_fonts license registering
   LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString('google_fonts/OFL.txt');
     yield LicenseEntryWithLineBreaks(['google_fonts'], license);
   });
-  // For accessing behind platforms (e.g flashscreen, shared preferences)
+  // Accessing behind platforms e.g flashscreen, shared preferences
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  // Splash screens initialization at later
+  // Splash screens initialization
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   // Run app
   runApp(const MyApp());
@@ -81,15 +81,19 @@ class AppNavigator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SessionCubit, SessionState>(builder: (context, state) {
-      return Navigator(pages: [
-        if (state is UnknownSessionState) const MaterialPage(child: Scaffold()),
-        if (state is UnauthenticatedSessionState)
-          const MaterialPage(child: WelcomeScreen()),
-        if (state is ExpiredSessionState)
-          const MaterialPage(child: SignInCurrentScreen()),
-        if (state is AuthenticatedSessionState)
-          const MaterialPage(child: MainAppScreen()),
-      ], onPopPage: (route, result) => route.didPop(result));
+      return Navigator(
+        pages: [
+          if (state is UnknownSessionState)
+            const MaterialPage(child: Scaffold()),
+          if (state is UnauthenticatedSessionState)
+            const MaterialPage(child: WelcomeScreen()),
+          if (state is ExpiredSessionState)
+            const MaterialPage(child: SignInCurrentScreen()),
+          if (state is AuthenticatedSessionState)
+            const MaterialPage(child: MainAppScreen()),
+        ],
+        onPopPage: (route, result) => route.didPop(result),
+      );
     });
   }
 }
