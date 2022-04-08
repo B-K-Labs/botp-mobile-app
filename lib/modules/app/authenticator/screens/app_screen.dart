@@ -1,8 +1,8 @@
 import 'package:botp_auth/constants/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:botp_auth/modules/authenticator/screens/account_body.dart';
-import 'package:botp_auth/modules/authenticator/screens/history_app.dart';
-import 'package:botp_auth/modules/authenticator/screens/authenticator_body.dart';
+import 'package:botp_auth/modules/app/authenticator/screens/account_body.dart';
+import 'package:botp_auth/modules/app/authenticator/screens/history_app.dart';
+import 'package:botp_auth/modules/app/authenticator/screens/authenticator_body.dart';
 
 class MainAppScreen extends StatefulWidget {
   const MainAppScreen({Key? key}) : super(key: key);
@@ -23,16 +23,16 @@ class _MainAppScreenState extends State<MainAppScreen> {
     const _selectedIconSize = 32.0, _unselectedIconSize = 24.0;
 
     return Scaffold(
-        // appBar: AppBar(
-        //     title: const Text("Home"),
-        //     automaticallyImplyLeading: true,
-        //     backgroundColor: AppColors.primaryColor,
-        //     leading: IconButton(
-        //         icon: const Icon(Icons.arrow_back),
-        //         onPressed: () => Navigator.pushReplacement(context,
-        //                 MaterialPageRoute(builder: (context) {
-        //               return const SignUpScreen();
-        //             })))),
+        appBar: AppBar(
+            title: const Text("Home"),
+            automaticallyImplyLeading: true,
+            backgroundColor: AppColors.primaryColor,
+            leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) {
+                      return Container();
+                    })))),
         body: getBody(),
         bottomNavigationBar: BottomNavigationBar(
           // showSelectedLabels: false,

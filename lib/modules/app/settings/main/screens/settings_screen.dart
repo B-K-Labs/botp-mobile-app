@@ -22,6 +22,8 @@ class SettingsBody extends StatefulWidget {
 class _SettingsBodyState extends State<SettingsBody> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(
+      children: [Text("Avatar")],
+    );
   }
 }

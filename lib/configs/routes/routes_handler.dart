@@ -2,7 +2,7 @@ import 'package:botp_auth/core/authentication/app_navigator.dart';
 import 'package:botp_auth/modules/authentication/signin_current/screens/signin_current_screen.dart';
 import 'package:botp_auth/modules/authentication/signin_other/screens/signin_other_screen.dart';
 import 'package:botp_auth/modules/authentication/signup/screens/signup_screen.dart';
-import 'package:botp_auth/modules/authenticator/screens/app_screen.dart';
+import 'package:botp_auth/modules/app/authenticator/screens/app_screen.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
