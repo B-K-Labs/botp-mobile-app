@@ -16,6 +16,13 @@ class SessionCubit extends Cubit<SessionState> {
     final sessionData = await UserData.getSessionData();
     // * Note: Fresh app now
     await UserData.clear();
+    // Save sample account data
+    await UserData.setCredentialAccountData(
+        "0x17504553eBA2433e6952e75f4b80D23c0d519AE1",
+        "samplePublicKey",
+        "samplePrivateKey");
+    final bc = await UserData.getCredentialAccountData();
+    print(bc!.bcAddress);
     emit(AuthenticatedSessionState());
     return;
     // First time

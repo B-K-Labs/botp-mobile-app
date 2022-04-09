@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:botp_auth/constants/theme.dart';
+import 'package:botp_auth/modules/botp/history/screens/history_main.dart';
 import 'package:botp_auth/modules/botp/settings/main/screens/settings_screen.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,12 @@ class _AuthenticatorMainScreenState extends State<AuthenticatorMainScreen> {
           actions: [
             IconButton(
               icon: const Icon(Icons.search),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HistoryMainScreen()));
+              },
             ),
             IconButton(
               icon: ClipRRect(
@@ -33,7 +39,6 @@ class _AuthenticatorMainScreenState extends State<AuthenticatorMainScreen> {
                 ),
               ),
               onPressed: () {
-                // Navigate to
                 Navigator.push(
                     context,
                     MaterialPageRoute(

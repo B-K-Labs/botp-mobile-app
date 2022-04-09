@@ -55,7 +55,7 @@ class CredentialAccountDataModel {
       required this.privateKey,
       required this.bcAddress});
   CredentialAccountDataModel.fromJSON(Map<String, dynamic> json)
-      : publicKey = json["publiKey"],
+      : publicKey = json["publicKey"],
         privateKey = json["privateKey"],
         bcAddress = json["bcAddress"];
   Map<String, dynamic> toJSON() => {

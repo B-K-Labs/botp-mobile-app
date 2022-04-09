@@ -1,4 +1,7 @@
 import 'package:botp_auth/constants/theme.dart';
+import 'package:botp_auth/core/storage/user_data.dart';
+import 'package:botp_auth/core/storage/user_data_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -7,7 +10,13 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          iconTheme:
+              IconThemeData(color: Theme.of(context).colorScheme.onSurface),
+        ),
         body: const SafeArea(
             minimum: EdgeInsets.all(kPaddingSafeArea), child: SettingsBody()));
   }
@@ -24,12 +33,69 @@ class _SettingsBodyState extends State<SettingsBody> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        CircleAvatar(
-          backgroundImage: NetworkImage(
-              "https://www.printed.com/blog/wp-content/uploads/2016/06/quiz-serious-cat.png"),
-        )
-      ],
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [_info(), const SizedBox(height: 60), _categories()],
     );
+  }
+
+  Widget _info() {
+    return FutureBuilder<CredentialAccountDataModel?>(
+        future: UserData.getCredentialAccountData(),
+        builder: (BuildContext context,
+            AsyncSnapshot<CredentialAccountDataModel?> snapshot) {
+          return Column(children: [
+            const CircleAvatar(
+              backgroundImage: NetworkImage(
+                  "https://www.printed.com/blog/wp-content/uploads/2016/06/quiz-serious-cat.png"),
+              radius: 80,
+            ),
+            const SizedBox(height: 18.0),
+            Text("Nguyen Huynh Huu Khiem",
+                style: Theme.of(context).textTheme.headline6),
+            const SizedBox(height: 12.0),
+            Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: Theme.of(context).colorScheme.outline,
+                        width: 1)),
+                child: snapshot.hasData
+                    ? Text(snapshot.data!.bcAddress)
+                    : Text("bcAddress"))
+          ]);
+        });
+  }
+
+  Widget _categories() {
+    return Column(children: [
+      _category(Icon(Icons.person), "Account", "Export, profile", () {}),
+      const SizedBox(height: 24),
+      _category(Icon(Icons.adjust), "Preferences", "Language, theme", () {}),
+      const SizedBox(height: 24),
+      _category(Icon(Icons.security), "Security", "Password, sign out", () {}),
+      const SizedBox(height: 24),
+      _category(Icon(Icons.info), "About", "Version, terms of services", () {}),
+    ]);
+  }
+
+  Widget _category(Icon icon, String title, String tooltip, Function() onTap) {
+    return GestureDetector(
+        onTap: onTap,
+        child: Row(
+          children: [
+            icon,
+            const SizedBox(width: 20.0),
+            Expanded(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                  Text(title, style: Theme.of(context).textTheme.bodyLarge),
+                  const SizedBox(height: 4),
+                  Text(tooltip, style: Theme.of(context).textTheme.bodyMedium)
+                ])),
+            Icon(Icons.arrow_right)
+          ],
+        ));
   }
 }
