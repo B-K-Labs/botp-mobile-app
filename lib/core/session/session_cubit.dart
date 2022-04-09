@@ -16,6 +16,8 @@ class SessionCubit extends Cubit<SessionState> {
     final sessionData = await UserData.getSessionData();
     // * Note: Fresh app now
     await UserData.clear();
+    emit(AuthenticatedSessionState());
+    return;
     // First time
     if (sessionData == null ||
         sessionData.sessionType == SessionType.firstTime) {

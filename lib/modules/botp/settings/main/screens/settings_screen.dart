@@ -6,8 +6,9 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        body: SafeArea(
+    return Scaffold(
+        appBar: AppBar(),
+        body: const SafeArea(
             minimum: EdgeInsets.all(kPaddingSafeArea), child: SettingsBody()));
   }
 }
@@ -23,7 +24,12 @@ class _SettingsBodyState extends State<SettingsBody> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [Text("Avatar")],
+      children: [
+        CircleAvatar(
+          backgroundImage: NetworkImage(
+              "https://www.printed.com/blog/wp-content/uploads/2016/06/quiz-serious-cat.png"),
+        )
+      ],
     );
   }
 }

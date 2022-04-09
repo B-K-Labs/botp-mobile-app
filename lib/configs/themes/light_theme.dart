@@ -4,7 +4,6 @@ import 'package:botp_auth/constants/theme.dart';
 import 'package:flutter/material.dart';
 
 final lightThemeData = ThemeData(
-  textTheme: textTheme,
-  brightness: Brightness.light,
-  primaryColor: AppColors.primaryColor,
-);
+    textTheme: textTheme,
+    brightness: Brightness.light,
+    primaryColor: AppColors.primaryColor);

@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'BOTP Authenticator',
-        theme: mapAppThemeData[AppTheme.light],
+
         // - Fluro is not used anymore
         // onGenerateRoute: Application.router.generator, // It would use the root path first (i.e "/")
         // - Provide repository outside the BLoC

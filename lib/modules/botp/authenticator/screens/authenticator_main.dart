@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:botp_auth/constants/theme.dart';
+import 'package:botp_auth/modules/botp/settings/main/screens/settings_screen.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 
@@ -17,12 +18,34 @@ class _AuthenticatorMainScreenState extends State<AuthenticatorMainScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("BOTP Authenticator"),
+          // elevation: 0,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           actions: [
-            Icon(Icons.search, color: AppColors.whiteColor),
-            CircleAvatar(
-              backgroundColor: AppColors.primaryColor,
-            )
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(100)),
+                child: Image.network(
+                  "https://www.printed.com/blog/wp-content/uploads/2016/06/quiz-serious-cat.png",
+                ),
+              ),
+              onPressed: () {
+                // Navigate to
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SettingsScreen()));
+              },
+            ),
+            const SizedBox(width: 10.0),
           ],
+          titleTextStyle: Theme.of(context).textTheme.headline6,
+          actionsIconTheme:
+              IconThemeData(color: Theme.of(context).colorScheme.onSurface),
+          toolbarHeight: 70,
         ),
         body: const SafeArea(
             minimum: EdgeInsets.all(kPaddingSafeArea),
@@ -41,17 +64,6 @@ class _AuthenticatorMainBodyState extends State<AuthenticatorMainBody> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Container(
-        height: 200,
-        alignment: const Alignment(0.0, 0.0),
-        child: Text(
-          "Authenticator",
-          style: Theme.of(context)
-              .textTheme
-              .headline4
-              ?.copyWith(color: AppColors.primaryColor),
-        ),
-      ),
       Expanded(
         child: _buildAccountList(),
       )
