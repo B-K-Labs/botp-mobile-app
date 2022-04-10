@@ -1,6 +1,5 @@
-// For form
 abstract class RequestStatus {
-  const RequestStatus();
+  const RequestStatus(); // Canonicalization
 }
 
 class RequestStatusInitial extends RequestStatus {

@@ -14,8 +14,6 @@ class SignInCurrentBloc extends Bloc<SignInCurrentEvent, SignInCurrentState> {
   SignInCurrentBloc({required this.authRepository, required this.sessionCubit})
       : super(SignInCurrentState()) {
     // On changed
-    on<SignInCurrentPrivateKeyChanged>(
-        (event, emit) => emit(state.copyWith(bcAddress: event.bcAddress)));
     on<SignInCurrentPasswordChanged>(
         (event, emit) => emit(state.copyWith(password: event.password)));
 
@@ -23,15 +21,13 @@ class SignInCurrentBloc extends Bloc<SignInCurrentEvent, SignInCurrentState> {
     on<SignInCurrentSubmitted>((event, emit) async {
       emit(state.copyWith(formStatus: RequestStatusSubmitting()));
       try {
+        final privateKey =
+            (await UserData.getCredentialAccountData())!.privateKey;
         final signInCurrentResult =
-            await authRepository.signIn(state.bcAddress, state.password);
-        if (signInCurrentResult.status) {
-          UserData.setSessionData(SessionType.authenticated);
-          sessionCubit.launchSession();
-          emit(state.copyWith(formStatus: RequestStatusSuccessful()));
-        } else {
-          throw Exception("Unknown error on sign in");
-        }
+            await authRepository.signIn(privateKey, state.password);
+        UserData.setSessionData(SessionType.authenticated);
+        sessionCubit.launchSession();
+        emit(state.copyWith(formStatus: RequestStatusSuccessful()));
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));
       }

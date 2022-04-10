@@ -20,18 +20,16 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     // On submitted
     on<SignUpEventSubmitted>((event, emit) async {
       emit(state.copyWith(formStatus: RequestStatusSubmitting()));
-      // Temporarily skip
-      emit(state.copyWith(formStatus: RequestStatusSuccessful()));
-      sessionCubit.launchSession();
+      // // Temporarily skip
+      // emit(state.copyWith(formStatus: RequestStatusSuccessful()));
+      // sessionCubit.launchSession();
       try {
         final signUpResult = await authRepo.signUp(state.password);
-        if (signUpResult.status) {
-          UserData.setSessionData(SessionType.authenticated);
-          sessionCubit.launchSession();
-          emit(state.copyWith(formStatus: RequestStatusSuccessful()));
-        } else {
-          throw Exception("Unknown error on sign up");
-        }
+        UserData.setSessionData(SessionType.authenticated);
+        UserData.setCredentialAccountData(signUpResult.bcAddress,
+            signUpResult.publicKey, signUpResult.privateKey);
+        sessionCubit.launchSession();
+        emit(state.copyWith(formStatus: RequestStatusSuccessful()));
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));
       }

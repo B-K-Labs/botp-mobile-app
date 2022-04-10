@@ -76,7 +76,10 @@ class _SettingsBodyState extends State<SettingsBody> {
 
   Widget _categories() {
     List<Widget> _categoriesList = [
-      _category(const Icon(Icons.person), "Account", "Export, profile", () {}),
+      _category(const Icon(Icons.person), "Account", "Export, profile",
+          () async {
+        await UserData.clear();
+      }),
       _category(
           const Icon(Icons.adjust), "Preferences", "Language, theme", () {}),
       _category(

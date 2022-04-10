@@ -6,23 +6,25 @@ class SignInOtherState {
   final String privateKey;
   String? get validatePrivateKey => privateKeyValidator(privateKey);
   // Password
-  final String password;
-  String? get validatePassword => passwordNormalValidator(password);
+  final String newPassword;
+  String? get validateNewPassword => passwordNormalValidator(newPassword);
 
   // Form status
   final RequestStatus formStatus;
 
   SignInOtherState({
     this.privateKey = '',
-    this.password = '',
+    this.newPassword = '',
     this.formStatus = const RequestStatusInitial(),
   });
 
   SignInOtherState copyWith(
-          {String? privateKey, String? password, RequestStatus? formStatus}) =>
+          {String? privateKey,
+          String? newPassword,
+          RequestStatus? formStatus}) =>
       SignInOtherState(
         privateKey: privateKey ?? this.privateKey,
-        password: password ?? this.password,
+        newPassword: newPassword ?? this.newPassword,
         formStatus: formStatus ?? this.formStatus,
       );
 }

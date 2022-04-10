@@ -16,22 +16,19 @@ class SignInOtherBloc extends Bloc<SignInOtherEvent, SignInOtherState> {
     // On changed
     on<SignInOtherPrivateKeyChanged>(
         (event, emit) => emit(state.copyWith(privateKey: event.privateKey)));
-    on<SignInOtherPasswordChanged>(
-        (event, emit) => emit(state.copyWith(password: event.password)));
+    on<SignInOtherNewPasswordChanged>(
+        (event, emit) => emit(state.copyWith(newPassword: event.newPassword)));
 
     // On submitted
     on<SignInOtherSubmitted>((event, emit) async {
+      if (state.formStatus is RequestStatusSubmitting) return;
       emit(state.copyWith(formStatus: RequestStatusSubmitting()));
       try {
-        final signInOtherResult =
-            await authRepository.signIn(state.privateKey, state.password);
-        if (signInOtherResult.status) {
-          UserData.setSessionData(SessionType.authenticated);
-          sessionCubit.launchSession();
-          emit(state.copyWith(formStatus: RequestStatusSuccessful()));
-        } else {
-          throw Exception("Unknown error on sign in");
-        }
+        final importResult =
+            await authRepository.import(state.privateKey, state.newPassword);
+        UserData.setSessionData(SessionType.authenticated);
+        sessionCubit.launchSession();
+        emit(state.copyWith(formStatus: RequestStatusSuccessful()));
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));
       }

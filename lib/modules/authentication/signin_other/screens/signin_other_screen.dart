@@ -108,12 +108,12 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
   Widget _passwordField() {
     return BlocBuilder<SignInOtherBloc, SignInOtherState>(
         builder: (context, state) {
-      _passwordValidator(value) => state.validatePassword;
-      _passwordOnChanged(value) => context
+      _newPasswordValidator(value) => state.validateNewPassword;
+      _newPasswordOnChanged(value) => context
           .read<SignInOtherBloc>()
-          .add(SignInOtherPasswordChanged(password: value));
+          .add(SignInOtherNewPasswordChanged(newPassword: value));
       return PasswordInputFieldWidget(
-          validator: _passwordValidator, onChanged: _passwordOnChanged);
+          validator: _newPasswordValidator, onChanged: _newPasswordOnChanged);
     });
   }
 

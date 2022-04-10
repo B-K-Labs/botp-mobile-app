@@ -6,10 +6,10 @@ class SignInOtherPrivateKeyChanged extends SignInOtherEvent {
   SignInOtherPrivateKeyChanged({required this.privateKey});
 }
 
-class SignInOtherPasswordChanged extends SignInOtherEvent {
-  final String password;
+class SignInOtherNewPasswordChanged extends SignInOtherEvent {
+  final String newPassword;
 
-  SignInOtherPasswordChanged({required this.password});
+  SignInOtherNewPasswordChanged({required this.newPassword});
 }
 
 class SignInOtherSubmitted extends SignInOtherEvent {}

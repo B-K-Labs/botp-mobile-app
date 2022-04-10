@@ -16,29 +16,30 @@ class SessionCubit extends Cubit<SessionState> {
   }
 
   void initUserSession() async {
+    // * Note: Fresh app
+    // await UserData.clear();
+    // Get session data
     final sessionData = await UserData.getSessionData();
-    // * Note: Fresh app now
-    await UserData.clear();
-    // Save sample account data
-    final yamlFileUrlString =
-        await s.rootBundle.loadString('lib/common/mock/userdata.yaml');
-    final userData = loadYaml(yamlFileUrlString);
-    print(userData);
-    await UserData.setCredentialAccountData(userData["account"]["bcAddress"],
-        userData["account"]["publicKey"], userData["account"]["privateKey"]);
-    await UserData.setCredentialProfileData(
-        userData["profile"]["avatarUrl"],
-        userData["profile"]["fullName"],
-        userData["profile"]["age"],
-        userData["profile"]["gender"],
-        userData["profile"]["address"],
-        userData["profile"]["debitor"]);
-    emit(AuthenticatedSessionState());
-    return;
+    // 1. Local storage only
+    // final yamlFileUrlString =
+    //     await s.rootBundle.loadString('lib/common/mock/userdata.yaml');
+    // final userData = loadYaml(yamlFileUrlString);
+    // print(userData);
+    // await UserData.setCredentialAccountData(userData["account"]["bcAddress"],
+    //     userData["account"]["publicKey"], userData["account"]["privateKey"]);
+    // await UserData.setCredentialProfileData(
+    //     userData["profile"]["avatarUrl"],
+    //     userData["profile"]["fullName"],
+    //     userData["profile"]["age"],
+    //     userData["profile"]["gender"],
+    //     userData["profile"]["address"],
+    //     userData["profile"]["debitor"]);
+    // emit(AuthenticatedSessionState());
+    // return;
     // First time
     if (sessionData == null ||
         sessionData.sessionType == SessionType.firstTime) {
-      // Walkthrough here
+      // (skip) Walkthrough here
       UserData.setSessionData(SessionType.unauthenticated);
       // emit(FirstTimeSessionState()); // Skip - when walkthrough pages are implemented
       emit(UnauthenticatedSessionState());
@@ -47,7 +48,8 @@ class SessionCubit extends Cubit<SessionState> {
     } else if (sessionData.sessionType == SessionType.expired) {
       emit(ExpiredSessionState());
     } else if (sessionData.sessionType == SessionType.authenticated) {
-      emit(AuthenticatedSessionState());
+      // (later) Verfiy user session
+      emit(ExpiredSessionState());
     }
   }
 
