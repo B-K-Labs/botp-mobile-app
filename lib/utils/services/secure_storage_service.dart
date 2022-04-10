@@ -8,24 +8,24 @@ class SecureStorage {
       FlutterSecureStorage();
 
   // Secure storage instance
-  static FlutterSecureStorage get secureStorage => _securePrefsInstance;
+  static FlutterSecureStorage get _secureStorage => _securePrefsInstance;
 
   // Basic methods
   static Future<Map<String, dynamic>?> getSecureValue(String key) async {
-    var secureLocalValue = await secureStorage.read(key: key);
+    var secureLocalValue = await _secureStorage.read(key: key);
     return secureLocalValue != null ? json.decode(secureLocalValue) : null;
   }
 
   static Future<void> setSecureValue(
           String key, Map<String, dynamic> value) async =>
-      await secureStorage.write(key: key, value: json.encode(value));
+      await _secureStorage.write(key: key, value: json.encode(value));
 
   static Future<void> removeSecureValue(String key) async =>
-      await secureStorage.delete(key: key);
+      await _secureStorage.delete(key: key);
 
   // Additional methods
   static Future<Map<String, dynamic>> getAllSecureValues() async {
-    Map<String, String> secureLocalMap = await secureStorage.readAll();
+    Map<String, String> secureLocalMap = await _secureStorage.readAll();
     Map<String, dynamic> returnMap = {};
     // Decode all map values
     secureLocalMap.entries
@@ -34,5 +34,5 @@ class SecureStorage {
   }
 
   static Future<void> removeAllSecureValues() async =>
-      await secureStorage.deleteAll();
+      await _secureStorage.deleteAll();
 }
