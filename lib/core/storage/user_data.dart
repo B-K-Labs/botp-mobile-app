@@ -59,17 +59,39 @@ class UserData {
                   privateKey: privateKey)
               .toJSON());
 
-  // Credential Account: blockchain address, public/private key
+  // Credential Profile: fullName, age, gender, address, debitor
+  static Future<CredentialProfileDataModel?> getCredentialProfileData() async {
+    final data =
+        await SecureStorage.getSecureValue(UserDataType.credentialProfile);
+    return data != null ? CredentialProfileDataModel.fromJSON(data) : null;
+  }
+
+  static setCredentialProfileData(String? avatarUrl, String fullName, int age,
+          String gender, String address, String debitor) async =>
+      await SecureStorage.setSecureValue(
+          UserDataType.credentialProfile,
+          CredentialProfileDataModel(
+                  avatarUrl: avatarUrl,
+                  fullName: fullName,
+                  age: age,
+                  gender: gender,
+                  debitor: debitor)
+              .toJSON());
+
+  // Credential Agent: agents list
   static Future<CredentialAgentsDataModel?> getCredentialAgentsData() async {
     final data =
         await SecureStorage.getSecureValue(UserDataType.credentialAgents);
     return data != null ? CredentialAgentsDataModel.fromJSON(data) : null;
   }
 
-  static setCredentialAgentsData(List<String> listAgentBcAddresses) async =>
+  static setCredentialAgentsData(
+          List<String> listBcAddresses, List<String> listPublicKeys) async =>
       await SecureStorage.setSecureValue(
           UserDataType.credentialAgents,
-          CredentialAgentsDataModel(listAgentBcAddresses: listAgentBcAddresses)
+          CredentialAgentsDataModel(
+                  listBcAddresses: listBcAddresses,
+                  listPublicKeys: listPublicKeys)
               .toJSON());
 
   // Wipe out data for e.g signing out

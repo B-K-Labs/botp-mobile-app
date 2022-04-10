@@ -66,33 +66,41 @@ class CredentialAccountDataModel {
 }
 
 class CredentialAgentsDataModel {
-  final List<String> listAgentBcAddresses;
+  final List<String> listBcAddresses;
+  final List<String> listPublicKeys;
 
-  CredentialAgentsDataModel({required this.listAgentBcAddresses});
+  CredentialAgentsDataModel(
+      {required this.listBcAddresses, required this.listPublicKeys});
   CredentialAgentsDataModel.fromJSON(Map<String, dynamic> json)
-      : listAgentBcAddresses = json["listAgentBcAddresses"];
+      : listBcAddresses = json["listBcAddresses"],
+        listPublicKeys = json["listPublicKeys"];
   Map<String, dynamic> toJSON() => {
-        "listAgentBcAddresses": listAgentBcAddresses,
+        "listBcAddresses": listBcAddresses,
+        "listPublicKeys": listPublicKeys,
       };
 }
 
 class CredentialProfileDataModel {
+  final String? avatarUrl;
   final String fullName;
   final int age;
   final String gender;
   final String debitor;
 
   CredentialProfileDataModel(
-      {required this.fullName,
+      {this.avatarUrl,
+      required this.fullName,
       required this.age,
       required this.gender,
       required this.debitor});
   CredentialProfileDataModel.fromJSON(Map<String, dynamic> json)
-      : fullName = json["fullName"],
+      : avatarUrl = json["avatarUrl"],
+        fullName = json["fullName"],
         age = json["age"],
         gender = json["gender"],
         debitor = json["debitor"];
   Map<String, dynamic> toJSON() => {
+        "avatarUrl": avatarUrl,
         "fullName": fullName,
         "age": age,
         "gender": gender,
