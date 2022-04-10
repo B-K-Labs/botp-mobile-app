@@ -1,8 +1,11 @@
 import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:botp_auth/core/storage/user_data_model.dart';
+import 'package:botp_auth/modules/botp/settings/main/cubit/settings_main_cubit.dart';
+import 'package:botp_auth/modules/botp/settings/main/cubit/settings_main_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -17,8 +20,11 @@ class SettingsScreen extends StatelessWidget {
           iconTheme:
               IconThemeData(color: Theme.of(context).colorScheme.onSurface),
         ),
-        body: const SafeArea(
-            minimum: EdgeInsets.all(kPaddingSafeArea), child: SettingsBody()));
+        body: SafeArea(
+            minimum: const EdgeInsets.all(kPaddingSafeArea),
+            child: BlocProvider(
+                create: (context) => SettingsMainCubit(),
+                child: const SettingsBody())));
   }
 }
 
@@ -40,38 +46,43 @@ class _SettingsBodyState extends State<SettingsBody> {
   }
 
   Widget _info() {
-    return FutureBuilder<CredentialAccountDataModel?>(
-        future: UserData.getCredentialAccountData(),
-        builder: (BuildContext context,
-            AsyncSnapshot<CredentialAccountDataModel?> snapshot) {
-          return Column(children: [
-            const CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "https://www.printed.com/blog/wp-content/uploads/2016/06/quiz-serious-cat.png"),
-              radius: 80,
-            ),
-            const SizedBox(height: 18.0),
-            Text("Nguyen Huynh Huu Khiem",
-                style: Theme.of(context).textTheme.headline6),
-            const SizedBox(height: 12.0),
-            Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Theme.of(context).colorScheme.outline,
-                        width: 1)),
-                child: snapshot.hasData
-                    ? Text(snapshot.data!.bcAddress)
-                    : Text("bcAddress"))
-          ]);
-        });
+    return BlocBuilder<SettingsMainCubit, SettingsMainState>(
+        builder: (context, state) {
+      final fullName =
+          state.fullName != null ? state.fullName! : state.guestName;
+      return Column(children: [
+        // Avatar
+        state.avatarUrl != null
+            ? const CircleAvatar(
+                backgroundImage: NetworkImage(
+                    "https://www.printed.com/blog/wp-content/uploads/2016/06/quiz-serious-cat.png"),
+                radius: 80,
+              )
+            : CircleAvatar(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                radius: 80,
+              ),
+        const SizedBox(height: 18.0),
+        // Fullname
+        Text(fullName, style: Theme.of(context).textTheme.headline6),
+        const SizedBox(height: 12.0),
+        // Blockchain address
+        state.bcAddress != null
+            ? Text(state.bcAddress!)
+            : const CircularProgressIndicator(),
+      ]);
+    });
   }
 
   Widget _categories() {
     List<Widget> _categoriesList = [
-      _category(Icon(Icons.person), "Account", "Export, profile", () {}),
-      _category(Icon(Icons.adjust), "Preferences", "Language, theme", () {}),
-      _category(Icon(Icons.security), "Security", "Password, sign out", () {}),
-      _category(Icon(Icons.info), "About", "Version, terms of services", () {})
+      _category(const Icon(Icons.person), "Account", "Export, profile", () {}),
+      _category(
+          const Icon(Icons.adjust), "Preferences", "Language, theme", () {}),
+      _category(
+          const Icon(Icons.security), "Security", "Password, sign out", () {}),
+      _category(
+          const Icon(Icons.info), "About", "Version, terms of services", () {})
     ];
     return Expanded(
         child: ListView.separated(
