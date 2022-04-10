@@ -19,11 +19,10 @@ class SignInOtherState {
   });
 
   SignInOtherState copyWith(
-      {String? privateKey, String? password, RequestStatus? formStatus}) {
-    return SignInOtherState(
-      privateKey: privateKey ?? this.privateKey,
-      password: password ?? this.password,
-      formStatus: formStatus ?? this.formStatus,
-    );
-  }
+          {String? privateKey, String? password, RequestStatus? formStatus}) =>
+      SignInOtherState(
+        privateKey: privateKey ?? this.privateKey,
+        password: password ?? this.password,
+        formStatus: formStatus ?? this.formStatus,
+      );
 }

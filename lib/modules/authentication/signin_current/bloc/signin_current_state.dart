@@ -19,11 +19,10 @@ class SignInCurrentState {
   });
 
   SignInCurrentState copyWith(
-      {String? bcAddress, String? password, RequestStatus? formStatus}) {
-    return SignInCurrentState(
-      bcAddress: bcAddress ?? this.bcAddress,
-      password: password ?? this.password,
-      formStatus: formStatus ?? this.formStatus,
-    );
-  }
+          {String? bcAddress, String? password, RequestStatus? formStatus}) =>
+      SignInCurrentState(
+        bcAddress: bcAddress ?? this.bcAddress,
+        password: password ?? this.password,
+        formStatus: formStatus ?? this.formStatus,
+      );
 }

@@ -13,9 +13,7 @@ class SignUpState {
   SignUpState(
       {this.password = '', this.formStatus = const RequestStatusInitial()});
 
-  SignUpState copyWith({password, formStatus}) {
-    return SignUpState(
-        password: password ?? this.password,
-        formStatus: formStatus ?? this.formStatus);
-  }
+  SignUpState copyWith({password, formStatus}) => SignUpState(
+      password: password ?? this.password,
+      formStatus: formStatus ?? this.formStatus);
 }
