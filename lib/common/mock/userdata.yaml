@@ -1,19 +1,65 @@
 profile:
+  avatarUrl: "https://www.printed.com/blog/wp-content/uploads/2016/06/quiz-serious-cat.png"
   fullName: "Thinh Doan Ngoc"
   age: 18
-  male: "male"
+  gender: "male"
   address: "Dormitory A, Linh Trung Ward, Thu Duc District, Ho Chi Minh City"
-  debitor: 012345678
+  debitor: "012345678"
 
 account:
-  mnemonic: "fault girl nation indicate soft oblige select ecology main surge thumb stock"
   bcAddress: "0xf95Bb564A60Ba1F20352dFad20D5509719Ee6757"
   publicKey: "4cce60f8822472cd8588e14a460411c61a2983f0dff112d1255e217b75a74d970258cd6812100edc5a63bf92b948480853a276dec4571356412e6c77673e189d"
   privateKey: "76237cb8e464b6ded37e60b9dfebebd1bcfa1bf017a47a6e8bfb5dfcfe281c61"
   password: "12#abC"
+  mnemonic: "fault girl nation indicate soft oblige select ecology main surge thumb stock"
 
 agent:
-  list: ["0x80c879cE1940227cc71a8A8660D128c8b5b1eA40", "0x3a43A6D13c018EFEc3822492E48Aa1443DC52357"]
+  bcAddressesList: [
+      "0x80c879cE1940227cc71a8A8660D128c8b5b1eA40",
+      "0x3a43A6D13c018EFEc3822492E48Aa1443DC52357",
+      "0x3a43A6D13c019EFEc3822492E48Aa1443DC52357"
+  ]
+  publicKeysList: [
+      "1e0e5a85a6ac4272b01ffb8129ab1032d2aeab7c5b4912df527378218ccc6f28f7f6330237e3905cfd190d0c2fefa9088b27fe1be1e620b535ee8de0d486e683",
+      "8c7cb4a4b5611a40943b137c82108b021c3023feea430ef701b104f1a1320997550394c1f8ec4e3a6783f7137f1d97861968cf8d4e8b44cc0e62441a91cc99dd",
+      "9c7cb4a4b5611a40943b137c82108b021c3023feea430ef701b104f1a1320997550394c1f8ec4e3a6783f7137f1d97861968cf8d4e8b44cc0e62441a91cc99dd"
+  ]
+
+transaction:
+  -
+    id: "1"
+    from:
+      name: "Lazada"
+      imageUrl: "https://senyumpeople.com/wp-content/uploads/2015/10/shopee.png"
+      bcAddress: "0x80c879cE1940227cc71a8A8660D128c8b5b1eA40"
+    to:
+      email: "thinhdoanngoc@gmail.com"
+    date: "2022-04-10 20:08:12.345"
+    message: "Pay for order 0123ABC with total cost of 2.000.000 VND"
+    status: "Pending"
+  -
+    id: "1"
+    from:
+      name: "Shopee"
+      imageUrl: "https://senyumpeople.com/wp-content/uploads/2015/10/shopee.png"
+      bcAddress: "0x3a43A6D13c018EFEc3822492E48Aa1443DC52357"
+    to:
+      email: "minhhien720@gmail.com"
+    date: "2022-04-11 10:50:37.192"
+    message: "Order 0x492Ecb48Aa from Shopee"
+    status: "Confirmed"
+  -
+    id: "1"
+    date: "2022-04-12 03:00:00.000"
+    from:
+      name: "ACB"
+      avatarUrl: "https://printgo.vn/uploads/file-logo/1/x512x512.9c5675e0f4dc5f351644d29338c93cb6.ai.1.png.pagespeed.ic.2fH7JB52gA.png"
+      bcAddress: "0x3a43A6D13c019EFEc3822492E48Aa1443DC52357"
+    to:
+      email: "khiem20tc@gmail.com"
+    message: "Tranfer 1.000.000.000 USD from NGUYEN HUYNH HUU KHIEM to TRAN MINH HIEN"
+    status: "Rejected"
+
 
 
 

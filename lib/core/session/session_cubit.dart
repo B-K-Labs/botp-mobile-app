@@ -5,6 +5,7 @@ import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // [Development only] Use mock data!!!!!!!!!!!!!!!!
 import 'package:yaml/yaml.dart';
+import 'package:flutter/services.dart' as s;
 
 class SessionCubit extends Cubit<SessionState> {
   final AuthRepository authRepository;
@@ -19,7 +20,19 @@ class SessionCubit extends Cubit<SessionState> {
     // * Note: Fresh app now
     await UserData.clear();
     // Save sample account data
-
+    final yamlFileUrlString =
+        await s.rootBundle.loadString('lib/common/mock/userdata.yaml');
+    final userData = loadYaml(yamlFileUrlString);
+    print(userData);
+    await UserData.setCredentialAccountData(userData["account"]["bcAddress"],
+        userData["account"]["publicKey"], userData["account"]["privateKey"]);
+    await UserData.setCredentialProfileData(
+        userData["profile"]["avatarUrl"],
+        userData["profile"]["fullName"],
+        userData["profile"]["age"],
+        userData["profile"]["gender"],
+        userData["profile"]["address"],
+        userData["profile"]["debitor"]);
     emit(AuthenticatedSessionState());
     return;
     // First time
