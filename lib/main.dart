@@ -4,7 +4,7 @@ import 'package:botp_auth/modules/authentication/initial/screens/welcome_screen.
 import 'package:botp_auth/modules/authentication/signin_current/screens/signin_current_screen.dart';
 import 'package:botp_auth/core/session/session_cubit.dart';
 import 'package:botp_auth/core/session/session_state.dart';
-import 'package:botp_auth/modules/botp/authenticator/screens/authenticator_main.dart';
+import 'package:botp_auth/modules/botp/authenticator/screens/authenticator_main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';

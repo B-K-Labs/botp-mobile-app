@@ -67,19 +67,21 @@ class _SettingsBodyState extends State<SettingsBody> {
   }
 
   Widget _categories() {
-    return Column(children: [
+    List<Widget> _categoriesList = [
       _category(Icon(Icons.person), "Account", "Export, profile", () {}),
-      const SizedBox(height: 24),
       _category(Icon(Icons.adjust), "Preferences", "Language, theme", () {}),
-      const SizedBox(height: 24),
       _category(Icon(Icons.security), "Security", "Password, sign out", () {}),
-      const SizedBox(height: 24),
-      _category(Icon(Icons.info), "About", "Version, terms of services", () {}),
-    ]);
+      _category(Icon(Icons.info), "About", "Version, terms of services", () {})
+    ];
+    return Expanded(
+        child: ListView.separated(
+            itemCount: _categoriesList.length,
+            itemBuilder: (context, index) => _categoriesList[index],
+            separatorBuilder: (context, index) => const Divider()));
   }
 
   Widget _category(Icon icon, String title, String tooltip, Function() onTap) {
-    return GestureDetector(
+    return InkWell(
         onTap: onTap,
         child: Row(
           children: [

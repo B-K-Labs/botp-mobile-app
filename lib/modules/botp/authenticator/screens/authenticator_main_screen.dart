@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:botp_auth/constants/theme.dart';
-import 'package:botp_auth/modules/botp/history/screens/history_main.dart';
-import 'package:botp_auth/modules/botp/settings/main/screens/settings_screen.dart';
+import 'package:botp_auth/modules/botp/history/screens/history_main_screen.dart';
+import 'package:botp_auth/modules/botp/settings/main/screens/settings_main_screen.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 
