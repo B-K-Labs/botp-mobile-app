@@ -1,0 +1,24 @@
+profile:
+  fullName: "Thinh Doan Ngoc"
+  age: 18
+  male: "male"
+  address: "Dormitory A, Linh Trung Ward, Thu Duc District, Ho Chi Minh City"
+  debitor: 012345678
+
+account:
+  mnemonic: "fault girl nation indicate soft oblige select ecology main surge thumb stock"
+  bcAddress: "0xf95Bb564A60Ba1F20352dFad20D5509719Ee6757"
+  publicKey: "4cce60f8822472cd8588e14a460411c61a2983f0dff112d1255e217b75a74d970258cd6812100edc5a63bf92b948480853a276dec4571356412e6c77673e189d"
+  privateKey: "76237cb8e464b6ded37e60b9dfebebd1bcfa1bf017a47a6e8bfb5dfcfe281c61"
+  password: "12#abC"
+
+agent:
+  list: ["0x80c879cE1940227cc71a8A8660D128c8b5b1eA40", "0x3a43A6D13c018EFEc3822492E48Aa1443DC52357"]
+
+
+
+
+
+
+
+
