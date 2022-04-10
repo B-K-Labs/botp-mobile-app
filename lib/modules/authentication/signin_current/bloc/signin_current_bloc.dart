@@ -28,7 +28,7 @@ class SignInCurrentBloc extends Bloc<SignInCurrentEvent, SignInCurrentState> {
         if (signInCurrentResult.status) {
           UserData.setSessionData(SessionType.authenticated);
           sessionCubit.launchSession();
-          emit(state.copyWith(formStatus: RequestStatusSuccess()));
+          emit(state.copyWith(formStatus: RequestStatusSuccessful()));
         } else {
           throw Exception("Unknown error on sign in");
         }

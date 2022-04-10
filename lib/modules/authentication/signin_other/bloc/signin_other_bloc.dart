@@ -28,7 +28,7 @@ class SignInOtherBloc extends Bloc<SignInOtherEvent, SignInOtherState> {
         if (signInOtherResult.status) {
           UserData.setSessionData(SessionType.authenticated);
           sessionCubit.launchSession();
-          emit(state.copyWith(formStatus: RequestStatusSuccess()));
+          emit(state.copyWith(formStatus: RequestStatusSuccessful()));
         } else {
           throw Exception("Unknown error on sign in");
         }
