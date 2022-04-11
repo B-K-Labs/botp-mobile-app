@@ -1,13 +1,16 @@
 // Blockchain address
-String? bcAddressValidator(String bcAddress) =>
-    bcAddress.isEmpty ? "Missing blockchain address" : null;
+String? bcAddressValidator(String? bcAddress) =>
+    bcAddress == null || bcAddress.isEmpty
+        ? "Missing blockchain address"
+        : null;
 
 // Private key
-String? privateKeyValidator(String privateKey) =>
-    privateKey.isEmpty ? "Missing private key" : null;
+String? privateKeyValidator(String? privateKey) =>
+    privateKey == null || privateKey.isEmpty ? "Missing private key" : null;
 
 // Password
-String? passwordStrictValidator(String password) => password.isEmpty
+String? passwordStrictValidator(String? password) => password == null ||
+        password.isEmpty
     ? "Missing password"
     : password.length < 6
         ? "Password must be at least 6 characters"
@@ -16,8 +19,9 @@ String? passwordStrictValidator(String password) => password.isEmpty
             ? null
             : "Must contain one uppercase, one lowercase, one digit, and one special character";
 
-String? passwordNormalValidator(String password) => password.isEmpty
-    ? "Missing password"
-    : password.length < 6
-        ? "Password must be at least 6 characters"
-        : null;
+String? passwordNormalValidator(String? password) =>
+    password == null || password.isEmpty
+        ? "Missing password"
+        : password.length < 6
+            ? "Password must be at least 6 characters"
+            : null;
