@@ -59,7 +59,7 @@ class UserData {
                   privateKey: privateKey)
               .toJSON());
 
-  // Credential Profile: fullName, age, gender, address, debitor
+  // Credential Profile: fullName, age, gender, debitor
   static Future<CredentialProfileDataModel?> getCredentialProfileData() async {
     final data =
         await SecureStorage.getSecureValue(UserDataType.credentialProfile);
@@ -67,7 +67,7 @@ class UserData {
   }
 
   static setCredentialProfileData(String? avatarUrl, String fullName, int age,
-          String gender, String address, String debitor) async =>
+          String gender, String debitor) async =>
       await SecureStorage.setSecureValue(
           UserDataType.credentialProfile,
           CredentialProfileDataModel(
