@@ -1,21 +1,21 @@
-import 'package:botp_auth/core/authentication/app_navigator.dart';
+import 'package:botp_auth/modules/authentication/session/screens/session_screen.dart';
 import 'package:botp_auth/modules/authentication/signin_current/screens/signin_current_screen.dart';
 import 'package:botp_auth/modules/authentication/signin_other/screens/signin_other_screen.dart';
 import 'package:botp_auth/modules/authentication/signup/screens/signup_screen.dart';
-import 'package:botp_auth/modules/botp/authenticator/screens/authenticator_main_screen.dart';
+import 'package:botp_auth/modules/botp/authenticator/home/screens/authenticator_main_screen.dart';
+import 'package:botp_auth/modules/botp/settings/home/screens/settings_main_screen.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-
-// App entry
-// - App navigator
-var appNavigatorHandler =
-    Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-  return const AppNavigator();
-});
 
 // Auth modules
 // - Walkthrough
 // TODO
+
+// - Session
+var sessionHandler =
+    Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  return const SessionScreen();
+});
 
 // - Sign up
 var signUpHandler =
@@ -23,7 +23,7 @@ var signUpHandler =
   return const SignUpScreen();
 });
 
-// - Sign In (current account)
+// - Sign in (current account)
 var signInCurrentHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
   return const SignInCurrentScreen();
@@ -35,23 +35,21 @@ var signInOtherHandler =
   return const SignInOtherScreen();
 });
 
-// Main modules
-// - Authenticator
-var authenticatorHandler =
+// Authenticator modules
+// + Home
+var authenticatorHomeHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-  return const AuthenticatorMainScreen();
+  return const AuthenticatorHomeScreen();
 });
 
-// - History
+// + Authenticate transaction
 // TODO
-// var historyHandler =
-//     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-//   return const MainAppScreen();
-// });
 
-// - Settings
+// History modules
 // TODO
-// var settingsHandler =
-//     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-//   return const MainAppScreen();
-// });
+
+// Settings modules
+var settingsHomeHandler =
+    Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  return const SettingsHomeScreen();
+});

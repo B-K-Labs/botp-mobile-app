@@ -2,31 +2,34 @@ import 'package:fluro/fluro.dart';
 import 'package:botp_auth/configs/routes/routes_handler.dart';
 
 class Routes {
-  // App navigator (default)
-  static String appNavigator = "/";
-  // First-time use
+  // Authentication modules
+  static String session = "/";
   static String walkThrough = "/walkthroughs/:page_id";
   static String welcome = "/welcome";
-  // Sign in & sign up
   static String signInCurrent = "/signin/current";
   static String signInOther = "/signin/other";
   static String signUp = "/signup";
-  // App
-  // + Authenticator
-  static String authenticator = "/authenticator";
+  // Authenticator modules
+  static String authenticatorHome = "/authenticator";
   static String authenticateTransaction = "/authenticate/:transaction_id";
-  // + History
-  static String history = "/history";
+  // History modules
+  static String historyHome = "/history";
   static String historyTransaction = "/history/:transaction_id";
-  // + Account
-  static String settings = "/settings";
+  // Settings modules
+  static String settingsHome = "/settings";
 
   // Routes configuration
   static void configureRoutes(FluroRouter router) {
-    router.define(appNavigator, handler: appNavigatorHandler);
+    // Authentication modules
+    router.define(session, handler: sessionHandler);
     router.define(signUp, handler: signUpHandler);
     router.define(signInCurrent, handler: signInCurrentHandler);
     router.define(signInOther, handler: signInOtherHandler);
-    router.define(authenticator, handler: authenticatorHandler);
+    // Authenticator modules
+    router.define(authenticatorHome, handler: authenticatorHomeHandler);
+    // History modules
+    // TODO
+    // Settings modules
+    router.define(settingsHome, handler: settingsHomeHandler);
   }
 }
