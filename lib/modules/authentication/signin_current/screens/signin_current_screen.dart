@@ -1,10 +1,11 @@
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
-import 'package:botp_auth/core/authentication/auth_repository.dart';
+import 'package:botp_auth/core/modules/authentication/auth_repository.dart';
+import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/authentication/signin_current/bloc/signin_current_bloc.dart';
 import 'package:botp_auth/modules/authentication/signin_current/bloc/signin_current_event.dart';
 import 'package:botp_auth/modules/authentication/signin_current/bloc/signin_current_state.dart';
-import 'package:botp_auth/core/session/session_cubit.dart';
+import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:botp_auth/constants/theme.dart';
@@ -18,20 +19,16 @@ class SignInCurrentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: true,
-          elevation: 0,
-          // backgroundColor: Colors.white10,
-        ),
-        body: SafeArea(
-          minimum: const EdgeInsets.all(kPaddingSafeArea),
-          child: BlocProvider(
-            create: (context) => SignInCurrentBloc(
-                authRepository: context.read<AuthRepository>(),
-                sessionCubit: context.read<SessionCubit>()),
-            child: const SignInCurrentBody(),
-          ),
-        ));
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        elevation: 0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      ),
+      body: const SafeArea(
+        minimum: EdgeInsets.all(kPaddingSafeArea),
+        child: SignInCurrentBody(),
+      ),
+    );
   }
 }
 
@@ -47,16 +44,15 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [_signInCurrentForm(context), _otherOptions()],
-    );
-  }
-
-  void _showSnackBar(context, message) {
-    final snackBar = SnackBar(content: Text(message));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    return BlocProvider<SignInCurrentBloc>(
+        create: (context) => SignInCurrentBloc(
+            authRepository: context.read<AuthRepository>(),
+            sessionCubit: context.read<SessionCubit>()),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [_signInCurrentForm(context), _otherOptions()],
+        ));
   }
 
   Widget _signInCurrentForm(context) {
@@ -65,7 +61,7 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
           final formStatus = state.formStatus;
           if (formStatus is RequestStatusFailed) {
             {
-              _showSnackBar(context, formStatus.exception.toString());
+              showSnackBar(context, formStatus.exception.toString());
             }
           }
         },

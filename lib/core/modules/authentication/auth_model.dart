@@ -9,18 +9,15 @@ class SignUpResponseModel {
   String bcAddress;
   String publicKey;
   String privateKey;
-  String encryptedPrivateKey;
   SignUpResponseModel(
     this.bcAddress,
     this.publicKey,
     this.privateKey,
-    this.encryptedPrivateKey,
   );
   SignUpResponseModel.fromJson(Map<String, dynamic> json)
-      : bcAddress = json['addressBC'], // bcAddress
+      : bcAddress = json['BCAddress'], // bcAddress
         publicKey = json['publicKey'],
-        privateKey = json['privateKey'],
-        encryptedPrivateKey = json['encPrivateKey']; // encryptedPrivateKey
+        privateKey = json['privateKey']; // encryptedPrivateKey
 }
 
 // Sign in
@@ -51,6 +48,11 @@ class ImportRequestModel {
 }
 
 class ImportResponseModel {
-  ImportResponseModel();
-  ImportResponseModel.fromJson(Map<String, dynamic> json) {}
+  String bcAddress;
+  String publicKey;
+
+  ImportResponseModel(this.bcAddress, this.publicKey);
+  ImportResponseModel.fromJson(Map<String, dynamic> json)
+      : bcAddress = json['BCAddress'], // bcAddress
+        publicKey = json['publicKey'];
 }

@@ -1,19 +1,18 @@
 import 'dart:math';
 import 'package:botp_auth/constants/theme.dart';
-import 'package:botp_auth/modules/botp/history/screens/history_main_screen.dart';
-import 'package:botp_auth/modules/botp/settings/main/screens/settings_main_screen.dart';
+import 'package:botp_auth/modules/botp/settings/home/screens/settings_main_screen.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 
-class AuthenticatorMainScreen extends StatefulWidget {
-  const AuthenticatorMainScreen({Key? key}) : super(key: key);
+class AuthenticatorHomeScreen extends StatefulWidget {
+  const AuthenticatorHomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<AuthenticatorMainScreen> createState() =>
-      _AuthenticatorMainScreenState();
+  State<AuthenticatorHomeScreen> createState() =>
+      _AuthenticatorHomeScreenState();
 }
 
-class _AuthenticatorMainScreenState extends State<AuthenticatorMainScreen> {
+class _AuthenticatorHomeScreenState extends State<AuthenticatorHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,27 +22,13 @@ class _AuthenticatorMainScreenState extends State<AuthenticatorMainScreen> {
           backgroundColor: Theme.of(context).colorScheme.surface,
           actions: [
             IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const HistoryMainScreen()));
-              },
-            ),
-            IconButton(
               icon: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(100)),
                 child: Image.network(
                   "https://www.printed.com/blog/wp-content/uploads/2016/06/quiz-serious-cat.png",
                 ),
               ),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SettingsScreen()));
-              },
+              onPressed: () {},
             ),
             const SizedBox(width: 10.0),
           ],

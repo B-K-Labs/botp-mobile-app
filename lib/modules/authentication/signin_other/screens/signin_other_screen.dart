@@ -1,10 +1,11 @@
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
-import 'package:botp_auth/core/authentication/auth_repository.dart';
+import 'package:botp_auth/core/modules/authentication/auth_repository.dart';
+import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/authentication/signin_other/bloc/signin_other_bloc.dart';
 import 'package:botp_auth/modules/authentication/signin_other/bloc/signin_other_state.dart';
 import 'package:botp_auth/modules/authentication/signin_other/bloc/signin_other_event.dart';
-import 'package:botp_auth/core/session/session_cubit.dart';
+import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/widgets/field.dart';
@@ -39,7 +40,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
+    return BlocProvider<SignInOtherBloc>(
         create: (context) => SignInOtherBloc(
             authRepository: context.read<AuthRepository>(),
             sessionCubit: context.read<SessionCubit>()),
@@ -49,17 +50,12 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
             children: [_signInOtherForm(context), _otherOptions()]));
   }
 
-  void _showSnackBar(context, message) {
-    final snackBar = SnackBar(content: Text(message));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
   Widget _signInOtherForm(context) {
     return BlocListener<SignInOtherBloc, SignInOtherState>(
         listener: (context, state) {
           final formStatus = state.formStatus;
           if (formStatus is RequestStatusFailed) {
-            _showSnackBar(context, formStatus.exception.toString());
+            showSnackBar(context, formStatus.exception.toString());
           }
         },
         child: Form(

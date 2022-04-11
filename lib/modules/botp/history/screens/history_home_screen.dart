@@ -2,8 +2,8 @@ import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/widgets/field.dart';
 import "package:flutter/material.dart";
 
-class HistoryMainScreen extends StatelessWidget {
-  const HistoryMainScreen({Key? key}) : super(key: key);
+class HistoryHomeScreen extends StatelessWidget {
+  const HistoryHomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,18 +20,18 @@ class HistoryMainScreen extends StatelessWidget {
             )),
         body: const SafeArea(
             minimum: EdgeInsets.all(kPaddingSafeArea),
-            child: HistoryMainBody()));
+            child: HistoryHomeBody()));
   }
 }
 
-class HistoryMainBody extends StatefulWidget {
-  const HistoryMainBody({Key? key}) : super(key: key);
+class HistoryHomeBody extends StatefulWidget {
+  const HistoryHomeBody({Key? key}) : super(key: key);
 
   @override
-  State<HistoryMainBody> createState() => _HistoryMainBodyState();
+  State<HistoryHomeBody> createState() => _HistoryHomeBodyState();
 }
 
-class _HistoryMainBodyState extends State<HistoryMainBody> {
+class _HistoryHomeBodyState extends State<HistoryHomeBody> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [Text("History")]);

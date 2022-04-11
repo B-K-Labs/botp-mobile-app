@@ -1,9 +1,9 @@
 import 'package:botp_auth/constants/storage.dart';
-import 'package:botp_auth/core/authentication/auth_repository.dart';
-import 'package:botp_auth/core/session/session_state.dart';
+import 'package:botp_auth/core/modules/authentication/auth_repository.dart';
+import 'package:botp_auth/modules/authentication/session/cubit/session_state.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// [Development only] Use mock data!!!!!!!!!!!!!!!!
+// (dev only) Use mock data!!!!!!!!!!!!!!!!
 import 'package:yaml/yaml.dart';
 import 'package:flutter/services.dart' as s;
 
@@ -17,7 +17,7 @@ class SessionCubit extends Cubit<SessionState> {
 
   void initUserSession() async {
     // * Note: Fresh app
-    // await UserData.clear();
+    await UserData.clear();
     // Get session data
     final sessionData = await UserData.getSessionData();
     // 1. Local storage only
@@ -53,7 +53,7 @@ class SessionCubit extends Cubit<SessionState> {
     }
   }
 
-  // When authenticated successfully
+  // Authentication process is success
   void launchSession() {
     emit(AuthenticatedSessionState());
   }

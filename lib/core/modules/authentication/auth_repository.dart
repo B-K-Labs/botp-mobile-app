@@ -1,6 +1,6 @@
 import 'package:botp_auth/utils/tools/crypto.dart';
 import 'package:botp_auth/utils/services/rest_api_service.dart';
-import 'package:botp_auth/core/authentication/auth_model.dart';
+import 'package:botp_auth/core/modules/authentication/auth_model.dart';
 import 'package:botp_auth/constants/api_path.dart';
 import 'dart:convert';
 import 'package:universal_html/html.dart';

@@ -9,7 +9,7 @@ class FirstTimeSessionState extends SessionState {}
 // Completely signed out user
 class UnauthenticatedSessionState extends SessionState {}
 
-// Out-of-session user (i.e just requires password in the next sign in)
+// Out-of-session user i.e only password is required when signing in
 class ExpiredSessionState extends SessionState {}
 
 // Signed in user
