@@ -1,5 +1,5 @@
 import 'package:botp_auth/modules/botp/authenticator/home/screens/authenticator_main_screen.dart';
-import 'package:botp_auth/modules/botp/history/screens/history_home_screen.dart';
+import 'package:botp_auth/modules/botp/history/home/screens/history_home_screen.dart';
 import 'package:botp_auth/modules/botp/settings/home/screens/settings_main_screen.dart';
 import "package:flutter/material.dart";
 

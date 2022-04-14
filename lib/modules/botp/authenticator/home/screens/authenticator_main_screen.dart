@@ -2,8 +2,7 @@ import 'dart:math';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
-import 'package:botp_auth/modules/botp/authenticator/authenticate_transaction/screens/authenticate_transaction.dart';
-import 'package:botp_auth/modules/botp/settings/home/screens/settings_main_screen.dart';
+import 'package:botp_auth/modules/botp/history/transaction_details/screens/transaction_details_screen.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -135,7 +134,10 @@ class _AuthenticatorMainBodyState extends State<AuthenticatorMainBody> {
   Widget _buildRow(String account) {
     return GestureDetector(
       onTap: () {
-        Application.router.navigateTo(context, "/");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const TransactionDetailsScreen()));
       },
       child: TransactionItemWidget(
           isLasted: false,

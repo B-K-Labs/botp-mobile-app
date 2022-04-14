@@ -1,4 +1,4 @@
-import 'package:botp_auth/common/repositories/auth_repository.dart';
+import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/common/repositories/history_repository.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';

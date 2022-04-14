@@ -2,7 +2,7 @@ import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_state.dart';
 import 'package:botp_auth/modules/botp/settings/profile_view/screens/profile_view_screen.dart';
-import 'package:botp_auth/utils/helpers/bc_address.dart';
+import 'package:botp_auth/utils/helpers/account.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

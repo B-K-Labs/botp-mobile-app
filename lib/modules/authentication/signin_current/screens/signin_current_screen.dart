@@ -1,6 +1,6 @@
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
-import 'package:botp_auth/common/repositories/auth_repository.dart';
+import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/authentication/signin_current/bloc/signin_current_bloc.dart';
 import 'package:botp_auth/modules/authentication/signin_current/bloc/signin_current_event.dart';

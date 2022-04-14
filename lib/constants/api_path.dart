@@ -5,6 +5,7 @@
 // 2. Production: your public url
 
 class BotpAPI {
+  // TODO: Move to config & Implement the environment configuration
   static const _protocol = "https";
   static const _host =
       "botp-backend-logic-api.herokuapp.com"; // botp-main.herokuapp.com
@@ -18,6 +19,6 @@ class BotpAPI {
       Uri(scheme: _protocol, host: _host, path: '$_basePath/authen/signIn');
   static var userKycUrl =
       Uri(scheme: _protocol, host: _host, path: '$_basePath/user/doKYC');
-  // static var receiveOtpUrl =
-  //     Uri(scheme: _protocol, host: _host, path: '$_basePath/otp/receive');
+  static var generateOtpUrl =
+      Uri(scheme: _protocol, host: _host, path: '$_basePath/otp/generateOTP');
 }
