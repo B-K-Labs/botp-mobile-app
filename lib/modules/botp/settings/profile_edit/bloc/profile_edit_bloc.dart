@@ -1,5 +1,5 @@
 import 'package:botp_auth/common/states/request_status.dart';
-import 'package:botp_auth/core/modules/settings/settings_repository.dart';
+import 'package:botp_auth/common/repositories/settings_repository.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:botp_auth/modules/botp/settings/profile_edit/bloc/profile_edit_event.dart';
 import 'package:botp_auth/modules/botp/settings/profile_edit/bloc/profile_edit_state.dart';
@@ -27,8 +27,13 @@ class ProfileEditBloc extends Bloc<ProfileEditEvent, ProfileEditState> {
       try {
         // final kycResult = await settingsRepo.kyc(accountData!.bcAddress,
         //     state.fullName!, state.age!, state.gender!, state.debitor!);
-        UserData.setCredentialProfileData(profileData?.avatarUrl,
-            state.fullName!, state.age!, state.gender!, state.debitor!);
+        UserData.setCredentialProfileData(
+            profileData?.avatarUrl,
+            state.fullName!,
+            int.parse(state.age!),
+            state.gender!,
+            state.debitor!);
+        emit(state.copyWith(formStatus: RequestStatusSuccessful()));
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));
       }

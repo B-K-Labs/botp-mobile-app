@@ -1,8 +1,12 @@
 import 'dart:math';
+import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/theme.dart';
+import 'package:botp_auth/common/repositories/settings_repository.dart';
+import 'package:botp_auth/modules/botp/authenticator/authenticate_transaction/screens/authenticate_transaction.dart';
 import 'package:botp_auth/modules/botp/settings/home/screens/settings_main_screen.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
+import "package:flutter_bloc/flutter_bloc.dart";
 
 class AuthenticatorHomeScreen extends StatefulWidget {
   const AuthenticatorHomeScreen({Key? key}) : super(key: key);
@@ -15,6 +19,7 @@ class AuthenticatorHomeScreen extends StatefulWidget {
 class _AuthenticatorHomeScreenState extends State<AuthenticatorHomeScreen> {
   @override
   Widget build(BuildContext context) {
+    print(context.read<SettingsRepository>());
     return Scaffold(
         appBar: AppBar(
           title: const Text("BOTP Authenticator"),
@@ -130,7 +135,7 @@ class _AuthenticatorMainBodyState extends State<AuthenticatorMainBody> {
   Widget _buildRow(String account) {
     return GestureDetector(
       onTap: () {
-        // Application.router.navigateTo(context, "/")
+        Application.router.navigateTo(context, "/");
       },
       child: TransactionItemWidget(
           isLasted: false,

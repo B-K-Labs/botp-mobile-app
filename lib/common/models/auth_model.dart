@@ -15,7 +15,7 @@ class SignUpResponseModel {
     this.privateKey,
   );
   SignUpResponseModel.fromJson(Map<String, dynamic> json)
-      : bcAddress = json['BCAddress'], // bcAddress
+      : bcAddress = json['bcAddress'], // bcAddress
         publicKey = json['publicKey'],
         privateKey = json['privateKey']; // encryptedPrivateKey
 }
@@ -53,6 +53,6 @@ class ImportResponseModel {
 
   ImportResponseModel(this.bcAddress, this.publicKey);
   ImportResponseModel.fromJson(Map<String, dynamic> json)
-      : bcAddress = json['BCAddress'], // bcAddress
+      : bcAddress = json['bcAddress'], // bcAddress
         publicKey = json['publicKey'];
 }

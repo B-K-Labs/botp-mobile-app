@@ -47,3 +47,13 @@ const kPaddingSafeArea = 20.0;
 const kShadowBlur = 10.0;
 const kShadowSpread = 0.0;
 const kShadowOffsetX = 0.0, kShadowOffsetY = 4.0;
+
+enum ButtonType {
+  primary,
+  primaryOutlined,
+  secondary,
+  secondaryOutlined,
+  error,
+  errorOutlined,
+  disabled,
+}

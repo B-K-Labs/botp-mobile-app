@@ -6,7 +6,7 @@ class ProfileEditEventFullNameChanged extends ProfileEditEvent {
 }
 
 class ProfileEditEventAgeChanged extends ProfileEditEvent {
-  final int? age;
+  final String? age;
   ProfileEditEventAgeChanged(this.age);
 }
 

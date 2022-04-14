@@ -7,7 +7,7 @@ class ProfileEditState {
   LoadUserDataStatus loadUserDataStatus;
   // Profile
   String? fullName;
-  int? age;
+  String? age;
   String? gender;
   String? debitor;
   // Form
@@ -15,8 +15,8 @@ class ProfileEditState {
   // Validators
   String? get validateFullName => fullNameValidator(fullName);
   String? get validateAge => ageValidator(age);
-  String? get validateGender => fullNameValidator(gender);
-  String? get validateDebitor => fullNameValidator(debitor);
+  String? get validateGender => genderValidator(gender);
+  String? get validateDebitor => debitorValidator(debitor);
 
   ProfileEditState(
       {this.fullName,
@@ -28,7 +28,7 @@ class ProfileEditState {
 
   ProfileEditState copyWith(
           {String? fullName,
-          int? age,
+          String? age,
           String? gender,
           String? debitor,
           RequestStatus? formStatus,

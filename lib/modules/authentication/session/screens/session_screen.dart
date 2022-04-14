@@ -1,4 +1,4 @@
-import 'package:botp_auth/core/modules/authentication/auth_repository.dart';
+import 'package:botp_auth/common/repositories/auth_repository.dart';
 import 'package:botp_auth/modules/authentication/signin_current/screens/signin_current_screen.dart';
 import 'package:botp_auth/modules/authentication/welcome/screens/welcome_screen.dart';
 import 'package:botp_auth/modules/botp/authenticator/home/screens/botp_home.dart';

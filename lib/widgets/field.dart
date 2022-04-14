@@ -19,6 +19,7 @@ OutlineInputBorder _errorBorder = OutlineInputBorder(
 // Normal Input
 class NormalInputFieldWidget extends StatefulWidget {
   final String hintText;
+  final String? initialValue;
   final String? Function(String?) validator;
   final void Function(String?) onChanged;
   final IconData? iconData, suffixIconData;
@@ -27,6 +28,7 @@ class NormalInputFieldWidget extends StatefulWidget {
   const NormalInputFieldWidget({
     Key? key,
     this.hintText = '',
+    this.initialValue,
     required this.validator,
     required this.onChanged,
     this.iconData,
@@ -69,6 +71,7 @@ class _NormalInputFieldWidgetState extends State<NormalInputFieldWidget> {
         : null;
     // Return final text field
     return TextFormField(
+      initialValue: widget.initialValue,
       validator: widget.validator,
       onChanged: widget.onChanged,
       cursorColor: AppColors.primaryColor,
@@ -89,12 +92,14 @@ class _NormalInputFieldWidgetState extends State<NormalInputFieldWidget> {
 // Password Input Field
 class PasswordInputFieldWidget extends StatefulWidget {
   final String hintText;
+  final String? initialValue;
   final String? Function(String?) validator;
   final void Function(String?) onChanged;
 
   const PasswordInputFieldWidget(
       {Key? key,
       this.hintText = '',
+      this.initialValue,
       required this.validator,
       required this.onChanged})
       : super(key: key);
@@ -128,6 +133,7 @@ class _PasswordInputFieldWidgetState extends State<PasswordInputFieldWidget> {
 
     // Return final text field
     return TextFormField(
+      initialValue: widget.initialValue,
       validator: widget.validator,
       onChanged: widget.onChanged,
       cursorColor: AppColors.primaryColor,

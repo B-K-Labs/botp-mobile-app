@@ -2,11 +2,15 @@
 String? fullNameValidator(String? fullName) =>
     fullName == null || fullName.isEmpty ? "Missing full name" : null;
 
-String? ageValidator(int? age) => age == null
-    ? "Missing age"
-    : age < 0 && age > 200
-        ? "Invalid age"
-        : null;
+String? ageValidator(String? age) {
+  if (age == null) return "Missing age";
+  try {
+    final ageNumber = int.parse(age);
+    return ageNumber < 0 && ageNumber > 200 ? "Invalid age" : null;
+  } on Exception catch (e) {
+    return e.toString();
+  }
+}
 
 String? genderValidator(String? gender) =>
     gender == null || gender.isEmpty ? "Missing gender" : null;
