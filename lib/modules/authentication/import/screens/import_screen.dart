@@ -2,9 +2,9 @@ import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
-import 'package:botp_auth/modules/authentication/signin_other/bloc/signin_other_bloc.dart';
-import 'package:botp_auth/modules/authentication/signin_other/bloc/signin_other_state.dart';
-import 'package:botp_auth/modules/authentication/signin_other/bloc/signin_other_event.dart';
+import 'package:botp_auth/modules/authentication/import/bloc/import_bloc.dart';
+import 'package:botp_auth/modules/authentication/import/bloc/import_state.dart';
+import 'package:botp_auth/modules/authentication/import/bloc/import_event.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/theme.dart';
@@ -12,8 +12,8 @@ import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SignInOtherScreen extends StatelessWidget {
-  const SignInOtherScreen({Key? key}) : super(key: key);
+class ImportScreen extends StatelessWidget {
+  const ImportScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,19 +23,18 @@ class SignInOtherScreen extends StatelessWidget {
           elevation: 0,
         ),
         body: const SafeArea(
-            minimum: EdgeInsets.all(kPaddingSafeArea),
-            child: SignInOtherBody()));
+            minimum: EdgeInsets.all(kPaddingSafeArea), child: ImportBody()));
   }
 }
 
-class SignInOtherBody extends StatefulWidget {
-  const SignInOtherBody({Key? key}) : super(key: key);
+class ImportBody extends StatefulWidget {
+  const ImportBody({Key? key}) : super(key: key);
 
   @override
-  _SignInOtherBodyState createState() => _SignInOtherBodyState();
+  _ImportBodyState createState() => _ImportBodyState();
 }
 
-class _SignInOtherBodyState extends State<SignInOtherBody> {
+class _ImportBodyState extends State<ImportBody> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -141,7 +140,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
         SubButtonWidget(
           text: "Sign in with current account",
           press: () {
-            Application.router.navigateTo(context, "/signin/current");
+            Application.router.navigateTo(context, "/auth/signIn");
           },
           primary: AppColors.primaryColor,
         ),
@@ -149,7 +148,7 @@ class _SignInOtherBodyState extends State<SignInOtherBody> {
         SubButtonWidget(
           text: "Create new account",
           press: () {
-            Application.router.navigateTo(context, "/signup");
+            Application.router.navigateTo(context, "/auth/signUp");
           },
           primary: AppColors.primaryColor,
         ),

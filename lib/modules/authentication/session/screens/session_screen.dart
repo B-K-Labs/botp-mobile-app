@@ -1,7 +1,10 @@
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
-import 'package:botp_auth/modules/authentication/signin_current/screens/signin_current_screen.dart';
-import 'package:botp_auth/modules/authentication/welcome/screens/welcome_screen.dart';
-import 'package:botp_auth/modules/botp/authenticator/home/screens/botp_home.dart';
+import 'package:botp_auth/configs/routes/application.dart';
+import 'package:botp_auth/modules/authentication/init/screens/init_screen.dart';
+import 'package:botp_auth/modules/authentication/signin/screens/signin_screen.dart';
+import 'package:botp_auth/modules/authentication/signup/screens/signup_screen.dart';
+import 'package:botp_auth/modules/authentication/walkthroughs/screens/walkthrough_screen.dart';
+import 'package:fluro/fluro.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
@@ -13,10 +16,7 @@ class SessionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SessionCubit>(
-        create: (context) =>
-            SessionCubit(authRepository: context.read<AuthRepository>()),
-        child: const SessionBody());
+    return const SessionBody();
   }
 }
 
@@ -32,29 +32,20 @@ class _SessionBodyState extends State<SessionBody> {
   Widget build(BuildContext context) {
     return BlocConsumer<SessionCubit, SessionState>(listener: (context, state) {
       if (state is AuthenticatedSessionState) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const BOTPHomeScreen()),
-            (route) => false);
+        // BOTP Home
+        Application.router.navigateTo(context, "/authenticator",
+            transition: TransitionType.inFromRight);
       }
     }, builder: (context, state) {
-      return Navigator(
-        pages: [
-          if (state is FirstTimeSessionState)
-            // TODO: Walkthrough
-            const MaterialPage(child: WelcomeScreen()),
-          if (state is UnauthenticatedSessionState)
-            const MaterialPage(child: WelcomeScreen()),
-          if (state is ExpiredSessionState)
-            const MaterialPage(child: SignInCurrentScreen()),
-          if (state is UnknownSessionState)
-            const MaterialPage(
-                child: Scaffold(
-                    // TODO: Blank scaffold only
-                    body: Center(child: CircularProgressIndicator())))
-        ],
-        onPopPage: (route, result) => route.didPop(result),
-      );
+      if (state is FirstTimeSessionState) {
+        return const WalkThroughScreen();
+      } else if (state is UnauthenticatedSessionState) {
+        return const InitScreen();
+      } else if (state is ExpiredSessionState) {
+        return const SignInScreen();
+      } else {
+        return const Scaffold();
+      }
     });
   }
 }

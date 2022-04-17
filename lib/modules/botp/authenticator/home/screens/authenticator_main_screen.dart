@@ -18,7 +18,6 @@ class AuthenticatorHomeScreen extends StatefulWidget {
 class _AuthenticatorHomeScreenState extends State<AuthenticatorHomeScreen> {
   @override
   Widget build(BuildContext context) {
-    print(context.read<SettingsRepository>());
     return Scaffold(
         appBar: AppBar(
           title: const Text("BOTP Authenticator"),

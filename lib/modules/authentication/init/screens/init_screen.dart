@@ -4,19 +4,19 @@ import 'package:botp_auth/widgets/button.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
-class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+class InitScreen extends StatelessWidget {
+  const InitScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
         body: SafeArea(
-            minimum: EdgeInsets.all(kPaddingSafeArea), child: WelcomeBody()));
+            minimum: EdgeInsets.all(kPaddingSafeArea), child: InitBody()));
   }
 }
 
-class WelcomeBody extends StatelessWidget {
-  const WelcomeBody({Key? key}) : super(key: key);
+class InitBody extends StatelessWidget {
+  const InitBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class WelcomeBody extends StatelessWidget {
         NormalButtonWidget(
             text: 'Create new account',
             press: () {
-              Application.router.navigateTo(context, "/signup",
+              Application.router.navigateTo(context, "/auth/signUp",
                   transition: TransitionType.inFromRight);
             },
             primary: AppColors.whiteColor,
@@ -43,7 +43,7 @@ class WelcomeBody extends StatelessWidget {
         NormalButtonWidget(
           text: 'Import an account',
           press: () {
-            Application.router.navigateTo(context, "/signin/other",
+            Application.router.navigateTo(context, "/auth/import",
                 transition: TransitionType.inFromRight);
           },
           primary: AppColors.primaryColor,

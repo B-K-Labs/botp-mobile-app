@@ -2,7 +2,8 @@ import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/common/repositories/history_repository.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
-import 'package:botp_auth/modules/authentication/session/screens/session_screen.dart';
+import 'package:botp_auth/common/repositories/transaction_repository.dart';
+import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -54,19 +55,28 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
+        // All providers
+        // * Why to provide repository outside the BLoC: https://stackoverflow.com/questions/68137041/flutter-bloc-why-are-repositories-declared-on-the-ui-and-not-the-backend
         providers: [
           RepositoryProvider(create: (context) => AuthRepository()),
           RepositoryProvider(create: (context) => AuthenticatorRepository()),
+          RepositoryProvider(create: (context) => TransactionRepository()),
           RepositoryProvider(create: (context) => HistoryRepository()),
           RepositoryProvider(create: (context) => SettingsRepository()),
         ],
-        child: const MaterialApp(
-            debugShowCheckedModeBanner: false,
-            themeMode: ThemeMode.dark,
-            title: 'BOTP Authenticator',
-            // (not used) Fluro routes generation
-            // onGenerateRoute: Application.router.generator, // It would use the root path first (i.e "/")
-            // * Note: Provide repository outside the BLoC: https://stackoverflow.com/questions/68137041/flutter-bloc-why-are-repositories-declared-on-the-ui-and-not-the-backend
-            home: SessionScreen()));
+        // Provider SessionBloc at the root for session management
+        child: BlocProvider<SessionCubit>(
+            create: (context) =>
+                SessionCubit(authRepository: context.read<AuthRepository>()),
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              themeMode: ThemeMode.dark,
+              title: 'BOTP Authenticator',
+              // Fluro routes generation
+              onGenerateRoute: Application
+                  .router.generator, // It would use the root path first i.e "/"
+              // (not used)
+              // home: cSessionScreen()
+            )));
   }
 }

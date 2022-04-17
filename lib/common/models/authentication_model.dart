@@ -32,8 +32,15 @@ class SignInRequestModel {
 }
 
 class SignInResponseModel {
-  SignInResponseModel();
-  SignInResponseModel.fromJson(Map<String, dynamic> json) {}
+  String bcAddress;
+  String publicKey;
+  String privateKey;
+
+  SignInResponseModel(this.bcAddress, this.publicKey, this.privateKey);
+  SignInResponseModel.fromJson(Map<String, dynamic> json)
+      : bcAddress = json["bcAddress"],
+        publicKey = json["publicKey"],
+        privateKey = json["privateKey"];
 }
 
 // Import

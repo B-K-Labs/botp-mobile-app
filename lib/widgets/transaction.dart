@@ -1,9 +1,10 @@
 import 'package:botp_auth/constants/theme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class TransactionStatusWidget extends StatelessWidget {
+class _TransactionStatusWidget extends StatelessWidget {
   final int status;
-  const TransactionStatusWidget({Key? key, required this.status})
+  const _TransactionStatusWidget({Key? key, required this.status})
       : super(key: key);
 
   @override
@@ -14,7 +15,7 @@ class TransactionStatusWidget extends StatelessWidget {
             ? 'Confirmed'
             : status == 2
                 ? 'Rejected'
-                : 'Expired';
+                : 'Requesting';
     Color _color = status == 0
         ? AppColors.primaryColor
         : status == 1
@@ -37,7 +38,6 @@ class TransactionStatusWidget extends StatelessWidget {
   }
 }
 
-// Transaction Item (authentication page)
 class TransactionItemWidget extends StatefulWidget {
   final bool isLasted;
   final String agentName;
@@ -121,10 +121,76 @@ class _TransactionItemWidgetState extends State<TransactionItemWidget> {
                 Container(
                     padding: const EdgeInsets.symmetric(
                         vertical: 16.0, horizontal: 20.0),
-                    child: TransactionStatusWidget(status: widget.transStatus))
+                    child: _TransactionStatusWidget(status: widget.transStatus))
               ],
             )
           ],
         ));
+  }
+}
+
+class TransactionOTP extends StatefulWidget {
+  final String? otp;
+  final int? otpRemainingTime;
+
+  const TransactionOTP({Key? key, this.otp, this.otpRemainingTime})
+      : super(key: key);
+
+  @override
+  State<TransactionOTP> createState() => _TransactionOTPState();
+}
+
+class _TransactionOTPState extends State<TransactionOTP> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      Text("OTP", style: Theme.of(context).textTheme.headline6),
+      const Divider(),
+      widget.otp != null
+          ? Text(widget.otp!)
+          : const CircularProgressIndicator(),
+      const Text("Tap to copy OTP"),
+      // TODO: second mean
+      widget.otpRemainingTime != null
+          ? Text(widget.otpRemainingTime!.toString() + "s left")
+          : const CircularProgressIndicator(),
+    ]);
+  }
+}
+
+class TransactionDetail extends StatelessWidget {
+  const TransactionDetail({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(children: const [Text("Shopee (verified)"), Text("")]),
+        Row(
+          children: const [Text("Address"), Text("0x123...456")],
+        ),
+        Row(
+          children: const [Text("Date"), Text("23:54 - 15/06/2022")],
+        ),
+        Row(
+          children: const [Text("Status"), _TransactionStatusWidget(status: 1)],
+        )
+      ],
+    );
+  }
+}
+
+class TransactionMessage extends StatelessWidget {
+  const TransactionMessage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: const [
+        Text("Notify message"),
+        Text(
+            "[khiem20tc] Facebook need to confirm your account password. Authentication was request at 23:54 - 15/06/2022.")
+      ],
+    );
   }
 }

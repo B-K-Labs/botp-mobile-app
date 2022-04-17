@@ -1,5 +1,6 @@
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/common/states/user_data_status.dart';
+import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
 import 'package:botp_auth/modules/botp/settings/profile_edit/bloc/profile_edit_bloc.dart';
@@ -52,7 +53,7 @@ class _ProfileEditBodyState extends State<ProfileEditBody> {
             showSnackBar(context, formStatus.exception.toString());
           } else if (formStatus is RequestStatusSuccessful) {
             showSnackBar(context, "Update profile successfully");
-            Navigator.pop(context);
+            Application.router.pop(context);
           }
         },
         child: Form(

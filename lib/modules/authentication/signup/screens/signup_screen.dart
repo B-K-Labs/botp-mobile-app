@@ -6,6 +6,7 @@ import 'package:botp_auth/modules/authentication/signup/bloc/signup_bloc.dart';
 import 'package:botp_auth/modules/authentication/signup/bloc/signup_event.dart';
 import 'package:botp_auth/modules/authentication/signup/bloc/signup_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/widgets/field.dart';
@@ -121,7 +122,8 @@ class _SignUpBodyState extends State<SignUpBody> {
           SubButtonWidget(
             text: "Import existing account",
             press: () {
-              Application.router.navigateTo(context, '/signin/other');
+              Application.router.navigateTo(context, '/auth/import',
+                  transition: TransitionType.inFromRight);
             },
             primary: AppColors.primaryColor,
           ),

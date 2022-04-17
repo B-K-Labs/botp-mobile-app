@@ -1,6 +1,7 @@
 import 'package:botp_auth/common/repositories/history_repository.dart';
 import 'package:botp_auth/modules/botp/history/transaction_details/cubit/transaction_details_cubit.dart';
 import 'package:botp_auth/modules/botp/history/transaction_details/cubit/transaction_details_state.dart';
+import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -43,12 +44,11 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
   Widget _otpSection() {
     return BlocBuilder<TransactionDetailsCubit, TransactionDetailsState>(
         builder: (context, state) {
-      return state.otp != null && state.otpRemaingTime != null
-          ? Column(children: [
-              Text(state.otp!),
-              Text(state.otpRemaingTime!.toString())
-            ])
-          : const CircularProgressIndicator();
+      return Column(children: [
+        TransactionOTP(otp: state.otp, otpRemainingTime: state.otpRemaingTime),
+        const TransactionDetail(),
+        const TransactionMessage()
+      ]);
     });
   }
 }

@@ -1,55 +1,79 @@
 import 'package:botp_auth/modules/authentication/session/screens/session_screen.dart';
-import 'package:botp_auth/modules/authentication/signin_current/screens/signin_current_screen.dart';
-import 'package:botp_auth/modules/authentication/signin_other/screens/signin_other_screen.dart';
+import 'package:botp_auth/modules/authentication/signin/screens/signin_screen.dart';
+import 'package:botp_auth/modules/authentication/import/screens/import_screen.dart';
 import 'package:botp_auth/modules/authentication/signup/screens/signup_screen.dart';
-import 'package:botp_auth/modules/botp/authenticator/home/screens/authenticator_main_screen.dart';
+import 'package:botp_auth/modules/authentication/walkthroughs/screens/walkthrough_screen.dart';
+import 'package:botp_auth/modules/authentication/init/screens/init_screen.dart';
+import 'package:botp_auth/modules/botp/authenticator/home/screens/botp_home.dart';
+import 'package:botp_auth/modules/botp/history/home/screens/history_home_screen.dart';
 import 'package:botp_auth/modules/botp/settings/home/screens/settings_main_screen.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
-// Auth modules
-// - Walkthrough
-// TODO
-
+// 1. Auth modules
 // - Session
-var sessionHandler =
+var authSessionHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
   return const SessionScreen();
 });
 
+// - WalkThrough
+var walkThoughtHandle =
+    Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  return const WalkThroughScreen();
+});
+
+// - Welcome
+var authInitHandle =
+    Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  return const InitScreen();
+});
+
 // - Sign up
-var signUpHandler =
+var authSignUpHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
   return const SignUpScreen();
 });
 
-// - Sign in (current account)
-var signInCurrentHandler =
+// - Sign in
+var authSignInHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-  return const SignInCurrentScreen();
+  return const SignInScreen();
 });
 
-// - Sign in (other account)
-var signInOtherHandler =
+// - Import
+var authImportHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-  return const SignInOtherScreen();
+  return const ImportScreen();
 });
 
-// Authenticator modules
-// + Home
+// 2. Authenticator modules
+// - Home
 var authenticatorHomeHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-  return const AuthenticatorHomeScreen();
+  return const BOTPHomeScreen();
 });
 
-// + Authenticate transaction
-// TODO
+// 3. History modules
+// - Home
+var historyHomeHandler =
+    Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  return const HistoryHomeScreen();
+});
 
-// History modules
+// 4. Transaction modules
+// - Transaction Detail
 // TODO
+var transactionDetailHandler =
+    Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  return const Scaffold();
+});
 
-// Settings modules
+// 4. Settings modules
+// - Home
 var settingsHomeHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
   return const SettingsHomeScreen();
 });
+
+// TODO: other screens

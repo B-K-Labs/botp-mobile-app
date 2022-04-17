@@ -3,8 +3,8 @@ import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:botp_auth/modules/authentication/signin_current/bloc/signin_current_event.dart';
-import 'package:botp_auth/modules/authentication/signin_current/bloc/signin_current_state.dart';
+import 'package:botp_auth/modules/authentication/signin/bloc/signin_event.dart';
+import 'package:botp_auth/modules/authentication/signin/bloc/signin_state.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 
 class SignInCurrentBloc extends Bloc<SignInCurrentEvent, SignInCurrentState> {
@@ -24,9 +24,13 @@ class SignInCurrentBloc extends Bloc<SignInCurrentEvent, SignInCurrentState> {
       try {
         final privateKey =
             (await UserData.getCredentialAccountData())!.privateKey;
-        final signInCurrentResult =
+        final signInResult =
             await authRepository.signIn(privateKey, state.password);
+        // Store account data
         UserData.setSessionData(SessionType.authenticated);
+        UserData.setCredentialAccountData(signInResult.bcAddress,
+            signInResult.publicKey, signInResult.privateKey);
+        print("Sign up: Authentication done");
         sessionCubit.launchSession();
         emit(state.copyWith(formStatus: RequestStatusSuccessful()));
       } on Exception catch (e) {

@@ -1,4 +1,7 @@
 import 'package:botp_auth/common/states/clipboard_status.dart';
+import 'package:botp_auth/configs/routes/application.dart';
+import 'package:botp_auth/constants/storage.dart';
+import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_state.dart';
 import 'package:botp_auth/modules/botp/settings/profile_view/screens/profile_view_screen.dart';
@@ -15,12 +18,6 @@ class SettingsHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Theme.of(context).colorScheme.surface,
-          iconTheme:
-              IconThemeData(color: Theme.of(context).colorScheme.onSurface),
-        ),
         body: const SettingsHomeBody());
   }
 }
@@ -99,13 +96,19 @@ class _SettingsHomeBodyState extends State<SettingsHomeBody> {
       _category(
           const Icon(Icons.security), "Security", "Password, sign out", () {}),
       _category(
-          const Icon(Icons.info), "About", "Version, terms of services", () {})
+          const Icon(Icons.info), "About", "Version, terms of services", () {}),
+      _category(
+          const Icon(Icons.arrow_back), "Sign out", "Sign out your account",
+          () {
+        UserData.setSessionData(SessionType.expired);
+        Application.router.navigateTo(context, "/auth/signIn");
+      })
     ];
     return Expanded(
         child: ListView.separated(
             itemCount: _categoriesList.length,
             itemBuilder: (context, index) => _categoriesList[index],
-            physics: const NeverScrollableScrollPhysics(),
+            // physics: const NeverScrollableScrollPhysics(),
             separatorBuilder: (context, index) => const Divider()));
   }
 

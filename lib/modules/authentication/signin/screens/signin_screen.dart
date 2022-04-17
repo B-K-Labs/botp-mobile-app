@@ -2,10 +2,11 @@ import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
-import 'package:botp_auth/modules/authentication/signin_current/bloc/signin_current_bloc.dart';
-import 'package:botp_auth/modules/authentication/signin_current/bloc/signin_current_event.dart';
-import 'package:botp_auth/modules/authentication/signin_current/bloc/signin_current_state.dart';
+import 'package:botp_auth/modules/authentication/signin/bloc/signin_bloc.dart';
+import 'package:botp_auth/modules/authentication/signin/bloc/signin_event.dart';
+import 'package:botp_auth/modules/authentication/signin/bloc/signin_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:botp_auth/constants/theme.dart';
@@ -13,8 +14,8 @@ import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class SignInCurrentScreen extends StatelessWidget {
-  const SignInCurrentScreen({Key? key}) : super(key: key);
+class SignInScreen extends StatelessWidget {
+  const SignInScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,20 +27,20 @@ class SignInCurrentScreen extends StatelessWidget {
       ),
       body: const SafeArea(
         minimum: EdgeInsets.all(kPaddingSafeArea),
-        child: SignInCurrentBody(),
+        child: SignInBody(),
       ),
     );
   }
 }
 
-class SignInCurrentBody extends StatefulWidget {
-  const SignInCurrentBody({Key? key}) : super(key: key);
+class SignInBody extends StatefulWidget {
+  const SignInBody({Key? key}) : super(key: key);
 
   @override
-  _SignInCurrentBodyState createState() => _SignInCurrentBodyState();
+  _SignInBodyState createState() => _SignInBodyState();
 }
 
-class _SignInCurrentBodyState extends State<SignInCurrentBody> {
+class _SignInBodyState extends State<SignInBody> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -145,7 +146,8 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
         SubButtonWidget(
           text: "Import existing account",
           press: () {
-            Application.router.navigateTo(context, "/signin/other");
+            Application.router.navigateTo(context, "/auth/import",
+                transition: TransitionType.inFromRight);
           },
           primary: AppColors.primaryColor,
         ),
@@ -153,7 +155,8 @@ class _SignInCurrentBodyState extends State<SignInCurrentBody> {
         SubButtonWidget(
           text: "Create new account",
           press: () {
-            Application.router.navigateTo(context, "/signup");
+            Application.router.navigateTo(context, "/auth/signUp",
+                transition: TransitionType.inFromRight);
           },
           primary: AppColors.primaryColor,
         ),

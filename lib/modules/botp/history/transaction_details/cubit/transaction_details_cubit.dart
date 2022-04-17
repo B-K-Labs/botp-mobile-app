@@ -7,18 +7,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class TransactionDetailsCubit extends Cubit<TransactionDetailsState> {
   HistoryRepository historyRepository;
   final period = 4;
+  Timer? timer;
 
   TransactionDetailsCubit({required this.historyRepository})
       : super(TransactionDetailsState()) {
     // Set interval
     Timer.periodic(Duration(seconds: period), (Timer timer) {
-      trackOtp();
+      if (isClosed) {
+        print("Stop generate OTP");
+        timer.cancel();
+      } else {
+        trackOtp();
+      }
     });
   }
 
   trackOtp() {
     generateOtp();
-    print("Hello");
+    print("OTP Generated");
   }
 
   generateOtp() async {

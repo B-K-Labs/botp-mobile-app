@@ -23,9 +23,11 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       emit(state.copyWith(formStatus: RequestStatusSubmitting()));
       try {
         final signUpResult = await authRepo.signUp(state.password);
+        // Store account data
         UserData.setSessionData(SessionType.authenticated);
         UserData.setCredentialAccountData(signUpResult.bcAddress,
             signUpResult.publicKey, signUpResult.privateKey);
+        print("Sign up: Authentication done");
         sessionCubit.launchSession();
         emit(state.copyWith(formStatus: RequestStatusSuccessful()));
       } on Exception catch (e) {
