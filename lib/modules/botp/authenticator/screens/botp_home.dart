@@ -1,6 +1,6 @@
-import 'package:botp_auth/modules/botp/authenticator/home/screens/authenticator_main_screen.dart';
-import 'package:botp_auth/modules/botp/history/home/screens/history_home_screen.dart';
-import 'package:botp_auth/modules/botp/settings/home/screens/settings_main_screen.dart';
+import 'package:botp_auth/modules/botp/authenticator/screens/authenticator_main_screen.dart';
+import 'package:botp_auth/modules/botp/history/screens/history_home_screen.dart';
+import 'package:botp_auth/modules/settings/home/screens/settings_main_screen.dart';
 import "package:flutter/material.dart";
 
 class BOTPHomeScreen extends StatefulWidget {
@@ -13,8 +13,8 @@ class BOTPHomeScreen extends StatefulWidget {
 class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
   int _selectedIndex = 0;
   // All home screens
-  final Widget _authenticatorMainScreen = const AuthenticatorHomeScreen();
-  final Widget _historyMainScreen = const HistoryHomeScreen();
+  final Widget _authenticatorMainScreen = const AuthenticatorScreen();
+  final Widget _historyMainScreen = const HistoryScreen();
   final Widget _settingsMainScreen = const SettingsHomeScreen();
 
   void _onItemTapped(int index) {

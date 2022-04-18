@@ -1,21 +1,18 @@
 import 'dart:math';
-import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/theme.dart';
-import 'package:botp_auth/common/repositories/settings_repository.dart';
-import 'package:botp_auth/modules/botp/history/transaction_details/screens/transaction_details_screen.dart';
+import 'package:botp_auth/modules/botp/transaction/screens/transaction_details_screen.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
 
-class AuthenticatorHomeScreen extends StatefulWidget {
-  const AuthenticatorHomeScreen({Key? key}) : super(key: key);
+class AuthenticatorScreen extends StatefulWidget {
+  const AuthenticatorScreen({Key? key}) : super(key: key);
 
   @override
-  State<AuthenticatorHomeScreen> createState() =>
-      _AuthenticatorHomeScreenState();
+  State<AuthenticatorScreen> createState() => _AuthenticatorScreenState();
 }
 
-class _AuthenticatorHomeScreenState extends State<AuthenticatorHomeScreen> {
+class _AuthenticatorScreenState extends State<AuthenticatorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

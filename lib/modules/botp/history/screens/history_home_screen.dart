@@ -2,8 +2,8 @@ import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/widgets/field.dart';
 import "package:flutter/material.dart";
 
-class HistoryHomeScreen extends StatelessWidget {
-  const HistoryHomeScreen({Key? key}) : super(key: key);
+class HistoryScreen extends StatelessWidget {
+  const HistoryScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,19 +19,18 @@ class HistoryHomeScreen extends StatelessWidget {
               onTapIcon: () {},
             )),
         body: const SafeArea(
-            minimum: EdgeInsets.all(kPaddingSafeArea),
-            child: HistoryHomeBody()));
+            minimum: EdgeInsets.all(kPaddingSafeArea), child: HistoryBody()));
   }
 }
 
-class HistoryHomeBody extends StatefulWidget {
-  const HistoryHomeBody({Key? key}) : super(key: key);
+class HistoryBody extends StatefulWidget {
+  const HistoryBody({Key? key}) : super(key: key);
 
   @override
-  State<HistoryHomeBody> createState() => _HistoryHomeBodyState();
+  State<HistoryBody> createState() => _HistoryBodyState();
 }
 
-class _HistoryHomeBodyState extends State<HistoryHomeBody> {
+class _HistoryBodyState extends State<HistoryBody> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [Text("History")]);

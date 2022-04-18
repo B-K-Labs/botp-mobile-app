@@ -1,6 +1,6 @@
 import 'package:botp_auth/common/repositories/history_repository.dart';
-import 'package:botp_auth/modules/botp/history/transaction_details/cubit/transaction_details_cubit.dart';
-import 'package:botp_auth/modules/botp/history/transaction_details/cubit/transaction_details_state.dart';
+import 'package:botp_auth/modules/botp/transaction/cubit/transaction_details_cubit.dart';
+import 'package:botp_auth/modules/botp/transaction/cubit/transaction_details_state.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

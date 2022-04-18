@@ -2,7 +2,7 @@ import 'package:fluro/fluro.dart';
 import 'package:botp_auth/configs/routes/routes_handler.dart';
 
 class Routes {
-  // Authentication modules
+  // 1. Authentication modules
   static String session = "/";
   static String walkThrough = "/walkThrough";
   static String init = "/auth/init";
@@ -12,13 +12,11 @@ class Routes {
   static String signOut = "/auth/signOut";
   static String reminderKYC = "/reminder/KYC";
   static String reminderFingerprint = "/reminder/fingerprint"; // TODO
-  // Authenticator modules
-  static String authenticatorHome = "/authenticator";
-  // History modules
-  static String historyHome = "/history";
-  // Transaction modules
-  static String transactionDetail = "/transactionDetail/:transactionDetail";
-  // Settings modules
+  // 2. BOTP modules
+  static String authenticator = "/authenticator";
+  static String history = "/history";
+  static String transaction = "/transactionDetail/:transactionDetail";
+  // 3. Settings modules
   static String settingsHome = "/settings";
   static String settingsAccount = "/settings/account";
   static String settingsAccountUpdateKYC =
@@ -29,20 +27,18 @@ class Routes {
 
   // Routes configuration
   static void configureRoutes(FluroRouter router) {
-    // Authentication modules
+    // 1. Authentication modules
     router.define(session, handler: authSessionHandler);
     router.define(walkThrough, handler: walkThoughtHandle);
     router.define(init, handler: authInitHandle);
     router.define(signUp, handler: authSignUpHandler);
     router.define(signIn, handler: authSignInHandler);
     router.define(import, handler: authImportHandler);
-    // Authenticator modules
-    router.define(authenticatorHome, handler: authenticatorHomeHandler);
-    // History modules
-    router.define(historyHome, handler: historyHomeHandler);
-    // Transaction modules
-    router.define(transactionDetail, handler: transactionDetailHandler);
-    // Settings modules
+    // 2. BOTP modules
+    router.define(authenticator, handler: authenticatorHomeHandler);
+    router.define(history, handler: historyHomeHandler);
+    router.define(transaction, handler: transactionHandler);
+    // 3. Settings modules
     router.define(settingsHome, handler: settingsHomeHandler);
   }
 }

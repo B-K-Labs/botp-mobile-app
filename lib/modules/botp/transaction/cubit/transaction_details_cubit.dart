@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:botp_auth/common/repositories/history_repository.dart';
 import 'package:botp_auth/common/states/request_status.dart';
-import 'package:botp_auth/modules/botp/history/transaction_details/cubit/transaction_details_state.dart';
+import 'package:botp_auth/modules/botp/transaction/cubit/transaction_details_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransactionDetailsCubit extends Cubit<TransactionDetailsState> {

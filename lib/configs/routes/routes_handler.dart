@@ -4,9 +4,9 @@ import 'package:botp_auth/modules/authentication/import/screens/import_screen.da
 import 'package:botp_auth/modules/authentication/signup/screens/signup_screen.dart';
 import 'package:botp_auth/modules/authentication/walkthroughs/screens/walkthrough_screen.dart';
 import 'package:botp_auth/modules/authentication/init/screens/init_screen.dart';
-import 'package:botp_auth/modules/botp/authenticator/home/screens/botp_home.dart';
-import 'package:botp_auth/modules/botp/history/home/screens/history_home_screen.dart';
-import 'package:botp_auth/modules/botp/settings/home/screens/settings_main_screen.dart';
+import 'package:botp_auth/modules/botp/authenticator/screens/botp_home.dart';
+import 'package:botp_auth/modules/botp/history/screens/history_home_screen.dart';
+import 'package:botp_auth/modules/settings/home/screens/settings_main_screen.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
@@ -47,24 +47,22 @@ var authImportHandler =
   return const ImportScreen();
 });
 
-// 2. Authenticator modules
-// - Home
+// 2. BOTP modules
+// - Authenticator
 var authenticatorHomeHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
   return const BOTPHomeScreen();
 });
 
-// 3. History modules
-// - Home
+// - History
 var historyHomeHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-  return const HistoryHomeScreen();
+  return const HistoryScreen();
 });
 
-// 4. Transaction modules
-// - Transaction Detail
+// - Transaction
 // TODO
-var transactionDetailHandler =
+var transactionHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
   return const Scaffold();
 });

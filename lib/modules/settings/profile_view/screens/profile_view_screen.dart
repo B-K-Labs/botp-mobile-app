@@ -1,7 +1,7 @@
 import 'package:botp_auth/common/states/user_data_status.dart';
-import 'package:botp_auth/modules/botp/settings/profile_edit/screens/profile_edit_screen.dart';
-import 'package:botp_auth/modules/botp/settings/profile_view/cubit/profile_view_cubit.dart';
-import 'package:botp_auth/modules/botp/settings/profile_view/cubit/profile_view_state.dart';
+import 'package:botp_auth/modules/settings/profile_edit/screens/profile_edit_screen.dart';
+import 'package:botp_auth/modules/settings/profile_view/cubit/profile_view_cubit.dart';
+import 'package:botp_auth/modules/settings/profile_view/cubit/profile_view_state.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 
