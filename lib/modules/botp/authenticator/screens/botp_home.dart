@@ -1,4 +1,4 @@
-import 'package:botp_auth/modules/botp/authenticator/screens/authenticator_main_screen.dart';
+import 'package:botp_auth/modules/botp/authenticator/screens/authenticator_screen.dart';
 import 'package:botp_auth/modules/botp/history/screens/history_home_screen.dart';
 import 'package:botp_auth/modules/settings/home/screens/settings_main_screen.dart';
 import "package:flutter/material.dart";

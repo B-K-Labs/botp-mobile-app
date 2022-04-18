@@ -3,13 +3,14 @@ import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/common/repositories/history_repository.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
 import 'package:botp_auth/common/repositories/transaction_repository.dart';
+import 'package:botp_auth/configs/themes/dark_theme.dart';
+import 'package:botp_auth/configs/themes/light_theme.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:botp_auth/configs/themes/app_themes.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/configs/routes/routes.dart';
 import 'package:fluro/fluro.dart';
@@ -70,12 +71,15 @@ class _MyAppState extends State<MyApp> {
                 SessionCubit(authRepository: context.read<AuthRepository>()),
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
-              themeMode: ThemeMode.dark,
+              // Themes
+              theme: lightThemeData,
+              darkTheme: darkThemeData,
+              themeMode: ThemeMode.light,
               title: 'BOTP Authenticator',
               // Fluro routes generation
               onGenerateRoute: Application
                   .router.generator, // It would use the root path first i.e "/"
-              // (not used)
+              // (not used anymore)
               // home: cSessionScreen()
             )));
   }

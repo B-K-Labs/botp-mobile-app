@@ -58,7 +58,7 @@ enum ButtonType {
   disabled,
 }
 
-class ColorSchemes {
+class ColorPalette {
   // 1. Docs
   // Rule: https://m3.material.io/styles/color/the-color-system/key-colors-tones (reference only, this color palette is not suitable)
   // Main palette tool: https://material.io/design/color/the-color-system.html#tools-for-picking-colors
@@ -113,6 +113,7 @@ class ColorSchemes {
   static const red900 = Color(0xff66031c);
   // Neutral
   static const white = Color(0xffffffff);
+  static const gray10 = Color(0xfffefefe);
   static const gray50 = Color(0xfffafafa);
   static const gray100 = Color(0xfff4f4f4);
   static const gray200 = Color(0xffededed);
