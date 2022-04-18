@@ -1,4 +1,4 @@
-import 'package:botp_auth/utils/tools/crypto.dart';
+import 'package:botp_auth/utils/services/crypto_service.dart';
 import 'package:botp_auth/utils/services/rest_api_service.dart';
 import 'package:botp_auth/common/models/authentication_model.dart';
 import 'package:botp_auth/constants/api_path.dart';

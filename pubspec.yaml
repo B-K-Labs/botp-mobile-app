@@ -56,6 +56,8 @@ dependencies:
   qr_code_scanner: ^0.7.0
   intl: ^0.17.0
   qr_flutter: ^4.0.0
+  base32: ^2.1.1
+  otp: ^3.0.2
 
 dev_dependencies:
   flutter_test:
