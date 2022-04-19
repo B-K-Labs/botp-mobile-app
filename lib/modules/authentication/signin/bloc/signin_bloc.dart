@@ -27,7 +27,7 @@ class SignInCurrentBloc extends Bloc<SignInCurrentEvent, SignInCurrentState> {
         final signInResult =
             await authRepository.signIn(privateKey, state.password);
         // Store account data
-        UserData.setSessionData(SessionType.authenticated);
+        UserData.setSessionData(UserDataSession.authenticated);
         UserData.setCredentialAccountData(signInResult.bcAddress,
             signInResult.publicKey, signInResult.privateKey);
         print("Sign up: Authentication done");

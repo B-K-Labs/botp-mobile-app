@@ -12,14 +12,13 @@ class HistoryScreen extends StatelessWidget {
             backgroundColor: Theme.of(context).colorScheme.surface,
             iconTheme:
                 IconThemeData(color: Theme.of(context).colorScheme.onSurface),
-            title: NormalInputFieldWidget(
+            title: FieldNormalWidget(
               validator: (value) {},
               onChanged: (value) {},
-              iconData: Icons.search,
-              onTapIcon: () {},
+              prefixIconData: Icons.search,
+              onTapPrefixIcon: () {},
             )),
-        body: const SafeArea(
-            minimum: EdgeInsets.all(kPaddingSafeArea), child: HistoryBody()));
+        body: const SafeArea(bottom: true, child: HistoryBody()));
   }
 }
 

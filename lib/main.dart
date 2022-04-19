@@ -4,8 +4,7 @@ import 'package:botp_auth/common/repositories/history_repository.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
 import 'package:botp_auth/common/repositories/transaction_repository.dart';
 import 'package:botp_auth/configs/environment/environment.dart';
-import 'package:botp_auth/configs/themes/dark_theme.dart';
-import 'package:botp_auth/configs/themes/light_theme.dart';
+import 'package:botp_auth/configs/themes/app_theme.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -77,7 +76,7 @@ class _MyAppState extends State<MyApp> {
               // Themes
               theme: lightThemeData,
               darkTheme: darkThemeData,
-              themeMode: ThemeMode.light,
+              themeMode: ThemeMode.dark,
               title: 'BOTP Authenticator',
               // Fluro routes generation
               onGenerateRoute: Application

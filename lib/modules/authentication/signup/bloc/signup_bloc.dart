@@ -24,7 +24,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       try {
         final signUpResult = await authRepo.signUp(state.password);
         // Store account data
-        UserData.setSessionData(SessionType.authenticated);
+        UserData.setSessionData(UserDataSession.authenticated);
         UserData.setCredentialAccountData(signUpResult.bcAddress,
             signUpResult.publicKey, signUpResult.privateKey);
         print("Sign up: Authentication done");

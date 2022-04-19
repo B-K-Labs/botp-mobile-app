@@ -47,7 +47,7 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
       return Column(children: [
         TransactionOTP(otp: state.otp, otpRemainingTime: state.otpRemaingTime),
         const TransactionDetail(),
-        const TransactionMessage()
+        const TransactionNotifyMessage()
       ]);
     });
   }

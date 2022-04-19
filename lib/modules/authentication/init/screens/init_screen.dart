@@ -9,9 +9,7 @@ class InitScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        body: SafeArea(
-            minimum: EdgeInsets.all(kPaddingSafeArea), child: InitBody()));
+    return const Scaffold(body: SafeArea(bottom: true, child: InitBody()));
   }
 }
 
@@ -29,26 +27,23 @@ class InitBody extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .headline4
-                ?.copyWith(color: AppColors.primaryColor)),
+                ?.copyWith(color: Theme.of(context).colorScheme.primary)),
         const SizedBox(height: 96.0),
-        NormalButtonWidget(
-            text: 'Create new account',
-            press: () {
-              Application.router.navigateTo(context, "/auth/signUp",
-                  transition: TransitionType.inFromRight);
-            },
-            primary: AppColors.whiteColor,
-            backgroundColor: AppColors.primaryColor),
+        ButtonNormalWidget(
+          text: 'Create new account',
+          onPressed: () {
+            Application.router.navigateTo(context, "/auth/signUp",
+                transition: TransitionType.inFromRight);
+          },
+        ),
         const SizedBox(height: 24.0),
-        NormalButtonWidget(
+        ButtonNormalWidget(
           text: 'Import an account',
-          press: () {
+          onPressed: () {
             Application.router.navigateTo(context, "/auth/import",
                 transition: TransitionType.inFromRight);
           },
-          primary: AppColors.primaryColor,
-          backgroundColor: AppColors.whiteColor,
-          borderColor: AppColors.primaryColor,
+          buttonType: ButtonNormalType.primaryGhost,
         ),
       ],
     );

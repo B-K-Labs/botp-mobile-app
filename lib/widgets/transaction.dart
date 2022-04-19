@@ -1,72 +1,104 @@
 import 'package:botp_auth/constants/theme.dart';
+import 'package:botp_auth/constants/transaction.dart';
+import 'package:botp_auth/utils/helpers/transaction.dart';
 import 'package:flutter/material.dart';
 
 class _TransactionStatusWidget extends StatelessWidget {
-  final int status;
-  const _TransactionStatusWidget({Key? key, required this.status})
+  final TransactionStatus status;
+  final TransactionStatusSize size;
+
+  const _TransactionStatusWidget(
+      {Key? key, required this.status, this.size = TransactionStatusSize.small})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String _statusString = status == 0
-        ? 'Pending'
-        : status == 1
-            ? 'Confirmed'
-            : status == 2
-                ? 'Rejected'
-                : 'Requesting';
-    Color _color = status == 0
-        ? AppColors.primaryColor
-        : status == 1
-            ? AppColors.greenColor
-            : status == 2
-                ? AppColors.redColor
-                : AppColors.grayColor04;
+    // Transaction Item theme
+    // - Colors
+    final Color _primary;
+    final Color _backgroundColor;
+    switch (status) {
+      case TransactionStatus.requesting:
+        _primary = Theme.of(context).colorScheme.onTertiaryContainer;
+        _backgroundColor = Theme.of(context).colorScheme.tertiaryContainer;
+        break;
+      case TransactionStatus.pending:
+        _primary = Theme.of(context).colorScheme.onPrimaryContainer;
+        _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
+        break;
+      case TransactionStatus.success:
+        _primary = Theme.of(context).colorScheme.onSecondaryContainer;
+        _backgroundColor = Theme.of(context).colorScheme.secondaryContainer;
+        break;
+      case TransactionStatus.failed:
+        _primary = Theme.of(context).colorScheme.onErrorContainer;
+        _backgroundColor = Theme.of(context).colorScheme.errorContainer;
+        break;
+      default: // Requesting
+        _primary = Theme.of(context).colorScheme.onTertiaryContainer;
+        _backgroundColor = Theme.of(context).colorScheme.tertiaryContainer;
+    }
+    // - Text
+    final _textStyle = size == TransactionStatusSize.small
+        ? Theme.of(context).textTheme.caption?.copyWith(color: _primary)
+        : Theme.of(context).textTheme.bodyText1?.copyWith(color: _primary);
+    // - Padding
+    const _padding = EdgeInsets.symmetric(vertical: 3.0, horizontal: 12.0);
+
     return Container(
-      decoration: BoxDecoration(
-          color: _color,
-          border: Border.all(color: _color, width: 1.0),
-          borderRadius: BorderRadius.circular(AppBorderRadiusCircular.small)),
-      padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 6.0),
-      child: Text(_statusString,
-          style: Theme.of(context)
-              .textTheme
-              .bodyText2
-              ?.copyWith(color: AppColors.whiteColor)),
+      decoration: BoxDecoration(color: _backgroundColor),
+      padding: _padding,
+      child: Text(status.toStringType(), style: _textStyle),
     );
   }
 }
 
-class TransactionItemWidget extends StatefulWidget {
-  final bool isLasted;
+class TransactionItemWidget extends StatelessWidget {
+  final bool isNewest;
   final String agentName;
+  final String agentAvatarUrl;
+  final bool agentIsVerified;
   final String timestamp;
-  final String email;
-  final String urlImage;
-  final int transStatus;
-  const TransactionItemWidget(
-      {Key? key,
-      required this.isLasted,
-      required this.agentName,
-      required this.timestamp,
-      required this.email,
-      required this.urlImage,
-      required this.transStatus})
-      : super(key: key);
+  final String notifyMessage;
+  final TransactionStatus transactionStatus;
+  const TransactionItemWidget({
+    Key? key,
+    required this.isNewest,
+    required this.agentName,
+    required this.agentAvatarUrl,
+    this.agentIsVerified = true,
+    required this.timestamp,
+    required this.notifyMessage,
+    required this.transactionStatus,
+  }) : super(key: key);
 
-  @override
-  _TransactionItemWidgetState createState() => _TransactionItemWidgetState();
-}
-
-class _TransactionItemWidgetState extends State<TransactionItemWidget> {
   @override
   Widget build(BuildContext context) {
+    // Transaction Item theme
+    // - Colors
+    final _border = isNewest
+        ? Border.all(color: Theme.of(context).colorScheme.primary, width: 2.0)
+        : null;
+    final _smallTextColor = Theme.of(context).colorScheme.onSurfaceVariant;
+    // - Border
+    final _borderRadius = BorderRadius.circular(BorderRadiusSize.normal);
+    // - Text
+    final TextStyle? _textStyle = Theme.of(context)
+        .textTheme
+        .bodyText1
+        ?.copyWith(fontWeight: FontWeight.bold);
+    final TextStyle? _smallTextStyle =
+        Theme.of(context).textTheme.caption?.copyWith(color: _smallTextColor);
     return Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppBorderRadiusCircular.medium),
-          border: widget.isLasted
-              ? Border.all(color: AppColors.grayColor04, width: 1.0)
-              : null,
+          borderRadius: _borderRadius,
+          border: _border,
+          boxShadow: const [
+            BoxShadow(
+                offset: Offset(0.0, 2.0),
+                blurRadius: 30.0,
+                color: Color(0x0d000000))
+          ],
         ),
         height: 94,
         child: Row(
@@ -78,7 +110,7 @@ class _TransactionItemWidgetState extends State<TransactionItemWidget> {
                 child: SizedBox(
                   height: 62.0,
                   width: 62.0,
-                  child: Image.network(widget.urlImage,
+                  child: Image.network(agentAvatarUrl,
                       scale: 1, fit: BoxFit.fitWidth),
                 )),
             Expanded(
@@ -89,27 +121,18 @@ class _TransactionItemWidgetState extends State<TransactionItemWidget> {
                   children: <Widget>[
                     const SizedBox(height: 16.0),
                     Text(
-                      widget.agentName,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                      agentName,
+                      style: _textStyle,
                     ),
                     const SizedBox(height: 6.0),
                     Text(
-                      widget.timestamp,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2
-                          ?.copyWith(color: AppColors.grayColor04),
+                      timestamp,
+                      style: _smallTextStyle,
                     ),
                     const SizedBox(height: 6.0),
                     Text(
-                      widget.email,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2
-                          ?.copyWith(color: AppColors.grayColor04),
+                      shortenNotifyMessage(notifyMessage),
+                      style: _smallTextStyle, // TODO: truncate
                     ),
                   ],
                 )),
@@ -120,7 +143,9 @@ class _TransactionItemWidgetState extends State<TransactionItemWidget> {
                 Container(
                     padding: const EdgeInsets.symmetric(
                         vertical: 16.0, horizontal: 20.0),
-                    child: _TransactionStatusWidget(status: widget.transStatus))
+                    child: _TransactionStatusWidget(
+                      status: transactionStatus,
+                    ))
               ],
             )
           ],
@@ -172,15 +197,18 @@ class TransactionDetail extends StatelessWidget {
           children: const [Text("Date"), Text("23:54 - 15/06/2022")],
         ),
         Row(
-          children: const [Text("Status"), _TransactionStatusWidget(status: 1)],
+          children: const [
+            Text("Status"),
+            _TransactionStatusWidget(status: TransactionStatus.pending)
+          ],
         )
       ],
     );
   }
 }
 
-class TransactionMessage extends StatelessWidget {
-  const TransactionMessage({Key? key}) : super(key: key);
+class TransactionNotifyMessage extends StatelessWidget {
+  const TransactionNotifyMessage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

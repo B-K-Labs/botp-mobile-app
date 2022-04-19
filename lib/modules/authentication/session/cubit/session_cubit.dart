@@ -38,16 +38,16 @@ class SessionCubit extends Cubit<SessionState> {
     // return;
     // First time
     if (sessionData == null ||
-        sessionData.sessionType == SessionType.firstTime) {
+        sessionData.sessionType == UserDataSession.firstTime) {
       // (skip) Walkthrough here
-      UserData.setSessionData(SessionType.unauthenticated);
+      UserData.setSessionData(UserDataSession.unauthenticated);
       // emit(FirstTimeSessionState()); // Skip - when walkthrough pages are implemented
       emit(UnauthenticatedSessionState());
-    } else if (sessionData.sessionType == SessionType.unauthenticated) {
+    } else if (sessionData.sessionType == UserDataSession.unauthenticated) {
       emit(UnauthenticatedSessionState());
-    } else if (sessionData.sessionType == SessionType.expired) {
+    } else if (sessionData.sessionType == UserDataSession.expired) {
       emit(ExpiredSessionState());
-    } else if (sessionData.sessionType == SessionType.authenticated) {
+    } else if (sessionData.sessionType == UserDataSession.authenticated) {
       // (later) Verfiy user session
       emit(ExpiredSessionState());
     }

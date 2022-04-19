@@ -1,86 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/theme.dart';
 
-// Borders
-OutlineInputBorder _border = OutlineInputBorder(
-  borderSide: const BorderSide(color: AppColors.grayColor02, width: 1.0),
-  borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large),
-);
-OutlineInputBorder _focusedBorder = OutlineInputBorder(
-  borderSide: const BorderSide(color: AppColors.primaryColor, width: 1.5),
-  borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large),
-);
-OutlineInputBorder _errorBorder = OutlineInputBorder(
-  borderSide: const BorderSide(color: AppColors.redColor, width: 2.0),
-  borderRadius: BorderRadius.circular(AppBorderRadiusCircular.large),
-);
-
-// Note: ALl fields are using TextFormField
+// Note: ALl fields are stateful and based on TextFormField
 // Normal Input
-class NormalInputFieldWidget extends StatefulWidget {
+class FieldNormalWidget extends StatefulWidget {
   final String hintText;
   final String? initialValue;
   final String? Function(String?) validator;
   final void Function(String?) onChanged;
-  final IconData? iconData, suffixIconData;
-  final dynamic onTapIcon, onTapSuffixIcon;
+  final IconData? prefixIconData, suffixIconData;
+  final VoidCallback? onTapPrefixIcon, onTapSuffixIcon;
 
-  const NormalInputFieldWidget({
+  const FieldNormalWidget({
     Key? key,
     this.hintText = '',
     this.initialValue,
     required this.validator,
     required this.onChanged,
-    this.iconData,
+    this.prefixIconData,
     this.suffixIconData,
-    this.onTapIcon,
+    this.onTapPrefixIcon,
     this.onTapSuffixIcon,
   }) : super(key: key);
 
   @override
-  _NormalInputFieldWidgetState createState() => _NormalInputFieldWidgetState();
+  _FieldNormalWidgetState createState() => _FieldNormalWidgetState();
 }
 
-class _NormalInputFieldWidgetState extends State<NormalInputFieldWidget> {
+class _FieldNormalWidgetState extends State<FieldNormalWidget> {
   @override
   Widget build(BuildContext context) {
-    // Style
-    TextStyle? _style = Theme.of(context)
-        .textTheme
-        .bodyText1
-        ?.copyWith(fontWeight: FontWeight.normal);
-    // Prefix icon
-    Widget? _icon = widget.iconData != null
+    // Field theme
+    // - Colors
+    final Color _iconsColor = Theme.of(context).colorScheme.outline;
+    final Color _cursorColor = Theme.of(context).colorScheme.onSurface;
+    OutlineInputBorder _border = OutlineInputBorder(
+      borderSide:
+          BorderSide(color: Theme.of(context).colorScheme.outline, width: 1.0),
+      borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
+    );
+    OutlineInputBorder _focusedBorder = OutlineInputBorder(
+      borderSide:
+          BorderSide(color: Theme.of(context).colorScheme.primary, width: 2.0),
+      borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
+    );
+    OutlineInputBorder _errorBorder = OutlineInputBorder(
+      borderSide:
+          BorderSide(color: Theme.of(context).colorScheme.error, width: 2.0),
+      borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
+    );
+    // - Text
+    final TextStyle? _style = Theme.of(context).textTheme.bodyText1;
+    // - Icons
+    Widget? _prefixIcon = widget.prefixIconData != null
         ? GestureDetector(
-            onTap: widget.onTapIcon != null
-                ? () {
-                    widget.onTapIcon();
-                  }
-                : null,
-            child: Icon((widget.iconData)!, color: AppColors.grayColor03))
+            onTap: widget.onTapPrefixIcon,
+            child: Icon((widget.prefixIconData)!, color: _iconsColor))
         : null;
-    // Suffix icon
     Widget? _suffixIcon = widget.suffixIconData != null
         ? GestureDetector(
-            onTap: widget.onTapSuffixIcon != null
-                ? () {
-                    widget.onTapSuffixIcon();
-                  }
-                : null,
-            child: Icon(widget.suffixIconData, color: AppColors.grayColor03))
+            onTap: widget.onTapSuffixIcon,
+            child: Icon(widget.suffixIconData, color: _iconsColor))
         : null;
-    // Return final text field
+    // - Padding
+    const _padding = EdgeInsets.all(16.0);
+
     return TextFormField(
       initialValue: widget.initialValue,
       validator: widget.validator,
       onChanged: widget.onChanged,
-      cursorColor: AppColors.primaryColor,
+      cursorColor: _cursorColor,
       style: _style,
       decoration: InputDecoration(
-        icon: _icon,
+        prefixIcon: _prefixIcon,
         suffixIcon: _suffixIcon,
         hintText: widget.hintText,
-        contentPadding: const EdgeInsets.all(16.0),
+        contentPadding: _padding,
         border: _border,
         focusedBorder: _focusedBorder,
         errorBorder: _errorBorder,
@@ -90,13 +85,13 @@ class _NormalInputFieldWidgetState extends State<NormalInputFieldWidget> {
 }
 
 // Password Input Field
-class PasswordInputFieldWidget extends StatefulWidget {
+class FieldPasswordWidget extends StatefulWidget {
   final String hintText;
   final String? initialValue;
   final String? Function(String?) validator;
   final void Function(String?) onChanged;
 
-  const PasswordInputFieldWidget(
+  const FieldPasswordWidget(
       {Key? key,
       this.hintText = '',
       this.initialValue,
@@ -105,44 +100,60 @@ class PasswordInputFieldWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PasswordInputFieldWidgetState createState() =>
-      _PasswordInputFieldWidgetState();
+  _FieldPasswordWidgetState createState() => _FieldPasswordWidgetState();
 }
 
-class _PasswordInputFieldWidgetState extends State<PasswordInputFieldWidget> {
+class _FieldPasswordWidgetState extends State<FieldPasswordWidget> {
   bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
-    // Style
-    TextStyle? _style = Theme.of(context)
-        .textTheme
-        .bodyText1
-        ?.copyWith(fontWeight: FontWeight.normal);
-    // Suffix Icon
+    // Field theme
+    // - Colors
+    final Color _iconsColor = Theme.of(context).colorScheme.outline;
+    final Color _cursorColor = Theme.of(context).colorScheme.onSurface;
+    OutlineInputBorder _border = OutlineInputBorder(
+      borderSide:
+          BorderSide(color: Theme.of(context).colorScheme.outline, width: 1.0),
+      borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
+    );
+    OutlineInputBorder _focusedBorder = OutlineInputBorder(
+      borderSide:
+          BorderSide(color: Theme.of(context).colorScheme.primary, width: 2.0),
+      borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
+    );
+    OutlineInputBorder _errorBorder = OutlineInputBorder(
+      borderSide:
+          BorderSide(color: Theme.of(context).colorScheme.error, width: 2.0),
+      borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
+    );
+    // - Text
+    final TextStyle? _style = Theme.of(context).textTheme.bodyText1;
+    // - Suffix icon
     Widget _suffixIcon = GestureDetector(
       onTap: () {
         setState(() {
           _obscureText = !_obscureText;
         });
       },
-      child: _obscureText
-          ? const Icon(Icons.visibility, color: AppColors.grayColor03)
-          : const Icon(Icons.visibility_off, color: AppColors.grayColor03),
+      child: Icon(_obscureText ? Icons.visibility : Icons.visibility_off,
+          color: _iconsColor),
     );
+    // - Padding
+    const _padding = EdgeInsets.all(16.0);
 
     // Return final text field
     return TextFormField(
       initialValue: widget.initialValue,
       validator: widget.validator,
       onChanged: widget.onChanged,
-      cursorColor: AppColors.primaryColor,
+      cursorColor: _cursorColor,
       obscureText: _obscureText,
       style: _style,
       decoration: InputDecoration(
         suffixIcon: _suffixIcon,
         hintText: widget.hintText,
-        contentPadding: const EdgeInsets.all(16.0),
+        contentPadding: _padding,
         border: _border,
         focusedBorder: _focusedBorder,
         errorBorder: _errorBorder,

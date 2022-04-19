@@ -10,7 +10,7 @@ class UserData {
     return data != null ? SessionDataModel.fromJSON(data) : null;
   }
 
-  static setSessionData(SessionType sessionType) async =>
+  static setSessionData(UserDataSession sessionType) async =>
       await LocalStorage.setValue(UserDataType.session,
           SessionDataModel(sessionType: sessionType).toJSON());
 
@@ -20,8 +20,8 @@ class UserData {
     return data != null ? PreferenceDataModel.fromJSON(data) : null;
   }
 
-  static setPreferencesData(TransactionDisplayingType transDisplayType,
-          Language lang, AppTheme theme) async =>
+  static setPreferencesData(UserDataTransactionDisplaying transDisplayType,
+          UserDataLanguage lang, UserDataTheme theme) async =>
       await LocalStorage.setValue(
           UserDataType.preferences,
           PreferenceDataModel(

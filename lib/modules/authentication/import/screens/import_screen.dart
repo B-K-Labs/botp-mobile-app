@@ -7,7 +7,6 @@ import 'package:botp_auth/modules/authentication/import/bloc/import_state.dart';
 import 'package:botp_auth/modules/authentication/import/bloc/import_event.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:flutter/material.dart';
-import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,8 +21,7 @@ class ImportScreen extends StatelessWidget {
           automaticallyImplyLeading: true,
           elevation: 0,
         ),
-        body: const SafeArea(
-            minimum: EdgeInsets.all(kPaddingSafeArea), child: ImportBody()));
+        body: const SafeArea(bottom: true, child: ImportBody()));
   }
 }
 
@@ -65,10 +63,8 @@ class _ImportBodyState extends State<ImportBody> {
               children: <Widget>[
                 // const SizedBox(height: 36.0),
                 Text("Import an existing account",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        ?.copyWith(color: AppColors.primaryColor)),
+                    style: Theme.of(context).textTheme.headline4?.copyWith(
+                        color: Theme.of(context).colorScheme.primary)),
                 const SizedBox(height: 72.0),
                 Text("Private key",
                     style: Theme.of(context).textTheme.bodyText1),
@@ -92,7 +88,8 @@ class _ImportBodyState extends State<ImportBody> {
           .read<SignInOtherBloc>()
           .add(SignInOtherPrivateKeyChanged(privateKey: value));
       _onNavigateQrCode() => null;
-      return NormalInputFieldWidget(
+      return FieldNormalWidget(
+          hintText: "123xxxxxx",
           validator: _privateKeyValidator,
           onChanged: _privateKeyOnChanged,
           suffixIconData: Icons.qr_code,
@@ -107,8 +104,10 @@ class _ImportBodyState extends State<ImportBody> {
       _newPasswordOnChanged(value) => context
           .read<SignInOtherBloc>()
           .add(SignInOtherNewPasswordChanged(newPassword: value));
-      return PasswordInputFieldWidget(
-          validator: _newPasswordValidator, onChanged: _newPasswordOnChanged);
+      return FieldPasswordWidget(
+          hintText: "******",
+          validator: _newPasswordValidator,
+          onChanged: _newPasswordOnChanged);
     });
   }
 
@@ -122,11 +121,9 @@ class _ImportBodyState extends State<ImportBody> {
                 context.read<SignInOtherBloc>().add(SignInOtherSubmitted());
               }
             };
-      return NormalButtonWidget(
+      return ButtonNormalWidget(
         text: "Import account",
-        press: onSignInOther,
-        primary: AppColors.whiteColor,
-        backgroundColor: AppColors.primaryColor,
+        onPressed: onSignInOther,
       );
     });
   }
@@ -137,20 +134,18 @@ class _ImportBodyState extends State<ImportBody> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 60.0),
-        SubButtonWidget(
+        ButtonTextWidget(
           text: "Sign in with current account",
-          press: () {
+          onPressed: () {
             Application.router.navigateTo(context, "/auth/signIn");
           },
-          primary: AppColors.primaryColor,
         ),
         const SizedBox(height: 12.0),
-        SubButtonWidget(
+        ButtonTextWidget(
           text: "Create new account",
-          press: () {
+          onPressed: () {
             Application.router.navigateTo(context, "/auth/signUp");
           },
-          primary: AppColors.primaryColor,
         ),
       ],
     );

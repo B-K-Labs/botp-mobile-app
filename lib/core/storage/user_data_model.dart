@@ -2,28 +2,28 @@ import 'package:botp_auth/constants/storage.dart';
 
 // Public Data
 class SessionDataModel {
-  final SessionType sessionType;
+  final UserDataSession sessionType;
 
   SessionDataModel({required this.sessionType});
   SessionDataModel.fromJSON(Map<String, dynamic> json)
-      : sessionType = SessionType.values[json["sessionType"]];
+      : sessionType = UserDataSession.values[json["sessionType"]];
   Map<String, dynamic> toJSON() => {"sessionType": sessionType.index};
 }
 
 class PreferenceDataModel {
-  final TransactionDisplayingType transDisplayType;
-  final Language lang;
-  final AppTheme theme;
+  final UserDataTransactionDisplaying transDisplayType;
+  final UserDataLanguage lang;
+  final UserDataTheme theme;
 
   PreferenceDataModel(
       {required this.transDisplayType,
       required this.lang,
       required this.theme});
   PreferenceDataModel.fromJSON(Map<String, dynamic> json)
-      : transDisplayType =
-            TransactionDisplayingType.values[json["transactionDisplayingType"]],
-        lang = Language.values[json["language"]],
-        theme = AppTheme.values[json["theme"]];
+      : transDisplayType = UserDataTransactionDisplaying
+            .values[json["transactionDisplayingType"]],
+        lang = UserDataLanguage.values[json["language"]],
+        theme = UserDataTheme.values[json["theme"]];
   Map<String, dynamic> toJSON() => {
         "transactionDisplayingType": transDisplayType.index,
         "language": lang.index,

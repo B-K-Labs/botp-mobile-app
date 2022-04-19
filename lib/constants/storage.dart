@@ -1,3 +1,4 @@
+// Type for user data
 class UserDataType {
   static const session = "session_data";
   static const preferences = "preferences_data";
@@ -9,8 +10,7 @@ class UserDataType {
 }
 
 // Session
-// - Session type: first-time-user, signed out user, temporarily signed out user, and authenticated user
-enum SessionType {
+enum UserDataSession {
   firstTime,
   unauthenticated,
   expired,
@@ -19,19 +19,19 @@ enum SessionType {
 
 // Preference
 // - Language
-enum Language {
+enum UserDataLanguage {
   en,
   vn,
 }
 
 // App theme
-enum AppTheme {
+enum UserDataTheme {
   light,
   dark,
 }
 
 // Display
-enum TransactionDisplayingType {
+enum UserDataTransactionDisplaying {
   normal,
   condensed,
 }

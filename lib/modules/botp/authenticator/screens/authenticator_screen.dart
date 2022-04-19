@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:botp_auth/constants/theme.dart';
+import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/modules/botp/transaction/screens/transaction_details_screen.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
@@ -35,11 +35,9 @@ class _AuthenticatorScreenState extends State<AuthenticatorScreen> {
           titleTextStyle: Theme.of(context).textTheme.headline6,
           actionsIconTheme:
               IconThemeData(color: Theme.of(context).colorScheme.onSurface),
-          toolbarHeight: 70,
+          toolbarHeight: 72,
         ),
-        body: const SafeArea(
-            minimum: EdgeInsets.all(kPaddingSafeArea),
-            child: AuthenticatorMainBody()));
+        body: const SafeArea(bottom: true, child: AuthenticatorMainBody()));
   }
 }
 
@@ -71,9 +69,12 @@ class _AuthenticatorMainBodyState extends State<AuthenticatorMainBody> {
     'Google',
     'Facebook'
   ];
-  final emailNameList = ['hien.itgenius', 'hkneee', 'ureshii'];
-  final emailDomainList = ['gmail.com', 'edu.com', 'outlook.com'];
-  // int _counter = 0;
+  final notifyMessagesList = [
+    'Facebook need your confirmation to your account password change. Date: 20/04/2022',
+    'Shopee need your confirmation to your account password change. Date: 20/04/2022',
+    'Lazada need your confirmation to your account password change. Date: 20/04/2022',
+    'Transfer money from Khim to Hien. Total: 10 USD',
+  ];
 
   void createAlertDialog(BuildContext context) {
     //     setState(() {
@@ -98,16 +99,12 @@ class _AuthenticatorMainBodyState extends State<AuthenticatorMainBody> {
     ]);
   }
 
-  String generateRandomHCMUTAccount() {
-    return getRandom(emailNameList) +
-        // String.fromCharCodes(
-        //     List.generate(len, (index) => r.nextInt(33) + 89)) +
-        "@" +
-        getRandom(emailDomainList);
+  String generateRandomNotifyMessage() {
+    return getRandom(notifyMessagesList);
   }
 
-  int generateRandomTransactionStatus() {
-    return getRandom([0, 1, 2, 3]);
+  TransactionStatus generateRandomTransactionStatus() {
+    return getRandom(TransactionStatus.values);
   }
 
   String generateRandomOTPCode({int len = 6}) {
@@ -136,12 +133,13 @@ class _AuthenticatorMainBodyState extends State<AuthenticatorMainBody> {
                 builder: (context) => const TransactionDetailsScreen()));
       },
       child: TransactionItemWidget(
-          isLasted: false,
+          isNewest: false,
           agentName: account,
+          agentAvatarUrl: generateRandomAgentImage(),
+          agentIsVerified: true,
           timestamp: "11:45 - 21/02/2022",
-          email: generateRandomHCMUTAccount(),
-          urlImage: generateRandomAgentImage(),
-          transStatus: generateRandomTransactionStatus()),
+          notifyMessage: generateRandomNotifyMessage(),
+          transactionStatus: generateRandomTransactionStatus()),
     );
   }
 }

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // Text theme
-// from https://material.io/design/typography/the-type-system.html#type-scale
+// https://material.io/design/typography/the-type-system.html#type-scale
+// https://api.flutter.dev/flutter/material/TextTheme-class.html
 final textTheme = TextTheme(
   headline1: GoogleFonts.roboto(
       fontSize: 96, fontWeight: FontWeight.w300, letterSpacing: -1.5),

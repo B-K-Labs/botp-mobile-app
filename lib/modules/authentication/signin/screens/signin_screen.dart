@@ -26,7 +26,7 @@ class SignInScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       body: const SafeArea(
-        minimum: EdgeInsets.all(kPaddingSafeArea),
+        bottom: true,
         child: SignInBody(),
       ),
     );
@@ -74,10 +74,8 @@ class _SignInBodyState extends State<SignInBody> {
               children: <Widget>[
                 const SizedBox(height: 16.0),
                 Text("Welcome back!",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        ?.copyWith(color: AppColors.primaryColor)),
+                    style: Theme.of(context).textTheme.headline4?.copyWith(
+                        color: Theme.of(context).colorScheme.primary)),
                 const SizedBox(height: 60.0),
                 Text("Enter your password",
                     style: Theme.of(context).textTheme.bodyText1),
@@ -102,8 +100,10 @@ class _SignInBodyState extends State<SignInBody> {
       _passwordOnChanged(value) => context
           .read<SignInCurrentBloc>()
           .add(SignInCurrentPasswordChanged(password: value));
-      return PasswordInputFieldWidget(
-          validator: _passwordValidator, onChanged: _passwordOnChanged);
+      return FieldPasswordWidget(
+          hintText: "******",
+          validator: _passwordValidator,
+          onChanged: _passwordOnChanged);
     });
   }
 
@@ -117,11 +117,9 @@ class _SignInBodyState extends State<SignInBody> {
                 context.read<SignInCurrentBloc>().add(SignInCurrentSubmitted());
               }
             };
-      return NormalButtonWidget(
+      return ButtonNormalWidget(
         text: "Sign in",
-        press: onSignInCurrent,
-        primary: AppColors.whiteColor,
-        backgroundColor: AppColors.primaryColor,
+        onPressed: onSignInCurrent,
       );
     });
   }
@@ -130,11 +128,12 @@ class _SignInBodyState extends State<SignInBody> {
     return SizedBox(
         width: 48.0,
         height: 48.0,
-        child: IconButtonWidget(
+        child: ButtonIconWidget(
             iconData: FontAwesomeIcons.fingerprint,
-            color: AppColors.primaryColor,
-            onPressed: () {},
-            size: 24.0));
+            onTap: () {},
+            buttonType: ButtonIconType.primaryOutlined,
+            buttonSize: ButtonIconSize.big,
+            buttonShape: ButtonIconShape.normal));
   }
 
   Widget _otherOptions() {
@@ -143,22 +142,20 @@ class _SignInBodyState extends State<SignInBody> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 60.0),
-        SubButtonWidget(
+        ButtonTextWidget(
           text: "Import existing account",
-          press: () {
+          onPressed: () {
             Application.router.navigateTo(context, "/auth/import",
                 transition: TransitionType.inFromRight);
           },
-          primary: AppColors.primaryColor,
         ),
         const SizedBox(height: 12.0),
-        SubButtonWidget(
+        ButtonTextWidget(
           text: "Create new account",
-          press: () {
+          onPressed: () {
             Application.router.navigateTo(context, "/auth/signUp",
                 transition: TransitionType.inFromRight);
           },
-          primary: AppColors.primaryColor,
         ),
       ],
     );

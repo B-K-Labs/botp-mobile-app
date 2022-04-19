@@ -2,108 +2,226 @@ import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/theme.dart';
 
 // Normal Button
-class NormalButtonWidget extends StatelessWidget {
+class ButtonNormalWidget extends StatelessWidget {
   final String text;
-  final VoidCallback? press;
-  final Color primary, backgroundColor;
-  final Color? borderColor;
-  final String buttonType;
+  final VoidCallback? onPressed;
+  final ButtonNormalType buttonType;
+  final ButtonNormalSize buttonSize;
 
-  const NormalButtonWidget({
-    Key? key,
-    required this.text,
-    required this.press,
-    required this.primary,
-    required this.backgroundColor,
-    this.borderColor,
-    this.buttonType = 'full',
-  }) : super(key: key);
+  const ButtonNormalWidget(
+      {Key? key,
+      required this.text,
+      required this.onPressed,
+      this.buttonType = ButtonNormalType.primary,
+      this.buttonSize = ButtonNormalSize.full})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Button theme
+    // - Width
+    final _width = buttonSize == ButtonNormalSize.full ? double.infinity : null;
+    // - Colors
+    final Color? _borderColor;
+    final Color _primary;
+    final Color? _backgroundColor;
+    if (onPressed == null) {
+      _borderColor = null;
+      _primary = Theme.of(context).colorScheme.onSurfaceVariant;
+      _backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
+    } else {
+      switch (buttonType) {
+        case ButtonNormalType.primary:
+          _borderColor = null;
+          _primary = Theme.of(context).colorScheme.onPrimary;
+          _backgroundColor = Theme.of(context).colorScheme.primary;
+          break;
+        case ButtonNormalType.primaryOutlined:
+          _borderColor = Theme.of(context).colorScheme.primary;
+          _primary = Theme.of(context).colorScheme.primary;
+          _backgroundColor = null;
+          break;
+        case ButtonNormalType.primaryGhost:
+          _borderColor = null;
+          _primary = Theme.of(context).colorScheme.primary;
+          _backgroundColor = null; // TODO: How to caculate it ?
+          break;
+        case ButtonNormalType.secondaryOutlined:
+          _borderColor = Theme.of(context).colorScheme.outline;
+          _primary = Theme.of(context).colorScheme.onSurfaceVariant;
+          _backgroundColor = null;
+          break;
+        case ButtonNormalType.secondaryGhost:
+          _borderColor = null;
+          _primary = Theme.of(context).colorScheme.onSurfaceVariant;
+          _backgroundColor = null;
+          break;
+        case ButtonNormalType.error:
+          _borderColor = Theme.of(context).colorScheme.error;
+          _primary = Theme.of(context).colorScheme.onError;
+          _backgroundColor = Theme.of(context).colorScheme.error;
+          break;
+        case ButtonNormalType.errorOutlined:
+          _borderColor = Theme.of(context).colorScheme.error;
+          _primary = Theme.of(context).colorScheme.error;
+          _backgroundColor = null;
+          break;
+        case ButtonNormalType.disabled:
+          _borderColor = null;
+          _primary = Theme.of(context).colorScheme.onSurfaceVariant;
+          _backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
+          break;
+        default: // Primary
+          _borderColor = Theme.of(context).colorScheme.primary;
+          _primary = Theme.of(context).colorScheme.onPrimary;
+          _backgroundColor = Theme.of(context).colorScheme.primary;
+          break;
+      }
+    }
+
+    final _side = _borderColor == null
+        ? BorderSide.none
+        : BorderSide(color: _borderColor, width: 1.0, style: BorderStyle.solid);
+    // - Text
+    final _textStyle = Theme.of(context)
+        .textTheme
+        .bodyText1
+        ?.copyWith(fontWeight: FontWeight.bold);
+    // - Padding
+    final _padding = EdgeInsets.symmetric(
+        vertical: 16,
+        horizontal: buttonType == ButtonNormalSize.short ? 8 : 32);
+
+    // Return button
     return SizedBox(
-      width: buttonType == 'full' ? double.infinity : null,
+      width: _width,
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
           shape: RoundedRectangleBorder(
-              borderRadius:
-                  BorderRadius.circular(AppBorderRadiusCircular.medium),
-              side: BorderSide(
-                  color: borderColor != null ? (borderColor)! : backgroundColor,
-                  width: 1,
-                  style: BorderStyle.solid)),
-          primary: primary,
-          backgroundColor: backgroundColor,
-          textStyle: Theme.of(context)
-              .textTheme
-              .bodyText1
-              ?.copyWith(fontWeight: FontWeight.bold),
-          padding: EdgeInsets.symmetric(
-              vertical: 16, horizontal: buttonType == 'short' ? 8 : 32),
+            borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
+          ),
+          side: _side,
+          primary: _primary,
+          backgroundColor: _backgroundColor,
+          textStyle: _textStyle,
+          padding: _padding,
         ),
-        onPressed: press,
+        onPressed: onPressed,
         child: Text(text),
       ),
     );
   }
 }
 
-// Sub Button
-class SubButtonWidget extends StatelessWidget {
+// Text Button
+class ButtonTextWidget extends StatelessWidget {
   final String text;
-  final VoidCallback? press;
-  final Color primary;
+  final VoidCallback? onPressed;
 
-  const SubButtonWidget({
+  const ButtonTextWidget({
     Key? key,
     required this.text,
-    required this.press,
-    required this.primary,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Button theme
+    // - Color
+    final _primary = Theme.of(context).colorScheme.primary;
+    // - Text
+    final _textStyle = Theme.of(context).textTheme.bodyText1;
+
     return TextButton(
         style: TextButton.styleFrom(
-            textStyle: Theme.of(context)
-                .textTheme
-                .bodyText1
-                ?.copyWith(fontWeight: FontWeight.normal),
-            primary: primary,
+            textStyle: _textStyle,
+            primary: _primary,
             padding: EdgeInsets.zero,
             minimumSize: Size.zero,
             tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-        onPressed: press,
+        onPressed: onPressed,
         child: Text(text));
   }
 }
 
 // Icon Button
-class IconButtonWidget extends StatelessWidget {
+class ButtonIconWidget extends StatelessWidget {
   final IconData iconData;
-  final Color color;
-  final Function onPressed;
-  final double size;
+  final VoidCallback? onTap;
+  final ButtonIconType buttonType;
+  final ButtonIconSize buttonSize;
+  final ButtonIconShape buttonShape;
 
-  const IconButtonWidget(
+  const ButtonIconWidget(
       {Key? key,
       required this.iconData,
-      required this.color,
-      required this.onPressed,
-      this.size = 24.0})
+      required this.onTap,
+      this.buttonType = ButtonIconType.primaryOutlined,
+      this.buttonSize = ButtonIconSize.normal,
+      this.buttonShape = ButtonIconShape.normal})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        height: size,
-        width: size,
-        child: IconButton(
-          padding: const EdgeInsets.all(0.0),
-          constraints: const BoxConstraints(),
-          icon: Icon(iconData, size: size),
-          color: color,
-          onPressed: () => onPressed(),
-        ));
+    // Button theme
+    // - Size
+    final double _size = buttonSize == ButtonIconSize.big ? 36 : 24;
+    // - Colors
+    final Color _borderColor;
+    final Color _primary; // Icon color
+    final Color _backgroundColor;
+    switch (buttonType) {
+      case ButtonIconType.primaryOutlined:
+        _borderColor = Theme.of(context).colorScheme.primary;
+        _primary = Theme.of(context).colorScheme.primary;
+        _backgroundColor = Theme.of(context).colorScheme.background;
+        break;
+      case ButtonIconType.secondaryGhost:
+        _borderColor = Theme.of(context).colorScheme.background;
+        _primary = Theme.of(context).colorScheme.onSurfaceVariant;
+        _backgroundColor = Theme.of(context).colorScheme.background;
+        break;
+      case ButtonIconType.error:
+        _borderColor = Theme.of(context).colorScheme.error;
+        _primary = Theme.of(context).colorScheme.onError;
+        _backgroundColor = Theme.of(context).colorScheme.error;
+        break;
+      default: // Primary outlined
+        _borderColor = Theme.of(context).colorScheme.primary;
+        _primary = Theme.of(context).colorScheme.primary;
+        _backgroundColor = Theme.of(context).colorScheme.background;
+    }
+    // - Shape
+    final _borderRadius = BorderRadius.circular(
+        buttonShape == ButtonIconShape.round ? 1000 : BorderRadiusSize.normal);
+    // - Padding
+    const _padding = EdgeInsets.all(12.0);
+
+    return Ink(
+        decoration: BoxDecoration(
+          border: Border.all(color: _borderColor, width: 1.0),
+          color: _backgroundColor,
+          shape: BoxShape.circle,
+        ),
+        child: InkWell(
+            borderRadius: _borderRadius,
+            onTap: onTap,
+            child: Padding(
+                padding: _padding,
+                child: Icon(
+                  iconData,
+                  size: _size,
+                  color: _primary,
+                ))));
+    // return SizedBox(
+    //     height: size,
+    //     width: size,
+    //     child: IconButton(
+    //       padding: const EdgeInsets.all(0.0),
+    //       constraints: const BoxConstraints(),
+    //       icon: Icon(iconData, size: size),
+    //       color: color,
+    //       onPressed: onPressed,
+    //     ));
   }
 }

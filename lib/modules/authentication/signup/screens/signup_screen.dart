@@ -8,7 +8,6 @@ import 'package:botp_auth/modules/authentication/signup/bloc/signup_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +23,7 @@ class SignUpScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: const SafeArea(
-        minimum: EdgeInsets.all(kPaddingSafeArea),
+        bottom: true,
         child: SignUpBody(),
       ),
     );
@@ -69,10 +68,8 @@ class _SignUpBodyState extends State<SignUpBody> {
               children: <Widget>[
                 const SizedBox(height: 16.0),
                 Text("Create new account",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        ?.copyWith(color: AppColors.primaryColor)),
+                    style: Theme.of(context).textTheme.headline4?.copyWith(
+                        color: Theme.of(context).colorScheme.primary)),
                 const SizedBox(height: 60.0),
                 Text('Password', style: Theme.of(context).textTheme.bodyText1),
                 const SizedBox(height: 12.0),
@@ -89,8 +86,10 @@ class _SignUpBodyState extends State<SignUpBody> {
       _passwordOnChanged(value) => context
           .read<SignUpBloc>()
           .add(SignUpEventPasswordChanged(password: value));
-      return PasswordInputFieldWidget(
-          validator: _passwordValidator, onChanged: _passwordOnChanged);
+      return FieldPasswordWidget(
+          hintText: "******",
+          validator: _passwordValidator,
+          onChanged: _passwordOnChanged);
     });
   }
 
@@ -103,11 +102,9 @@ class _SignUpBodyState extends State<SignUpBody> {
                 context.read<SignUpBloc>().add(SignUpEventSubmitted());
               }
             };
-      return NormalButtonWidget(
+      return ButtonNormalWidget(
         text: "Create account",
-        press: onSignUp,
-        primary: AppColors.whiteColor,
-        backgroundColor: AppColors.primaryColor,
+        onPressed: onSignUp,
       );
     });
   }
@@ -119,13 +116,12 @@ class _SignUpBodyState extends State<SignUpBody> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 60.0),
-          SubButtonWidget(
+          ButtonTextWidget(
             text: "Import existing account",
-            press: () {
+            onPressed: () {
               Application.router.navigateTo(context, '/auth/import',
                   transition: TransitionType.inFromRight);
             },
-            primary: AppColors.primaryColor,
           ),
         ]);
   }

@@ -74,8 +74,8 @@ class _ProfileEditBodyState extends State<ProfileEditBody> {
       _fullNameOnChanged(value) => context
           .read<ProfileEditBloc>()
           .add(ProfileEditEventFullNameChanged(value));
-      return NormalInputFieldWidget(
-          hintText: "Full name",
+      return FieldNormalWidget(
+          hintText: "Harry Jayson",
           validator: _fullNameValidator,
           onChanged: _fullNameOnChanged,
           initialValue: state.fullName);
@@ -89,11 +89,11 @@ class _ProfileEditBodyState extends State<ProfileEditBody> {
       _ageOnChanged(value) => context
           .read<ProfileEditBloc>()
           .add(ProfileEditEventAgeChanged(value));
-      return NormalInputFieldWidget(
-          hintText: "Age",
+      return FieldNormalWidget(
+          hintText: "18",
           validator: _ageValidator,
           onChanged: _ageOnChanged,
-          initialValue: state.age != null ? state.age.toString() : null);
+          initialValue: state.age?.toString());
     });
   }
 
@@ -104,8 +104,8 @@ class _ProfileEditBodyState extends State<ProfileEditBody> {
       _genderOnChanged(value) => context
           .read<ProfileEditBloc>()
           .add(ProfileEditEventGenderChanged(value));
-      return NormalInputFieldWidget(
-          hintText: "Gender",
+      return FieldNormalWidget(
+          hintText: "Male",
           validator: _genderValidator,
           onChanged: _genderOnChanged,
           initialValue: state.gender);
@@ -119,8 +119,8 @@ class _ProfileEditBodyState extends State<ProfileEditBody> {
       _debitorOnChanged(value) => context
           .read<ProfileEditBloc>()
           .add(ProfileEditEventDebitorChanged(value));
-      return NormalInputFieldWidget(
-          hintText: "Phone number",
+      return FieldNormalWidget(
+          hintText: "999-999-9999",
           validator: _debitorValidator,
           onChanged: _debitorOnChanged,
           initialValue: state.gender);
@@ -139,11 +139,10 @@ class _ProfileEditBodyState extends State<ProfileEditBody> {
                     .add(ProfileEditEventSubmitted());
               }
             };
-      return NormalButtonWidget(
-          text: "Update profile",
-          press: onProfileEdit,
-          primary: AppColors.whiteColor,
-          backgroundColor: AppColors.primaryColor);
+      return ButtonNormalWidget(
+        text: "Update profile",
+        onPressed: onProfileEdit,
+      );
     });
   }
 }

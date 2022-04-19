@@ -27,7 +27,7 @@ class SignInOtherBloc extends Bloc<SignInOtherEvent, SignInOtherState> {
         final importResult =
             await authRepository.import(state.privateKey, state.newPassword);
         // Store account data
-        UserData.setSessionData(SessionType.authenticated);
+        UserData.setSessionData(UserDataSession.authenticated);
         UserData.setCredentialAccountData(
             importResult.bcAddress, importResult.publicKey, state.privateKey);
         sessionCubit.launchSession();
