@@ -17,7 +17,7 @@ Map<String, dynamic> mapAlgorithm = {
 };
 
 // For generate TOTP from key message
-String generateTOTPDart(
+String generateTOTP(
     String message, int digits, int period, int timestamp, String algorithm) {
   // print('Dart input: $message $digits $period $timestamp $algorithm');
   final messageBase64 = base32.encodeString(message);

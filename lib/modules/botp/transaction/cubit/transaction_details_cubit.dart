@@ -2,16 +2,18 @@ import 'dart:async';
 import 'package:botp_auth/common/repositories/history_repository.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/modules/botp/transaction/cubit/transaction_details_state.dart';
+import 'package:botp_auth/utils/services/crypto_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransactionDetailsCubit extends Cubit<TransactionDetailsState> {
   HistoryRepository historyRepository;
-  final period = 4;
+  final period = 1;
   Timer? timer;
 
   TransactionDetailsCubit({required this.historyRepository})
       : super(TransactionDetailsState()) {
     // Set interval
+    trackOtp();
     Timer.periodic(Duration(seconds: period), (Timer timer) {
       if (isClosed) {
         print("Stop generate OTP");
@@ -31,14 +33,15 @@ class TransactionDetailsCubit extends Cubit<TransactionDetailsState> {
     emit(state.copyWith(generateOtpStatus: RequestStatusSubmitting()));
     try {
       // Self-generation
-      // TODO
+      final otp = generateTOTP("secret message", 8, period,
+          DateTime.now().millisecondsSinceEpoch, "SHA-512");
       // Caculate the otp remaining time
       final otpGeneratedTime = DateTime.now().millisecondsSinceEpoch;
       final remainingTime = (otpGeneratedTime +
               period * Duration.millisecondsPerSecond -
               DateTime.now().millisecondsSinceEpoch) ~/
           Duration.millisecondsPerSecond;
-      emit(state.copyWith(otp: "12345678", otpRemaingTime: remainingTime));
+      emit(state.copyWith(otp: otp, otpRemaingTime: remainingTime));
     } on Exception catch (e) {
       emit(state.copyWith(generateOtpStatus: RequestStatusFailed(e)));
     }

@@ -91,13 +91,14 @@ class TransactionItemWidget extends StatelessWidget {
         Theme.of(context).textTheme.caption?.copyWith(color: _smallTextColor);
     return Container(
         decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: _borderRadius,
           border: _border,
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-                offset: Offset(0.0, 2.0),
+                offset: const Offset(0.0, 2.0),
                 blurRadius: 30.0,
-                color: Color(0x0d000000))
+                color: Theme.of(context).shadowColor.withOpacity(0.05))
           ],
         ),
         height: 94,
