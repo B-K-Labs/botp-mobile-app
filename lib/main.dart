@@ -3,6 +3,7 @@ import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/common/repositories/history_repository.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
 import 'package:botp_auth/common/repositories/transaction_repository.dart';
+import 'package:botp_auth/configs/environment/environment.dart';
 import 'package:botp_auth/configs/themes/dark_theme.dart';
 import 'package:botp_auth/configs/themes/light_theme.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
@@ -16,6 +17,8 @@ import 'package:botp_auth/configs/routes/routes.dart';
 import 'package:fluro/fluro.dart';
 
 void main() async {
+  // Configuration from .env aka dotenv
+  await Environment().initConfig();
   // google_fonts license registering
   LicenseRegistry.addLicense(() async* {
     final license = await rootBundle.loadString('google_fonts/OFL.txt');
