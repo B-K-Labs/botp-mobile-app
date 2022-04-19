@@ -30,17 +30,15 @@ class TransactionDetailsCubit extends Cubit<TransactionDetailsState> {
   generateOtp() async {
     emit(state.copyWith(generateOtpStatus: RequestStatusSubmitting()));
     try {
-      final generateOtpResult = await historyRepository.generateOtp(
-          "priavteMessageForOtpGeneration", period, 8);
-
+      // Self-generation
+      // TODO
       // Caculate the otp remaining time
-      final otpGeneratedTime = generateOtpResult.generatedTime;
+      final otpGeneratedTime = DateTime.now().millisecondsSinceEpoch;
       final remainingTime = (otpGeneratedTime +
               period * Duration.millisecondsPerSecond -
               DateTime.now().millisecondsSinceEpoch) ~/
           Duration.millisecondsPerSecond;
-      emit(state.copyWith(
-          otp: generateOtpResult.otp, otpRemaingTime: remainingTime));
+      emit(state.copyWith(otp: "12345678", otpRemaingTime: remainingTime));
     } on Exception catch (e) {
       emit(state.copyWith(generateOtpStatus: RequestStatusFailed(e)));
     }
