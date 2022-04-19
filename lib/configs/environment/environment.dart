@@ -42,5 +42,5 @@ class Environment {
 }
 
 abstract class BaseConfig {
-  Uri get apiUri;
+  String get baseApiUri;
 }

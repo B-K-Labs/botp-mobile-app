@@ -3,5 +3,5 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class StagingConfig extends BaseConfig {
   @override
-  Uri get apiUri => Uri.parse(dotenv.env["API_URL"]!);
+  String get baseApiUri => dotenv.env["API_URL"]!;
 }
