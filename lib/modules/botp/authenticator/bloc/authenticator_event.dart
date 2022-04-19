@@ -18,7 +18,7 @@ class AuthenticatorEventPaginationChanged extends AuthenticatorEvent {
       {required this.totalPages, required this.currentPage});
 
   AuthenticatorEventPaginationChanged copyWith(
-          {required int totalPages, required int currentPage}) =>
+          {int? totalPages, int? currentPage}) =>
       AuthenticatorEventPaginationChanged(
           totalPages: totalPages ?? this.totalPages,
           currentPage: currentPage ?? this.currentPage);
