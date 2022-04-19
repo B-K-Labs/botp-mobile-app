@@ -26,7 +26,6 @@ class AuthRepository {
       return SignInResponseModel.fromJson(json.decode(result.body)["data"]);
     }
     throw Exception(result.body);
-    throw Exception('Failed to sign in');
   }
 
   // Import
@@ -38,7 +37,6 @@ class AuthRepository {
       return ImportResponseModel.fromJson(json.decode(result.body)["data"]);
     }
     throw Exception(result.body);
-    throw Exception('Failed to sign in');
   }
 
   // Sign out
