@@ -18,34 +18,48 @@ class InitBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        const SizedBox(height: 240.0),
-        Text("What do you want to do?",
-            style: Theme.of(context)
-                .textTheme
-                .headline4
-                ?.copyWith(color: Theme.of(context).colorScheme.primary)),
-        const SizedBox(height: 96.0),
-        ButtonNormalWidget(
-          text: 'Create new account',
-          onPressed: () {
-            Application.router.navigateTo(context, "/auth/signUp",
-                transition: TransitionType.inFromRight);
-          },
-        ),
-        const SizedBox(height: 24.0),
-        ButtonNormalWidget(
-          text: 'Import an account',
-          onPressed: () {
-            Application.router.navigateTo(context, "/auth/import",
-                transition: TransitionType.inFromRight);
-          },
-          buttonType: ButtonNormalType.primaryGhost,
-        ),
-      ],
-    );
+    return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Column(children: [
+              const SizedBox(height: 120.0),
+              Text("Experience the novel authenticator.",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline4
+                      ?.copyWith(color: Theme.of(context).colorScheme.primary))
+            ]),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              SizedBox(
+                height: 150.0,
+                width: 150.0,
+                child: Image.asset("assets/images/logo/botp_logo_splash.png",
+                    scale: 1, fit: BoxFit.fitWidth),
+              )
+            ]),
+            Column(children: [
+              ButtonNormalWidget(
+                text: 'Create new account',
+                onPressed: () {
+                  Application.router.navigateTo(context, "/auth/signUp",
+                      transition: TransitionType.inFromRight);
+                },
+              ),
+              const SizedBox(height: 24.0),
+              ButtonNormalWidget(
+                text: 'Import an account',
+                onPressed: () {
+                  Application.router.navigateTo(context, "/auth/import",
+                      transition: TransitionType.inFromRight);
+                },
+                buttonType: ButtonNormalType.primaryGhost,
+              ),
+              const SizedBox(height: 24.0),
+            ])
+          ],
+        ));
   }
 }

@@ -87,9 +87,10 @@ class _SignUpBodyState extends State<SignUpBody> {
           .read<SignUpBloc>()
           .add(SignUpEventPasswordChanged(password: value));
       return FieldPasswordWidget(
-          hintText: "******",
-          validator: _passwordValidator,
-          onChanged: _passwordOnChanged);
+        hintText: "******",
+        validator: _passwordValidator,
+        onChanged: _passwordOnChanged,
+      );
     });
   }
 
