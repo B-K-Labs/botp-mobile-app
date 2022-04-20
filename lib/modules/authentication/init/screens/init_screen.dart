@@ -36,7 +36,7 @@ class InitBody extends StatelessWidget {
               SizedBox(
                 height: 150.0,
                 width: 150.0,
-                child: Image.asset("assets/images/logo/botp_logo_splash.png",
+                child: Image.asset("assets/images/temp/botp_temp.png",
                     scale: 1, fit: BoxFit.fitWidth),
               )
             ]),
@@ -52,12 +52,12 @@ class InitBody extends StatelessWidget {
               ButtonNormalWidget(
                 text: 'Import an account',
                 onPressed: () {
-                  Application.router.navigateTo(context, "/auth/signIn",
+                  Application.router.navigateTo(context, "/auth/import",
                       transition: TransitionType.inFromRight);
                 },
                 buttonType: ButtonNormalType.primaryGhost,
               ),
-              const SizedBox(height: 24.0),
+              const SizedBox(height: kAppPaddingSize),
             ])
           ],
         ));

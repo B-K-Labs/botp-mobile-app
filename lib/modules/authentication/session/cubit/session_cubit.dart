@@ -3,14 +3,12 @@ import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_state.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// (dev only) Use mock data!!!!!!!!!!!!!!!!
-import 'package:yaml/yaml.dart';
-import 'package:flutter/services.dart' as s;
 
 class SessionCubit extends Cubit<SessionState> {
-  final AuthRepository authRepository;
+  final AuthenticationRepository authenticationRepository;
 
-  SessionCubit({required this.authRepository}) : super(UnknownSessionState()) {
+  SessionCubit({required this.authenticationRepository})
+      : super(UnknownSessionState()) {
     // Get user's session from storage
     initUserSession();
   }
@@ -39,17 +37,17 @@ class SessionCubit extends Cubit<SessionState> {
     // First time
     if (sessionData == null ||
         sessionData.sessionType == UserDataSession.firstTime) {
-      // (skip) Walkthrough here
+      // TODO: Walkthrough here
       UserData.setSessionData(UserDataSession.unauthenticated);
-      // emit(FirstTimeSessionState()); // Skip - when walkthrough pages are implemented
+      // emit(FirstTimeSessionState());
       emit(UnauthenticatedSessionState());
     } else if (sessionData.sessionType == UserDataSession.unauthenticated) {
       emit(UnauthenticatedSessionState());
     } else if (sessionData.sessionType == UserDataSession.expired) {
       emit(ExpiredSessionState());
     } else if (sessionData.sessionType == UserDataSession.authenticated) {
-      // (later) Verfiy user session
-      emit(ExpiredSessionState());
+      // TODO: Verify user session
+      emit(AuthenticatedSessionState());
     }
   }
 
@@ -59,7 +57,7 @@ class SessionCubit extends Cubit<SessionState> {
   }
 
   Future<void> signOut() async {
-    bool result = await authRepository.signOut();
+    bool result = await authenticationRepository.signOut();
     if (result) {
       emit(UnauthenticatedSessionState());
     }

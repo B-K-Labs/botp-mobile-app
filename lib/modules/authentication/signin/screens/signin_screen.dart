@@ -1,10 +1,10 @@
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
-import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/authentication/signin/bloc/signin_bloc.dart';
 import 'package:botp_auth/modules/authentication/signin/bloc/signin_event.dart';
 import 'package:botp_auth/modules/authentication/signin/bloc/signin_state.dart';
+import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -42,7 +41,7 @@ class _SignInBodyState extends State<SignInBody> {
   Widget build(BuildContext context) {
     return BlocProvider<SignInBloc>(
         create: (context) => SignInBloc(
-            authRepository: context.read<AuthRepository>(),
+            authRepository: context.read<AuthenticationRepository>(),
             sessionCubit: context.read<SessionCubit>()),
         child: Container(
             padding: const EdgeInsets.symmetric(horizontal: kAppPaddingSize),

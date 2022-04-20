@@ -61,16 +61,20 @@ class _MyAppState extends State<MyApp> {
         // All providers
         // * Why to provide repository outside the BLoC: https://stackoverflow.com/questions/68137041/flutter-bloc-why-are-repositories-declared-on-the-ui-and-not-the-backend
         providers: [
-          RepositoryProvider(create: (context) => AuthRepository()),
+          RepositoryProvider(create: (context) => AuthenticationRepository()),
           RepositoryProvider(create: (context) => AuthenticatorRepository()),
           RepositoryProvider(create: (context) => TransactionRepository()),
           RepositoryProvider(create: (context) => HistoryRepository()),
           RepositoryProvider(create: (context) => SettingsRepository()),
         ],
         // Provider SessionBloc at the root for session management
-        child: BlocProvider<SessionCubit>(
-            create: (context) =>
-                SessionCubit(authRepository: context.read<AuthRepository>()),
+        child: MultiBlocProvider(
+            providers: [
+              BlocProvider<SessionCubit>(
+                  create: (context) => SessionCubit(
+                      authenticationRepository:
+                          context.read<AuthenticationRepository>())),
+            ],
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
               // Themes
@@ -82,7 +86,7 @@ class _MyAppState extends State<MyApp> {
               onGenerateRoute: Application
                   .router.generator, // It would use the root path first i.e "/"
               // (not used anymore)
-              // home: cSessionScreen()
+              // home: SessionScreen()
             )));
   }
 }

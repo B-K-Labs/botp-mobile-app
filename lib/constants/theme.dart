@@ -1,5 +1,6 @@
 // App padding
 const kAppPaddingSize = 24.0;
+const kAppItemPaddingSize = 12.0;
 
 // Border radius
 class BorderRadiusSize {

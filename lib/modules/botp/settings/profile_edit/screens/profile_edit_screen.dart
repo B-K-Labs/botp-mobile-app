@@ -1,11 +1,10 @@
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
-import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
-import 'package:botp_auth/modules/settings/profile_edit/bloc/profile_edit_bloc.dart';
-import 'package:botp_auth/modules/settings/profile_edit/bloc/profile_edit_event.dart';
-import 'package:botp_auth/modules/settings/profile_edit/bloc/profile_edit_state.dart';
+import 'package:botp_auth/modules/botp/settings/profile_edit/bloc/profile_edit_bloc.dart';
+import 'package:botp_auth/modules/botp/settings/profile_edit/bloc/profile_edit_event.dart';
+import 'package:botp_auth/modules/botp/settings/profile_edit/bloc/profile_edit_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/field.dart';

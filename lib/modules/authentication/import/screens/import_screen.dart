@@ -2,10 +2,10 @@ import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/constants/theme.dart';
-import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/authentication/import/bloc/import_bloc.dart';
 import 'package:botp_auth/modules/authentication/import/bloc/import_state.dart';
 import 'package:botp_auth/modules/authentication/import/bloc/import_event.dart';
+import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/widgets/field.dart';
@@ -40,7 +40,7 @@ class _ImportBodyState extends State<ImportBody> {
   Widget build(BuildContext context) {
     return BlocProvider<ImportBloc>(
         create: (context) => ImportBloc(
-            authRepository: context.read<AuthRepository>(),
+            authRepository: context.read<AuthenticationRepository>(),
             sessionCubit: context.read<SessionCubit>()),
         child: Container(
             padding: const EdgeInsets.symmetric(horizontal: kAppPaddingSize),

@@ -1,13 +1,11 @@
 import 'package:botp_auth/common/states/request_status.dart';
-import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/constants/theme.dart';
-import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/authentication/signup/bloc/signup_bloc.dart';
 import 'package:botp_auth/modules/authentication/signup/bloc/signup_event.dart';
 import 'package:botp_auth/modules/authentication/signup/bloc/signup_state.dart';
+import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
@@ -45,7 +43,7 @@ class _SignUpBodyState extends State<SignUpBody> {
   Widget build(BuildContext context) {
     return BlocProvider<SignUpBloc>(
         create: (context) => SignUpBloc(
-            authRepo: context.read<AuthRepository>(),
+            authRepo: context.read<AuthenticationRepository>(),
             sessionCubit: context.read<SessionCubit>()),
         child: Container(
             padding: const EdgeInsets.symmetric(horizontal: kAppPaddingSize),
@@ -112,21 +110,4 @@ class _SignUpBodyState extends State<SignUpBody> {
       );
     });
   }
-  //
-  // // 2. Other options (would be deprecated soon)
-  // Widget _otherOptions() {
-  //   return Column(
-  //       mainAxisAlignment: MainAxisAlignment.start,
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         const SizedBox(height: 60.0),
-  //         ButtonTextWidget(
-  //           text: "Import existing account",
-  //           onPressed: () {
-  //             Application.router.navigateTo(context, '/auth/import',
-  //                 transition: TransitionType.inFromRight);
-  //           },
-  //         ),
-  //       ]);
-  // }
 }

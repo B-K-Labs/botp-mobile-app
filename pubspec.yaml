@@ -89,7 +89,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - .env
-    - assets/images/logo/botp_logo_splash.png
+    - assets/images/temp/botp_temp.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

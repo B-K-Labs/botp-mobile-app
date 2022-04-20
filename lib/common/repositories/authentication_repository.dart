@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:universal_html/html.dart';
 import 'package:http/http.dart' as http;
 
-class AuthRepository {
+class AuthenticationRepository {
   // Sign up
   Future<SignUpResponseModel> signUp(String password) async {
     final data = SignUpRequestModel(password).toJson();
