@@ -1,3 +1,6 @@
+// App padding
+const kAppPaddingSize = 24.0;
+
 // Border radius
 class BorderRadiusSize {
   static const normal = 8.0;
@@ -5,7 +8,7 @@ class BorderRadiusSize {
 }
 
 // App bar
-enum AppBarType { authenticator, history, noTitle, hasTitle, blank }
+enum AppBarType { hasAvatarRight, hasSearchField, hasNavBackLeft }
 
 // Button
 enum ButtonNormalType {
