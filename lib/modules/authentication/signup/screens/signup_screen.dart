@@ -22,7 +22,6 @@ class SignUpScreen extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         elevation: 0,
-        toolbarHeight: 72,
       ),
       body: const SafeArea(
         bottom: true,
@@ -53,10 +52,10 @@ class _SignUpBodyState extends State<SignUpBody> {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [_signUpForm(context), _otherOptions()])));
+                children: [_signUpForm()])));
   }
 
-  Widget _signUpForm(BuildContext context) {
+  Widget _signUpForm() {
     return BlocListener<SignUpBloc, SignUpState>(
         listener: (context, state) {
           final formStatus = state.formStatus;
@@ -74,11 +73,11 @@ class _SignUpBodyState extends State<SignUpBody> {
                 Text("Create new account",
                     style: Theme.of(context).textTheme.headline4?.copyWith(
                         color: Theme.of(context).colorScheme.primary)),
-                const SizedBox(height: 60.0),
+                const SizedBox(height: 48.0),
                 Text('Password', style: Theme.of(context).textTheme.bodyText1),
                 const SizedBox(height: 12.0),
                 _passwordField(),
-                const SizedBox(height: 36.0),
+                const SizedBox(height: 24.0),
                 _signUpButton(),
               ],
             )));
@@ -113,21 +112,21 @@ class _SignUpBodyState extends State<SignUpBody> {
       );
     });
   }
-
-  // 2. Other options (would be deprecated soon)
-  Widget _otherOptions() {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 60.0),
-          ButtonTextWidget(
-            text: "Import existing account",
-            onPressed: () {
-              Application.router.navigateTo(context, '/auth/import',
-                  transition: TransitionType.inFromRight);
-            },
-          ),
-        ]);
-  }
+  //
+  // // 2. Other options (would be deprecated soon)
+  // Widget _otherOptions() {
+  //   return Column(
+  //       mainAxisAlignment: MainAxisAlignment.start,
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         const SizedBox(height: 60.0),
+  //         ButtonTextWidget(
+  //           text: "Import existing account",
+  //           onPressed: () {
+  //             Application.router.navigateTo(context, '/auth/import',
+  //                 transition: TransitionType.inFromRight);
+  //           },
+  //         ),
+  //       ]);
+  // }
 }

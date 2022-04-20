@@ -19,13 +19,8 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        elevation: 0,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      ),
-      body: const SafeArea(
+    return const Scaffold(
+      body: SafeArea(
         bottom: true,
         child: SignInBody(),
       ),
@@ -49,14 +44,16 @@ class _SignInBodyState extends State<SignInBody> {
         create: (context) => SignInCurrentBloc(
             authRepository: context.read<AuthRepository>(),
             sessionCubit: context.read<SessionCubit>()),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [_signInCurrentForm(context), _otherOptions()],
-        ));
+        child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: kAppPaddingSize),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [_signInCurrentForm(), _otherOptions()],
+            )));
   }
 
-  Widget _signInCurrentForm(context) {
+  Widget _signInCurrentForm() {
     return BlocListener<SignInCurrentBloc, SignInCurrentState>(
         listener: (context, state) {
           final formStatus = state.formStatus;
@@ -72,20 +69,20 @@ class _SignInBodyState extends State<SignInBody> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 104.0),
                 Text("Welcome back!",
                     style: Theme.of(context).textTheme.headline4?.copyWith(
                         color: Theme.of(context).colorScheme.primary)),
-                const SizedBox(height: 60.0),
+                const SizedBox(height: 48.0),
                 Text("Enter your password",
                     style: Theme.of(context).textTheme.bodyText1),
-                const SizedBox(height: 24.0),
+                const SizedBox(height: 12.0),
                 _passwordField(),
-                const SizedBox(height: 36.0),
+                const SizedBox(height: 24.0),
                 Row(children: <Widget>[
                   Expanded(child: _signInCurrentButton()),
                   const SizedBox(
-                    width: 12.0,
+                    width: 24.0,
                   ),
                   _signInFingerprint(),
                 ]),
@@ -125,15 +122,14 @@ class _SignInBodyState extends State<SignInBody> {
   }
 
   Widget _signInFingerprint() {
-    return SizedBox(
-        width: 48.0,
-        height: 48.0,
-        child: ButtonIconWidget(
-            iconData: FontAwesomeIcons.fingerprint,
-            onTap: () {},
-            buttonType: ButtonIconType.primaryOutlined,
-            buttonSize: ButtonIconSize.big,
-            buttonShape: ButtonIconShape.normal));
+    return ButtonIconWidget(
+        iconData: Icons.fingerprint,
+        onTap: () {
+          // TODO: local auth
+        },
+        buttonType: ButtonIconType.primaryOutlined,
+        buttonSize: ButtonIconSize.big,
+        buttonShape: ButtonIconShape.normal);
   }
 
   Widget _otherOptions() {
@@ -141,7 +137,7 @@ class _SignInBodyState extends State<SignInBody> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 60.0),
+        const SizedBox(height: 72.0),
         ButtonTextWidget(
           text: "Import existing account",
           onPressed: () {

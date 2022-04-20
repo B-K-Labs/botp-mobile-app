@@ -44,7 +44,7 @@ class ButtonNormalWidget extends StatelessWidget {
         case ButtonNormalType.primaryGhost:
           _borderColor = null;
           _primary = Theme.of(context).colorScheme.primary;
-          _backgroundColor = null; // TODO: How to caculate it ?
+          _backgroundColor = null; // TODO: How to calculate it ?
           break;
         case ButtonNormalType.secondaryOutlined:
           _borderColor = Theme.of(context).colorScheme.outline;
@@ -167,42 +167,43 @@ class ButtonIconWidget extends StatelessWidget {
     // - Size
     final double _size = buttonSize == ButtonIconSize.big ? 36 : 24;
     // - Colors
-    final Color _borderColor;
+    final Color? _borderColor;
     final Color _primary; // Icon color
-    final Color _backgroundColor;
+    final Color? _backgroundColor;
     switch (buttonType) {
       case ButtonIconType.primaryOutlined:
         _borderColor = Theme.of(context).colorScheme.primary;
         _primary = Theme.of(context).colorScheme.primary;
-        _backgroundColor = Theme.of(context).colorScheme.background;
+        _backgroundColor = null;
         break;
       case ButtonIconType.secondaryGhost:
         _borderColor = Theme.of(context).colorScheme.background;
         _primary = Theme.of(context).colorScheme.onSurfaceVariant;
-        _backgroundColor = Theme.of(context).colorScheme.background;
+        _backgroundColor = null;
         break;
       case ButtonIconType.error:
-        _borderColor = Theme.of(context).colorScheme.error;
+        _borderColor = null;
         _primary = Theme.of(context).colorScheme.onError;
         _backgroundColor = Theme.of(context).colorScheme.error;
         break;
       default: // Primary outlined
         _borderColor = Theme.of(context).colorScheme.primary;
         _primary = Theme.of(context).colorScheme.primary;
-        _backgroundColor = Theme.of(context).colorScheme.background;
+        _backgroundColor = null;
     }
     // - Shape
     final _borderRadius = BorderRadius.circular(
         buttonShape == ButtonIconShape.round ? 1000 : BorderRadiusSize.normal);
     // - Padding
-    const _padding = EdgeInsets.all(12.0);
+    const _padding = EdgeInsets.all(6.0);
 
     return Ink(
         decoration: BoxDecoration(
-          border: Border.all(color: _borderColor, width: 1.0),
-          color: _backgroundColor,
-          shape: BoxShape.circle,
-        ),
+            border: _borderColor != null
+                ? Border.all(color: _borderColor, width: 1.0)
+                : null,
+            color: _backgroundColor,
+            borderRadius: _borderRadius),
         child: InkWell(
             borderRadius: _borderRadius,
             onTap: onTap,

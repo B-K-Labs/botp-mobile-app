@@ -25,7 +25,7 @@ class InitBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Column(children: [
-              const SizedBox(height: 120.0),
+              const SizedBox(height: 104.0),
               Text("Experience the novel authenticator.",
                   style: Theme.of(context)
                       .textTheme
@@ -52,7 +52,7 @@ class InitBody extends StatelessWidget {
               ButtonNormalWidget(
                 text: 'Import an account',
                 onPressed: () {
-                  Application.router.navigateTo(context, "/auth/import",
+                  Application.router.navigateTo(context, "/auth/signIn",
                       transition: TransitionType.inFromRight);
                 },
                 buttonType: ButtonNormalType.primaryGhost,

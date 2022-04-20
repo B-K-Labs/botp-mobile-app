@@ -1,6 +1,7 @@
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
+import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/authentication/import/bloc/import_bloc.dart';
 import 'package:botp_auth/modules/authentication/import/bloc/import_state.dart';
@@ -41,13 +42,15 @@ class _ImportBodyState extends State<ImportBody> {
         create: (context) => SignInOtherBloc(
             authRepository: context.read<AuthRepository>(),
             sessionCubit: context.read<SessionCubit>()),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [_signInOtherForm(context), _otherOptions()]));
+        child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: kAppPaddingSize),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [_signInOtherForm()])));
   }
 
-  Widget _signInOtherForm(context) {
+  Widget _signInOtherForm() {
     return BlocListener<SignInOtherBloc, SignInOtherState>(
         listener: (context, state) {
           final formStatus = state.formStatus;
@@ -61,11 +64,11 @@ class _ImportBodyState extends State<ImportBody> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                // const SizedBox(height: 36.0),
+                const SizedBox(height: 48.0),
                 Text("Import an existing account",
                     style: Theme.of(context).textTheme.headline4?.copyWith(
                         color: Theme.of(context).colorScheme.primary)),
-                const SizedBox(height: 72.0),
+                const SizedBox(height: 48.0),
                 Text("Private key",
                     style: Theme.of(context).textTheme.bodyText1),
                 const SizedBox(height: 12.0),
@@ -74,7 +77,7 @@ class _ImportBodyState extends State<ImportBody> {
                 Text("Password", style: Theme.of(context).textTheme.bodyText1),
                 const SizedBox(height: 12.0),
                 _passwordField(),
-                const SizedBox(height: 36.0),
+                const SizedBox(height: 24.0),
                 _signInOtherButton(),
               ],
             )));
@@ -87,7 +90,10 @@ class _ImportBodyState extends State<ImportBody> {
       _privateKeyOnChanged(value) => context
           .read<SignInOtherBloc>()
           .add(SignInOtherPrivateKeyChanged(privateKey: value));
-      _onNavigateQrCode() => null;
+      _onNavigateQrCode() {
+        // TODO: QR scanner
+      }
+
       return FieldNormalWidget(
           hintText: "123xxxxxx",
           validator: _privateKeyValidator,
@@ -128,26 +134,26 @@ class _ImportBodyState extends State<ImportBody> {
     });
   }
 
-  Widget _otherOptions() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 60.0),
-        ButtonTextWidget(
-          text: "Sign in with current account",
-          onPressed: () {
-            Application.router.navigateTo(context, "/auth/signIn");
-          },
-        ),
-        const SizedBox(height: 12.0),
-        ButtonTextWidget(
-          text: "Create new account",
-          onPressed: () {
-            Application.router.navigateTo(context, "/auth/signUp");
-          },
-        ),
-      ],
-    );
-  }
+  // Widget _otherOptions() {
+  //   return Column(
+  //     mainAxisAlignment: MainAxisAlignment.start,
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       const SizedBox(height: 60.0),
+  //       ButtonTextWidget(
+  //         text: "Sign in with current account",
+  //         onPressed: () {
+  //           Application.router.navigateTo(context, "/auth/signIn");
+  //         },
+  //       ),
+  //       const SizedBox(height: 12.0),
+  //       ButtonTextWidget(
+  //         text: "Create new account",
+  //         onPressed: () {
+  //           Application.router.navigateTo(context, "/auth/signUp");
+  //         },
+  //       ),
+  //     ],
+  //   );
+  // }
 }
