@@ -38,14 +38,15 @@ class UserData {
     return data != null ? CredentialAccountDataModel.fromJSON(data) : null;
   }
 
-  static setCredentialAccountData(
-          String bcAddress, String publicKey, String privateKey) async =>
+  static setCredentialAccountData(String bcAddress, String publicKey,
+          String privateKey, String password) async =>
       await SecureStorage.setSecureValue(
           UserDataType.credentialAccount,
           CredentialAccountDataModel(
                   bcAddress: bcAddress,
                   publicKey: publicKey,
-                  privateKey: privateKey)
+                  privateKey: privateKey,
+                  password: password)
               .toJSON());
 
   // Credential Profile: fullName, age, gender, debitor
@@ -55,13 +56,21 @@ class UserData {
     return data != null ? CredentialProfileDataModel.fromJSON(data) : null;
   }
 
-  static setCredentialProfileData(String? avatarUrl, String fullName, int age,
-          String gender, String debitor) async =>
+  static setCredentialProfileData(
+          String? avatarUrl,
+          bool didKYC,
+          String fullName,
+          String address,
+          int age,
+          String gender,
+          String debitor) async =>
       await SecureStorage.setSecureValue(
           UserDataType.credentialProfile,
           CredentialProfileDataModel(
                   avatarUrl: avatarUrl,
+                  didKYC: didKYC,
                   fullName: fullName,
+                  address: address,
                   age: age,
                   gender: gender,
                   debitor: debitor)
