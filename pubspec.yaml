@@ -58,6 +58,7 @@ dependencies:
   base32: ^2.1.1
   otp: ^3.0.2
   flutter_dotenv: ^5.0.2
+  mobile_scanner: ^1.0.0
 
 dev_dependencies:
   flutter_test:
