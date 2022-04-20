@@ -14,6 +14,8 @@ class AccountUpdateKYCBloc
     // On changed
     on<AccountUpdateKYCEventFullNameChanged>(
         (event, emit) => emit(state.copyWith(fullName: event.fullName)));
+    on<AccountUpdateKYCEventAddressChanged>(
+        (event, emit) => emit(state.copyWith(address: event.address)));
     on<AccountUpdateKYCEventAgeChanged>(
         (event, emit) => emit(state.copyWith(age: event.age)));
     on<AccountUpdateKYCEventGenderChanged>(
