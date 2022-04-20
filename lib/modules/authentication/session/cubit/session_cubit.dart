@@ -15,25 +15,9 @@ class SessionCubit extends Cubit<SessionState> {
 
   void initUserSession() async {
     // * Note: Fresh app
-    await UserData.clear();
+    await UserData.clearData();
     // Get session data
     final sessionData = await UserData.getCredentialSessionData();
-    // 1. Local storage only
-    // final yamlFileUrlString =
-    //     await s.rootBundle.loadString('lib/common/mock/userdata.yaml');
-    // final userData = loadYaml(yamlFileUrlString);
-    // print(userData);
-    // await UserData.setCredentialAccountData(userData["account"]["bcAddress"],
-    //     userData["account"]["publicKey"], userData["account"]["privateKey"]);
-    // await UserData.setCredentialProfileData(
-    //     userData["profile"]["avatarUrl"],
-    //     userData["profile"]["fullName"],
-    //     userData["profile"]["age"],
-    //     userData["profile"]["gender"],
-    //     userData["profile"]["address"],
-    //     userData["profile"]["debitor"]);
-    // emit(AuthenticatedSessionState());
-    // return;
     // First time
     if (sessionData == null ||
         sessionData.sessionType == UserDataSession.firstTime) {

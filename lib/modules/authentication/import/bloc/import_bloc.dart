@@ -33,6 +33,7 @@ class ImportBloc extends Bloc<ImportEvent, ImportState> {
         final userKyc = importResult.userKYC;
         // If KYC, save data; Else, remind user
         if (userKyc != null) {
+          UserData.setCredentialProfileData(true, null);
           UserData.setCredentialKYCData(userKyc.fullName, userKyc.address,
               userKyc.age, userKyc.gender, userKyc.debitor);
         } else {}

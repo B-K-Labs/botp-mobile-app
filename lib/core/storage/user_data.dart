@@ -68,7 +68,7 @@ class UserData {
     return data != null ? CredentialProfileDataModel.fromJSON(data) : null;
   }
 
-  static setCredentialProfileDataModel(bool didKYC, String? avatarURL) async =>
+  static setCredentialProfileData(bool didKYC, String? avatarURL) async =>
       await SecureStorage.setSecureValue(
           UserDataType.credentialProfile,
           CredentialProfileDataModel(didKyc: didKYC, avatarUrl: avatarURL)
@@ -105,20 +105,15 @@ class UserData {
     return data != null ? CredentialAgentsDataModel.fromJSON(data) : null;
   }
 
-  static setCredentialAgentsData(
-          List<String> listBcAddresses, List<String> listPublicKeys) async =>
-      await SecureStorage.setSecureValue(
-          UserDataType.credentialAgents,
-          CredentialAgentsDataModel(
-                  listBcAddresses: listBcAddresses,
-                  listPublicKeys: listPublicKeys)
-              .toJSON());
+  static setCredentialAgentsData(List<String> listBcAddresses) async =>
+      await SecureStorage.setSecureValue(UserDataType.credentialAgents,
+          CredentialAgentsDataModel(listBcAddresses: listBcAddresses).toJSON());
 
   static clearCredentialAgentsData() async =>
       await SecureStorage.removeSecureValue(UserDataType.credentialAgents);
 
   // Wipe out everything, in case of e.g signing out
-  static clear() async {
+  static clearData() async {
     await LocalStorage.removeAllValues();
     await SecureStorage.removeAllSecureValues();
   }
