@@ -38,7 +38,7 @@ class SessionCubit extends Cubit<SessionState> {
     if (sessionData == null ||
         sessionData.sessionType == UserDataSession.firstTime) {
       // TODO: Walkthrough here
-      UserData.setSessionData(UserDataSession.unauthenticated);
+      UserData.setCredentialSessionData(UserDataSession.unauthenticated);
       // emit(FirstTimeSessionState());
       emit(UnauthenticatedSessionState());
     } else if (sessionData.sessionType == UserDataSession.unauthenticated) {

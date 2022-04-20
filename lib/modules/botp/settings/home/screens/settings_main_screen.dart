@@ -99,7 +99,7 @@ class _SettingsHomeBodyState extends State<SettingsHomeBody> {
       _category(
           const Icon(Icons.arrow_back), "Sign out", "Sign out your account",
           () {
-        UserData.setSessionData(UserDataSession.expired);
+        UserData.setCredentialSessionData(UserDataSession.expired);
         Application.router.navigateTo(context, "/auth/signIn");
       })
     ];

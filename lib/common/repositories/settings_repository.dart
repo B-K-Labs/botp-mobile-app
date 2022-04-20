@@ -7,7 +7,7 @@ import 'package:universal_html/html.dart';
 
 class SettingsRepository {
   // Update KYC
-  Future<KYCResponseModel> kyc(
+  Future<KYCResponseModel> updateKyc(
       String bcAddress,
       String password,
       String fullName,

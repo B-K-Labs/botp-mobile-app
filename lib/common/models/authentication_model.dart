@@ -9,15 +9,19 @@ class SignUpResponseModel {
   String bcAddress;
   String publicKey;
   String privateKey;
+  UserKYCModel? userKYC;
   SignUpResponseModel(
     this.bcAddress,
     this.publicKey,
     this.privateKey,
+    this.userKYC,
   );
   SignUpResponseModel.fromJson(Map<String, dynamic> json)
       : bcAddress = json['bcAddress'], // bcAddress
         publicKey = json['publicKey'],
-        privateKey = json['privateKey']; // encryptedPrivateKey
+        privateKey = json['privateKey'],
+        userKYC =
+            json["info"] != null ? UserKYCModel.fromJSON(json["info"]) : null;
 }
 
 // Sign in
@@ -35,12 +39,17 @@ class SignInResponseModel {
   String bcAddress;
   String publicKey;
   String privateKey;
+  UserKYCModel? userKYC;
 
-  SignInResponseModel(this.bcAddress, this.publicKey, this.privateKey);
+  SignInResponseModel(
+      this.bcAddress, this.publicKey, this.privateKey, this.userKYC);
+
   SignInResponseModel.fromJson(Map<String, dynamic> json)
       : bcAddress = json["bcAddress"],
         publicKey = json["publicKey"],
-        privateKey = json["privateKey"];
+        privateKey = json["privateKey"],
+        userKYC =
+            json["info"] != null ? UserKYCModel.fromJSON(json["info"]) : null;
 }
 
 // Import
@@ -57,9 +66,42 @@ class ImportRequestModel {
 class ImportResponseModel {
   String bcAddress;
   String publicKey;
+  UserKYCModel? userKYC;
 
-  ImportResponseModel(this.bcAddress, this.publicKey);
+  ImportResponseModel(this.bcAddress, this.publicKey, this.userKYC);
   ImportResponseModel.fromJson(Map<String, dynamic> json)
       : bcAddress = json['bcAddress'], // bcAddress
-        publicKey = json['publicKey'];
+        publicKey = json['publicKey'],
+        userKYC =
+            json['info'] != null ? UserKYCModel.fromJSON(json['info']) : null;
+}
+
+class UserKYCModel {
+  String fullName;
+  String address;
+  int age;
+  String gender;
+  String debitor;
+
+  UserKYCModel(
+      {required this.fullName,
+      required this.address,
+      required this.age,
+      required this.gender,
+      required this.debitor});
+
+  Map<String, dynamic> toJSON() => {
+        "fullName": fullName,
+        "address": address,
+        "age": age,
+        "gender": gender,
+        "debitor": debitor
+      };
+
+  UserKYCModel.fromJSON(Map<String, dynamic> json)
+      : fullName = json["fullName"],
+        address = json["address"],
+        age = json["age"],
+        gender = json["gender"],
+        debitor = json["debitor"];
 }

@@ -11,7 +11,7 @@ class ProfileViewCubit extends Cubit<ProfileViewState> {
   }
 
   readProfileData() async {
-    final profileData = await UserData.getCredentialProfileData();
+    final profileData = await UserData.getCredentialKYCData();
     final accountData = await UserData.getCredentialAccountData();
     try {
       if (profileData != null) {

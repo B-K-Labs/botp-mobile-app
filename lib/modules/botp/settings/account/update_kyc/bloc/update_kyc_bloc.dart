@@ -25,17 +25,21 @@ class AccountUpdateKYCBloc
     on<AccountUpdateKYCEventSubmitted>((event, emit) async {
       emit(state.copyWith(formStatus: RequestStatusSubmitting()));
       final accountData = await UserData.getCredentialAccountData();
-      final profileData = await UserData.getCredentialProfileData();
+      final profileData = await UserData.getCredentialKYCData();
       try {
-        final updateKycResult = await settingsRepository.kyc(
+        final updateKycResult = await settingsRepository.updateKyc(
             accountData!.bcAddress,
+            accountData!.password,
             state.fullName!,
-            state.age!,
+            state.address!,
+            int.parse(state.age!),
             state.gender!,
             state.debitor!);
-        UserData.setCredentialProfileData(
+        UserData.setCredentialKYCData(
             profileData?.avatarUrl,
+            true, // DidKyc
             state.fullName!,
+            state.address!,
             int.parse(state.age!),
             state.gender!,
             state.debitor!);

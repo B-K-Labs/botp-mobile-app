@@ -27,10 +27,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         final signInResult =
             await authRepository.signIn(privateKey, state.password);
         // Store account data
-        UserData.setSessionData(UserDataSession.authenticated);
+        UserData.setCredentialSessionData(UserDataSession.authenticated);
         UserData.setCredentialAccountData(signInResult.bcAddress,
-            signInResult.publicKey, signInResult.privateKey);
-        print("Sign up: Authentication done");
+            signInResult.publicKey, signInResult.privateKey, state.password);
         sessionCubit.launchSession();
         emit(state.copyWith(formStatus: RequestStatusSuccessful()));
       } on Exception catch (e) {

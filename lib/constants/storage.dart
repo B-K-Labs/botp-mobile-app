@@ -6,6 +6,7 @@ class UserDataType {
   static const credentialAgents = "credential_agents_data";
   static const credentialAccount = "credential_account_data";
   static const credentialProfile = "credential_profile_data";
+  static const credentialKYC = "credential_kyc_data";
 }
 
 // Session
