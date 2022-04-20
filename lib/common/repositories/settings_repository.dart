@@ -6,15 +6,23 @@ import 'package:http/http.dart' as http;
 import 'package:universal_html/html.dart';
 
 class SettingsRepository {
-  Future<KYCResponseModel> kyc(String bcAddress, String fullName, int age,
-      String gender, String debitor) async {
-    final data =
-        KYCRequestModel(bcAddress, fullName, age, gender, debitor).toJson();
+  // Update KYC
+  Future<KYCResponseModel> kyc(
+      String bcAddress,
+      String password,
+      String fullName,
+      String address,
+      int age,
+      String gender,
+      String debitor) async {
+    final data = KYCRequestModel(
+            bcAddress, password, fullName, address, age, gender, debitor)
+        .toJson();
     http.Response result =
         await post(makeApiUrlString(path: "/author/KYC"), data);
     if (result.statusCode == HttpStatus.ok) {
       return KYCResponseModel.fromJson(json.decode(result.body));
     }
-    throw Exception("Failed to do KYC");
+    throw Exception(result.body);
   }
 }

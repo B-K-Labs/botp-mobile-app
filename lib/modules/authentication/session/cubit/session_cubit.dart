@@ -17,7 +17,7 @@ class SessionCubit extends Cubit<SessionState> {
     // * Note: Fresh app
     await UserData.clear();
     // Get session data
-    final sessionData = await UserData.getSessionData();
+    final sessionData = await UserData.getCredentialSessionData();
     // 1. Local storage only
     // final yamlFileUrlString =
     //     await s.rootBundle.loadString('lib/common/mock/userdata.yaml');

@@ -19,7 +19,7 @@ class AccountUpdateKYCScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<AccountUpdateKYCBloc>(
         create: (context) => AccountUpdateKYCBloc(
-            settingsRepo: context.read<SettingsRepository>()),
+            settingsRepository: context.read<SettingsRepository>()),
         child: Scaffold(
             appBar: AppBar(),
             body: const SafeArea(bottom: true, child: AccountUpdateKYCBody())));

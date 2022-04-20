@@ -49,19 +49,23 @@ class CredentialAccountDataModel {
   final String bcAddress;
   final String publicKey;
   final String privateKey;
+  final String password;
 
   CredentialAccountDataModel(
       {required this.publicKey,
       required this.privateKey,
-      required this.bcAddress});
+      required this.bcAddress,
+      required this.password});
   CredentialAccountDataModel.fromJSON(Map<String, dynamic> json)
       : publicKey = json["publicKey"],
         privateKey = json["privateKey"],
-        bcAddress = json["bcAddress"];
+        bcAddress = json["bcAddress"],
+        password = json["password"];
   Map<String, dynamic> toJSON() => {
         "publicKey": publicKey,
         "privateKey": privateKey,
-        "bcAddress": bcAddress
+        "bcAddress": bcAddress,
+        "password": password,
       };
 }
 
@@ -82,26 +86,34 @@ class CredentialAgentsDataModel {
 
 class CredentialProfileDataModel {
   final String? avatarUrl;
+  final bool didKYC;
   final String fullName;
+  final String address;
   final int age;
   final String gender;
   final String debitor;
 
   CredentialProfileDataModel(
       {this.avatarUrl,
+      this.didKYC = false,
       required this.fullName,
+      required this.address,
       required this.age,
       required this.gender,
       required this.debitor});
   CredentialProfileDataModel.fromJSON(Map<String, dynamic> json)
       : avatarUrl = json["avatarUrl"],
+        didKYC = json["didKYC"],
         fullName = json["fullName"],
+        address = json["address"],
         age = json["age"],
         gender = json["gender"],
         debitor = json["debitor"];
   Map<String, dynamic> toJSON() => {
         "avatarUrl": avatarUrl,
+        "didKYC": didKYC,
         "fullName": fullName,
+        "address": address,
         "age": age,
         "gender": gender,
         "debitor": debitor,

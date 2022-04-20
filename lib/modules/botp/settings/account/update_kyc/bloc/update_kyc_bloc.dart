@@ -7,9 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AccountUpdateKYCBloc
     extends Bloc<AccountUpdateKYCEvent, AccountUpdateKYCState> {
-  SettingsRepository settingsRepo;
+  SettingsRepository settingsRepository;
 
-  AccountUpdateKYCBloc({required this.settingsRepo})
+  AccountUpdateKYCBloc({required this.settingsRepository})
       : super(AccountUpdateKYCState()) {
     // On changed
     on<AccountUpdateKYCEventFullNameChanged>(
@@ -27,8 +27,12 @@ class AccountUpdateKYCBloc
       final accountData = await UserData.getCredentialAccountData();
       final profileData = await UserData.getCredentialProfileData();
       try {
-        // final kycResult = await settingsRepo.kyc(accountData!.bcAddress,
-        //     state.fullName!, state.age!, state.gender!, state.debitor!);
+        final updateKycResult = await settingsRepository.kyc(
+            accountData!.bcAddress,
+            state.fullName!,
+            state.age!,
+            state.gender!,
+            state.debitor!);
         UserData.setCredentialProfileData(
             profileData?.avatarUrl,
             state.fullName!,
