@@ -11,10 +11,11 @@ class SettingsHomeCubit extends Cubit<SettingsHomeState> {
 
   readGeneralUserData() async {
     final accountData = await UserData.getCredentialAccountData();
-    final profileData = await UserData.getCredentialKYCData();
+    final profileData = await UserData.getCredentialProfileData();
+    final kycData = await UserData.getCredentialKYCData();
     emit(state.copyWith(
         avatarUrl: profileData?.avatarUrl,
-        fullName: profileData?.fullName,
+        fullName: kycData?.fullName,
         bcAddress: accountData!.bcAddress));
   }
 

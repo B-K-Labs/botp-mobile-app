@@ -15,7 +15,7 @@ class AccountHomeScreen extends StatelessWidget {
         appBar: AppBar(actions: [
           IconButton(
               onPressed: () => Application.router.navigateTo(
-                  context, "/botp/settings/account/updateKYC",
+                  context, "/botp/settings/account/updateKyc",
                   transition: TransitionType.inFromRight),
               icon: const Icon(Icons.edit))
         ]),

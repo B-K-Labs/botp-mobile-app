@@ -9,18 +9,18 @@ class SignUpResponseModel {
   String bcAddress;
   String publicKey;
   String privateKey;
-  UserKYCModel? userKYC;
+  UserKYCModel? userKyc;
   SignUpResponseModel(
     this.bcAddress,
     this.publicKey,
     this.privateKey,
-    this.userKYC,
+    this.userKyc,
   );
   SignUpResponseModel.fromJson(Map<String, dynamic> json)
       : bcAddress = json['bcAddress'], // bcAddress
         publicKey = json['publicKey'],
         privateKey = json['privateKey'],
-        userKYC =
+        userKyc =
             json["info"] != null ? UserKYCModel.fromJSON(json["info"]) : null;
 }
 
@@ -39,16 +39,16 @@ class SignInResponseModel {
   String bcAddress;
   String publicKey;
   String privateKey;
-  UserKYCModel? userKYC;
+  UserKYCModel? userKyc;
 
   SignInResponseModel(
-      this.bcAddress, this.publicKey, this.privateKey, this.userKYC);
+      this.bcAddress, this.publicKey, this.privateKey, this.userKyc);
 
   SignInResponseModel.fromJson(Map<String, dynamic> json)
       : bcAddress = json["bcAddress"],
         publicKey = json["publicKey"],
         privateKey = json["privateKey"],
-        userKYC =
+        userKyc =
             json["info"] != null ? UserKYCModel.fromJSON(json["info"]) : null;
 }
 
@@ -66,13 +66,13 @@ class ImportRequestModel {
 class ImportResponseModel {
   String bcAddress;
   String publicKey;
-  UserKYCModel? userKYC;
+  UserKYCModel? userKyc;
 
-  ImportResponseModel(this.bcAddress, this.publicKey, this.userKYC);
+  ImportResponseModel(this.bcAddress, this.publicKey, this.userKyc);
   ImportResponseModel.fromJson(Map<String, dynamic> json)
       : bcAddress = json['bcAddress'], // bcAddress
         publicKey = json['publicKey'],
-        userKYC =
+        userKyc =
             json['info'] != null ? UserKYCModel.fromJSON(json['info']) : null;
 }
 

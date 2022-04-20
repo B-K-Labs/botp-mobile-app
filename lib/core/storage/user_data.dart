@@ -68,10 +68,10 @@ class UserData {
     return data != null ? CredentialProfileDataModel.fromJSON(data) : null;
   }
 
-  static setCredentialProfileData(bool didKYC, String? avatarURL) async =>
+  static setCredentialProfileData(bool didKYC, String? avatarUrl) async =>
       await SecureStorage.setSecureValue(
           UserDataType.credentialProfile,
-          CredentialProfileDataModel(didKyc: didKYC, avatarUrl: avatarURL)
+          CredentialProfileDataModel(didKyc: didKYC, avatarUrl: avatarUrl)
               .toJSON());
 
   static clearCredentialProfileData() async =>

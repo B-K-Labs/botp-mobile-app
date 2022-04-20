@@ -36,8 +36,12 @@ class SessionCubit extends Cubit<SessionState> {
   }
 
   // Authentication process is success
-  void launchSession() {
-    emit(AuthenticatedSessionState());
+  void launchSession({required bool skipSetupKyc}) {
+    if (!skipSetupKyc) {
+      emit(RemindSetupKYCSessionState());
+    } else {
+      emit(AuthenticatedSessionState());
+    }
   }
 
   Future<void> signOut() async {

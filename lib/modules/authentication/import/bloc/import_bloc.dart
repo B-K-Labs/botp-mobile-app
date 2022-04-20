@@ -30,14 +30,15 @@ class ImportBloc extends Bloc<ImportEvent, ImportState> {
         UserData.setCredentialSessionData(UserDataSession.authenticated);
         UserData.setCredentialAccountData(importResult.bcAddress,
             importResult.publicKey, state.privateKey, state.newPassword);
-        final userKyc = importResult.userKYC;
+        final userKyc = importResult.userKyc;
         // If KYC, save data; Else, remind user
+        final didKyc = userKyc != null;
         if (userKyc != null) {
-          UserData.setCredentialProfileData(true, null);
           UserData.setCredentialKYCData(userKyc.fullName, userKyc.address,
               userKyc.age, userKyc.gender, userKyc.debitor);
-        } else {}
-        sessionCubit.launchSession();
+        }
+        UserData.setCredentialProfileData(didKyc, null);
+        sessionCubit.launchSession(skipSetupKyc: didKyc);
         emit(state.copyWith(formStatus: RequestStatusSuccessful()));
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));

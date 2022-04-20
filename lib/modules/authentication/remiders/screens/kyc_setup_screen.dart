@@ -1,5 +1,7 @@
+import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/widgets/button.dart';
+import 'package:fluro/fluro.dart';
 import "package:flutter/material.dart";
 
 class ReminderKYCSetupScreen extends StatelessWidget {
@@ -7,7 +9,8 @@ class ReminderKYCSetupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const Scaffold(
+        body: SafeArea(bottom: true, child: ReminderKYCSetupBody()));
   }
 }
 
@@ -23,7 +26,7 @@ class ReminderKYCSetupBody extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Column(children: [
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
             Text("Setup KYC",
                 style: Theme.of(context)
@@ -32,7 +35,7 @@ class ReminderKYCSetupBody extends StatelessWidget {
                     ?.copyWith(color: Theme.of(context).colorScheme.primary)),
             const SizedBox(height: 48.0),
             Text(
-              "To able to use the authentiactor, you ahve to setup your KYC information",
+              "To able to use the authenticator, you have to setup your KYC information",
               style: Theme.of(context).textTheme.bodyText1,
             )
           ]),
@@ -52,7 +55,8 @@ class ReminderKYCSetupBody extends StatelessWidget {
                   text: "Skip",
                   buttonType: ButtonNormalType.secondaryOutlined,
                   onPressed: () {
-                    // TODO: skip
+                    Application.router.navigateTo(context, "/botp",
+                        transition: TransitionType.fadeIn);
                   },
                 )),
                 const SizedBox(
@@ -63,7 +67,9 @@ class ReminderKYCSetupBody extends StatelessWidget {
                         text: "Set up now",
                         buttonType: ButtonNormalType.primary,
                         onPressed: () {
-                          // TODO: setup KYC
+                          Application.router.navigateTo(
+                              context, "/botp/settings/account/updateKyc",
+                              transition: TransitionType.fadeIn);
                         })),
               ]),
               const SizedBox(height: kAppPaddingHorizontalSize)

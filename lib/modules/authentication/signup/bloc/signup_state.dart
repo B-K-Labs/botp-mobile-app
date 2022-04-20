@@ -5,7 +5,6 @@ class SignUpState {
   // Password
   final String password;
   String? get validatePassword => passwordStrictValidator(password);
-
   // Form status
   final RequestStatus formStatus;
 
@@ -13,7 +12,9 @@ class SignUpState {
   SignUpState(
       {this.password = '', this.formStatus = const RequestStatusInitial()});
 
-  SignUpState copyWith({password, formStatus}) => SignUpState(
-      password: password ?? this.password,
-      formStatus: formStatus ?? this.formStatus);
+  SignUpState copyWith(
+          {String? password, RequestStatus? formStatus, bool? didKYC}) =>
+      SignUpState(
+          password: password ?? this.password,
+          formStatus: formStatus ?? this.formStatus);
 }

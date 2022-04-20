@@ -10,14 +10,13 @@ class Routes {
   static String import = "/auth/import";
   static String signUp = "/auth/signUp";
   static String signOut = "/auth/signOut";
-  static String reminderKYC = "/auth/reminder/KYC";
+  static String reminderKYC = "/auth/reminder/kyc";
   // static String reminderFingerprint = "/auth/reminder/fingerprint"; // TODO
   // 2. BOTP modules
   static String botpHome = "/botp";
   static String transaction = "/botp/transaction/:transactionDetail";
   static String settingsAccount = "/botp/settings/account";
-  static String settingsAccountUpdateKYC =
-      "/botp/settings/account/updateKYC"; // TODO
+  static String settingsAccountUpdateKYC = "/botp/settings/account/updateKyc";
   static String settingsSystem = "/botp/settings/system";
   static String settingsSecurity = "/botp/settings/security";
   static String settingsAbout = "/botp/settings/about";

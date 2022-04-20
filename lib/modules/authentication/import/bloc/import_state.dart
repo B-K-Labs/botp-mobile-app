@@ -8,7 +8,6 @@ class ImportState {
   // Password
   final String newPassword;
   String? get validateNewPassword => passwordNormalValidator(newPassword);
-
   // Form status
   final RequestStatus formStatus;
 
@@ -21,7 +20,8 @@ class ImportState {
   ImportState copyWith(
           {String? privateKey,
           String? newPassword,
-          RequestStatus? formStatus}) =>
+          RequestStatus? formStatus,
+          bool? didKyc}) =>
       ImportState(
         privateKey: privateKey ?? this.privateKey,
         newPassword: newPassword ?? this.newPassword,

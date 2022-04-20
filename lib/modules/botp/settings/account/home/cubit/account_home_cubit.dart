@@ -11,15 +11,15 @@ class ProfileViewCubit extends Cubit<ProfileViewState> {
   }
 
   readProfileData() async {
-    final profileData = await UserData.getCredentialKYCData();
+    final kycData = await UserData.getCredentialKYCData();
     final accountData = await UserData.getCredentialAccountData();
     try {
-      if (profileData != null) {
+      if (kycData != null) {
         emit(state.copyWith(
-            fullName: profileData.fullName,
-            age: profileData.age,
-            gender: profileData.gender,
-            debitor: profileData.debitor,
+            fullName: kycData.fullName,
+            age: kycData.age,
+            gender: kycData.gender,
+            debitor: kycData.debitor,
             bcAddress: accountData!.bcAddress,
             publicKey: accountData.publicKey,
             loadUserData: LoadUserDataStatusSuccessful()));

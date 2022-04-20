@@ -132,27 +132,4 @@ class _ImportBodyState extends State<ImportBody> {
       );
     });
   }
-
-  // Widget _otherOptions() {
-  //   return Column(
-  //     mainAxisAlignment: MainAxisAlignment.start,
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       const SizedBox(height: 60.0),
-  //       ButtonTextWidget(
-  //         text: "Sign in with current account",
-  //         onPressed: () {
-  //           Application.router.navigateTo(context, "/auth/signIn");
-  //         },
-  //       ),
-  //       const SizedBox(height: 12.0),
-  //       ButtonTextWidget(
-  //         text: "Create new account",
-  //         onPressed: () {
-  //           Application.router.navigateTo(context, "/auth/signUp");
-  //         },
-  //       ),
-  //     ],
-  //   );
-  // }
 }

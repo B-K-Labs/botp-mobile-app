@@ -12,5 +12,9 @@ class UnauthenticatedSessionState extends SessionState {}
 // Out-of-session user i.e only password is required when signing in
 class ExpiredSessionState extends SessionState {}
 
+// (update): remider user to setup
+// Remider
+class RemindSetupKYCSessionState extends SessionState {}
+
 // Signed in user
 class AuthenticatedSessionState extends SessionState {}

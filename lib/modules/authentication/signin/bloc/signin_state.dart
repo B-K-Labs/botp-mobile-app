@@ -8,7 +8,6 @@ class SignInState {
   // Password
   final String password;
   String? get validatePassword => passwordNormalValidator(password);
-
   // Form status
   final RequestStatus formStatus;
 
@@ -21,8 +20,7 @@ class SignInState {
   SignInState copyWith(
           {String? bcAddress, String? password, RequestStatus? formStatus}) =>
       SignInState(
-        bcAddress: bcAddress ?? this.bcAddress,
-        password: password ?? this.password,
-        formStatus: formStatus ?? this.formStatus,
-      );
+          bcAddress: bcAddress ?? this.bcAddress,
+          password: password ?? this.password,
+          formStatus: formStatus ?? this.formStatus);
 }

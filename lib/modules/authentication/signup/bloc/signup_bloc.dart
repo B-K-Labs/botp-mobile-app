@@ -27,7 +27,9 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         UserData.setCredentialSessionData(UserDataSession.authenticated);
         UserData.setCredentialAccountData(signUpResult.bcAddress,
             signUpResult.publicKey, signUpResult.privateKey, state.password);
-        sessionCubit.launchSession();
+        const didKyc = false;
+        UserData.setCredentialProfileData(didKyc, null);
+        sessionCubit.launchSession(skipSetupKyc: false);
         emit(state.copyWith(formStatus: RequestStatusSuccessful()));
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));
