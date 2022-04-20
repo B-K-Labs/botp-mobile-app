@@ -44,7 +44,8 @@ class _SignInBodyState extends State<SignInBody> {
             authRepository: context.read<AuthenticationRepository>(),
             sessionCubit: context.read<SessionCubit>()),
         child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: kAppPaddingSize),
+            padding: const EdgeInsets.symmetric(
+                horizontal: kAppPaddingHorizontalSize),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +69,7 @@ class _SignInBodyState extends State<SignInBody> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const SizedBox(height: 104.0),
+                const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
                 Text("Welcome back!",
                     style: Theme.of(context).textTheme.headline4?.copyWith(
                         color: Theme.of(context).colorScheme.primary)),

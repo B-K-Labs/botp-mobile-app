@@ -2,6 +2,7 @@ import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
+import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/modules/botp/settings/account/update_kyc/bloc/update_kyc_bloc.dart';
 import 'package:botp_auth/modules/botp/settings/account/update_kyc/bloc/update_kyc_event.dart';
 import 'package:botp_auth/modules/botp/settings/account/update_kyc/bloc/update_kyc_state.dart';
@@ -35,10 +36,13 @@ class _AccountUpdateKYCBodyState extends State<AccountUpdateKYCBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [_profile()]);
+    return Container(
+        padding:
+            const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [_profile()]));
   }
 
   Widget _profile() {
@@ -58,6 +62,7 @@ class _AccountUpdateKYCBodyState extends State<AccountUpdateKYCBody> {
         child: Form(
             key: _formKey,
             child: Column(children: [
+              const SizedBox(height: kAppPaddingTopSize),
               _fullName(),
               _age(),
               _gender(),

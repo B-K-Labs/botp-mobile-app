@@ -25,7 +25,7 @@ class InitBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Column(children: [
-              const SizedBox(height: 104.0),
+              const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
               Text("Experience the novel authenticator.",
                   style: Theme.of(context)
                       .textTheme
@@ -57,7 +57,7 @@ class InitBody extends StatelessWidget {
                 },
                 buttonType: ButtonNormalType.primaryGhost,
               ),
-              const SizedBox(height: kAppPaddingSize),
+              const SizedBox(height: kAppPaddingHorizontalSize),
             ])
           ],
         ));
