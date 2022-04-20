@@ -6,13 +6,11 @@ import 'package:botp_auth/modules/authentication/signup/screens/signup_screen.da
 import 'package:botp_auth/modules/authentication/walkthroughs/screens/walkthrough_screen.dart';
 import 'package:botp_auth/modules/authentication/init/screens/init_screen.dart';
 import 'package:botp_auth/modules/botp/home/screens/botp_home.dart';
-import 'package:botp_auth/modules/botp/history/screens/history_home_screen.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/screens/account_home_screen.dart';
-import 'package:botp_auth/modules/botp/settings/account/profile_edit/screens/profile_edit_screen.dart';
-import 'package:botp_auth/modules/botp/settings/home/screens/settings_main_screen.dart';
 import 'package:botp_auth/modules/botp/transaction/screens/transaction_details_screen.dart';
 import 'package:botp_auth/modules/utils/biometric_setup/screens/biometric_setup_screen.dart';
 import 'package:botp_auth/modules/utils/qr_scanner/screens/qr_scanner.dart';
+import 'package:botp_auth/modules/botp/settings/account/update_kyc/screens/update_kyc_screen.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 

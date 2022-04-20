@@ -14,10 +14,7 @@ class Routes {
   // static String reminderFingerprint = "/auth/reminder/fingerprint"; // TODO
   // 2. BOTP modules
   static String botpHome = "/botp";
-  // static String authenticator = "/botp/authenticator";
-  // static String history = "/botp/history";
-  static String transaction = "/botp/transactionDetail/:transactionDetail";
-  // static String settingsHome = "/botp/settings";
+  static String transaction = "/botp/transaction/:transactionDetail";
   static String settingsAccount = "/botp/settings/account";
   static String settingsAccountUpdateKYC =
       "/botp/settings/account/updateKYC"; // TODO
@@ -42,6 +39,8 @@ class Routes {
     router.define(botpHome, handler: botpHomeHandler);
     router.define(transaction, handler: botpTransactionHandler);
     router.define(settingsAccount, handler: botpSettingsAccountHandler);
+    router.define(settingsAccountUpdateKYC,
+        handler: botpSettingsAccountUpdateKYCHandler);
     // 3. Utils modules
     router.define(qrScanner, handler: qrScannerHandler);
     router.define(biometricSetup, handler: biometricSetupHandler);

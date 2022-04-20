@@ -6,6 +6,7 @@ import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_cubit.d
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_state.dart';
 import 'package:botp_auth/utils/helpers/account.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -86,7 +87,8 @@ class _SettingsHomeBodyState extends State<SettingsHomeBody> {
   Widget _categories() {
     List<Widget> _categoriesList = [
       _category(const Icon(Icons.person), "Profile", "Export, profile", () {
-        Application.router.navigateTo(context, "/botp/settings/account");
+        Application.router.navigateTo(context, "/botp/settings/account",
+            transition: TransitionType.inFromRight);
       }),
       _category(
           const Icon(Icons.dashboard), "Preferences", "Language, theme", () {}),
