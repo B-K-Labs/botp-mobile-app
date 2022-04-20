@@ -4,7 +4,6 @@ import 'package:botp_auth/constants/storage.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_state.dart';
-import 'package:botp_auth/modules/botp/settings/profile_view/screens/profile_view_screen.dart';
 import 'package:botp_auth/utils/helpers/account.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:flutter/material.dart';
@@ -87,8 +86,7 @@ class _SettingsHomeBodyState extends State<SettingsHomeBody> {
   Widget _categories() {
     List<Widget> _categoriesList = [
       _category(const Icon(Icons.person), "Profile", "Export, profile", () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const ProfileViewScreen()));
+        Application.router.navigateTo(context, "/botp/settings/account");
       }),
       _category(
           const Icon(Icons.dashboard), "Preferences", "Language, theme", () {}),

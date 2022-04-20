@@ -7,7 +7,10 @@ import 'package:botp_auth/modules/authentication/walkthroughs/screens/walkthroug
 import 'package:botp_auth/modules/authentication/init/screens/init_screen.dart';
 import 'package:botp_auth/modules/botp/home/screens/botp_home.dart';
 import 'package:botp_auth/modules/botp/history/screens/history_home_screen.dart';
+import 'package:botp_auth/modules/botp/settings/account/home/screens/account_home_screen.dart';
+import 'package:botp_auth/modules/botp/settings/account/profile_edit/screens/profile_edit_screen.dart';
 import 'package:botp_auth/modules/botp/settings/home/screens/settings_main_screen.dart';
+import 'package:botp_auth/modules/botp/transaction/screens/transaction_details_screen.dart';
 import 'package:botp_auth/modules/utils/biometric_setup/screens/biometric_setup_screen.dart';
 import 'package:botp_auth/modules/utils/qr_scanner/screens/qr_scanner.dart';
 import 'package:fluro/fluro.dart';
@@ -66,17 +69,25 @@ var botpHomeHandler =
 });
 
 // - Transaction
-// TODO
 var botpTransactionHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-  return const Scaffold();
+  return const TransactionDetailsScreen();
 });
 
-// // - Settings
-// var botpSettingsHomeHandler =
-//     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-//   return const SettingsHomeScreen();
-// });
+// - Settings
+// - 1. Account
+var botpSettingsAccountHandler =
+    Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  return const AccountHomeScreen();
+});
+
+var botpSettingsAccountUpdateKYCHandler =
+    Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  return const AccountUpdateKYCScreen();
+});
+// - 2. Security
+// - 3. System
+// - 4. About
 
 // 3. Util modules
 var qrScannerHandler =

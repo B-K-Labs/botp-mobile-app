@@ -1,12 +1,12 @@
 import 'package:botp_auth/common/states/user_data_status.dart';
-import 'package:botp_auth/modules/botp/settings/profile_edit/screens/profile_edit_screen.dart';
-import 'package:botp_auth/modules/botp/settings/profile_view/cubit/profile_view_cubit.dart';
-import 'package:botp_auth/modules/botp/settings/profile_view/cubit/profile_view_state.dart';
+import 'package:botp_auth/modules/botp/settings/account/home/cubit/account_home_cubit.dart';
+import 'package:botp_auth/modules/botp/settings/account/home/cubit/account_home_state.dart';
+import 'package:botp_auth/modules/botp/settings/account/profile_edit/screens/profile_edit_screen.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProfileViewScreen extends StatelessWidget {
-  const ProfileViewScreen({Key? key}) : super(key: key);
+class AccountHomeScreen extends StatelessWidget {
+  const AccountHomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,21 +16,21 @@ class ProfileViewScreen extends StatelessWidget {
               onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const ProfileEditScreen())),
+                      builder: (context) => const AccountUpdateKYCScreen())),
               icon: const Icon(Icons.edit))
         ]),
-        body: const ProfileViewBody());
+        body: const AccountHomeBody());
   }
 }
 
-class ProfileViewBody extends StatefulWidget {
-  const ProfileViewBody({Key? key}) : super(key: key);
+class AccountHomeBody extends StatefulWidget {
+  const AccountHomeBody({Key? key}) : super(key: key);
 
   @override
-  State<ProfileViewBody> createState() => _ProfileViewBodyState();
+  State<AccountHomeBody> createState() => _AccountHomeBodyState();
 }
 
-class _ProfileViewBodyState extends State<ProfileViewBody> {
+class _AccountHomeBodyState extends State<AccountHomeBody> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

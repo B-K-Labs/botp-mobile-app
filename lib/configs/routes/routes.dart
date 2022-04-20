@@ -41,6 +41,7 @@ class Routes {
     // 2. BOTP modules
     router.define(botpHome, handler: botpHomeHandler);
     router.define(transaction, handler: botpTransactionHandler);
+    router.define(settingsAccount, handler: botpSettingsAccountHandler);
     // 3. Utils modules
     router.define(qrScanner, handler: qrScannerHandler);
     router.define(biometricSetup, handler: biometricSetupHandler);

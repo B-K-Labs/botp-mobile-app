@@ -2,35 +2,35 @@ import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
-import 'package:botp_auth/modules/botp/settings/profile_edit/bloc/profile_edit_bloc.dart';
-import 'package:botp_auth/modules/botp/settings/profile_edit/bloc/profile_edit_event.dart';
-import 'package:botp_auth/modules/botp/settings/profile_edit/bloc/profile_edit_state.dart';
+import 'package:botp_auth/modules/botp/settings/account/profile_edit/bloc/profile_edit_bloc.dart';
+import 'package:botp_auth/modules/botp/settings/account/profile_edit/bloc/profile_edit_event.dart';
+import 'package:botp_auth/modules/botp/settings/account/profile_edit/bloc/profile_edit_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/field.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProfileEditScreen extends StatelessWidget {
-  const ProfileEditScreen({Key? key}) : super(key: key);
+class AccountUpdateKYCScreen extends StatelessWidget {
+  const AccountUpdateKYCScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ProfileEditBloc>(
         create: (context) =>
             ProfileEditBloc(settingsRepo: context.read<SettingsRepository>()),
-        child: Scaffold(appBar: AppBar(), body: const ProfileEditBody()));
+        child: Scaffold(appBar: AppBar(), body: const AccountUpdateKYCBody()));
   }
 }
 
-class ProfileEditBody extends StatefulWidget {
-  const ProfileEditBody({Key? key}) : super(key: key);
+class AccountUpdateKYCBody extends StatefulWidget {
+  const AccountUpdateKYCBody({Key? key}) : super(key: key);
 
   @override
-  State<ProfileEditBody> createState() => _ProfileEditBodyState();
+  State<AccountUpdateKYCBody> createState() => _AccountUpdateKYCBodyState();
 }
 
-class _ProfileEditBodyState extends State<ProfileEditBody> {
+class _AccountUpdateKYCBodyState extends State<AccountUpdateKYCBody> {
   final _formKey = GlobalKey<FormState>();
 
   @override
