@@ -13,6 +13,6 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
   AuthenticatorBloc(
       {required this.authenticatorRepository,
       this.page = 1,
-      this.size = transactionsPagSize})
+      this.size = kTransactionItemsPagSize})
       : super(AuthenticatorState()) {}
 }

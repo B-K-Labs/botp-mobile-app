@@ -1,6 +1,7 @@
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
+import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/authentication/signup/bloc/signup_bloc.dart';
 import 'package:botp_auth/modules/authentication/signup/bloc/signup_event.dart';
@@ -21,6 +22,7 @@ class SignUpScreen extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         elevation: 0,
+        toolbarHeight: 72,
       ),
       body: const SafeArea(
         bottom: true,
@@ -46,10 +48,12 @@ class _SignUpBodyState extends State<SignUpBody> {
         create: (context) => SignUpBloc(
             authRepo: context.read<AuthRepository>(),
             sessionCubit: context.read<SessionCubit>()),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [_signUpForm(context), _otherOptions()]));
+        child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: kAppPaddingSize),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [_signUpForm(context), _otherOptions()])));
   }
 
   Widget _signUpForm(BuildContext context) {
@@ -66,7 +70,7 @@ class _SignUpBodyState extends State<SignUpBody> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const SizedBox(height: 16.0),
+                const SizedBox(height: 48.0),
                 Text("Create new account",
                     style: Theme.of(context).textTheme.headline4?.copyWith(
                         color: Theme.of(context).colorScheme.primary)),

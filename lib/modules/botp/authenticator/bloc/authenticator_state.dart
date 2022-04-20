@@ -9,7 +9,7 @@ class AuthenticatorState {
   AuthenticatorState(
       {this.transactionStatus = TransactionStatus.requesting,
       this.totalPages = 1,
-      this.currentPage = transactionsPagSize});
+      this.currentPage = kTransactionItemsPagSize});
 
   AuthenticatorState copyWith(
           {TransactionStatus? transactionStatus,
