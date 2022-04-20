@@ -1,9 +1,9 @@
-abstract class SignInCurrentEvent {}
+abstract class SignInEvent {}
 
-class SignInCurrentPasswordChanged extends SignInCurrentEvent {
+class SignInPasswordChanged extends SignInEvent {
   final String password;
 
-  SignInCurrentPasswordChanged({required this.password});
+  SignInPasswordChanged({required this.password});
 }
 
-class SignInCurrentSubmitted extends SignInCurrentEvent {}
+class SignInSubmitted extends SignInEvent {}

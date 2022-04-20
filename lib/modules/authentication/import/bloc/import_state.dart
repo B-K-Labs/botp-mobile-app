@@ -1,7 +1,7 @@
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/common/validators/authentication.dart';
 
-class SignInOtherState {
+class ImportState {
   // Private key
   final String privateKey;
   String? get validatePrivateKey => privateKeyValidator(privateKey);
@@ -12,17 +12,17 @@ class SignInOtherState {
   // Form status
   final RequestStatus formStatus;
 
-  SignInOtherState({
+  ImportState({
     this.privateKey = '',
     this.newPassword = '',
     this.formStatus = const RequestStatusInitial(),
   });
 
-  SignInOtherState copyWith(
+  ImportState copyWith(
           {String? privateKey,
           String? newPassword,
           RequestStatus? formStatus}) =>
-      SignInOtherState(
+      ImportState(
         privateKey: privateKey ?? this.privateKey,
         newPassword: newPassword ?? this.newPassword,
         formStatus: formStatus ?? this.formStatus,

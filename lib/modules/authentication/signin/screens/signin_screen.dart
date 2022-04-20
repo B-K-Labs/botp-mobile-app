@@ -40,8 +40,8 @@ class _SignInBodyState extends State<SignInBody> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SignInCurrentBloc>(
-        create: (context) => SignInCurrentBloc(
+    return BlocProvider<SignInBloc>(
+        create: (context) => SignInBloc(
             authRepository: context.read<AuthRepository>(),
             sessionCubit: context.read<SessionCubit>()),
         child: Container(
@@ -54,7 +54,7 @@ class _SignInBodyState extends State<SignInBody> {
   }
 
   Widget _signInCurrentForm() {
-    return BlocListener<SignInCurrentBloc, SignInCurrentState>(
+    return BlocListener<SignInBloc, SignInState>(
         listener: (context, state) {
           final formStatus = state.formStatus;
           if (formStatus is RequestStatusFailed) {
@@ -91,12 +91,11 @@ class _SignInBodyState extends State<SignInBody> {
   }
 
   Widget _passwordField() {
-    return BlocBuilder<SignInCurrentBloc, SignInCurrentState>(
-        builder: (context, state) {
+    return BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
       _passwordValidator(value) => state.validatePassword;
       _passwordOnChanged(value) => context
-          .read<SignInCurrentBloc>()
-          .add(SignInCurrentPasswordChanged(password: value));
+          .read<SignInBloc>()
+          .add(SignInPasswordChanged(password: value));
       return FieldPasswordWidget(
           hintText: "******",
           validator: _passwordValidator,
@@ -105,13 +104,12 @@ class _SignInBodyState extends State<SignInBody> {
   }
 
   Widget _signInCurrentButton() {
-    return BlocBuilder<SignInCurrentBloc, SignInCurrentState>(
-        builder: (context, state) {
+    return BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
       final onSignInCurrent = state.formStatus is RequestStatusSubmitting
           ? null
           : () {
               if (_formKey.currentState!.validate()) {
-                context.read<SignInCurrentBloc>().add(SignInCurrentSubmitted());
+                context.read<SignInBloc>().add(SignInSubmitted());
               }
             };
       return ButtonNormalWidget(

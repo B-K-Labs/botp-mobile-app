@@ -1,15 +1,15 @@
-abstract class SignInOtherEvent {}
+abstract class ImportEvent {}
 
-class SignInOtherPrivateKeyChanged extends SignInOtherEvent {
+class ImportPrivateKeyChanged extends ImportEvent {
   final String privateKey;
 
-  SignInOtherPrivateKeyChanged({required this.privateKey});
+  ImportPrivateKeyChanged({required this.privateKey});
 }
 
-class SignInOtherNewPasswordChanged extends SignInOtherEvent {
+class ImportNewPasswordChanged extends ImportEvent {
   final String newPassword;
 
-  SignInOtherNewPasswordChanged({required this.newPassword});
+  ImportNewPasswordChanged({required this.newPassword});
 }
 
-class SignInOtherSubmitted extends SignInOtherEvent {}
+class ImportSubmitted extends ImportEvent {}

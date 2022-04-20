@@ -7,18 +7,18 @@ import 'package:botp_auth/modules/authentication/signin/bloc/signin_event.dart';
 import 'package:botp_auth/modules/authentication/signin/bloc/signin_state.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 
-class SignInCurrentBloc extends Bloc<SignInCurrentEvent, SignInCurrentState> {
+class SignInBloc extends Bloc<SignInEvent, SignInState> {
   final AuthRepository authRepository;
   final SessionCubit sessionCubit;
 
-  SignInCurrentBloc({required this.authRepository, required this.sessionCubit})
-      : super(SignInCurrentState()) {
+  SignInBloc({required this.authRepository, required this.sessionCubit})
+      : super(SignInState()) {
     // On changed
-    on<SignInCurrentPasswordChanged>(
+    on<SignInPasswordChanged>(
         (event, emit) => emit(state.copyWith(password: event.password)));
 
     // On submitted
-    on<SignInCurrentSubmitted>((event, emit) async {
+    on<SignInSubmitted>((event, emit) async {
       if (state.formStatus is RequestStatusSubmitting) return;
       emit(state.copyWith(formStatus: RequestStatusSubmitting()));
       try {

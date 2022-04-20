@@ -7,20 +7,20 @@ import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 
-class SignInOtherBloc extends Bloc<SignInOtherEvent, SignInOtherState> {
+class ImportBloc extends Bloc<ImportEvent, ImportState> {
   final AuthRepository authRepository;
   final SessionCubit sessionCubit;
 
-  SignInOtherBloc({required this.authRepository, required this.sessionCubit})
-      : super(SignInOtherState()) {
+  ImportBloc({required this.authRepository, required this.sessionCubit})
+      : super(ImportState()) {
     // On changed
-    on<SignInOtherPrivateKeyChanged>(
+    on<ImportPrivateKeyChanged>(
         (event, emit) => emit(state.copyWith(privateKey: event.privateKey)));
-    on<SignInOtherNewPasswordChanged>(
+    on<ImportNewPasswordChanged>(
         (event, emit) => emit(state.copyWith(newPassword: event.newPassword)));
 
     // On submitted
-    on<SignInOtherSubmitted>((event, emit) async {
+    on<ImportSubmitted>((event, emit) async {
       if (state.formStatus is RequestStatusSubmitting) return;
       emit(state.copyWith(formStatus: RequestStatusSubmitting()));
       try {

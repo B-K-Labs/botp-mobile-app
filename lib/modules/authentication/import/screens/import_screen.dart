@@ -38,8 +38,8 @@ class _ImportBodyState extends State<ImportBody> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SignInOtherBloc>(
-        create: (context) => SignInOtherBloc(
+    return BlocProvider<ImportBloc>(
+        create: (context) => ImportBloc(
             authRepository: context.read<AuthRepository>(),
             sessionCubit: context.read<SessionCubit>()),
         child: Container(
@@ -51,7 +51,7 @@ class _ImportBodyState extends State<ImportBody> {
   }
 
   Widget _signInOtherForm() {
-    return BlocListener<SignInOtherBloc, SignInOtherState>(
+    return BlocListener<ImportBloc, ImportState>(
         listener: (context, state) {
           final formStatus = state.formStatus;
           if (formStatus is RequestStatusFailed) {
@@ -84,12 +84,11 @@ class _ImportBodyState extends State<ImportBody> {
   }
 
   Widget _privateKeyField() {
-    return BlocBuilder<SignInOtherBloc, SignInOtherState>(
-        builder: (context, state) {
+    return BlocBuilder<ImportBloc, ImportState>(builder: (context, state) {
       _privateKeyValidator(value) => state.validatePrivateKey;
       _privateKeyOnChanged(value) => context
-          .read<SignInOtherBloc>()
-          .add(SignInOtherPrivateKeyChanged(privateKey: value));
+          .read<ImportBloc>()
+          .add(ImportPrivateKeyChanged(privateKey: value));
       _onNavigateQrCode() {
         // TODO: QR scanner
       }
@@ -104,12 +103,11 @@ class _ImportBodyState extends State<ImportBody> {
   }
 
   Widget _passwordField() {
-    return BlocBuilder<SignInOtherBloc, SignInOtherState>(
-        builder: (context, state) {
+    return BlocBuilder<ImportBloc, ImportState>(builder: (context, state) {
       _newPasswordValidator(value) => state.validateNewPassword;
       _newPasswordOnChanged(value) => context
-          .read<SignInOtherBloc>()
-          .add(SignInOtherNewPasswordChanged(newPassword: value));
+          .read<ImportBloc>()
+          .add(ImportNewPasswordChanged(newPassword: value));
       return FieldPasswordWidget(
           hintText: "******",
           validator: _newPasswordValidator,
@@ -118,13 +116,12 @@ class _ImportBodyState extends State<ImportBody> {
   }
 
   Widget _signInOtherButton() {
-    return BlocBuilder<SignInOtherBloc, SignInOtherState>(
-        builder: (context, state) {
+    return BlocBuilder<ImportBloc, ImportState>(builder: (context, state) {
       final onSignInOther = state.formStatus is RequestStatusSubmitting
           ? null
           : () {
               if (_formKey.currentState!.validate()) {
-                context.read<SignInOtherBloc>().add(SignInOtherSubmitted());
+                context.read<ImportBloc>().add(ImportSubmitted());
               }
             };
       return ButtonNormalWidget(

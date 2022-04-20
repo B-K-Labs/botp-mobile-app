@@ -1,7 +1,7 @@
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/common/validators/authentication.dart';
 
-class SignInCurrentState {
+class SignInState {
   // Private key
   final String bcAddress;
   String? get validateBcAddress => bcAddressValidator(bcAddress);
@@ -12,15 +12,15 @@ class SignInCurrentState {
   // Form status
   final RequestStatus formStatus;
 
-  SignInCurrentState({
+  SignInState({
     this.bcAddress = '',
     this.password = '',
     this.formStatus = const RequestStatusInitial(),
   });
 
-  SignInCurrentState copyWith(
+  SignInState copyWith(
           {String? bcAddress, String? password, RequestStatus? formStatus}) =>
-      SignInCurrentState(
+      SignInState(
         bcAddress: bcAddress ?? this.bcAddress,
         password: password ?? this.password,
         formStatus: formStatus ?? this.formStatus,
