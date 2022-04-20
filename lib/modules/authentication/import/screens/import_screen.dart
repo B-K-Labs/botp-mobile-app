@@ -91,6 +91,7 @@ class _ImportBodyState extends State<ImportBody> {
           .add(ImportPrivateKeyChanged(privateKey: value));
       _onNavigateQrCode() {
         // TODO: QR scanner
+        Application.router.navigateTo(context, "/utils/qrScanner");
       }
 
       return FieldNormalWidget(
