@@ -17,10 +17,12 @@ class AccountUpdateKYCScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ProfileEditBloc>(
-        create: (context) =>
-            ProfileEditBloc(settingsRepo: context.read<SettingsRepository>()),
-        child: Scaffold(appBar: AppBar(), body: const AccountUpdateKYCBody()));
+    return BlocProvider<AccountUpdateKYCBloc>(
+        create: (context) => AccountUpdateKYCBloc(
+            settingsRepo: context.read<SettingsRepository>()),
+        child: Scaffold(
+            appBar: AppBar(),
+            body: const SafeArea(bottom: true, child: AccountUpdateKYCBody())));
   }
 }
 
@@ -41,12 +43,12 @@ class _AccountUpdateKYCBodyState extends State<AccountUpdateKYCBody> {
             const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [_profile()]));
   }
 
   Widget _profile() {
-    return BlocListener<ProfileEditBloc, ProfileEditState>(
+    return BlocListener<AccountUpdateKYCBloc, AccountUpdateKYCState>(
         listener: (context, state) {
           final loadUserDataStatus = state.loadUserDataStatus;
           final formStatus = state.formStatus;
@@ -61,23 +63,55 @@ class _AccountUpdateKYCBodyState extends State<AccountUpdateKYCBody> {
         },
         child: Form(
             key: _formKey,
-            child: Column(children: [
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const SizedBox(height: kAppPaddingTopSize),
-              _fullName(),
-              _age(),
-              _gender(),
-              _debitor(),
+              Text("Full name", style: Theme.of(context).textTheme.bodyText1),
+              const SizedBox(height: 12.0),
+              _fullNameField(),
+              const SizedBox(height: 24.0),
+              Text("Address", style: Theme.of(context).textTheme.bodyText1),
+              const SizedBox(height: 12.0),
+              _addressField(),
+              const SizedBox(height: 24.0),
+              Row(children: [
+                Expanded(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Age", style: Theme.of(context).textTheme.bodyText1),
+                    const SizedBox(height: 12.0),
+                    _ageField(),
+                  ],
+                )),
+                const SizedBox(width: kAppPaddingBetweenItemSize),
+                Expanded(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                      Text("Gender",
+                          style: Theme.of(context).textTheme.bodyText1),
+                      const SizedBox(height: 12.0),
+                      _genderField(),
+                    ]))
+              ]),
+              const SizedBox(height: 24.0),
+              Text("Phone number",
+                  style: Theme.of(context).textTheme.bodyText1),
+              const SizedBox(height: 12.0),
+              _debitorField(),
+              const SizedBox(height: 24.0),
               _editProfileButton(),
             ])));
   }
 
-  Widget _fullName() {
-    return BlocBuilder<ProfileEditBloc, ProfileEditState>(
+  Widget _fullNameField() {
+    return BlocBuilder<AccountUpdateKYCBloc, AccountUpdateKYCState>(
         builder: (context, state) {
       _fullNameValidator(value) => state.validateFullName;
       _fullNameOnChanged(value) => context
-          .read<ProfileEditBloc>()
-          .add(ProfileEditEventFullNameChanged(value));
+          .read<AccountUpdateKYCBloc>()
+          .add(AccountUpdateKYCEventFullNameChanged(value));
       return FieldNormalWidget(
           hintText: "Harry Jayson",
           validator: _fullNameValidator,
@@ -86,13 +120,28 @@ class _AccountUpdateKYCBodyState extends State<AccountUpdateKYCBody> {
     });
   }
 
-  Widget _age() {
-    return BlocBuilder<ProfileEditBloc, ProfileEditState>(
+  Widget _addressField() {
+    return BlocBuilder<AccountUpdateKYCBloc, AccountUpdateKYCState>(
+        builder: (context, state) {
+      _addressValidator(value) => state.validateFullName;
+      _addressOnChanged(value) => context
+          .read<AccountUpdateKYCBloc>()
+          .add(AccountUpdateKYCEventAddressChanged(value));
+      return FieldNormalWidget(
+          hintText: "District 10, HCM, Viet Nam",
+          validator: _addressValidator,
+          onChanged: _addressOnChanged,
+          initialValue: state.fullName);
+    });
+  }
+
+  Widget _ageField() {
+    return BlocBuilder<AccountUpdateKYCBloc, AccountUpdateKYCState>(
         builder: (context, state) {
       _ageValidator(value) => state.validateAge;
       _ageOnChanged(value) => context
-          .read<ProfileEditBloc>()
-          .add(ProfileEditEventAgeChanged(value));
+          .read<AccountUpdateKYCBloc>()
+          .add(AccountUpdateKYCEventAgeChanged(value));
       return FieldNormalWidget(
           hintText: "18",
           validator: _ageValidator,
@@ -101,13 +150,13 @@ class _AccountUpdateKYCBodyState extends State<AccountUpdateKYCBody> {
     });
   }
 
-  Widget _gender() {
-    return BlocBuilder<ProfileEditBloc, ProfileEditState>(
+  Widget _genderField() {
+    return BlocBuilder<AccountUpdateKYCBloc, AccountUpdateKYCState>(
         builder: (context, state) {
       _genderValidator(value) => state.validateAge;
       _genderOnChanged(value) => context
-          .read<ProfileEditBloc>()
-          .add(ProfileEditEventGenderChanged(value));
+          .read<AccountUpdateKYCBloc>()
+          .add(AccountUpdateKYCEventGenderChanged(value));
       return FieldNormalWidget(
           hintText: "Male",
           validator: _genderValidator,
@@ -116,13 +165,13 @@ class _AccountUpdateKYCBodyState extends State<AccountUpdateKYCBody> {
     });
   }
 
-  Widget _debitor() {
-    return BlocBuilder<ProfileEditBloc, ProfileEditState>(
+  Widget _debitorField() {
+    return BlocBuilder<AccountUpdateKYCBloc, AccountUpdateKYCState>(
         builder: (context, state) {
       _debitorValidator(value) => state.validateAge;
       _debitorOnChanged(value) => context
-          .read<ProfileEditBloc>()
-          .add(ProfileEditEventDebitorChanged(value));
+          .read<AccountUpdateKYCBloc>()
+          .add(AccountUpdateKYCEventDebitorChanged(value));
       return FieldNormalWidget(
           hintText: "999-999-9999",
           validator: _debitorValidator,
@@ -132,15 +181,15 @@ class _AccountUpdateKYCBodyState extends State<AccountUpdateKYCBody> {
   }
 
   Widget _editProfileButton() {
-    return BlocBuilder<ProfileEditBloc, ProfileEditState>(
+    return BlocBuilder<AccountUpdateKYCBloc, AccountUpdateKYCState>(
         builder: (context, state) {
       final onProfileEdit = state.formStatus is RequestStatusSubmitting
           ? null
           : () {
               if (_formKey.currentState!.validate()) {
                 context
-                    .read<ProfileEditBloc>()
-                    .add(ProfileEditEventSubmitted());
+                    .read<AccountUpdateKYCBloc>()
+                    .add(AccountUpdateKYCEventSubmitted());
               }
             };
       return ButtonNormalWidget(

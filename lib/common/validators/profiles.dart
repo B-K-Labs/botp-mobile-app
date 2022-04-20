@@ -2,6 +2,9 @@
 String? fullNameValidator(String? fullName) =>
     fullName == null || fullName.isEmpty ? "Missing full name" : null;
 
+String? addressValidator(String? address) =>
+    address == null || address.isEmpty ? "Missing address" : null;
+
 String? ageValidator(String? age) {
   if (age == null) return "Missing age";
   try {

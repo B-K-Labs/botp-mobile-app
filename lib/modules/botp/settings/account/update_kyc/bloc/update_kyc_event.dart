@@ -1,23 +1,28 @@
-abstract class ProfileEditEvent {}
+abstract class AccountUpdateKYCEvent {}
 
-class ProfileEditEventFullNameChanged extends ProfileEditEvent {
+class AccountUpdateKYCEventFullNameChanged extends AccountUpdateKYCEvent {
   final String? fullName;
-  ProfileEditEventFullNameChanged(this.fullName);
+  AccountUpdateKYCEventFullNameChanged(this.fullName);
 }
 
-class ProfileEditEventAgeChanged extends ProfileEditEvent {
+class AccountUpdateKYCEventAddressChanged extends AccountUpdateKYCEvent {
+  final String? address;
+  AccountUpdateKYCEventAddressChanged(this.address);
+}
+
+class AccountUpdateKYCEventAgeChanged extends AccountUpdateKYCEvent {
   final String? age;
-  ProfileEditEventAgeChanged(this.age);
+  AccountUpdateKYCEventAgeChanged(this.age);
 }
 
-class ProfileEditEventGenderChanged extends ProfileEditEvent {
+class AccountUpdateKYCEventGenderChanged extends AccountUpdateKYCEvent {
   final String? gender;
-  ProfileEditEventGenderChanged(this.gender);
+  AccountUpdateKYCEventGenderChanged(this.gender);
 }
 
-class ProfileEditEventDebitorChanged extends ProfileEditEvent {
+class AccountUpdateKYCEventDebitorChanged extends AccountUpdateKYCEvent {
   final String? debitor;
-  ProfileEditEventDebitorChanged(this.debitor);
+  AccountUpdateKYCEventDebitorChanged(this.debitor);
 }
 
-class ProfileEditEventSubmitted extends ProfileEditEvent {}
+class AccountUpdateKYCEventSubmitted extends AccountUpdateKYCEvent {}

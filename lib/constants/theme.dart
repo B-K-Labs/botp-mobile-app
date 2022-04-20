@@ -1,6 +1,6 @@
 // App padding
 const kAppPaddingHorizontalSize = 24.0;
-const kAppItemPaddingSize = 12.0;
+const kAppPaddingBetweenItemSize = 12.0;
 const kAppPaddingTopSize = 48.0;
 const kAppPaddingTopWithoutAppBarSize = 104.0;
 

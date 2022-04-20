@@ -5,22 +5,24 @@ import 'package:botp_auth/modules/botp/settings/account/update_kyc/bloc/update_k
 import 'package:botp_auth/modules/botp/settings/account/update_kyc/bloc/update_kyc_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProfileEditBloc extends Bloc<ProfileEditEvent, ProfileEditState> {
+class AccountUpdateKYCBloc
+    extends Bloc<AccountUpdateKYCEvent, AccountUpdateKYCState> {
   SettingsRepository settingsRepo;
 
-  ProfileEditBloc({required this.settingsRepo}) : super(ProfileEditState()) {
+  AccountUpdateKYCBloc({required this.settingsRepo})
+      : super(AccountUpdateKYCState()) {
     // On changed
-    on<ProfileEditEventFullNameChanged>(
+    on<AccountUpdateKYCEventFullNameChanged>(
         (event, emit) => emit(state.copyWith(fullName: event.fullName)));
-    on<ProfileEditEventAgeChanged>(
+    on<AccountUpdateKYCEventAgeChanged>(
         (event, emit) => emit(state.copyWith(age: event.age)));
-    on<ProfileEditEventGenderChanged>(
+    on<AccountUpdateKYCEventGenderChanged>(
         (event, emit) => emit(state.copyWith(gender: event.gender)));
-    on<ProfileEditEventDebitorChanged>(
+    on<AccountUpdateKYCEventDebitorChanged>(
         (event, emit) => emit(state.copyWith(debitor: event.debitor)));
 
     // On submitted
-    on<ProfileEditEventSubmitted>((event, emit) async {
+    on<AccountUpdateKYCEventSubmitted>((event, emit) async {
       emit(state.copyWith(formStatus: RequestStatusSubmitting()));
       final accountData = await UserData.getCredentialAccountData();
       final profileData = await UserData.getCredentialProfileData();
