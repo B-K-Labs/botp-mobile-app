@@ -103,15 +103,15 @@ class TransactionItemWidget extends StatelessWidget {
           ],
         ),
         height: 94,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
+        child: Stack(alignment: AlignmentDirectional.topEnd, children: [
+          Positioned.fill(
+              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             Container(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0, vertical: 16.0),
+                    horizontal: 27.0, vertical: 23.0),
                 child: SizedBox(
-                  height: 62.0,
-                  width: 62.0,
+                  height: 48.0,
+                  width: 48.0,
                   child: Image.network(agentAvatarUrl,
                       scale: 1, fit: BoxFit.fitWidth),
                 )),
@@ -134,24 +134,17 @@ class TransactionItemWidget extends StatelessWidget {
                     const SizedBox(height: 6.0),
                     Text(
                       shortenNotifyMessage(notifyMessage),
-                      style: _smallTextStyle, // TODO: truncate
+                      style: _smallTextStyle,
                     ),
                   ],
                 )),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const SizedBox(height: 0.0),
-                Container(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 16.0, horizontal: 20.0),
-                    child: _TransactionStatusWidget(
-                      status: transactionStatus,
-                    ))
-              ],
-            )
-          ],
-        ));
+          ])),
+          Container(
+              padding: const EdgeInsets.only(top: 16.0),
+              child: _TransactionStatusWidget(
+                status: transactionStatus,
+              ))
+        ]));
   }
 }
 
