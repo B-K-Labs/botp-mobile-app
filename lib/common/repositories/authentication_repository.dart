@@ -13,7 +13,7 @@ class AuthenticationRepository {
     http.Response result =
         await post(makeApiUrlString(path: "/authen/createAccount"), data);
     if (result.statusCode == HttpStatus.ok) {
-      return SignUpResponseModel.fromJson(json.decode(result.body)["data"]);
+      return SignUpResponseModel.fromJSON(json.decode(result.body)["data"]);
     }
     throw Exception('Failed to sign up');
   }
@@ -25,7 +25,7 @@ class AuthenticationRepository {
     http.Response result =
         await post(makeApiUrlString(path: "/authen/signIn"), data);
     if (result.statusCode == HttpStatus.ok) {
-      return SignInResponseModel.fromJson(json.decode(result.body)["data"]);
+      return SignInResponseModel.fromJSON(json.decode(result.body)["data"]);
     }
     throw Exception(result.body);
   }
@@ -37,7 +37,7 @@ class AuthenticationRepository {
     http.Response result =
         await post(makeApiUrlString(path: "/authen/importAccount"), data);
     if (result.statusCode == HttpStatus.ok) {
-      return ImportResponseModel.fromJson(json.decode(result.body)["data"]);
+      return ImportResponseModel.fromJSON(json.decode(result.body)["data"]);
     }
     throw Exception(result.body);
   }

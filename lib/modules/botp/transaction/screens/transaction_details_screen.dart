@@ -45,7 +45,7 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
     return BlocBuilder<TransactionDetailsCubit, TransactionDetailsState>(
         builder: (context, state) {
       return Column(children: [
-        TransactionOTP(otpInfo: state.otpInfo),
+        TransactionOTP(otpValueInfo: state.otpValueInfo),
         const TransactionDetail(),
         const TransactionNotifyMessage()
       ]);

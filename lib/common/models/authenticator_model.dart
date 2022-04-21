@@ -1,23 +1,16 @@
-class OTPSessionRequestModel {
-  String message;
-  int period;
-  int digits;
-  String algorithm;
-  OTPSessionRequestModel(
-      this.message, this.period, this.digits, this.algorithm);
-  Map<String, dynamic> toJson() => ({
-        "message": message,
-        "period": period,
-        "digits": digits,
-        "algorithm": algorithm
-      });
-}
+import 'package:botp_auth/common/models/common_model.dart';
 
-class OTPSessionResponseModel {
-  String otp;
-  int generatedTime;
-  OTPSessionResponseModel(this.otp, this.generatedTime);
-  OTPSessionResponseModel.fromJson(Map<String, dynamic> json)
-      : otp = json["data"]["OTP"]["OTP"],
-        generatedTime = json["data"]["OTP"]["timeGenerate"];
+class GetTransactionsListResponseModel {
+  PaginationInfo paginationInfo;
+  List<TransactionDetail> otpSessionsList;
+
+  GetTransactionsListResponseModel.fromJSON(Map<String, dynamic> json)
+      : paginationInfo =
+            PaginationInfo(currentPage: json["page"], totalPage: json["size"]),
+        otpSessionsList =
+            json["data"].forEach((otpSessionJson) => TransactionDetail(
+                otpSessionInfo: OTPSessionInfo.fromJSON(otpSessionJson),
+                otpSessionSecretInfo: OTPSessionSecretInfo.fromJSON(
+                  otpSessionJson,
+                )));
 }

@@ -2,7 +2,7 @@ import 'package:botp_auth/configs/environment/environment.dart';
 
 final baseApiUrl = Environment().config.baseApiUri;
 String makeApiUrlString(
-    {String path = "", Map<String, String> queryParameters = const {}}) {
+    {String path = "", Map<String, dynamic> queryParameters = const {}}) {
   final Uri baseApiUri = Uri.parse(baseApiUrl);
   return Uri(
     scheme: baseApiUri.scheme,

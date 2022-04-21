@@ -25,5 +25,5 @@ class KYCRequestModel {
 class KYCResponseModel {
   final Object info;
   KYCResponseModel(this.info);
-  KYCResponseModel.fromJson(Map<String, dynamic> json) : info = json["info"];
+  KYCResponseModel.fromJSON(Map<String, dynamic> json) : info = json["info"];
 }

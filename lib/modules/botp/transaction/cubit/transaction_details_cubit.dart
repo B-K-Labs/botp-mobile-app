@@ -44,8 +44,8 @@ class TransactionDetailsCubit extends Cubit<TransactionDetailsState> {
           Duration.millisecondsPerSecond;
       // Update state
       emit(state.copyWith(
-          otpInfo:
-              OTPInfoModel(value: otpValue, remainingTime: otpRemainingTime)));
+          otpValueInfo:
+              OTPValueInfo(value: otpValue, remainingTime: otpRemainingTime)));
     } on Exception catch (e) {
       emit(state.copyWith(generateOtpStatus: RequestStatusFailed(e)));
     }

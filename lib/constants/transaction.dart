@@ -13,3 +13,10 @@ extension ToType on TransactionStatus {
     return '${rawTypeString[0].toUpperCase()}${rawTypeString.substring(1)}';
   }
 }
+
+extension ToTransactionStatusType on String {
+  TransactionStatus toTransactionStatusType() {
+    return TransactionStatus.values
+        .firstWhere((e) => e.name.toString().toLowerCase() == toUpperCase());
+  }
+}

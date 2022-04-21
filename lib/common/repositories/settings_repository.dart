@@ -21,7 +21,7 @@ class SettingsRepository {
     http.Response result =
         await post(makeApiUrlString(path: "/author/KYC"), data);
     if (result.statusCode == HttpStatus.ok) {
-      return KYCResponseModel.fromJson(json.decode(result.body));
+      return KYCResponseModel.fromJSON(json.decode(result.body));
     }
     throw Exception(result.body);
   }

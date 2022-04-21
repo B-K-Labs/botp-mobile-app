@@ -157,9 +157,9 @@ class TransactionItemWidget extends StatelessWidget {
 
 class TransactionOTP extends StatefulWidget {
   final bool isValidOTP;
-  final OTPInfoModel? otpInfo;
+  final OTPValueInfo? otpValueInfo;
 
-  const TransactionOTP({Key? key, this.isValidOTP = false, this.otpInfo})
+  const TransactionOTP({Key? key, this.isValidOTP = false, this.otpValueInfo})
       : super(key: key);
 
   @override
@@ -173,11 +173,11 @@ class _TransactionOTPState extends State<TransactionOTP> {
       Text("OTP", style: Theme.of(context).textTheme.headline6),
       const Divider(),
       widget.isValidOTP
-          ? Text(widget.otpInfo?.value ?? "")
+          ? Text(widget.otpValueInfo?.value ?? "")
           : const CircularProgressIndicator(),
       const Text("Tap to copy OTP"),
       widget.isValidOTP
-          ? Text(widget.otpInfo!.remainingTime.toString() + "s left")
+          ? Text(widget.otpValueInfo!.remainingTime.toString() + "s left")
           : const CircularProgressIndicator(),
     ]);
   }

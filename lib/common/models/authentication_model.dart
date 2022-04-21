@@ -11,19 +11,18 @@ class SignUpResponseModel {
   String bcAddress;
   String publicKey;
   String privateKey;
-  UserKYCModel? userKyc;
+  UserKYC? userKyc;
   SignUpResponseModel(
     this.bcAddress,
     this.publicKey,
     this.privateKey,
     this.userKyc,
   );
-  SignUpResponseModel.fromJson(Map<String, dynamic> json)
+  SignUpResponseModel.fromJSON(Map<String, dynamic> json)
       : bcAddress = json['bcAddress'], // bcAddress
         publicKey = json['publicKey'],
         privateKey = json['privateKey'],
-        userKyc =
-            json["info"] != null ? UserKYCModel.fromJSON(json["info"]) : null;
+        userKyc = json["info"] != null ? UserKYC.fromJSON(json["info"]) : null;
 }
 
 // Sign in
@@ -40,17 +39,16 @@ class SignInRequestModel {
 class SignInResponseModel {
   String bcAddress;
   String publicKey;
-  UserKYCModel? userKyc;
+  UserKYC? userKyc;
   String? avatarUrl;
 
   SignInResponseModel(
       this.bcAddress, this.publicKey, this.userKyc, this.avatarUrl);
 
-  SignInResponseModel.fromJson(Map<String, dynamic> json)
+  SignInResponseModel.fromJSON(Map<String, dynamic> json)
       : bcAddress = json["bcAddress"],
         publicKey = json["publicKey"],
-        userKyc =
-            json["info"] != null ? UserKYCModel.fromJSON(json["info"]) : null,
+        userKyc = json["info"] != null ? UserKYC.fromJSON(json["info"]) : null,
         avatarUrl = json["avatar"];
 }
 
@@ -68,15 +66,14 @@ class ImportRequestModel {
 class ImportResponseModel {
   String bcAddress;
   String publicKey;
-  UserKYCModel? userKyc;
+  UserKYC? userKyc;
   String? avatarUrl;
 
   ImportResponseModel(
       this.bcAddress, this.publicKey, this.userKyc, this.avatarUrl);
-  ImportResponseModel.fromJson(Map<String, dynamic> json)
+  ImportResponseModel.fromJSON(Map<String, dynamic> json)
       : bcAddress = json['bcAddress'], // bcAddress
         publicKey = json['publicKey'],
-        userKyc =
-            json['info'] != null ? UserKYCModel.fromJSON(json['info']) : null,
+        userKyc = json['info'] != null ? UserKYC.fromJSON(json['info']) : null,
         avatarUrl = json['avatar']; // Nullable
 }
