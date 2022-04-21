@@ -38,7 +38,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           UserData.setCredentialKYCData(userKyc.fullName, userKyc.address,
               userKyc.age, userKyc.gender, userKyc.debitor);
         }
-        UserData.setCredentialProfileData(didKyc, null);
+        UserData.setCredentialProfileData(didKyc, signInResult.avatarUrl);
         sessionCubit.launchSession(skipSetupKyc: didKyc);
         emit(state.copyWith(formStatus: RequestStatusSuccessful()));
       } on Exception catch (e) {

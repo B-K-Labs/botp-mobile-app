@@ -41,14 +41,17 @@ class SignInResponseModel {
   String bcAddress;
   String publicKey;
   UserKYCModel? userKyc;
+  String? avatarUrl;
 
-  SignInResponseModel(this.bcAddress, this.publicKey, this.userKyc);
+  SignInResponseModel(
+      this.bcAddress, this.publicKey, this.userKyc, this.avatarUrl);
 
   SignInResponseModel.fromJson(Map<String, dynamic> json)
       : bcAddress = json["bcAddress"],
         publicKey = json["publicKey"],
         userKyc =
-            json["info"] != null ? UserKYCModel.fromJSON(json["info"]) : null;
+            json["info"] != null ? UserKYCModel.fromJSON(json["info"]) : null,
+        avatarUrl = json["avatar"];
 }
 
 // Import
@@ -66,11 +69,14 @@ class ImportResponseModel {
   String bcAddress;
   String publicKey;
   UserKYCModel? userKyc;
+  String? avatarUrl;
 
-  ImportResponseModel(this.bcAddress, this.publicKey, this.userKyc);
+  ImportResponseModel(
+      this.bcAddress, this.publicKey, this.userKyc, this.avatarUrl);
   ImportResponseModel.fromJson(Map<String, dynamic> json)
       : bcAddress = json['bcAddress'], // bcAddress
         publicKey = json['publicKey'],
         userKyc =
-            json['info'] != null ? UserKYCModel.fromJSON(json['info']) : null;
+            json['info'] != null ? UserKYCModel.fromJSON(json['info']) : null,
+        avatarUrl = json['avatar']; // Nullable
 }
