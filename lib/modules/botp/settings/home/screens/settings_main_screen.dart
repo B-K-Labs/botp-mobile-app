@@ -2,6 +2,7 @@ import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/storage.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
+import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_state.dart';
 import 'package:botp_auth/utils/helpers/account.dart';
@@ -86,9 +87,7 @@ class _SettingsHomeBodyState extends State<SettingsHomeBody> {
 
   Widget _categories() {
     List<Widget> _categoriesList = [
-      _category(const Icon(Icons.person), "Profile", "Export, profile", () {
-        Application.router.navigateTo(context, "/botp/settings/account");
-      }),
+      _category(const Icon(Icons.person), "Profile", "Export, profile", () {}),
       _category(
           const Icon(Icons.dashboard), "Preferences", "Language, theme", () {}),
       _category(
@@ -97,9 +96,9 @@ class _SettingsHomeBodyState extends State<SettingsHomeBody> {
           const Icon(Icons.info), "About", "Version, terms of services", () {}),
       _category(
           const Icon(Icons.arrow_back), "Sign out", "Sign out your account",
-          () {
-        UserData.setCredentialSessionData(UserDataSession.expired);
-        Application.router.navigateTo(context, "/auth/signIn");
+          () async {
+        await context.read<SessionCubit>().signOut();
+        Application.router.navigateTo(context, "/");
       })
     ];
     return Expanded(

@@ -38,16 +38,13 @@ class SignInRequestModel {
 class SignInResponseModel {
   String bcAddress;
   String publicKey;
-  String privateKey;
   UserKYCModel? userKyc;
 
-  SignInResponseModel(
-      this.bcAddress, this.publicKey, this.privateKey, this.userKyc);
+  SignInResponseModel(this.bcAddress, this.publicKey, this.userKyc);
 
   SignInResponseModel.fromJson(Map<String, dynamic> json)
       : bcAddress = json["bcAddress"],
         publicKey = json["publicKey"],
-        privateKey = json["privateKey"],
         userKyc =
             json["info"] != null ? UserKYCModel.fromJSON(json["info"]) : null;
 }

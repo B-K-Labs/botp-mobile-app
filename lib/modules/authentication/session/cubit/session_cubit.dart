@@ -14,8 +14,6 @@ class SessionCubit extends Cubit<SessionState> {
   }
 
   void initUserSession() async {
-    // * Note: Fresh app
-    await UserData.clearData();
     // Get session data
     final sessionData = await UserData.getCredentialSessionData();
     // First time
@@ -45,9 +43,7 @@ class SessionCubit extends Cubit<SessionState> {
   }
 
   Future<void> signOut() async {
-    bool result = await authenticationRepository.signOut();
-    if (result) {
-      emit(UnauthenticatedSessionState());
-    }
+    await UserData.setCredentialSessionData(UserDataSession.expired);
+    emit(ExpiredSessionState());
   }
 }

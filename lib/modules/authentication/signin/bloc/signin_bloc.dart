@@ -29,7 +29,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         // Store account data
         UserData.setCredentialSessionData(UserDataSession.authenticated);
         UserData.setCredentialAccountData(signInResult.bcAddress,
-            signInResult.publicKey, signInResult.privateKey, state.password);
+            signInResult.publicKey, privateKey, state.password);
         final userKyc = signInResult.userKyc;
         final didKyc = userKyc != null;
         if (userKyc != null) {

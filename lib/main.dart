@@ -5,6 +5,7 @@ import 'package:botp_auth/common/repositories/settings_repository.dart';
 import 'package:botp_auth/common/repositories/transaction_repository.dart';
 import 'package:botp_auth/configs/environment/environment.dart';
 import 'package:botp_auth/configs/themes/app_theme.dart';
+import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,6 +28,8 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   // Splash screens initialization
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  // (dev) Clear user data
+  await UserData.clearData();
   // Run app
   runApp(const MyApp());
 }
