@@ -1,6 +1,5 @@
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
-import 'package:botp_auth/common/repositories/history_repository.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
 import 'package:botp_auth/common/repositories/transaction_repository.dart';
 import 'package:botp_auth/configs/environment/environment.dart';
@@ -67,17 +66,13 @@ class _MyAppState extends State<MyApp> {
           RepositoryProvider(create: (context) => AuthenticationRepository()),
           RepositoryProvider(create: (context) => AuthenticatorRepository()),
           RepositoryProvider(create: (context) => TransactionRepository()),
-          RepositoryProvider(create: (context) => HistoryRepository()),
           RepositoryProvider(create: (context) => SettingsRepository()),
         ],
         // Provider SessionBloc at the root for session management
-        child: MultiBlocProvider(
-            providers: [
-              BlocProvider<SessionCubit>(
-                  create: (context) => SessionCubit(
-                      authenticationRepository:
-                          context.read<AuthenticationRepository>())),
-            ],
+        child: BlocProvider<SessionCubit>(
+            create: (context) => SessionCubit(
+                authenticationRepository:
+                    context.read<AuthenticationRepository>()),
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
               // Themes

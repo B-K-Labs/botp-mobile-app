@@ -1,4 +1,4 @@
-import 'package:botp_auth/common/repositories/history_repository.dart';
+import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/modules/botp/transaction/cubit/transaction_details_cubit.dart';
 import 'package:botp_auth/modules/botp/transaction/cubit/transaction_details_state.dart';
 import 'package:botp_auth/widgets/transaction.dart';
@@ -26,7 +26,7 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
   Widget build(BuildContext context) {
     return BlocProvider<TransactionDetailsCubit>(
         create: (context) => TransactionDetailsCubit(
-            historyRepository: context.read<HistoryRepository>()),
+            authenticatorRepository: context.read<AuthenticatorRepository>()),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,

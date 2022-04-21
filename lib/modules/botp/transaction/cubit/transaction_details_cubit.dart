@@ -1,16 +1,16 @@
 import 'dart:async';
-import 'package:botp_auth/common/repositories/history_repository.dart';
+import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/modules/botp/transaction/cubit/transaction_details_state.dart';
 import 'package:botp_auth/utils/services/crypto_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransactionDetailsCubit extends Cubit<TransactionDetailsState> {
-  HistoryRepository historyRepository;
+  AuthenticatorRepository authenticatorRepository;
   final period = 1;
   Timer? timer;
 
-  TransactionDetailsCubit({required this.historyRepository})
+  TransactionDetailsCubit({required this.authenticatorRepository})
       : super(TransactionDetailsState()) {
     // Set interval
     trackOtp();
