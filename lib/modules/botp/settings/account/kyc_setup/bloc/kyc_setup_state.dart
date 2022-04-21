@@ -2,7 +2,7 @@ import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/common/validators/profiles.dart';
 
-class AccountUpdateKYCState {
+class AccountSetupKYCState {
   // User data
   LoadUserDataStatus loadUserDataStatus;
   // Profile
@@ -20,7 +20,7 @@ class AccountUpdateKYCState {
   String? get validateGender => genderValidator(gender);
   String? get validateDebitor => debitorValidator(debitor);
 
-  AccountUpdateKYCState(
+  AccountSetupKYCState(
       {this.fullName,
       this.address,
       this.age,
@@ -29,7 +29,7 @@ class AccountUpdateKYCState {
       this.formStatus = const RequestStatusInitial(),
       this.loadUserDataStatus = const LoadUserDataStatusInitial()});
 
-  AccountUpdateKYCState copyWith(
+  AccountSetupKYCState copyWith(
           {String? fullName,
           String? address,
           String? age,
@@ -37,7 +37,7 @@ class AccountUpdateKYCState {
           String? debitor,
           RequestStatus? formStatus,
           LoadUserDataStatus? loadUserDataStatus}) =>
-      AccountUpdateKYCState(
+      AccountSetupKYCState(
           fullName: fullName ?? this.fullName,
           address: address ?? this.address,
           age: age ?? this.age,

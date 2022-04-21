@@ -3,37 +3,37 @@ import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
 import 'package:botp_auth/constants/theme.dart';
-import 'package:botp_auth/modules/botp/settings/account/update_kyc/bloc/update_kyc_bloc.dart';
-import 'package:botp_auth/modules/botp/settings/account/update_kyc/bloc/update_kyc_event.dart';
-import 'package:botp_auth/modules/botp/settings/account/update_kyc/bloc/update_kyc_state.dart';
+import 'package:botp_auth/modules/botp/settings/account/kyc_setup/bloc/kyc_setup_bloc.dart';
+import 'package:botp_auth/modules/botp/settings/account/kyc_setup/bloc/kyc_setup_event.dart';
+import 'package:botp_auth/modules/botp/settings/account/kyc_setup/bloc/kyc_setup_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/field.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AccountUpdateKYCScreen extends StatelessWidget {
-  const AccountUpdateKYCScreen({Key? key}) : super(key: key);
+class AccountSetupKYCScreen extends StatelessWidget {
+  const AccountSetupKYCScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AccountUpdateKYCBloc>(
-        create: (context) => AccountUpdateKYCBloc(
+    return BlocProvider<AccountSetupKYCBloc>(
+        create: (context) => AccountSetupKYCBloc(
             settingsRepository: context.read<SettingsRepository>()),
         child: Scaffold(
             appBar: AppBar(),
-            body: const SafeArea(bottom: true, child: AccountUpdateKYCBody())));
+            body: const SafeArea(bottom: true, child: AccountSetupKYCBody())));
   }
 }
 
-class AccountUpdateKYCBody extends StatefulWidget {
-  const AccountUpdateKYCBody({Key? key}) : super(key: key);
+class AccountSetupKYCBody extends StatefulWidget {
+  const AccountSetupKYCBody({Key? key}) : super(key: key);
 
   @override
-  State<AccountUpdateKYCBody> createState() => _AccountUpdateKYCBodyState();
+  State<AccountSetupKYCBody> createState() => _AccountSetupKYCBodyState();
 }
 
-class _AccountUpdateKYCBodyState extends State<AccountUpdateKYCBody> {
+class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -48,7 +48,7 @@ class _AccountUpdateKYCBodyState extends State<AccountUpdateKYCBody> {
   }
 
   Widget _profile() {
-    return BlocListener<AccountUpdateKYCBloc, AccountUpdateKYCState>(
+    return BlocListener<AccountSetupKYCBloc, AccountSetupKYCState>(
         listener: (context, state) {
           final loadUserDataStatus = state.loadUserDataStatus;
           final formStatus = state.formStatus;
@@ -106,12 +106,12 @@ class _AccountUpdateKYCBodyState extends State<AccountUpdateKYCBody> {
   }
 
   Widget _fullNameField() {
-    return BlocBuilder<AccountUpdateKYCBloc, AccountUpdateKYCState>(
+    return BlocBuilder<AccountSetupKYCBloc, AccountSetupKYCState>(
         builder: (context, state) {
       _fullNameValidator(value) => state.validateFullName;
       _fullNameOnChanged(value) => context
-          .read<AccountUpdateKYCBloc>()
-          .add(AccountUpdateKYCEventFullNameChanged(value));
+          .read<AccountSetupKYCBloc>()
+          .add(AccountSetupKYCEventFullNameChanged(value));
       return FieldNormalWidget(
           hintText: "Harry Jayson",
           validator: _fullNameValidator,
@@ -121,12 +121,12 @@ class _AccountUpdateKYCBodyState extends State<AccountUpdateKYCBody> {
   }
 
   Widget _addressField() {
-    return BlocBuilder<AccountUpdateKYCBloc, AccountUpdateKYCState>(
+    return BlocBuilder<AccountSetupKYCBloc, AccountSetupKYCState>(
         builder: (context, state) {
       _addressValidator(value) => state.validateFullName;
       _addressOnChanged(value) => context
-          .read<AccountUpdateKYCBloc>()
-          .add(AccountUpdateKYCEventAddressChanged(value));
+          .read<AccountSetupKYCBloc>()
+          .add(AccountSetupKYCEventAddressChanged(value));
       return FieldNormalWidget(
           hintText: "District 10, HCM, Viet Nam",
           validator: _addressValidator,
@@ -136,12 +136,12 @@ class _AccountUpdateKYCBodyState extends State<AccountUpdateKYCBody> {
   }
 
   Widget _ageField() {
-    return BlocBuilder<AccountUpdateKYCBloc, AccountUpdateKYCState>(
+    return BlocBuilder<AccountSetupKYCBloc, AccountSetupKYCState>(
         builder: (context, state) {
       _ageValidator(value) => state.validateAge;
       _ageOnChanged(value) => context
-          .read<AccountUpdateKYCBloc>()
-          .add(AccountUpdateKYCEventAgeChanged(value));
+          .read<AccountSetupKYCBloc>()
+          .add(AccountSetupKYCEventAgeChanged(value));
       return FieldNormalWidget(
           hintText: "18",
           validator: _ageValidator,
@@ -151,12 +151,12 @@ class _AccountUpdateKYCBodyState extends State<AccountUpdateKYCBody> {
   }
 
   Widget _genderField() {
-    return BlocBuilder<AccountUpdateKYCBloc, AccountUpdateKYCState>(
+    return BlocBuilder<AccountSetupKYCBloc, AccountSetupKYCState>(
         builder: (context, state) {
       _genderValidator(value) => state.validateAge;
       _genderOnChanged(value) => context
-          .read<AccountUpdateKYCBloc>()
-          .add(AccountUpdateKYCEventGenderChanged(value));
+          .read<AccountSetupKYCBloc>()
+          .add(AccountSetupKYCEventGenderChanged(value));
       return FieldNormalWidget(
           hintText: "Male",
           validator: _genderValidator,
@@ -166,12 +166,12 @@ class _AccountUpdateKYCBodyState extends State<AccountUpdateKYCBody> {
   }
 
   Widget _debitorField() {
-    return BlocBuilder<AccountUpdateKYCBloc, AccountUpdateKYCState>(
+    return BlocBuilder<AccountSetupKYCBloc, AccountSetupKYCState>(
         builder: (context, state) {
       _debitorValidator(value) => state.validateAge;
       _debitorOnChanged(value) => context
-          .read<AccountUpdateKYCBloc>()
-          .add(AccountUpdateKYCEventDebitorChanged(value));
+          .read<AccountSetupKYCBloc>()
+          .add(AccountSetupKYCEventDebitorChanged(value));
       return FieldNormalWidget(
           hintText: "999-999-9999",
           validator: _debitorValidator,
@@ -181,15 +181,15 @@ class _AccountUpdateKYCBodyState extends State<AccountUpdateKYCBody> {
   }
 
   Widget _editProfileButton() {
-    return BlocBuilder<AccountUpdateKYCBloc, AccountUpdateKYCState>(
+    return BlocBuilder<AccountSetupKYCBloc, AccountSetupKYCState>(
         builder: (context, state) {
       final onProfileEdit = state.formStatus is RequestStatusSubmitting
           ? null
           : () {
               if (_formKey.currentState!.validate()) {
                 context
-                    .read<AccountUpdateKYCBloc>()
-                    .add(AccountUpdateKYCEventSubmitted());
+                    .read<AccountSetupKYCBloc>()
+                    .add(AccountSetupKYCEventSubmitted());
               }
             };
       return ButtonNormalWidget(

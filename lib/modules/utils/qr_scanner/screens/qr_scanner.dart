@@ -52,11 +52,11 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
           ],
         ),
         body: MobileScanner(
-            allowDuplicates: false,
+            allowDuplicates: true,
             controller: cameraController,
             onDetect: (barcode, args) {
-              final String code = barcode.rawValue!;
-              debugPrint('Barcode found! $code');
+              final String code = barcode.rawValue ?? "nothing";
+              print('Barcode found! $code');
             }));
   }
 }

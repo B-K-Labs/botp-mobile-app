@@ -1,30 +1,30 @@
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
-import 'package:botp_auth/modules/botp/settings/account/update_kyc/bloc/update_kyc_event.dart';
-import 'package:botp_auth/modules/botp/settings/account/update_kyc/bloc/update_kyc_state.dart';
+import 'package:botp_auth/modules/botp/settings/account/kyc_setup/bloc/kyc_setup_event.dart';
+import 'package:botp_auth/modules/botp/settings/account/kyc_setup/bloc/kyc_setup_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AccountUpdateKYCBloc
-    extends Bloc<AccountUpdateKYCEvent, AccountUpdateKYCState> {
+class AccountSetupKYCBloc
+    extends Bloc<AccountSetupKYCEvent, AccountSetupKYCState> {
   SettingsRepository settingsRepository;
 
-  AccountUpdateKYCBloc({required this.settingsRepository})
-      : super(AccountUpdateKYCState()) {
+  AccountSetupKYCBloc({required this.settingsRepository})
+      : super(AccountSetupKYCState()) {
     // On changed
-    on<AccountUpdateKYCEventFullNameChanged>(
+    on<AccountSetupKYCEventFullNameChanged>(
         (event, emit) => emit(state.copyWith(fullName: event.fullName)));
-    on<AccountUpdateKYCEventAddressChanged>(
+    on<AccountSetupKYCEventAddressChanged>(
         (event, emit) => emit(state.copyWith(address: event.address)));
-    on<AccountUpdateKYCEventAgeChanged>(
+    on<AccountSetupKYCEventAgeChanged>(
         (event, emit) => emit(state.copyWith(age: event.age)));
-    on<AccountUpdateKYCEventGenderChanged>(
+    on<AccountSetupKYCEventGenderChanged>(
         (event, emit) => emit(state.copyWith(gender: event.gender)));
-    on<AccountUpdateKYCEventDebitorChanged>(
+    on<AccountSetupKYCEventDebitorChanged>(
         (event, emit) => emit(state.copyWith(debitor: event.debitor)));
 
     // On submitted
-    on<AccountUpdateKYCEventSubmitted>((event, emit) async {
+    on<AccountSetupKYCEventSubmitted>((event, emit) async {
       emit(state.copyWith(formStatus: RequestStatusSubmitting()));
       final accountData = await UserData.getCredentialAccountData();
       final profileData = await UserData.getCredentialProfileData();

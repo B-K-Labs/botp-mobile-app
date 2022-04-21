@@ -13,14 +13,14 @@ class Routes {
   static String reminderKYC = "/auth/reminder/kyc";
   // static String reminderFingerprint = "/auth/reminder/fingerprint"; // TODO
   // 2. BOTP modules
-  static String botpHome = "/botp";
+  static String home = "/botp";
   static String transaction = "/botp/transaction/:transactionDetail";
   static String settingsAccount = "/botp/settings/account";
-  static String settingsAccountUpdateKYC = "/botp/settings/account/updateKyc";
+  static String settingsAccountSetupKYC = "/botp/settings/account/setupKyc";
   static String settingsSystem = "/botp/settings/system";
   static String settingsSecurity = "/botp/settings/security";
   static String settingsAbout = "/botp/settings/about";
-  // 4. Utils modules
+  // 3. Utils modules
   static String qrScanner = "/utils/qrScanner";
   static String biometricSetup = "/utils/biometricSetup";
 
@@ -35,10 +35,10 @@ class Routes {
     router.define(import, handler: authImportHandler);
     router.define(reminderKYC, handler: reminderKYCSetupHandler);
     // 2. BOTP modules
-    router.define(botpHome, handler: botpHomeHandler);
+    router.define(home, handler: botpHomeHandler);
     router.define(transaction, handler: botpTransactionHandler);
     router.define(settingsAccount, handler: botpSettingsAccountHandler);
-    router.define(settingsAccountUpdateKYC,
+    router.define(settingsAccountSetupKYC,
         handler: botpSettingsAccountUpdateKYCHandler);
     // 3. Utils modules
     router.define(qrScanner, handler: qrScannerHandler);
