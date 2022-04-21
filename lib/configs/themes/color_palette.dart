@@ -53,18 +53,32 @@ class ColorPalette {
   static const red700 = Color(0xff971b1e);
   static const red800 = Color(0xff85111d);
   static const red900 = Color(0xff66031c);
-  // Neutral
+  // Neutral (lighter)
+  // static const white = Color(0xffffffff);
+  // static const gray10 = Color(0xfffefefe);
+  // static const gray50 = Color(0xfffafafa);
+  // static const gray100 = Color(0xfff4f4f4);
+  // static const gray200 = Color(0xffededed);
+  // static const gray300 = Color(0xffdfdfdf);
+  // static const gray400 = Color(0xffbcbcbc);
+  // static const gray500 = Color(0xff9c9c9c);
+  // static const gray600 = Color(0xff747474);
+  // static const gray700 = Color(0xff606060);
+  // static const gray800 = Color(0xff414141);
+  // static const gray900 = Color(0xff202020);
+  // static const black = Color(0xff000000);
+  // Neutral (darker)
   static const white = Color(0xffffffff);
-  static const gray10 = Color(0xfffefefe);
-  static const gray50 = Color(0xfffafafa);
-  static const gray100 = Color(0xfff4f4f4);
-  static const gray200 = Color(0xffededed);
-  static const gray300 = Color(0xffdfdfdf);
-  static const gray400 = Color(0xffbcbcbc);
-  static const gray500 = Color(0xff9c9c9c);
-  static const gray600 = Color(0xff747474);
-  static const gray700 = Color(0xff606060);
-  static const gray800 = Color(0xff414141);
-  static const gray900 = Color(0xff202020);
+  static const gray10 = Color(0xfff8f8f8);
+  static const gray50 = Color(0xfff3f3f3);
+  static const gray100 = Color(0xffe8e8e8);
+  static const gray200 = Color(0xffe0e0e0);
+  static const gray300 = Color(0xffc6c6c6);
+  static const gray400 = Color(0xffafafaf);
+  static const gray500 = Color(0xff878787);
+  static const gray600 = Color(0xff6a6a6a);
+  static const gray700 = Color(0xff505050);
+  static const gray800 = Color(0xff393939);
+  static const gray900 = Color(0xff1c1c1c);
   static const black = Color(0xff000000);
 }
