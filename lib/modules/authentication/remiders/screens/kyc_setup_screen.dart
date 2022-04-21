@@ -1,9 +1,10 @@
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/routing_param.dart';
 import 'package:botp_auth/constants/theme.dart';
+import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/widgets/button.dart';
-import 'package:fluro/fluro.dart';
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 
 class ReminderKYCSetupScreen extends StatelessWidget {
   const ReminderKYCSetupScreen({Key? key}) : super(key: key);
@@ -21,8 +22,8 @@ class ReminderKYCSetupBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:
-          const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
+      padding: const EdgeInsets.symmetric(
+          horizontal: kAppPaddingHorizontalAndBottomSize),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -53,10 +54,13 @@ class ReminderKYCSetupBody extends StatelessWidget {
               Row(children: <Widget>[
                 Expanded(
                     child: ButtonNormalWidget(
-                  text: "Skip",
+                  text: "I'll do later",
                   buttonType: ButtonNormalType.secondaryOutlined,
                   onPressed: () {
                     Application.router.navigateTo(context, "/botp");
+                    context
+                        .read<SessionCubit>()
+                        .launchSession(skipSetupKyc: true);
                   },
                 )),
                 const SizedBox(
@@ -66,12 +70,16 @@ class ReminderKYCSetupBody extends StatelessWidget {
                     child: ButtonNormalWidget(
                         text: "Set up now",
                         buttonType: ButtonNormalType.primary,
-                        onPressed: () {
-                          Application.router.navigateTo(context,
-                              "/botp/settings/account/setupKyc/${FromScreen.authReminderKYCSetup}");
+                        onPressed: () async {
+                          final setupKycResult = await Application.router
+                              .navigateTo(context,
+                                  "/botp/settings/account/setupKyc/${FromScreen.authReminderKYCSetup}");
+                          context
+                              .read<SessionCubit>()
+                              .launchSession(skipSetupKyc: true);
                         })),
               ]),
-              const SizedBox(height: kAppPaddingHorizontalSize)
+              const SizedBox(height: kAppPaddingHorizontalAndBottomSize)
             ],
           )
         ],

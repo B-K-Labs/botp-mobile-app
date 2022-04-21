@@ -25,13 +25,19 @@ class AccountSetupKYCScreen extends StatelessWidget {
         create: (context) => AccountSetupKYCBloc(
             settingsRepository: context.read<SettingsRepository>()),
         child: Scaffold(
-            appBar: AppBarWidget.generate(context, title: "Setup KYC"),
-            body: const SafeArea(bottom: true, child: AccountSetupKYCBody())));
+            appBar: from == FromScreen.authReminderKYCSetup
+                ? null
+                : AppBarWidget.generate(context,
+                    title: "Update profile information"),
+            body: SafeArea(
+                bottom: true, child: AccountSetupKYCBody(from: from))));
   }
 }
 
 class AccountSetupKYCBody extends StatefulWidget {
-  const AccountSetupKYCBody({Key? key}) : super(key: key);
+  const AccountSetupKYCBody({Key? key, this.from}) : super(key: key);
+
+  final FromScreen? from;
 
   @override
   State<AccountSetupKYCBody> createState() => _AccountSetupKYCBodyState();
@@ -43,12 +49,9 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding:
-            const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [_profile()]));
+        padding: const EdgeInsets.symmetric(
+            horizontal: kAppPaddingHorizontalAndBottomSize),
+        child: Column(children: [_profile()]));
   }
 
   Widget _profile() {
@@ -61,52 +64,79 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
           } else if (formStatus is RequestStatusFailed) {
             showSnackBar(context, formStatus.exception.toString());
           } else if (formStatus is RequestStatusSuccessful) {
-            showSnackBar(context, "Update profile successfully");
+            if (widget.from != FromScreen.authReminderKYCSetup) {
+              showSnackBar(context, "Update profile successfully");
+            }
             Application.router.pop(context);
           }
         },
-        child: Form(
-            key: _formKey,
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const SizedBox(height: kAppPaddingTopSize),
-              Text("Full name", style: Theme.of(context).textTheme.bodyText1),
-              const SizedBox(height: 12.0),
-              _fullNameField(),
-              const SizedBox(height: 24.0),
-              Text("Address", style: Theme.of(context).textTheme.bodyText1),
-              const SizedBox(height: 12.0),
-              _addressField(),
-              const SizedBox(height: 24.0),
-              Row(children: [
-                Expanded(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Age", style: Theme.of(context).textTheme.bodyText1),
-                    const SizedBox(height: 12.0),
-                    _ageField(),
-                  ],
-                )),
-                const SizedBox(width: kAppPaddingBetweenItemSize),
-                Expanded(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                      Text("Gender",
-                          style: Theme.of(context).textTheme.bodyText1),
-                      const SizedBox(height: 12.0),
-                      _genderField(),
-                    ]))
-              ]),
-              const SizedBox(height: 24.0),
-              Text("Phone number",
-                  style: Theme.of(context).textTheme.bodyText1),
-              const SizedBox(height: 12.0),
-              _debitorField(),
-              const SizedBox(height: 24.0),
-              _editProfileButton(),
-            ])));
+        child: Expanded(
+            child: Form(
+                key: _formKey,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: kAppPaddingTopSize),
+                            Text("Full name",
+                                style: Theme.of(context).textTheme.bodyText1),
+                            const SizedBox(height: 12.0),
+                            _fullNameField(),
+                            const SizedBox(height: 24.0),
+                            Text("Address",
+                                style: Theme.of(context).textTheme.bodyText1),
+                            const SizedBox(height: 12.0),
+                            _addressField(),
+                            const SizedBox(height: 24.0),
+                            Row(children: [
+                              Expanded(
+                                  child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Age",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1),
+                                  const SizedBox(height: 12.0),
+                                  _ageField(),
+                                ],
+                              )),
+                              const SizedBox(width: kAppPaddingBetweenItemSize),
+                              Expanded(
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                    Text("Gender",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1),
+                                    const SizedBox(height: 12.0),
+                                    _genderField(),
+                                  ]))
+                            ]),
+                            const SizedBox(height: 24.0),
+                            Text("Phone number",
+                                style: Theme.of(context).textTheme.bodyText1),
+                            const SizedBox(height: 12.0),
+                            _debitorField(),
+                          ]),
+                      Column(children: [
+                        Row(
+                          children: [
+                            Expanded(child: _cancelProfileButton()),
+                            const SizedBox(width: kAppPaddingBetweenItemSize),
+                            Expanded(child: _editProfileButton()),
+                          ],
+                        ),
+                        const SizedBox(
+                            height: kAppPaddingHorizontalAndBottomSize)
+                      ])
+                    ]))));
   }
 
   Widget _fullNameField() {
@@ -184,6 +214,16 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
     });
   }
 
+  Widget _cancelProfileButton() {
+    return ButtonNormalWidget(
+      text: "Cancel",
+      buttonType: ButtonNormalType.secondaryOutlined,
+      onPressed: () {
+        Application.router.pop(context, false);
+      },
+    );
+  }
+
   Widget _editProfileButton() {
     return BlocBuilder<AccountSetupKYCBloc, AccountSetupKYCState>(
         builder: (context, state) {
@@ -197,7 +237,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
               }
             };
       return ButtonNormalWidget(
-        text: "Update profile",
+        text: "Setup KYC",
         onPressed: onProfileEdit,
       );
     });

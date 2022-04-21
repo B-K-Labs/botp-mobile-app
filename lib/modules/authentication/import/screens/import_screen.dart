@@ -42,7 +42,7 @@ class _ImportBodyState extends State<ImportBody> {
             sessionCubit: context.read<SessionCubit>()),
         child: Container(
             padding: const EdgeInsets.symmetric(
-                horizontal: kAppPaddingHorizontalSize),
+                horizontal: kAppPaddingHorizontalAndBottomSize),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

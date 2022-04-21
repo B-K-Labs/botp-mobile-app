@@ -29,8 +29,10 @@ class _SessionBodyState extends State<SessionBody> {
   Widget build(BuildContext context) {
     return BlocConsumer<SessionCubit, SessionState>(listener: (context, state) {
       if (state is RemindSetupKYCSessionState) {
-        Application.router
-            .navigateTo(context, "/auth/reminder/kyc", clearStack: true);
+        Application.router.navigateTo(
+          context,
+          "/auth/reminder/kyc",
+        );
       } else if (state is AuthenticatedSessionState) {
         Application.router.navigateTo(context, "/botp", clearStack: true);
       }

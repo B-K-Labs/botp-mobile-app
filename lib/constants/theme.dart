@@ -1,5 +1,5 @@
 // App padding
-const kAppPaddingHorizontalSize = 20.0;
+const kAppPaddingHorizontalAndBottomSize = 20.0;
 const kAppPaddingBetweenItemSize = 12.0;
 const kAppPaddingTopSize = 48.0;
 const kAppPaddingTopWithoutAppBarSize = 104.0;
@@ -11,7 +11,7 @@ class BorderRadiusSize {
 }
 
 // App bar
-enum AppBarType { normal, authenticator, history }
+enum AppBarType { normal, blank, authenticator, history }
 
 // Button
 enum ButtonNormalType {

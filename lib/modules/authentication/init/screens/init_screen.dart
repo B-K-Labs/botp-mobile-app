@@ -55,7 +55,7 @@ class InitBody extends StatelessWidget {
                 },
                 buttonType: ButtonNormalType.primaryGhost,
               ),
-              const SizedBox(height: kAppPaddingHorizontalSize),
+              const SizedBox(height: kAppPaddingHorizontalAndBottomSize),
             ])
           ],
         ));
