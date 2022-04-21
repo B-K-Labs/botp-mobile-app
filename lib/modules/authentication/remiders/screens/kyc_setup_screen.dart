@@ -54,7 +54,7 @@ class ReminderKYCSetupBody extends StatelessWidget {
               Row(children: <Widget>[
                 Expanded(
                     child: ButtonNormalWidget(
-                  text: "I'll do later",
+                  text: "Skip",
                   buttonType: ButtonNormalType.secondaryOutlined,
                   onPressed: () {
                     Application.router.navigateTo(context, "/botp");
