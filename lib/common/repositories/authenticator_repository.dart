@@ -29,7 +29,52 @@ class AuthenticatorRepository {
     }
     throw Exception(result.body);
   }
+
   // Confirm transaction (step 1)
+  Future<ConfirmTransactionResponseModel> confirmTransaction(
+      String otpSessionId, String password) async {
+    final data = RequestTransactionRequestModel(
+            otpSessionId: otpSessionId,
+            password: password,
+            action: TransactionRequestAction.confirm)
+        .toJSON();
+    http.Response result =
+        await post(makeApiUrlString(path: "/message/receiveMessage"), data);
+    if (result.statusCode == HttpStatus.ok) {
+      return ConfirmTransactionResponseModel.fromJSON(json.decode(result.body));
+    }
+    throw Exception(result.body);
+  }
+
+  // Deny transaction (step 1)
+  Future<DenyTransactionResponseModel> denyTransaction(
+      String otpSessionId, String password) async {
+    final data = RequestTransactionRequestModel(
+            otpSessionId: otpSessionId,
+            password: password,
+            action: TransactionRequestAction.deny)
+        .toJSON();
+    http.Response result =
+        await post(makeApiUrlString(path: "/message/receiveMessage"), data);
+    if (result.statusCode == HttpStatus.ok) {
+      return DenyTransactionResponseModel.fromJSON(json.decode(result.body));
+    }
+    throw Exception(result.body);
+  }
 
   // Discard transaction (step 2)
+  Future<CancelTransactionResponseModel> cancelTransaction(
+      String otpSessionId, String password) async {
+    final data = RequestTransactionRequestModel(
+            otpSessionId: otpSessionId,
+            password: password,
+            action: TransactionRequestAction.cancel)
+        .toJSON();
+    http.Response result =
+        await post(makeApiUrlString(path: "/message/cancelMessage"), data);
+    if (result.statusCode == HttpStatus.ok) {
+      return CancelTransactionResponseModel.fromJSON(json.decode(result.body));
+    }
+    throw Exception(result.body);
+  }
 }
