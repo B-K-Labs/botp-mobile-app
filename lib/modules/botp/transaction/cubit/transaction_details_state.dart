@@ -1,19 +1,14 @@
+import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 
 class TransactionDetailsState {
-  String? otp;
-  int? otpRemaingTime;
-
+  OTPInfoModel? otpInfoData;
   RequestStatus? generateOtpStatus;
 
-  TransactionDetailsState(
-      {this.otp, this.otpRemaingTime, this.generateOtpStatus});
+  TransactionDetailsState({this.generateOtpStatus, this.otpInfoData});
   TransactionDetailsState copyWith(
-          {String? otp,
-          int? otpRemaingTime,
-          RequestStatus? generateOtpStatus}) =>
+          {OTPInfoModel? otpInfoData, RequestStatus? generateOtpStatus}) =>
       TransactionDetailsState(
-          otp: otp ?? this.otp,
-          otpRemaingTime: otpRemaingTime ?? this.otpRemaingTime,
+          otpInfoData: otpInfoData ?? this.otpInfoData,
           generateOtpStatus: generateOtpStatus ?? this.generateOtpStatus);
 }

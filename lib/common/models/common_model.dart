@@ -1,3 +1,5 @@
+import 'package:botp_auth/constants/transaction.dart';
+
 class UserKYCModel {
   String fullName;
   String address;
@@ -28,6 +30,28 @@ class UserKYCModel {
         debitor = json["debitor"];
 }
 
-class OTPInfoData (
-int
-)
+class TransactionInfoModel {
+  String agentName;
+  String agentAvatarUrl;
+  bool agentIsVerified;
+  String agentBcAddress;
+  String timestamp;
+  TransactionStatus transactionStatus;
+  String notifyMessage;
+
+  TransactionInfoModel(
+      {required this.agentName,
+      required this.agentAvatarUrl,
+      required this.agentIsVerified,
+      required this.agentBcAddress,
+      required this.timestamp,
+      required this.transactionStatus,
+      required this.notifyMessage});
+}
+
+class OTPInfoModel {
+  String otp;
+  int remainingTime;
+
+  OTPInfoModel({required this.otp, required this.remainingTime});
+}
