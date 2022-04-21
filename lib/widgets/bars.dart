@@ -1,4 +1,5 @@
 import 'package:botp_auth/constants/theme.dart';
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 
 class AppBarWidget {
@@ -11,7 +12,7 @@ class AppBarWidget {
       case AppBarType.normal:
         return AppBar(
           title: title != null ? Text(title) : null,
-          // titleTextStyle: Theme.of(context).textTheme.headline6,
+          titleTextStyle: Theme.of(context).textTheme.headline6,
           elevation: 0,
           backgroundColor: null,
         );
@@ -19,9 +20,12 @@ class AppBarWidget {
         return AppBar(
           automaticallyImplyLeading: false,
           title: title != null ? Text(title) : null,
-          titleTextStyle: Theme.of(context).textTheme.headline6,
+          titleTextStyle: Theme.of(context)
+              .textTheme
+              .headline6
+              ?.copyWith(color: Theme.of(context).colorScheme.primary),
           elevation: 0,
-          backgroundColor: null,
+          backgroundColor: Colors.transparent,
           actions: [
             IconButton(
               icon: ClipRRect(
@@ -39,7 +43,11 @@ class AppBarWidget {
       default: // Normal
         return AppBar(
           title: title != null ? Text(title) : null,
-          // titleTextStyle: Theme.of(context).textTheme.headline6,
+          titleTextStyle: Theme.of(context)
+              .textTheme
+              .headline6
+              ?.copyWith(fontWeight: FontWeight.normal),
+          centerTitle: true,
           elevation: 0,
           backgroundColor: Colors.transparent,
           iconTheme: IconThemeData(

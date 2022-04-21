@@ -18,7 +18,12 @@ class _AuthenticatorScreenState extends State<AuthenticatorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBarWidget.generate(context, type: AppBarType.authenticator),
+        appBar: AppBarWidget.generate(context,
+            type: AppBarType.authenticator,
+            title: "BOTP Authenticator",
+            avatarUrl:
+                "https://i.pinimg.com/originals/9b/cd/dc/9bcddc6f49de22125e2494591e250096.png",
+            onPressedAvatar: () {}),
         body: const SafeArea(bottom: true, child: AuthenticatorMainBody()));
   }
 }

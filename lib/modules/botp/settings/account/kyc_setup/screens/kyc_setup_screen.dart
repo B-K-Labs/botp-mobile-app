@@ -8,6 +8,7 @@ import 'package:botp_auth/modules/botp/settings/account/kyc_setup/bloc/kyc_setup
 import 'package:botp_auth/modules/botp/settings/account/kyc_setup/bloc/kyc_setup_event.dart';
 import 'package:botp_auth/modules/botp/settings/account/kyc_setup/bloc/kyc_setup_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
+import 'package:botp_auth/widgets/bars.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/field.dart';
 import "package:flutter/material.dart";
@@ -24,7 +25,7 @@ class AccountSetupKYCScreen extends StatelessWidget {
         create: (context) => AccountSetupKYCBloc(
             settingsRepository: context.read<SettingsRepository>()),
         child: Scaffold(
-            appBar: AppBar(),
+            appBar: AppBarWidget.generate(context, title: "Setup KYC"),
             body: const SafeArea(bottom: true, child: AccountSetupKYCBody())));
   }
 }
