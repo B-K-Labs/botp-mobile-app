@@ -16,7 +16,8 @@ class Routes {
   static String home = "/botp";
   static String transaction = "/botp/transaction/:transactionDetail";
   static String settingsAccount = "/botp/settings/account";
-  static String settingsAccountSetupKYC = "/botp/settings/account/setupKyc";
+  static String settingsAccountSetupKYC =
+      "/botp/settings/account/setupKyc/:from";
   static String settingsSystem = "/botp/settings/system";
   static String settingsSecurity = "/botp/settings/security";
   static String settingsAbout = "/botp/settings/about";
@@ -27,21 +28,36 @@ class Routes {
   // Routes configuration
   static void configureRoutes(FluroRouter router) {
     // 1. Authentication modules
-    router.define(authSession, handler: authSessionHandler);
-    router.define(walkThrough, handler: authWalkThoughHandle);
-    router.define(init, handler: authInitHandle);
-    router.define(signUp, handler: authSignUpHandler);
-    router.define(signIn, handler: authSignInHandler);
-    router.define(import, handler: authImportHandler);
-    router.define(reminderKYC, handler: reminderKYCSetupHandler);
+    router.define(authSession,
+        handler: authSessionHandler, transitionType: TransitionType.fadeIn);
+    router.define(walkThrough,
+        handler: authWalkThoughHandle, transitionType: TransitionType.fadeIn);
+    router.define(init,
+        handler: authInitHandle, transitionType: TransitionType.fadeIn);
+    router.define(signUp,
+        handler: authSignUpHandler, transitionType: TransitionType.fadeIn);
+    router.define(signIn,
+        handler: authSignInHandler, transitionType: TransitionType.fadeIn);
+    router.define(import,
+        handler: authImportHandler, transitionType: TransitionType.fadeIn);
+    router.define(reminderKYC,
+        handler: reminderKYCSetupHandler,
+        transitionType: TransitionType.fadeIn);
     // 2. BOTP modules
-    router.define(home, handler: botpHomeHandler);
-    router.define(transaction, handler: botpTransactionHandler);
-    router.define(settingsAccount, handler: botpSettingsAccountHandler);
+    router.define(home,
+        handler: botpHomeHandler, transitionType: TransitionType.fadeIn);
+    router.define(transaction,
+        handler: botpTransactionHandler, transitionType: TransitionType.fadeIn);
+    router.define(settingsAccount,
+        handler: botpSettingsAccountHandler,
+        transitionType: TransitionType.fadeIn);
     router.define(settingsAccountSetupKYC,
-        handler: botpSettingsAccountUpdateKYCHandler);
+        handler: botpSettingsAccountUpdateKYCHandler,
+        transitionType: TransitionType.fadeIn);
     // 3. Utils modules
-    router.define(qrScanner, handler: qrScannerHandler);
-    router.define(biometricSetup, handler: biometricSetupHandler);
+    router.define(qrScanner,
+        handler: qrScannerHandler, transitionType: TransitionType.fadeIn);
+    router.define(biometricSetup,
+        handler: biometricSetupHandler, transitionType: TransitionType.fadeIn);
   }
 }

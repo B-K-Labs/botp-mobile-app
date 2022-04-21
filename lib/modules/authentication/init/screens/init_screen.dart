@@ -44,16 +44,14 @@ class InitBody extends StatelessWidget {
               ButtonNormalWidget(
                 text: 'Create new account',
                 onPressed: () {
-                  Application.router.navigateTo(context, "/auth/signUp",
-                      transition: TransitionType.inFromRight);
+                  Application.router.navigateTo(context, "/auth/signUp");
                 },
               ),
               const SizedBox(height: 24.0),
               ButtonNormalWidget(
                 text: 'Import an account',
                 onPressed: () {
-                  Application.router.navigateTo(context, "/auth/import",
-                      transition: TransitionType.inFromRight);
+                  Application.router.navigateTo(context, "/auth/import");
                 },
                 buttonType: ButtonNormalType.primaryGhost,
               ),

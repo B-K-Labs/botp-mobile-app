@@ -2,6 +2,7 @@ import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
+import 'package:botp_auth/constants/routing_param.dart';
 import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/modules/botp/settings/account/kyc_setup/bloc/kyc_setup_bloc.dart';
 import 'package:botp_auth/modules/botp/settings/account/kyc_setup/bloc/kyc_setup_event.dart';
@@ -13,7 +14,9 @@ import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AccountSetupKYCScreen extends StatelessWidget {
-  const AccountSetupKYCScreen({Key? key}) : super(key: key);
+  final FromScreen? from;
+
+  const AccountSetupKYCScreen({Key? key, this.from}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

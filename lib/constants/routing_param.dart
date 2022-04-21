@@ -1,11 +1,11 @@
 // For common page
-enum fromScreen {
+enum FromScreen {
   // KYC Setup
-  reminderKYCSetup,
-  reminderSettingsAccount,
+  authReminderKYCSetup,
+  botpSettingsAccount,
   // Agent add
   authImport,
-  settingsAccountAgentManagement,
+  botpSettingsAccountAgentManagement,
   // Fingerprint
   // TODO
 }

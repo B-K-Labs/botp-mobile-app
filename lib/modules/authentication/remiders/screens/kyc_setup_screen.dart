@@ -55,8 +55,7 @@ class ReminderKYCSetupBody extends StatelessWidget {
                   text: "Skip",
                   buttonType: ButtonNormalType.secondaryOutlined,
                   onPressed: () {
-                    Application.router.navigateTo(context, "/botp",
-                        transition: TransitionType.fadeIn);
+                    Application.router.navigateTo(context, "/botp");
                   },
                 )),
                 const SizedBox(
@@ -68,8 +67,7 @@ class ReminderKYCSetupBody extends StatelessWidget {
                         buttonType: ButtonNormalType.primary,
                         onPressed: () {
                           Application.router.navigateTo(
-                              context, "/botp/settings/account/setupKyc",
-                              transition: TransitionType.fadeIn);
+                              context, "/botp/settings/account/setupKyc");
                         })),
               ]),
               const SizedBox(height: kAppPaddingHorizontalSize)

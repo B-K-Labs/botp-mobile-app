@@ -87,8 +87,7 @@ class _SettingsHomeBodyState extends State<SettingsHomeBody> {
   Widget _categories() {
     List<Widget> _categoriesList = [
       _category(const Icon(Icons.person), "Profile", "Export, profile", () {
-        Application.router.navigateTo(context, "/botp/settings/account",
-            transition: TransitionType.inFromRight);
+        Application.router.navigateTo(context, "/botp/settings/account");
       }),
       _category(
           const Icon(Icons.dashboard), "Preferences", "Language, theme", () {}),

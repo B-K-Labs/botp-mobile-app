@@ -14,9 +14,8 @@ class AccountHomeScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(actions: [
           IconButton(
-              onPressed: () => Application.router.navigateTo(
-                  context, "/botp/settings/account/setupKyc",
-                  transition: TransitionType.inFromRight),
+              onPressed: () => Application.router
+                  .navigateTo(context, "/botp/settings/account/setupKyc"),
               icon: const Icon(Icons.edit))
         ]),
         body: const AccountHomeBody());

@@ -81,7 +81,7 @@ var botpSettingsAccountHandler =
 
 var botpSettingsAccountUpdateKYCHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-  return const AccountSetupKYCScreen();
+  return AccountSetupKYCScreen(from: params["from"]);
 });
 // - 2. Security
 // - 3. System

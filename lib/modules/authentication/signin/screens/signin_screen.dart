@@ -139,16 +139,14 @@ class _SignInBodyState extends State<SignInBody> {
         ButtonTextWidget(
           text: "Import existing account",
           onPressed: () {
-            Application.router.navigateTo(context, "/auth/import",
-                transition: TransitionType.inFromRight);
+            Application.router.navigateTo(context, "/auth/import");
           },
         ),
         const SizedBox(height: 12.0),
         ButtonTextWidget(
           text: "Create new account",
           onPressed: () {
-            Application.router.navigateTo(context, "/auth/signUp",
-                transition: TransitionType.inFromRight);
+            Application.router.navigateTo(context, "/auth/signUp");
           },
         ),
       ],
