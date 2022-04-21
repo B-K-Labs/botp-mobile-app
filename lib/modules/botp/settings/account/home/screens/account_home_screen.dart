@@ -2,7 +2,6 @@ import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/cubit/account_home_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/cubit/account_home_state.dart';
-import 'package:fluro/fluro.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -62,6 +61,6 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
   Widget _account() {
     return BlocConsumer<ProfileViewCubit, ProfileViewState>(
         listener: (context, state) {},
-        builder: (context, state) => Column(children: []));
+        builder: (context, state) => Column(children: const []));
   }
 }

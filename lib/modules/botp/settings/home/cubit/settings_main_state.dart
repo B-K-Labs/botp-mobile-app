@@ -21,13 +21,13 @@ class SettingsHomeState {
       this.loadUserDataStatus = const LoadUserDataStatusInitial()});
 
   SettingsHomeState copyWith(
-          {LoadUserDataStatus? loadUserData,
+          {LoadUserDataStatus? loadUserDataStatus,
           String? avatarUrl,
           String? fullName,
           String? bcAddress,
           SetClipboardStatus? copyBcAddressStatus}) =>
       SettingsHomeState(
-          loadUserDataStatus: loadUserData ?? this.loadUserDataStatus,
+          loadUserDataStatus: loadUserDataStatus ?? this.loadUserDataStatus,
           avatarUrl: avatarUrl ?? this.avatarUrl,
           fullName: fullName ?? this.fullName,
           bcAddress: bcAddress ?? this.bcAddress,

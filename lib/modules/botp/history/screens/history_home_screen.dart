@@ -1,6 +1,5 @@
 import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/widgets/bars.dart';
-import 'package:botp_auth/widgets/field.dart';
 import "package:flutter/material.dart";
 
 class HistoryScreen extends StatelessWidget {
@@ -24,6 +23,6 @@ class HistoryBody extends StatefulWidget {
 class _HistoryBodyState extends State<HistoryBody> {
   @override
   Widget build(BuildContext context) {
-    return Column(children: [Text("History")]);
+    return Column(children: const [Text("History")]);
   }
 }

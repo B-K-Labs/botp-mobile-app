@@ -5,7 +5,6 @@ import 'package:botp_auth/modules/botp/transaction/screens/transaction_details_s
 import 'package:botp_auth/widgets/bars.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
-import "package:flutter_bloc/flutter_bloc.dart";
 
 class AuthenticatorScreen extends StatefulWidget {
   const AuthenticatorScreen({Key? key}) : super(key: key);

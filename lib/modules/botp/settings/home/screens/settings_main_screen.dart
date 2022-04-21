@@ -1,13 +1,10 @@
 import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
-import 'package:botp_auth/constants/storage.dart';
-import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_state.dart';
 import 'package:botp_auth/utils/helpers/account.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

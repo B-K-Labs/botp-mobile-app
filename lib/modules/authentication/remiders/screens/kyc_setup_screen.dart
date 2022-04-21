@@ -71,9 +71,8 @@ class ReminderKYCSetupBody extends StatelessWidget {
                         text: "Set up now",
                         buttonType: ButtonNormalType.primary,
                         onPressed: () async {
-                          final setupKycResult = await Application.router
-                              .navigateTo(context,
-                                  "/botp/settings/account/setupKyc/${FromScreen.authReminderKYCSetup}");
+                          await Application.router.navigateTo(context,
+                              "/botp/settings/account/setupKyc/${FromScreen.authReminderKYCSetup}");
                           context
                               .read<SessionCubit>()
                               .launchSession(skipSetupKyc: true);

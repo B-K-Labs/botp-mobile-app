@@ -31,9 +31,8 @@ class AccountSetupKYCBloc
       emit(state.copyWith(formStatus: RequestStatusSubmitting()));
       final accountData = await UserData.getCredentialAccountData();
       final profileData = await UserData.getCredentialProfileData();
-      final kycData = await UserData.getCredentialKYCData();
       try {
-        final updateKycResult = await settingsRepository.updateKyc(
+        await settingsRepository.updateKyc(
             accountData!.bcAddress,
             accountData.password,
             state.fullName!,

@@ -4,7 +4,6 @@ import 'package:botp_auth/modules/authentication/signin/screens/signin_screen.da
 import 'package:botp_auth/modules/authentication/walkthroughs/screens/walkthrough_screen.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_state.dart';
-import 'package:fluro/fluro.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 

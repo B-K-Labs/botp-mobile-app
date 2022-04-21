@@ -17,7 +17,7 @@ class TransactionDetailsCubit extends Cubit<TransactionDetailsState> {
     trackOtp();
     Timer.periodic(Duration(seconds: period), (Timer timer) {
       if (isClosed) {
-        print("Stop generate OTP");
+        // print("Stop generate OTP");
         timer.cancel();
       } else {
         trackOtp();
@@ -27,7 +27,7 @@ class TransactionDetailsCubit extends Cubit<TransactionDetailsState> {
 
   trackOtp() {
     generateOtp();
-    print("OTP Generated");
+    // print("OTP Generated");
   }
 
   generateOtp() async {
