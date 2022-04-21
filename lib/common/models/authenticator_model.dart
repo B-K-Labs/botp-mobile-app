@@ -3,17 +3,18 @@ import 'package:botp_auth/constants/transaction.dart';
 
 class GetTransactionsListResponseModel {
   PaginationInfo paginationInfo;
-  List<TransactionDetail> otpSessionsList;
+  List<TransactionDetail> transactionsList;
 
   GetTransactionsListResponseModel.fromJSON(Map<String, dynamic> json)
       : paginationInfo =
             PaginationInfo(currentPage: json["page"], totalPage: json["size"]),
-        otpSessionsList =
-            json["data"].forEach((otpSessionJson) => TransactionDetail(
+        transactionsList = json["data"]
+            .map<TransactionDetail>((otpSessionJson) => TransactionDetail(
                 otpSessionInfo: OTPSessionInfo.fromJSON(otpSessionJson),
                 otpSessionSecretInfo: OTPSessionSecretInfo.fromJSON(
                   otpSessionJson,
-                )));
+                )))
+            .toList();
 }
 
 class RequestTransactionRequestModel {

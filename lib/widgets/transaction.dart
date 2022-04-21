@@ -164,18 +164,19 @@ class TransactionItemWidget extends StatelessWidget {
   }
 }
 
-class TransactionOTP extends StatefulWidget {
+class TransactionOTPWidget extends StatefulWidget {
   final bool isValidOTP;
   final OTPValueInfo? otpValueInfo;
 
-  const TransactionOTP({Key? key, this.isValidOTP = false, this.otpValueInfo})
+  const TransactionOTPWidget(
+      {Key? key, this.isValidOTP = false, this.otpValueInfo})
       : super(key: key);
 
   @override
-  State<TransactionOTP> createState() => _TransactionOTPState();
+  State<TransactionOTPWidget> createState() => _TransactionOTPWidgetState();
 }
 
-class _TransactionOTPState extends State<TransactionOTP> {
+class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -192,8 +193,8 @@ class _TransactionOTPState extends State<TransactionOTP> {
   }
 }
 
-class TransactionDetail extends StatelessWidget {
-  const TransactionDetail({Key? key}) : super(key: key);
+class TransactionDetailWidget extends StatelessWidget {
+  const TransactionDetailWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -217,8 +218,8 @@ class TransactionDetail extends StatelessWidget {
   }
 }
 
-class TransactionNotifyMessage extends StatelessWidget {
-  const TransactionNotifyMessage({Key? key}) : super(key: key);
+class TransactionNotifyMessageWidget extends StatelessWidget {
+  const TransactionNotifyMessageWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

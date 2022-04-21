@@ -15,10 +15,11 @@ class AuthenticatorRepository {
     // Set search parameters
     final Map<String, dynamic> queryParameters = {
       "userAddress": bcAddress,
-      "page": currentPage,
-      "size": kTransactionItemsPagSize
+      "page": currentPage.toString(),
+      "size": kTransactionItemsPagSize.toString()
     };
-    if (transactionStatus != null) {
+    if (transactionStatus != null &&
+        transactionStatus != TransactionStatus.all) {
       queryParameters["status"] = transactionStatus.name.toUpperCase();
     }
     http.Response result = await get(makeApiUrlString(

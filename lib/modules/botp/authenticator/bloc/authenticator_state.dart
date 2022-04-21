@@ -7,30 +7,26 @@ class AuthenticatorState {
   // Filter
   TransactionStatus transactionStatus;
   // Pagination
-  int totalPages;
-  int currentPage;
+  PaginationInfo? paginationInfo;
   // Transactions list
   List<TransactionDetail> transactionsList;
   RequestStatus getTransactionListStatus;
 
   AuthenticatorState(
       {this.transactionStatus = TransactionStatus.requesting,
-      this.totalPages = 1,
-      this.currentPage = kTransactionItemsPagSize,
+      this.paginationInfo,
       this.transactionsList = const [],
       this.getTransactionListStatus = const RequestStatusInitial()});
 
   AuthenticatorState copyWith(
           {TransactionStatus? transactionStatus,
-          int? totalPages,
-          int? currentPage,
+          PaginationInfo? paginationInfo,
           List<TransactionDetail>? transactionsList,
           RequestStatus? getTransactionListStatus}) =>
       AuthenticatorState(
-          transactionStatus: transactionStatus ?? this.transactionStatus,
-          totalPages: totalPages ?? this.totalPages,
-          currentPage: currentPage ?? this.currentPage,
+          paginationInfo: paginationInfo ?? this.paginationInfo,
           transactionsList: transactionsList ?? this.transactionsList,
+          transactionStatus: transactionStatus ?? this.transactionStatus,
           getTransactionListStatus:
               getTransactionListStatus ?? this.getTransactionListStatus);
 }

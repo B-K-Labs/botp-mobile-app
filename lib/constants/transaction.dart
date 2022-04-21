@@ -3,6 +3,7 @@ enum TransactionStatus {
   pending,
   success,
   failed,
+  all,
 }
 
 enum TransactionStatusSize { normal, small }
@@ -17,7 +18,7 @@ extension ToType on TransactionStatus {
 extension ToTransactionStatusType on String {
   TransactionStatus toTransactionStatusType() {
     return TransactionStatus.values
-        .firstWhere((e) => e.name.toString().toLowerCase() == toUpperCase());
+        .firstWhere((e) => e.name.toString().toLowerCase() == toLowerCase());
   }
 }
 

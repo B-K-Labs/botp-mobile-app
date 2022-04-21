@@ -16,4 +16,4 @@ class AuthenticatorEventPaginationChanged extends AuthenticatorEvent {
   AuthenticatorEventPaginationChanged({this.currentPage = 1});
 }
 
-class AuthenticatorEventTransactionsListRefresh extends AuthenticatorEvent {}
+class AuthenticatorEventGetTransactionsList extends AuthenticatorEvent {}
