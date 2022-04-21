@@ -43,7 +43,8 @@ class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
                   "https://i.pinimg.com/originals/9b/cd/dc/9bcddc6f49de22125e2494591e250096.png",
               onPressedAvatar: () {})
           : _selectedIndex == 1
-              ? AppBarWidget.generate(context, type: AppBarType.history)
+              ? AppBarWidget.generate(context,
+                  type: AppBarType.history, title: "Provenance")
               : null,
       body: SafeArea(bottom: true, child: _getSelectedWidget()),
       bottomNavigationBar: BottomNavigationBar(

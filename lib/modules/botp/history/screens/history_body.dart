@@ -10,6 +10,6 @@ class HistoryBody extends StatefulWidget {
 class _HistoryBodyState extends State<HistoryBody> {
   @override
   Widget build(BuildContext context) {
-    return Column(children: const [Text("History")]);
+    return Container();
   }
 }

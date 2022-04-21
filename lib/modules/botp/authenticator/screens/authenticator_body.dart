@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/modules/botp/transaction/screens/transaction_details_screen.dart';
 import 'package:botp_auth/widgets/transaction.dart';
@@ -14,93 +15,54 @@ class AuthenticatorBody extends StatefulWidget {
 class _AuthenticatorBodyState extends State<AuthenticatorBody> {
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Expanded(
-        child: _buildAccountList(),
-      )
-    ]);
+    return Container(
+        padding: const EdgeInsets.symmetric(
+            horizontal: kAppPaddingHorizontalAndBottomSize),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: Container(),
+              )
+            ]));
   }
 
-  ValueNotifier<bool> isDialOpen = ValueNotifier(false);
-
-  final accountList = [
-    'Netflix',
-    'Shopee',
-    'Lazada',
-    'The Coffee House',
-    'Steam',
-    'Google',
-    'Facebook'
-  ];
-  final notifyMessagesList = [
-    'Facebook need your confirmation to your account password change. Date: 20/04/2022',
-    'Shopee need your confirmation to your account password change. Date: 20/04/2022',
-    'Lazada need your confirmation to your account password change. Date: 20/04/2022',
-    'Transfer money from Khim to Hien. Total: 10 USD',
-  ];
-
-  void createAlertDialog(BuildContext context) {
-    //     setState(() {
-    //       // This call to setState tells the Flutter framework that something has
-    //       // changed in this State, which causes it to rerun the build method below
-    // so that the display can reflect the updated values. If we changed
-    // _counter without calling setState(), then the build method would not be
-    // called again, and so nothing would appear to happen.
+  Widget _generateTransactionItemsList() {
+    return Container();
   }
 
-  T getRandom<T>(_list) {
-    final _random = Random();
-    return _list[_random.nextInt(_list.length)];
-  }
-
-  String generateRandomAgentImage() {
-    return getRandom([
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1200px-Facebook_Logo_%282019%29.png",
-      "https://cdn.chanhtuoi.com/uploads/2020/06/logo-lazada-2.png",
-      "https://senyumpeople.com/wp-content/uploads/2015/10/shopee.png",
-      "http://static.ybox.vn/2019/5/5/1559293422415-53327481_2294812427459437_7857033109093482496_n.jpg"
-    ]);
-  }
-
-  String generateRandomNotifyMessage() {
-    return getRandom(notifyMessagesList);
-  }
-
-  TransactionStatus generateRandomTransactionStatus() {
-    return getRandom(TransactionStatus.values);
-  }
-
-  String generateRandomOTPCode({int len = 6}) {
-    var r = Random();
-    return String.fromCharCodes(
-            List.generate(len ~/ 2, (index) => r.nextInt(10) + 48)) +
-        " " +
-        String.fromCharCodes(
-            List.generate(len ~/ 2, (index) => r.nextInt(10) + 48));
-  }
-
-  Widget _buildAccountList() {
-    return ListView.builder(itemBuilder: /*1*/ (context, i) {
-      return _buildRow(getRandom(accountList));
-    });
-  }
-
-  Widget _buildRow(String account) {
+  Widget _generateTransactionItem() {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const TransactionDetailsScreen()));
-      },
-      child: TransactionItemWidget(
-          isNewest: false,
-          agentName: account,
-          agentAvatarUrl: generateRandomAgentImage(),
-          agentIsVerified: true,
-          timestamp: "11:45 - 21/02/2022",
-          notifyMessage: generateRandomNotifyMessage(),
-          transactionStatus: generateRandomTransactionStatus()),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const TransactionDetailsScreen()));
+        },
+        child: TransactionItemWidget(
+            isNewest: false,
+            agentName: "Shopee",
+            agentAvatarUrl:
+                "https://senyumpeople.com/wp-content/uploads/2015/10/shopee.png",
+            agentIsVerified: true,
+            timestamp: "123",
+            notifyMessage: "123",
+            transactionStatus: TransactionStatus.requesting));
+  }
+
+  Widget _generateBoxShadow() {
+    return Container(
+      width: double.infinity,
+      height: 94,
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+              offset: const Offset(0.0, 2.0),
+              blurRadius: 30.0,
+              color: Theme.of(context).shadowColor.withOpacity(0.05))
+        ],
+      ),
     );
   }
 }

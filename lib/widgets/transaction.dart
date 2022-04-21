@@ -95,12 +95,12 @@ class TransactionItemWidget extends StatelessWidget {
           color: Theme.of(context).colorScheme.surface,
           borderRadius: _borderRadius,
           border: _border,
-          boxShadow: [
-            BoxShadow(
-                offset: const Offset(0.0, 2.0),
-                blurRadius: 30.0,
-                color: Theme.of(context).shadowColor.withOpacity(0.05))
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //       offset: const Offset(0.0, 2.0),
+          //       blurRadius: 30.0,
+          //       color: Theme.of(context).shadowColor.withOpacity(0.05))
+          // ],
         ),
         height: 94,
         child: Stack(alignment: AlignmentDirectional.topEnd, children: [

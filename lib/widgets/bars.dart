@@ -54,7 +54,20 @@ class AppBarWidget {
               IconThemeData(color: Theme.of(context).colorScheme.onSurface),
         );
       case AppBarType.history:
-        return AppBar();
+        return AppBar(
+          automaticallyImplyLeading: false,
+          title: title != null ? Text(title) : null,
+          titleTextStyle: Theme.of(context)
+              .textTheme
+              .headline6
+              ?.copyWith(fontWeight: FontWeight.normal),
+          centerTitle: true,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          iconTheme: IconThemeData(
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+        );
       default: // Normal
         return AppBar(
           automaticallyImplyLeading: implyLeading,
