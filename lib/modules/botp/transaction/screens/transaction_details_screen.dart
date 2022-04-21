@@ -1,5 +1,6 @@
 import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
+import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/modules/botp/transaction/cubit/transaction_details_cubit.dart';
 import 'package:botp_auth/modules/botp/transaction/cubit/transaction_details_state.dart';
 import 'package:botp_auth/widgets/bars.dart';
@@ -53,11 +54,28 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
   Widget _otpSection() {
     return BlocBuilder<TransactionDetailsCubit, TransactionDetailsState>(
         builder: (context, state) {
-      return Column(children: [
-        TransactionOTPWidget(otpValueInfo: state.otpValueInfo),
-        const TransactionDetailWidget(),
-        const TransactionNotifyMessageWidget()
-      ]);
+      final otpSessionInfo = widget.transactionDetail.otpSessionInfo;
+      return Expanded(
+          child: Container(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: kAppPaddingHorizontalAndBottomSize),
+              child: SingleChildScrollView(
+                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                TransactionOTPWidget(otpValueInfo: state.otpValueInfo),
+                const SizedBox(height: 24.0),
+                TransactionDetailWidget(
+                  agentName: otpSessionInfo.agentName,
+                  agentIsVerified: otpSessionInfo.agentIsVerified,
+                  agentAvatarUrl: otpSessionInfo.agentAvatarUrl,
+                  agentBcAddress: otpSessionInfo.agentBcAddress,
+                  timestamp: otpSessionInfo.timestamp,
+                  transactionStatus: otpSessionInfo.transactionStatus,
+                ),
+                const SizedBox(height: 24.0),
+                TransactionNotifyMessageWidget(
+                    notifyMessage: otpSessionInfo.notifyMessage),
+                const SizedBox(height: kAppPaddingHorizontalAndBottomSize),
+              ]))));
     });
   }
 }

@@ -3,7 +3,6 @@ import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/theme.dart';
-import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_bloc.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_event.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_state.dart';
@@ -59,7 +58,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
   Widget _filter() {
     return Container(
         padding: const EdgeInsets.symmetric(
-            vertical: kAppPaddingBetweenItemHorizontalSize));
+            vertical: kAppPaddingBetweenItemSmallSize));
   }
 
   // 3. Transaction list
@@ -92,7 +91,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
         shrinkWrap: true,
         itemBuilder: (_, index) => transactionWidgetsList[index],
         separatorBuilder: (BuildContext context, int index) =>
-            const SizedBox(height: kAppPaddingBetweenItemHorizontalSize),
+            const SizedBox(height: kAppPaddingBetweenItemSmallSize),
         itemCount: transactionWidgetsList.length);
   }
 
@@ -125,7 +124,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
       itemBuilder: (_, index) => shadowTransactionWidgetsList[index],
       itemCount: shadowTransactionWidgetsList.length,
       separatorBuilder: (BuildContext context, int index) =>
-          const SizedBox(height: kAppPaddingBetweenItemHorizontalSize),
+          const SizedBox(height: kAppPaddingBetweenItemSmallSize),
     );
   }
 

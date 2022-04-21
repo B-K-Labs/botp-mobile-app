@@ -2,6 +2,7 @@ import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/utils/helpers/transaction.dart';
+import 'package:botp_auth/widgets/setting.dart';
 import 'package:flutter/material.dart';
 
 class _TransactionStatusWidget extends StatelessWidget {
@@ -45,9 +46,15 @@ class _TransactionStatusWidget extends StatelessWidget {
         : Theme.of(context).textTheme.bodyText1?.copyWith(color: _primary);
     // - Padding
     const _padding = EdgeInsets.symmetric(vertical: 3.0, horizontal: 12.0);
+    // - Decoration
+    final _decoration = size == TransactionStatusSize.normal
+        ? BoxDecoration(
+            color: _backgroundColor,
+            borderRadius: BorderRadius.circular(BorderRadiusSize.small))
+        : BoxDecoration(color: _backgroundColor);
 
     return Container(
-      decoration: BoxDecoration(color: _backgroundColor),
+      decoration: _decoration,
       padding: _padding,
       child: Text(status.toCapitalizedString(), style: _textStyle),
     );
@@ -179,56 +186,126 @@ class TransactionOTPWidget extends StatefulWidget {
 class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Text("OTP", style: Theme.of(context).textTheme.headline6),
-      const Divider(),
-      widget.isValidOTP
-          ? Text(widget.otpValueInfo?.value ?? "")
-          : const CircularProgressIndicator(),
-      const Text("Tap to copy OTP"),
-      widget.isValidOTP
-          ? Text(widget.otpValueInfo!.remainingTime.toString() + "s left")
-          : const CircularProgressIndicator(),
-    ]);
+    return Container(
+        decoration: BoxDecoration(
+            border: Border.all(
+                color: Theme.of(context).colorScheme.outline, width: 1.0),
+            borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
+        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 24.0),
+        child: Column(children: [
+          Text("OTP", style: Theme.of(context).textTheme.headline6),
+          Divider(color: Theme.of(context).colorScheme.outline),
+          widget.isValidOTP
+              ? Text(widget.otpValueInfo?.value ?? "")
+              : const CircularProgressIndicator(),
+          const Text("Tap to copy OTP"),
+          widget.isValidOTP
+              ? Text(widget.otpValueInfo!.remainingTime.toString() + "s left")
+              : const CircularProgressIndicator(),
+        ]));
   }
 }
 
 class TransactionDetailWidget extends StatelessWidget {
-  const TransactionDetailWidget({Key? key}) : super(key: key);
+  final String agentName;
+  final String agentAvatarUrl;
+  final bool agentIsVerified;
+  final String agentBcAddress;
+  final int timestamp;
+  final TransactionStatus transactionStatus;
+
+  const TransactionDetailWidget(
+      {Key? key,
+      required this.agentName,
+      required this.agentAvatarUrl,
+      required this.agentIsVerified,
+      required this.agentBcAddress,
+      required this.timestamp,
+      required this.transactionStatus})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(children: const [Text("Shopee (verified)"), Text("")]),
-        Row(
-          children: const [Text("Address"), Text("0x123...456")],
-        ),
-        Row(
-          children: const [Text("Date"), Text("23:54 - 15/06/2022")],
-        ),
-        Row(
-          children: const [
-            Text("Status"),
-            _TransactionStatusWidget(status: TransactionStatus.pending)
+    final _headlineStyle = Theme.of(context).textTheme.headline6;
+    final _textStyle = Theme.of(context)
+        .textTheme
+        .bodyText1
+        ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
+    return Container(
+        decoration: BoxDecoration(
+            border: Border.all(
+                color: Theme.of(context).colorScheme.outline, width: 1.0),
+            borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
+        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Transaction details", style: _headlineStyle),
+            const SizedBox(height: 18.0),
+            _transactionDetailTextLineWidget(
+              Text(agentIsVerified ? '$agentName (verified)' : agentName,
+                  style: _textStyle),
+              SizedBox(
+                height: 48.0,
+                width: 48.0,
+                child: Image.network(agentAvatarUrl,
+                    scale: 1, fit: BoxFit.fitWidth),
+              ),
+            ),
+            const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+            _transactionDetailTextLineWidget(Text("Address", style: _textStyle),
+                BcAddressWidget(bcAddress: agentBcAddress)),
+            const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+            Divider(color: Theme.of(context).colorScheme.outline),
+            const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+            _transactionDetailTextLineWidget(
+                Text("Date", style: _textStyle),
+                Text(DateTime.fromMillisecondsSinceEpoch(timestamp).toString(),
+                    style: _textStyle)),
+            const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+            _transactionDetailTextLineWidget(
+                Text("Status", style: _textStyle),
+                _TransactionStatusWidget(
+                    status: transactionStatus,
+                    size: TransactionStatusSize.normal)),
           ],
-        )
-      ],
-    );
+        ));
   }
 }
 
 class TransactionNotifyMessageWidget extends StatelessWidget {
-  const TransactionNotifyMessageWidget({Key? key}) : super(key: key);
+  final String notifyMessage;
+  const TransactionNotifyMessageWidget({Key? key, required this.notifyMessage})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: const [
-        Text("Notify message"),
-        Text(
-            "[khiem20tc] Facebook need to confirm your account password. Authentication was request at 23:54 - 15/06/2022.")
-      ],
-    );
+    final _headlineStyle = Theme.of(context).textTheme.headline6;
+    final _textStyle = Theme.of(context)
+        .textTheme
+        .bodyText1
+        ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
+    return Container(
+        decoration: BoxDecoration(
+            border: Border.all(
+                color: Theme.of(context).colorScheme.outline, width: 1.0),
+            borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
+        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Notify message", style: _headlineStyle),
+            const SizedBox(height: 18.0),
+            _transactionDetailTextLineWidget(
+                Text(notifyMessage, style: _textStyle), null)
+          ],
+        ));
   }
+}
+
+Widget _transactionDetailTextLineWidget(Widget label, Widget? value) {
+  return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: value != null ? [label, value] : [Expanded(child: label)]);
 }

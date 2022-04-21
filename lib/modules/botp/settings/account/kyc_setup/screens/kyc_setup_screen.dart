@@ -106,7 +106,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
                                 ],
                               )),
                               const SizedBox(
-                                  width: kAppPaddingBetweenItemHorizontalSize),
+                                  width: kAppPaddingBetweenItemSmallSize),
                               Expanded(
                                   child: Column(
                                       crossAxisAlignment:
@@ -131,7 +131,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
                           children: [
                             Expanded(child: _cancelProfileButton()),
                             const SizedBox(
-                                width: kAppPaddingBetweenItemHorizontalSize),
+                                width: kAppPaddingBetweenItemSmallSize),
                             Expanded(child: _editProfileButton()),
                           ],
                         ),
