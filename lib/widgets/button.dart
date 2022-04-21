@@ -44,7 +44,7 @@ class ButtonNormalWidget extends StatelessWidget {
         case ButtonNormalType.primaryGhost:
           _borderColor = null;
           _primary = Theme.of(context).colorScheme.primary;
-          _backgroundColor = null; // TODO: How to calculate it ?
+          _backgroundColor = null;
           break;
         case ButtonNormalType.secondaryOutlined:
           _borderColor = Theme.of(context).colorScheme.outline;
@@ -214,15 +214,5 @@ class ButtonIconWidget extends StatelessWidget {
                   size: _size,
                   color: _primary,
                 ))));
-    // return SizedBox(
-    //     height: size,
-    //     width: size,
-    //     child: IconButton(
-    //       padding: const EdgeInsets.all(0.0),
-    //       constraints: const BoxConstraints(),
-    //       icon: Icon(iconData, size: size),
-    //       color: color,
-    //       onPressed: onPressed,
-    //     ));
   }
 }
