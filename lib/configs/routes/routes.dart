@@ -16,8 +16,7 @@ class Routes {
   static String home = "/botp";
   static String transaction = "/botp/transaction";
   static String settingsAccount = "/botp/settings/account";
-  static String settingsAccountSetupKYC =
-      "/botp/settings/account/setupKyc/:from";
+  static String settingsAccountSetupKYC = "/botp/settings/account/setupKyc";
   static String settingsSystem = "/botp/settings/system";
   static String settingsSecurity = "/botp/settings/security";
   static String settingsAbout = "/botp/settings/about";

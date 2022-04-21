@@ -97,22 +97,25 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
   }
 
   Widget _generateTransactionItem(TransactionDetail transactionDetail) {
+    final otpSessionInfo = transactionDetail.otpSessionInfo;
     return GestureDetector(
         onTap: () {
-          Application.router.navigateTo(context, "/botp/transaction");
+          Application.router.navigateTo(context, "/botp/transaction",
+              routeSettings: RouteSettings(arguments: transactionDetail));
         },
         child: Container(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
                 horizontal: kAppPaddingHorizontalAndBottomSize),
             child: TransactionItemWidget(
                 isNewest: false,
-                agentName: "Shopee",
-                agentAvatarUrl:
-                    "https://senyumpeople.com/wp-content/uploads/2015/10/shopee.png",
-                agentIsVerified: true,
-                date: "123",
-                notifyMessage: "123",
-                transactionStatus: TransactionStatus.requesting)));
+                agentName: otpSessionInfo.agentName,
+                agentAvatarUrl: otpSessionInfo.agentAvatarUrl,
+                agentIsVerified: otpSessionInfo.agentIsVerified,
+                date: DateTime.fromMillisecondsSinceEpoch(
+                        otpSessionInfo.timestamp)
+                    .toString(),
+                notifyMessage: otpSessionInfo.notifyMessage,
+                transactionStatus: otpSessionInfo.transactionStatus)));
   }
 
   Widget _generateShadowTransactionItemsList(int transactionsListLength) {

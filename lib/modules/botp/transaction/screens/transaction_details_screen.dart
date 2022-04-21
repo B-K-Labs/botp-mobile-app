@@ -1,21 +1,30 @@
+import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/modules/botp/transaction/cubit/transaction_details_cubit.dart';
 import 'package:botp_auth/modules/botp/transaction/cubit/transaction_details_state.dart';
+import 'package:botp_auth/widgets/bars.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransactionDetailsScreen extends StatelessWidget {
-  const TransactionDetailsScreen({Key? key}) : super(key: key);
+  final TransactionDetail transactionDetail;
+  const TransactionDetailsScreen(this.transactionDetail, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(), body: const TransactionDetailsBody());
+    return Scaffold(
+        appBar:
+            AppBarWidget.generate(context, title: "Authenticate Transaction"),
+        body: TransactionDetailsBody(transactionDetail));
   }
 }
 
 class TransactionDetailsBody extends StatefulWidget {
-  const TransactionDetailsBody({Key? key}) : super(key: key);
+  final TransactionDetail transactionDetail;
+  const TransactionDetailsBody(this.transactionDetail, {Key? key})
+      : super(key: key);
 
   @override
   State<TransactionDetailsBody> createState() => _TransactionDetailsBodyState();

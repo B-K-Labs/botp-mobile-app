@@ -1,5 +1,6 @@
 import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
+import 'package:botp_auth/constants/routing_param.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/cubit/account_home_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/cubit/account_home_state.dart';
 import "package:flutter/material.dart";
@@ -13,8 +14,10 @@ class AccountHomeScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(actions: [
           IconButton(
-              onPressed: () => Application.router
-                  .navigateTo(context, "/botp/settings/account/setupKyc"),
+              onPressed: () => Application.router.navigateTo(
+                  context, "/botp/settings/account/setupKyc",
+                  routeSettings: const RouteSettings(
+                      arguments: FromScreen.botpSettingsAccount)),
               icon: const Icon(Icons.edit))
         ]),
         body: const AccountHomeBody());

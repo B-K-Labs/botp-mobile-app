@@ -61,7 +61,7 @@ class OTPSessionInfo {
 
   OTPSessionInfo.fromJSON(Map<String, dynamic> json)
       : agentName = json["agentInfo"]["info"]["fullName"],
-        agentAvatarUrl = "",
+        agentAvatarUrl = json["agentInfo"]["avatar"] ?? "",
         agentBcAddress = json["agentAddr"],
         agentIsVerified = true,
         timestamp = json["date"],
