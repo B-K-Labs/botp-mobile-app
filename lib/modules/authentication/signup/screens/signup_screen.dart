@@ -6,6 +6,7 @@ import 'package:botp_auth/modules/authentication/signup/bloc/signup_event.dart';
 import 'package:botp_auth/modules/authentication/signup/bloc/signup_state.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
+import 'package:botp_auth/widgets/bars.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
@@ -17,10 +18,7 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        elevation: 0,
-      ),
+      appBar: AppBarWidget.generate(context),
       body: const SafeArea(
         bottom: true,
         child: SignUpBody(),

@@ -1,6 +1,8 @@
 import 'dart:math';
+import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/modules/botp/transaction/screens/transaction_details_screen.dart';
+import 'package:botp_auth/widgets/bars.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -16,27 +18,7 @@ class _AuthenticatorScreenState extends State<AuthenticatorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("BOTP Authenticator"),
-          // elevation: 0,
-          backgroundColor: Theme.of(context).colorScheme.surface,
-          actions: [
-            IconButton(
-              icon: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(100)),
-                child: Image.network(
-                  "https://www.printed.com/blog/wp-content/uploads/2016/06/quiz-serious-cat.png",
-                ),
-              ),
-              onPressed: () {},
-            ),
-            const SizedBox(width: 10.0),
-          ],
-          titleTextStyle: Theme.of(context).textTheme.headline6,
-          actionsIconTheme:
-              IconThemeData(color: Theme.of(context).colorScheme.onSurface),
-          toolbarHeight: 72,
-        ),
+        appBar: AppBarWidget.generate(context, type: AppBarType.authenticator),
         body: const SafeArea(bottom: true, child: AuthenticatorMainBody()));
   }
 }

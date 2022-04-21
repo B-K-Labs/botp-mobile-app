@@ -1,4 +1,5 @@
 import 'package:botp_auth/configs/routes/application.dart';
+import 'package:botp_auth/constants/routing_param.dart';
 import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:fluro/fluro.dart';
@@ -66,8 +67,8 @@ class ReminderKYCSetupBody extends StatelessWidget {
                         text: "Set up now",
                         buttonType: ButtonNormalType.primary,
                         onPressed: () {
-                          Application.router.navigateTo(
-                              context, "/botp/settings/account/setupKyc");
+                          Application.router.navigateTo(context,
+                              "/botp/settings/account/setupKyc/${FromScreen.authReminderKYCSetup}");
                         })),
               ]),
               const SizedBox(height: kAppPaddingHorizontalSize)

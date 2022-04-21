@@ -48,7 +48,7 @@ class _TransactionStatusWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(color: _backgroundColor),
       padding: _padding,
-      child: Text(status.toStringType(), style: _textStyle),
+      child: Text(status.toCapitalizedString(), style: _textStyle),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:botp_auth/constants/routing_param.dart';
 import 'package:botp_auth/modules/authentication/remiders/screens/kyc_setup_screen.dart';
 import 'package:botp_auth/modules/authentication/session/screens/session_screen.dart';
 import 'package:botp_auth/modules/authentication/signin/screens/signin_screen.dart';
@@ -11,6 +12,7 @@ import 'package:botp_auth/modules/botp/transaction/screens/transaction_details_s
 import 'package:botp_auth/modules/utils/biometric_setup/screens/biometric_setup_screen.dart';
 import 'package:botp_auth/modules/utils/qr_scanner/screens/qr_scanner.dart';
 import 'package:botp_auth/modules/botp/settings/account/kyc_setup/screens/kyc_setup_screen.dart';
+import 'package:botp_auth/utils/helpers/enum.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
@@ -81,7 +83,8 @@ var botpSettingsAccountHandler =
 
 var botpSettingsAccountUpdateKYCHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-  return AccountSetupKYCScreen(from: params["from"]);
+  final from = enumFromValue<FromScreen>(FromScreen.values, params["from"][0]);
+  return AccountSetupKYCScreen(from: from);
 });
 // - 2. Security
 // - 3. System
