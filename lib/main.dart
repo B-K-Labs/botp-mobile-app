@@ -1,7 +1,6 @@
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
-import 'package:botp_auth/common/repositories/transaction_repository.dart';
 import 'package:botp_auth/configs/environment/environment.dart';
 import 'package:botp_auth/configs/themes/app_theme.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
@@ -65,7 +64,6 @@ class _MyAppState extends State<MyApp> {
         providers: [
           RepositoryProvider(create: (context) => AuthenticationRepository()),
           RepositoryProvider(create: (context) => AuthenticatorRepository()),
-          RepositoryProvider(create: (context) => TransactionRepository()),
           RepositoryProvider(create: (context) => SettingsRepository()),
         ],
         // Provider SessionBloc at the root for session management

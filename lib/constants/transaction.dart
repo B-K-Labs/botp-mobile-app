@@ -20,3 +20,9 @@ extension ToTransactionStatusType on String {
         .firstWhere((e) => e.name.toString().toLowerCase() == toUpperCase());
   }
 }
+
+enum TransactionRequestAction {
+  confirm,
+  deny,
+  cancel,
+}

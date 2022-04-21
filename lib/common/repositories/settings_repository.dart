@@ -25,4 +25,7 @@ class SettingsRepository {
     }
     throw Exception(result.body);
   }
+
+  // Update Avatar
+  // TODO
 }

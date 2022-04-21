@@ -1,3 +1,0 @@
-class TransactionRepository {
-  TransactionRepository();
-}
