@@ -14,7 +14,7 @@ class Routes {
   // static String reminderFingerprint = "/auth/reminder/fingerprint"; // TODO
   // 2. BOTP modules
   static String home = "/botp";
-  static String transaction = "/botp/transaction/:transactionDetail";
+  static String transaction = "/botp/transaction";
   static String settingsAccount = "/botp/settings/account";
   static String settingsAccountSetupKYC =
       "/botp/settings/account/setupKyc/:from";

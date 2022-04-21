@@ -40,7 +40,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         }
         UserData.setCredentialProfileData(didKyc, signInResult.avatarUrl);
         sessionCubit.launchSession(skipSetupKyc: didKyc);
-        emit(state.copyWith(formStatus: RequestStatusSuccessful()));
+        emit(state.copyWith(formStatus: RequestStatusSuccess()));
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));
       }

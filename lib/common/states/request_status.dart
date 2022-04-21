@@ -8,7 +8,7 @@ class RequestStatusInitial extends RequestStatus {
 
 class RequestStatusSubmitting extends RequestStatus {}
 
-class RequestStatusSuccessful extends RequestStatus {}
+class RequestStatusSuccess extends RequestStatus {}
 
 class RequestStatusFailed extends RequestStatus {
   final Exception exception;

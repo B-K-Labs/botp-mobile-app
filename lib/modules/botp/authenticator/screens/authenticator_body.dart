@@ -1,7 +1,6 @@
-import 'dart:math';
+import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/constants/transaction.dart';
-import 'package:botp_auth/modules/botp/transaction/screens/transaction_details_screen.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 
@@ -22,23 +21,40 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(
-                child: Container(),
-              )
+              _reminder(),
+              _filter(),
+              _transactionItemsList(),
             ]));
   }
 
-  Widget _generateTransactionItemsList() {
+  // 1. Reminder
+  Widget _reminder() {
     return Container();
+  }
+
+  // 2. Transaction filter
+  Widget _filter() {
+    return Container(
+        padding: EdgeInsets.symmetric(
+            vertical: kAppPaddingBetweenItemHorizontalSize));
+  }
+
+  // 3. Transaction list
+  Widget _transactionItemsList() {
+    return Stack(children: [
+      _generateShadowTransactionItemsList(),
+      _generateTransationItemsList()
+    ]);
+  }
+
+  Widget _generateTransationItemsList() {
+    return Column(children: [_generateTransactionItem()]);
   }
 
   Widget _generateTransactionItem() {
     return GestureDetector(
         onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const TransactionDetailsScreen()));
+          Application.router.navigateTo(context, "/botp/transaction");
         },
         child: TransactionItemWidget(
             isNewest: false,
@@ -46,23 +62,16 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
             agentAvatarUrl:
                 "https://senyumpeople.com/wp-content/uploads/2015/10/shopee.png",
             agentIsVerified: true,
-            timestamp: "123",
+            date: "123",
             notifyMessage: "123",
             transactionStatus: TransactionStatus.requesting));
   }
 
+  Widget _generateShadowTransactionItemsList() {
+    return Column(children: [_generateBoxShadow()]);
+  }
+
   Widget _generateBoxShadow() {
-    return Container(
-      width: double.infinity,
-      height: 94,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-              offset: const Offset(0.0, 2.0),
-              blurRadius: 30.0,
-              color: Theme.of(context).shadowColor.withOpacity(0.05))
-        ],
-      ),
-    );
+    return const ShadowTransactionItemWidget();
   }
 }

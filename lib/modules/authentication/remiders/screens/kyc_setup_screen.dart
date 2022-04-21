@@ -64,7 +64,7 @@ class ReminderKYCSetupBody extends StatelessWidget {
                   },
                 )),
                 const SizedBox(
-                  width: kAppPaddingBetweenItemSize,
+                  width: kAppPaddingBetweenItemHorizontalSize,
                 ),
                 Expanded(
                     child: ButtonNormalWidget(

@@ -63,7 +63,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
             showSnackBar(context, loadUserDataStatus.exception.toString());
           } else if (formStatus is RequestStatusFailed) {
             showSnackBar(context, formStatus.exception.toString());
-          } else if (formStatus is RequestStatusSuccessful) {
+          } else if (formStatus is RequestStatusSuccess) {
             if (widget.from != FromScreen.authReminderKYCSetup) {
               showSnackBar(context, "Update profile successfully");
             }
@@ -105,7 +105,8 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
                                   _ageField(),
                                 ],
                               )),
-                              const SizedBox(width: kAppPaddingBetweenItemSize),
+                              const SizedBox(
+                                  width: kAppPaddingBetweenItemHorizontalSize),
                               Expanded(
                                   child: Column(
                                       crossAxisAlignment:
@@ -129,7 +130,8 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
                         Row(
                           children: [
                             Expanded(child: _cancelProfileButton()),
-                            const SizedBox(width: kAppPaddingBetweenItemSize),
+                            const SizedBox(
+                                width: kAppPaddingBetweenItemHorizontalSize),
                             Expanded(child: _editProfileButton()),
                           ],
                         ),

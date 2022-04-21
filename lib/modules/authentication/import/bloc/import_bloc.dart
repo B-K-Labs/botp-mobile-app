@@ -40,7 +40,7 @@ class ImportBloc extends Bloc<ImportEvent, ImportState> {
         }
         UserData.setCredentialProfileData(didKyc, importResult.avatarUrl);
         sessionCubit.launchSession(skipSetupKyc: didKyc);
-        emit(state.copyWith(formStatus: RequestStatusSuccessful()));
+        emit(state.copyWith(formStatus: RequestStatusSuccess()));
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));
       }

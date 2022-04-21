@@ -43,7 +43,7 @@ class AccountSetupKYCBloc
         UserData.setCredentialProfileData(true, profileData!.avatarUrl);
         UserData.setCredentialKYCData(state.fullName!, state.address!,
             int.parse(state.age!), state.gender!, state.debitor!);
-        emit(state.copyWith(formStatus: RequestStatusSuccessful()));
+        emit(state.copyWith(formStatus: RequestStatusSuccess()));
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));
       }

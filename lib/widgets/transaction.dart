@@ -54,12 +54,33 @@ class _TransactionStatusWidget extends StatelessWidget {
   }
 }
 
+class ShadowTransactionItemWidget extends StatelessWidget {
+  const ShadowTransactionItemWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 94,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
+        boxShadow: [
+          BoxShadow(
+              offset: const Offset(0.0, 2.0),
+              blurRadius: 30.0,
+              color: Theme.of(context).shadowColor.withOpacity(0.05))
+        ],
+      ),
+    );
+  }
+}
+
 class TransactionItemWidget extends StatelessWidget {
   final bool isNewest;
   final String agentName;
   final String agentAvatarUrl;
   final bool agentIsVerified;
-  final String timestamp;
+  final String date;
   final String notifyMessage;
   final TransactionStatus transactionStatus;
   const TransactionItemWidget({
@@ -68,7 +89,7 @@ class TransactionItemWidget extends StatelessWidget {
     required this.agentName,
     required this.agentAvatarUrl,
     this.agentIsVerified = true,
-    required this.timestamp,
+    required this.date,
     required this.notifyMessage,
     required this.transactionStatus,
   }) : super(key: key);
@@ -95,14 +116,9 @@ class TransactionItemWidget extends StatelessWidget {
           color: Theme.of(context).colorScheme.surface,
           borderRadius: _borderRadius,
           border: _border,
-          // boxShadow: [
-          //   BoxShadow(
-          //       offset: const Offset(0.0, 2.0),
-          //       blurRadius: 30.0,
-          //       color: Theme.of(context).shadowColor.withOpacity(0.05))
-          // ],
         ),
         height: 94,
+        width: double.infinity,
         child: Stack(alignment: AlignmentDirectional.topEnd, children: [
           Positioned.fill(
               child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -128,7 +144,7 @@ class TransactionItemWidget extends StatelessWidget {
                     ),
                     const SizedBox(height: 6.0),
                     Text(
-                      timestamp,
+                      date,
                       style: _smallTextStyle,
                     ),
                     const SizedBox(height: 6.0),
