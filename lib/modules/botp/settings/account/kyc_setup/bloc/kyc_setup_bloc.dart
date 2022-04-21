@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AccountSetupKYCBloc
     extends Bloc<AccountSetupKYCEvent, AccountSetupKYCState> {
   SettingsRepository settingsRepository;
+  bool _isSubmitting = false;
 
   AccountSetupKYCBloc({required this.settingsRepository})
       : super(AccountSetupKYCState()) {
@@ -25,6 +26,8 @@ class AccountSetupKYCBloc
 
     // On submitted
     on<AccountSetupKYCEventSubmitted>((event, emit) async {
+      if (_isSubmitting) return;
+      _isSubmitting = true;
       emit(state.copyWith(formStatus: RequestStatusSubmitting()));
       final accountData = await UserData.getCredentialAccountData();
       final profileData = await UserData.getCredentialProfileData();
@@ -45,6 +48,7 @@ class AccountSetupKYCBloc
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));
       }
+      _isSubmitting = false;
     });
   }
 }

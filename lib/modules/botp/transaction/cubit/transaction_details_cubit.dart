@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/modules/botp/transaction/cubit/transaction_details_state.dart';
@@ -33,15 +34,18 @@ class TransactionDetailsCubit extends Cubit<TransactionDetailsState> {
     emit(state.copyWith(generateOtpStatus: RequestStatusSubmitting()));
     try {
       // Self-generation
-      final otp = generateTOTP("secret message", 8, period,
+      final otpValue = generateTOTP("secret message", 8, period,
           DateTime.now().millisecondsSinceEpoch, "SHA-512");
       // Caculate the otp remaining time
       final otpGeneratedTime = DateTime.now().millisecondsSinceEpoch;
-      final remainingTime = (otpGeneratedTime +
+      final otpRemainingTime = (otpGeneratedTime +
               period * Duration.millisecondsPerSecond -
               DateTime.now().millisecondsSinceEpoch) ~/
           Duration.millisecondsPerSecond;
-      emit(state.copyWith(otp: otp, otpRemaingTime: remainingTime));
+      // Update state
+      emit(state.copyWith(
+          otpInfo:
+              OTPInfoModel(value: otpValue, remainingTime: otpRemainingTime)));
     } on Exception catch (e) {
       emit(state.copyWith(generateOtpStatus: RequestStatusFailed(e)));
     }

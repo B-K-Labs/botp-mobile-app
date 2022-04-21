@@ -1,3 +1,4 @@
+import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/utils/helpers/transaction.dart';
@@ -155,10 +156,10 @@ class TransactionItemWidget extends StatelessWidget {
 }
 
 class TransactionOTP extends StatefulWidget {
-  final String? otp;
-  final int? otpRemainingTime;
+  final bool isValidOTP;
+  final OTPInfoModel? otpInfo;
 
-  const TransactionOTP({Key? key, this.otp, this.otpRemainingTime})
+  const TransactionOTP({Key? key, this.isValidOTP = false, this.otpInfo})
       : super(key: key);
 
   @override
@@ -171,13 +172,12 @@ class _TransactionOTPState extends State<TransactionOTP> {
     return Column(children: [
       Text("OTP", style: Theme.of(context).textTheme.headline6),
       const Divider(),
-      widget.otp != null
-          ? Text(widget.otp!)
+      widget.isValidOTP
+          ? Text(widget.otpInfo?.value ?? "")
           : const CircularProgressIndicator(),
       const Text("Tap to copy OTP"),
-      // TODO: second mean
-      widget.otpRemainingTime != null
-          ? Text(widget.otpRemainingTime!.toString() + "s left")
+      widget.isValidOTP
+          ? Text(widget.otpInfo!.remainingTime.toString() + "s left")
           : const CircularProgressIndicator(),
     ]);
   }

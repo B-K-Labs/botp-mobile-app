@@ -50,8 +50,8 @@ class TransactionInfoModel {
 }
 
 class OTPInfoModel {
-  String otp;
+  String value;
   int remainingTime;
 
-  OTPInfoModel({required this.otp, required this.remainingTime});
+  OTPInfoModel({required this.value, required this.remainingTime});
 }

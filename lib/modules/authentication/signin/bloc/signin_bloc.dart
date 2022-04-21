@@ -10,6 +10,7 @@ import 'package:botp_auth/common/states/request_status.dart';
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
   final AuthenticationRepository authRepository;
   final SessionCubit sessionCubit;
+  bool _isSubmitting = false;
 
   SignInBloc({required this.authRepository, required this.sessionCubit})
       : super(SignInState()) {
@@ -19,7 +20,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
     // On submitted
     on<SignInSubmitted>((event, emit) async {
-      if (state.formStatus is RequestStatusSubmitting) return;
+      if (_isSubmitting) return;
+      _isSubmitting = true;
       emit(state.copyWith(formStatus: RequestStatusSubmitting()));
       try {
         final privateKey =
@@ -42,6 +44,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));
       }
+      _isSubmitting = false;
     });
   }
 }

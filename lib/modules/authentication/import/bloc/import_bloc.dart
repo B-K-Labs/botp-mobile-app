@@ -10,6 +10,7 @@ import 'package:botp_auth/common/states/request_status.dart';
 class ImportBloc extends Bloc<ImportEvent, ImportState> {
   final AuthenticationRepository authRepository;
   final SessionCubit sessionCubit;
+  bool _isSubmitting = false;
 
   ImportBloc({required this.authRepository, required this.sessionCubit})
       : super(ImportState()) {
@@ -21,7 +22,8 @@ class ImportBloc extends Bloc<ImportEvent, ImportState> {
 
     // On submitted
     on<ImportSubmitted>((event, emit) async {
-      if (state.formStatus is RequestStatusSubmitting) return;
+      if (_isSubmitting) return;
+      _isSubmitting = true;
       emit(state.copyWith(formStatus: RequestStatusSubmitting()));
       try {
         final importResult =
@@ -43,6 +45,7 @@ class ImportBloc extends Bloc<ImportEvent, ImportState> {
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));
       }
+      _isSubmitting = false;
     });
   }
 }

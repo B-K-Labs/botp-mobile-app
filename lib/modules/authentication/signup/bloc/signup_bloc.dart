@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   final AuthenticationRepository authRepo;
   final SessionCubit sessionCubit;
+  bool _isSubmitting = false;
 
   SignUpBloc({required this.authRepo, required this.sessionCubit})
       : super(SignUpState()) {
@@ -19,7 +20,8 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
     // On submitted
     on<SignUpEventSubmitted>((event, emit) async {
-      if (state.formStatus is RequestStatusSubmitting) return;
+      if (_isSubmitting) return;
+      _isSubmitting = true;
       emit(state.copyWith(formStatus: RequestStatusSubmitting()));
       try {
         final signUpResult = await authRepo.signUp(state.password);
@@ -34,6 +36,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));
       }
+      _isSubmitting = false;
     });
   }
 }
