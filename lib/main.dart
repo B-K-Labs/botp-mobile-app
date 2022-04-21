@@ -5,6 +5,7 @@ import 'package:botp_auth/configs/environment/environment.dart';
 import 'package:botp_auth/configs/themes/app_theme.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
+import 'package:botp_auth/modules/botp/home/cubit/botp_home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -71,18 +72,21 @@ class _MyAppState extends State<MyApp> {
             create: (context) => SessionCubit(
                 authenticationRepository:
                     context.read<AuthenticationRepository>()),
-            child: MaterialApp(
-              debugShowCheckedModeBanner: false,
-              // Themes
-              theme: lightThemeData,
-              darkTheme: darkThemeData,
-              themeMode: ThemeMode.light,
-              title: 'BOTP Authenticator',
-              // Fluro routes generation
-              onGenerateRoute: Application
-                  .router.generator, // It would use the root path first i.e "/"
-              // (not used anymore)
-              // home: SessionScreen()
-            )));
+            child: BlocProvider<BOTPHomeCubit>(
+                create: (context) =>
+                    BOTPHomeCubit(sessionCubit: context.read<SessionCubit>()),
+                child: MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  // Themes
+                  theme: lightThemeData,
+                  darkTheme: darkThemeData,
+                  themeMode: ThemeMode.light,
+                  title: 'BOTP Authenticator',
+                  // Fluro routes generation
+                  onGenerateRoute: Application.router
+                      .generator, // It would use the root path first i.e "/"
+                  // (not used anymore)
+                  // home: SessionScreen()
+                ))));
   }
 }

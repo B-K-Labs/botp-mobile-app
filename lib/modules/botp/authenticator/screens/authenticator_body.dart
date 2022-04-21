@@ -1,40 +1,17 @@
 import 'dart:math';
-import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/modules/botp/transaction/screens/transaction_details_screen.dart';
-import 'package:botp_auth/widgets/bars.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 
-class AuthenticatorScreen extends StatefulWidget {
-  const AuthenticatorScreen({Key? key}) : super(key: key);
+class AuthenticatorBody extends StatefulWidget {
+  const AuthenticatorBody({Key? key}) : super(key: key);
 
   @override
-  State<AuthenticatorScreen> createState() => _AuthenticatorScreenState();
+  State<AuthenticatorBody> createState() => _AuthenticatorBodyState();
 }
 
-class _AuthenticatorScreenState extends State<AuthenticatorScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBarWidget.generate(context,
-            type: AppBarType.authenticator,
-            title: "BOTP Authenticator",
-            avatarUrl:
-                "https://i.pinimg.com/originals/9b/cd/dc/9bcddc6f49de22125e2494591e250096.png",
-            onPressedAvatar: () {}),
-        body: const SafeArea(bottom: true, child: AuthenticatorMainBody()));
-  }
-}
-
-class AuthenticatorMainBody extends StatefulWidget {
-  const AuthenticatorMainBody({Key? key}) : super(key: key);
-
-  @override
-  State<AuthenticatorMainBody> createState() => _AuthenticatorMainBodyState();
-}
-
-class _AuthenticatorMainBodyState extends State<AuthenticatorMainBody> {
+class _AuthenticatorBodyState extends State<AuthenticatorBody> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -103,11 +80,9 @@ class _AuthenticatorMainBodyState extends State<AuthenticatorMainBody> {
   }
 
   Widget _buildAccountList() {
-    return ListView.builder(
-        padding: const EdgeInsets.all(15.0),
-        itemBuilder: /*1*/ (context, i) {
-          return _buildRow(getRandom(accountList));
-        });
+    return ListView.builder(itemBuilder: /*1*/ (context, i) {
+      return _buildRow(getRandom(accountList));
+    });
   }
 
   Widget _buildRow(String account) {

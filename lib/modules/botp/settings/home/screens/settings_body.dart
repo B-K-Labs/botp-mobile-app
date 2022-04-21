@@ -8,25 +8,14 @@ import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SettingsHomeScreen extends StatelessWidget {
-  const SettingsHomeScreen({Key? key}) : super(key: key);
+class SettingsBody extends StatefulWidget {
+  const SettingsBody({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        body: const SettingsHomeBody());
-  }
+  State<SettingsBody> createState() => _SettingsBodyState();
 }
 
-class SettingsHomeBody extends StatefulWidget {
-  const SettingsHomeBody({Key? key}) : super(key: key);
-
-  @override
-  State<SettingsHomeBody> createState() => _SettingsHomeBodyState();
-}
-
-class _SettingsHomeBodyState extends State<SettingsHomeBody> {
+class _SettingsBodyState extends State<SettingsBody> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SettingsHomeCubit>(

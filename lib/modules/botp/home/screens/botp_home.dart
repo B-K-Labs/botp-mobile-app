@@ -1,6 +1,8 @@
-import 'package:botp_auth/modules/botp/authenticator/screens/authenticator_screen.dart';
-import 'package:botp_auth/modules/botp/history/screens/history_home_screen.dart';
-import 'package:botp_auth/modules/botp/settings/home/screens/settings_main_screen.dart';
+import 'package:botp_auth/constants/theme.dart';
+import 'package:botp_auth/modules/botp/authenticator/screens/authenticator_body.dart';
+import 'package:botp_auth/modules/botp/history/screens/history_body.dart';
+import 'package:botp_auth/modules/botp/settings/home/screens/settings_body.dart';
+import 'package:botp_auth/widgets/bars.dart';
 import "package:flutter/material.dart";
 
 class BOTPHomeScreen extends StatefulWidget {
@@ -13,9 +15,9 @@ class BOTPHomeScreen extends StatefulWidget {
 class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
   int _selectedIndex = 0;
   // All home screens
-  final Widget _authenticatorMainScreen = const AuthenticatorScreen();
-  final Widget _historyMainScreen = const HistoryScreen();
-  final Widget _settingsMainScreen = const SettingsHomeScreen();
+  final Widget _authenticatorMainBody = const AuthenticatorBody();
+  final Widget _historyMainBody = const HistoryBody();
+  final Widget _settingsMainBody = const SettingsBody();
 
   void _onItemTapped(int index) {
     setState(() {
@@ -24,15 +26,26 @@ class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
   }
 
   Widget _getSelectedWidget() => _selectedIndex == 0
-      ? _authenticatorMainScreen
+      ? _authenticatorMainBody
       : _selectedIndex == 1
-          ? _historyMainScreen
-          : _settingsMainScreen;
+          ? _historyMainBody
+          : _settingsMainBody;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _getSelectedWidget(),
+      appBar: _selectedIndex == 0
+          ? AppBarWidget.generate(context,
+              type: AppBarType.authenticator,
+              title: "BOTP Authenticator",
+              // TODO: read user avatar
+              avatarUrl:
+                  "https://i.pinimg.com/originals/9b/cd/dc/9bcddc6f49de22125e2494591e250096.png",
+              onPressedAvatar: () {})
+          : _selectedIndex == 1
+              ? AppBarWidget.generate(context, type: AppBarType.history)
+              : null,
+      body: SafeArea(bottom: true, child: _getSelectedWidget()),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
