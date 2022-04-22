@@ -65,7 +65,7 @@ class TransactionDetailBloc
         emit(state.copyWith(transactionActionStatus: RequestStatusSuccess()));
         // Change to failed state, clean message & stop generate otp
         otpSessionSecretInfo.clearSecretMessage();
-        otpSessionInfo.setTransactionStatus(TransactionStatus.pending);
+        otpSessionInfo.setTransactionStatus(TransactionStatus.failed);
         _cancelGenerateOtp = true;
       } on Exception catch (e) {
         emit(state.copyWith(transactionActionStatus: RequestStatusFailed(e)));
@@ -82,7 +82,7 @@ class TransactionDetailBloc
         emit(state.copyWith(transactionActionStatus: RequestStatusSuccess()));
         // Change to failed state, clean message & stop generate otp
         otpSessionSecretInfo.clearSecretMessage();
-        otpSessionInfo.setTransactionStatus(TransactionStatus.pending);
+        otpSessionInfo.setTransactionStatus(TransactionStatus.failed);
       } on Exception catch (e) {
         emit(state.copyWith(transactionActionStatus: RequestStatusFailed(e)));
       }
