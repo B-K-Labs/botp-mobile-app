@@ -4,6 +4,7 @@ import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/modules/botp/transaction/bloc/transaction_detail_bloc.dart';
+import 'package:botp_auth/modules/botp/transaction/bloc/transaction_detail_event.dart';
 import 'package:botp_auth/modules/botp/transaction/bloc/transaction_detail_state.dart';
 import 'package:botp_auth/widgets/bars.dart';
 import 'package:botp_auth/widgets/button.dart';
@@ -40,7 +41,9 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
     return BlocProvider<TransactionDetailBloc>(
         create: (context) => TransactionDetailBloc(
             authenticatorRepository: context.read<AuthenticatorRepository>(),
-            transactionDetail: widget.transactionDetail),
+            otpSessionInfo: widget.transactionDetail.otpSessionInfo,
+            otpSessionSecretInfo: widget.transactionDetail.otpSessionSecretInfo)
+          ..add(TransactionDetailEventInitState()),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,

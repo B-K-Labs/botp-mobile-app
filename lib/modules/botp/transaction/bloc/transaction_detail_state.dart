@@ -4,19 +4,20 @@ import 'package:botp_auth/common/states/request_status.dart';
 class TransactionDetailState {
   OTPSessionInfo otpSessionInfo;
   OTPValueInfo otpValueInfo;
-  RequestStatus? generateOtpStatus;
+  RequestStatus? transactionActionStatus;
 
   TransactionDetailState({
     required this.otpSessionInfo,
     required this.otpValueInfo,
-    this.generateOtpStatus,
+    this.transactionActionStatus,
   });
   TransactionDetailState copyWith(
           {OTPValueInfo? otpValueInfo,
           OTPSessionInfo? otpSessionInfo,
-          RequestStatus? generateOtpStatus}) =>
+          RequestStatus? transactionActionStatus}) =>
       TransactionDetailState(
           otpValueInfo: otpValueInfo ?? this.otpValueInfo,
           otpSessionInfo: otpSessionInfo ?? this.otpSessionInfo,
-          generateOtpStatus: generateOtpStatus ?? this.generateOtpStatus);
+          transactionActionStatus:
+              transactionActionStatus ?? this.transactionActionStatus);
 }

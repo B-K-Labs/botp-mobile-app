@@ -59,6 +59,26 @@ class OTPSessionInfo {
       required this.transactionStatus,
       required this.notifyMessage});
 
+  OTPSessionInfo copyWith(
+          {String? agentName,
+          String? agentAvatarUrl,
+          String? agentBcAddress,
+          bool? agentIsVerified,
+          int? timestamp,
+          TransactionStatus? transactionStatus,
+          String? notifyMessage}) =>
+      OTPSessionInfo(
+          agentName: agentName ?? this.agentName,
+          agentBcAddress: agentBcAddress ?? this.agentBcAddress,
+          agentAvatarUrl: agentAvatarUrl ?? this.agentAvatarUrl,
+          agentIsVerified: agentIsVerified ?? this.agentIsVerified,
+          timestamp: timestamp ?? this.timestamp,
+          transactionStatus: transactionStatus ?? this.transactionStatus,
+          notifyMessage: notifyMessage ?? this.notifyMessage);
+
+  setTransactionStatus(TransactionStatus transactionStatus) =>
+      this.transactionStatus = transactionStatus;
+
   OTPSessionInfo.fromJSON(Map<String, dynamic> json)
       : agentName = json["agentInfo"]["info"]["fullName"],
         agentAvatarUrl = json["agentInfo"]["avatar"] ?? "",
@@ -103,6 +123,13 @@ class TransactionDetail {
 
   TransactionDetail(
       {required this.otpSessionInfo, required this.otpSessionSecretInfo});
+  TransactionDetail copyWith(
+          {OTPSessionInfo? otpSessionInfo,
+          OTPSessionSecretInfo? otpSessionSecretInfo}) =>
+      TransactionDetail(
+          otpSessionInfo: otpSessionInfo ?? this.otpSessionInfo,
+          otpSessionSecretInfo:
+              otpSessionSecretInfo ?? this.otpSessionSecretInfo);
 }
 
 class PaginationInfo {
