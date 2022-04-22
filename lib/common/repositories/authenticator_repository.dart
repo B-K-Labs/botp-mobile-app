@@ -78,4 +78,16 @@ class AuthenticatorRepository {
     }
     throw Exception(result.body);
   }
+
+  // Get transaction detail
+  Future<GetTransactionDetailResponseModel> getTransactionDetail(
+      String secretId) async {
+    http.Response result =
+        await get(makeApiUrlString(path: "/message/OTPsessions/$secretId"));
+    if (result.statusCode == HttpStatus.ok) {
+      return GetTransactionDetailResponseModel.fromJSON(
+          json.decode(result.body));
+    }
+    throw Exception(result.body);
+  }
 }

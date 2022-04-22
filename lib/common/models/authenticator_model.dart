@@ -17,6 +17,16 @@ class GetTransactionsListResponseModel {
             .toList();
 }
 
+class GetTransactionDetailResponseModel {
+  TransactionDetail transactionDetail;
+
+  GetTransactionDetailResponseModel({required this.transactionDetail});
+  GetTransactionDetailResponseModel.fromJSON(Map<String, dynamic> json)
+      : transactionDetail = TransactionDetail(
+            otpSessionInfo: OTPSessionInfo.fromJSON(json),
+            otpSessionSecretInfo: OTPSessionSecretInfo.fromJSON(json));
+}
+
 class RequestTransactionRequestModel {
   final String otpSessionId;
   final String password;
