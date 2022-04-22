@@ -38,7 +38,7 @@ class TransactionDetailBloc
     // On initial state + refresh
     on<TransactionDetailEventGetTransactionDetailAndSetupTimer>(
         (event, emit) async {
-      await _getTransactionDetailAndSetupTimers(emit);
+      await _setupGetTransactionDetailTimer(emit);
     });
 
     // User request actions
@@ -60,7 +60,7 @@ class TransactionDetailBloc
         // Sync data
         emit(state.copyWith(userRequestStatus: RequestStatusSuccess()));
         _isUserRequestSubmitting = false;
-        _getTransactionDetailAndSetupTimers(emit);
+        add(TransactionDetailEventGetTransactionDetailAndSetupTimer());
       } on Exception catch (e) {
         emit(state.copyWith(userRequestStatus: RequestStatusFailed(e)));
         _isUserRequestSubmitting = false;
@@ -83,7 +83,7 @@ class TransactionDetailBloc
         // Sync data
         emit(state.copyWith(userRequestStatus: RequestStatusSuccess()));
         _isUserRequestSubmitting = false;
-        _getTransactionDetailAndSetupTimers(emit);
+        add(TransactionDetailEventGetTransactionDetailAndSetupTimer());
       } on Exception catch (e) {
         emit(state.copyWith(userRequestStatus: RequestStatusFailed(e)));
         _isUserRequestSubmitting = false;
@@ -106,7 +106,7 @@ class TransactionDetailBloc
         // Sync data
         emit(state.copyWith(userRequestStatus: RequestStatusSuccess()));
         _isUserRequestSubmitting = false;
-        _getTransactionDetailAndSetupTimers(emit);
+        add(TransactionDetailEventGetTransactionDetailAndSetupTimer());
       } on Exception catch (e) {
         emit(state.copyWith(userRequestStatus: RequestStatusFailed(e)));
         _isUserRequestSubmitting = false;

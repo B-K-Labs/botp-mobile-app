@@ -1,11 +1,13 @@
 import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
+import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/modules/botp/transaction/bloc/transaction_detail_bloc.dart';
 import 'package:botp_auth/modules/botp/transaction/bloc/transaction_detail_event.dart';
 import 'package:botp_auth/modules/botp/transaction/bloc/transaction_detail_state.dart';
+import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/bars.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/transaction.dart';
@@ -124,8 +126,14 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
   }
 
   Widget _transactionDetailSection() {
-    return BlocBuilder<TransactionDetailBloc, TransactionDetailState>(
-        builder: (context, state) {
+    return BlocConsumer<TransactionDetailBloc, TransactionDetailState>(
+        listener: (context, state) {
+      final getTransactionDetailStatus = state.getTransactionDetailStatus;
+      final userRequestStatus = state.userRequestStatus;
+      if (userRequestStatus is RequestStatusFailed) {
+        showSnackBar(context, userRequestStatus.exception.toString());
+      }
+    }, builder: (context, state) {
       final otpSessionInfo = state.otpSessionInfo;
       return Expanded(
           child: SingleChildScrollView(
@@ -133,7 +141,7 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
         // Show OTP only in the pending state
         const SizedBox(height: kAppPaddingTopSize),
         _transactionOTP(),
-        _transactionInfo(),
+        _transactionDetail(),
         _transactionNotifyMessage(),
         const SizedBox(height: kAppPaddingHorizontalAndBottomSize),
       ])));
@@ -143,24 +151,23 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
   Widget _transactionOTP() {
     return BlocBuilder<TransactionDetailBloc, TransactionDetailState>(
         builder: (context, state) {
-      final otpSessionInfo = state.otpSessionInfo;
-      return otpSessionInfo != null
-          ? (otpSessionInfo.transactionStatus == TransactionStatus.pending
-              ? Column(children: [
-                  const SizedBox(height: 24.0),
-                  Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kAppPaddingHorizontalAndBottomSize),
-                      child: TransactionOTPWidget(
-                          otpValueInfo: OTPValueInfo(
-                              value: "123456", remainingSecond: 2)))
-                ])
-              : Container())
+      final otpValueInfo = state.otpValueInfo;
+      return otpValueInfo.status != OTPValueStatus.notAvailable
+          ? Column(children: [
+              const SizedBox(height: 24.0),
+              Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: kAppPaddingHorizontalAndBottomSize),
+                  child: TransactionOTPWidget(
+                      otpValueInfo: OTPValueInfo(
+                          value: otpValueInfo.value,
+                          remainingSecond: otpValueInfo.remainingSecond)))
+            ])
           : Container();
     });
   }
 
-  Widget _transactionInfo() {
+  Widget _transactionDetail() {
     return BlocBuilder<TransactionDetailBloc, TransactionDetailState>(
         builder: (context, state) {
       final otpSessionInfo = state.otpSessionInfo;

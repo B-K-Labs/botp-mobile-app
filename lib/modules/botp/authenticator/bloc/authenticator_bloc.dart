@@ -30,7 +30,6 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
     on<AuthenticatorEventGetTransactionsList>((event, emit) async {
       if (_isGettingTransactionsList) return;
       _isGettingTransactionsList = true;
-      print("Hello");
       final accountData = await UserData.getCredentialAccountData();
       emit(state.copyWith(getTransactionListStatus: RequestStatusSubmitting()));
       try {
