@@ -1,6 +1,8 @@
 import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
+import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/theme.dart';
+import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/modules/botp/transaction/bloc/transaction_detail_bloc.dart';
 import 'package:botp_auth/modules/botp/transaction/bloc/transaction_detail_state.dart';
 import 'package:botp_auth/widgets/bars.dart';
@@ -37,7 +39,8 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
   Widget build(BuildContext context) {
     return BlocProvider<TransactionDetailBloc>(
         create: (context) => TransactionDetailBloc(
-            authenticatorRepository: context.read<AuthenticatorRepository>()),
+            authenticatorRepository: context.read<AuthenticatorRepository>(),
+            transactionDetail: widget.transactionDetail),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,11 +51,12 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
   Widget _actionButtons() {
     return BlocBuilder<TransactionDetailBloc, TransactionDetailState>(
         builder: (context, state) {
-      final Widget actionsButon;
-
-      return Container(
-          padding: const EdgeInsets.all(kAppPaddingHorizontalAndBottomSize),
-          child: Row(children: [
+      final Widget _returnActionButtons;
+      final TransactionStatus transactionStatus =
+          state.otpSessionInfo.transactionStatus;
+      switch (transactionStatus) {
+        case TransactionStatus.requesting:
+          _returnActionButtons = Row(children: [
             Expanded(
                 child: ButtonNormalWidget(
                     text: "Reject",
@@ -61,14 +65,60 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
             const SizedBox(width: kAppPaddingBetweenItemSmallSize),
             Expanded(
                 child: ButtonNormalWidget(text: "Confirm", onPressed: () {}))
-          ]));
+          ]);
+          break;
+        case TransactionStatus.pending:
+          _returnActionButtons = Row(children: [
+            Expanded(
+                child: ButtonNormalWidget(
+                    text: "Cancel",
+                    onPressed: () {},
+                    type: ButtonNormalType.errorOutlined)),
+            const SizedBox(width: kAppPaddingBetweenItemSmallSize),
+            Expanded(
+                child: ButtonNormalWidget(
+                    text: "Go to home",
+                    onPressed: () {
+                      Application.router.pop(context);
+                    }))
+          ]);
+          break;
+        case TransactionStatus.success:
+          _returnActionButtons = ButtonNormalWidget(
+              text: "Go to home",
+              onPressed: () {
+                Application.router.pop(context);
+              });
+          break;
+        case TransactionStatus.failed:
+          _returnActionButtons = ButtonNormalWidget(
+              text: "Go to home",
+              onPressed: () {
+                Application.router.pop(context);
+              });
+          break;
+        default: // Requesting
+          _returnActionButtons = Row(children: [
+            Expanded(
+                child: ButtonNormalWidget(
+                    text: "Reject",
+                    onPressed: () {},
+                    type: ButtonNormalType.errorOutlined)),
+            const SizedBox(width: kAppPaddingBetweenItemSmallSize),
+            Expanded(
+                child: ButtonNormalWidget(text: "Confirm", onPressed: () {}))
+          ]);
+      }
+      return Container(
+          padding: const EdgeInsets.all(kAppPaddingHorizontalAndBottomSize),
+          child: _returnActionButtons);
     });
   }
 
   Widget _transactionDetailSection() {
     return BlocBuilder<TransactionDetailBloc, TransactionDetailState>(
         builder: (context, state) {
-      final otpSessionInfo = widget.transactionDetail.otpSessionInfo;
+      final otpSessionInfo = state.otpSessionInfo;
       return Expanded(
           child: SingleChildScrollView(
               child: Column(mainAxisSize: MainAxisSize.min, children: [

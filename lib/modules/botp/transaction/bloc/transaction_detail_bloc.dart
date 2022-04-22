@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/common/states/request_status.dart';
+import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/modules/botp/transaction/bloc/transaction_detail_event.dart';
 import 'package:botp_auth/modules/botp/transaction/bloc/transaction_detail_state.dart';
 import 'package:botp_auth/utils/services/crypto_service.dart';
@@ -10,11 +11,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class TransactionDetailBloc
     extends Bloc<TransactionDetailEvent, TransactionDetailState> {
   AuthenticatorRepository authenticatorRepository;
-  final period = 1;
-  Timer? timer;
+  // Bloc keep all otp session info
 
-  TransactionDetailBloc({required this.authenticatorRepository})
-      : super(TransactionDetailState()) {
+  final period = otpPeriodTime;
+  final algorithm = otpAlgorithm;
+  Timer? timer;
+  TransactionDetail transactionDetail;
+
+  TransactionDetailBloc(
+      {required this.authenticatorRepository, required this.transactionDetail})
+      : super(TransactionDetailState(
+            otpSessionInfo: transactionDetail.otpSessionInfo,
+            otpValueInfo: OTPValueInfo())) {
     // Set interval
     trackOtp();
     Timer.periodic(Duration(seconds: period), (Timer timer) {

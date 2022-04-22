@@ -37,3 +37,7 @@ enum TransactionRequestAction {
 
 // OTP threshold
 const otpRemainingSecondThreshold = 3.0;
+
+// OTP generator
+const otpPeriodTime = 120;
+const otpAlgorithm = "SHA-512";
