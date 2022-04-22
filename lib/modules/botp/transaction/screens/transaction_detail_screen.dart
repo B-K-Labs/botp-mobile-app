@@ -63,11 +63,22 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
             Expanded(
                 child: ButtonNormalWidget(
                     text: "Reject",
-                    onPressed: () {},
+                    onPressed: () {
+                      context
+                          .read<TransactionDetailBloc>()
+                          .add(TransactionDetailEventRejectTransaction());
+                    },
                     type: ButtonNormalType.errorOutlined)),
             const SizedBox(width: kAppPaddingBetweenItemSmallSize),
             Expanded(
-                child: ButtonNormalWidget(text: "Confirm", onPressed: () {}))
+                child: ButtonNormalWidget(
+              text: "Confirm",
+              onPressed: () {
+                context
+                    .read<TransactionDetailBloc>()
+                    .add(TransactionDetailEventConfirmTransaction());
+              },
+            ))
           ]);
           break;
         case TransactionStatus.pending:
@@ -75,7 +86,11 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
             Expanded(
                 child: ButtonNormalWidget(
                     text: "Cancel",
-                    onPressed: () {},
+                    onPressed: () {
+                      context
+                          .read<TransactionDetailBloc>()
+                          .add(TransactionDetailEventCancelTransaction());
+                    },
                     type: ButtonNormalType.errorOutlined)),
             const SizedBox(width: kAppPaddingBetweenItemSmallSize),
             Expanded(
