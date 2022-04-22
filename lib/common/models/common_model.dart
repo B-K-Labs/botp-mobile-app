@@ -111,6 +111,7 @@ class OTPValueInfo {
               ? OTPValueStatus.nearlyDead
               : OTPValueStatus.dead;
   void setInvalid() => value = "";
+  countdown() => remainingSecond -= 1;
   OTPValueInfo({this.value = "", this.remainingSecond = 0});
   OTPValueInfo copyWith({String? value, int? remainingSecond}) => OTPValueInfo(
       value: value ?? this.value,

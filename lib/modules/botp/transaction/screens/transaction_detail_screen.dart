@@ -41,9 +41,8 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
     return BlocProvider<TransactionDetailBloc>(
         create: (context) => TransactionDetailBloc(
             authenticatorRepository: context.read<AuthenticatorRepository>(),
-            otpSessionInfo: widget.transactionDetail.otpSessionInfo,
             otpSessionSecretInfo: widget.transactionDetail.otpSessionSecretInfo)
-          ..add(TransactionDetailEventInitState()),
+          ..add(TransactionDetailEventGetTransactionDetailAndSetupTimer()),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -55,8 +54,8 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
     return BlocBuilder<TransactionDetailBloc, TransactionDetailState>(
         builder: (context, state) {
       final Widget _returnActionButtons;
-      final TransactionStatus transactionStatus =
-          state.otpSessionInfo.transactionStatus;
+      final TransactionStatus? transactionStatus =
+          state.otpSessionInfo?.transactionStatus;
       switch (transactionStatus) {
         case TransactionStatus.requesting:
           _returnActionButtons = Row(children: [
@@ -115,17 +114,8 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
                 Application.router.pop(context);
               });
           break;
-        default: // Requesting
-          _returnActionButtons = Row(children: [
-            Expanded(
-                child: ButtonNormalWidget(
-                    text: "Reject",
-                    onPressed: () {},
-                    type: ButtonNormalType.errorOutlined)),
-            const SizedBox(width: kAppPaddingBetweenItemSmallSize),
-            Expanded(
-                child: ButtonNormalWidget(text: "Confirm", onPressed: () {}))
-          ]);
+        default: // Null
+          _returnActionButtons = Container(); // Null widget
       }
       return Container(
           padding: const EdgeInsets.all(kAppPaddingHorizontalAndBottomSize),
@@ -140,13 +130,36 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
       return Expanded(
           child: SingleChildScrollView(
               child: Column(mainAxisSize: MainAxisSize.min, children: [
+        // Show OTP only in the pending state
         const SizedBox(height: kAppPaddingTopSize),
-        Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: kAppPaddingHorizontalAndBottomSize),
-            child: TransactionOTPWidget(
-                otpValueInfo:
-                    OTPValueInfo(value: "123456", remainingSecond: 2))),
+        otpSessionInfo.transactionStatus == TransactionStatus.pending
+            ? _transactionOTP()
+            : Container(),
+        _transactionInfo(),
+        _transactionNotifyMessage(),
+        const SizedBox(height: kAppPaddingHorizontalAndBottomSize),
+      ])));
+    });
+  }
+
+  Widget _transactionOTP() {
+    return BlocBuilder<TransactionDetailBloc, TransactionDetailState>(
+        builder: (context, state) => Column(children: [
+              const SizedBox(height: 24.0),
+              Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: kAppPaddingHorizontalAndBottomSize),
+                  child: TransactionOTPWidget(
+                      otpValueInfo:
+                          OTPValueInfo(value: "123456", remainingSecond: 2)))
+            ]));
+  }
+
+  Widget _transactionInfo() {
+    return BlocBuilder<TransactionDetailBloc, TransactionDetailState>(
+        builder: (context, state) {
+      final otpSessionInfo = state.otpSessionInfo;
+      return Column(children: [
         const SizedBox(height: 24.0),
         Container(
             padding: const EdgeInsets.symmetric(
@@ -158,15 +171,20 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
               agentBcAddress: otpSessionInfo.agentBcAddress,
               timestamp: otpSessionInfo.timestamp,
               transactionStatus: otpSessionInfo.transactionStatus,
-            )),
-        const SizedBox(height: 24.0),
-        Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: kAppPaddingHorizontalAndBottomSize),
-            child: TransactionNotifyMessageWidget(
-                notifyMessage: otpSessionInfo.notifyMessage)),
-        const SizedBox(height: kAppPaddingHorizontalAndBottomSize),
-      ])));
+            ))
+      ]);
+    });
+  }
+
+  Widget _transactionNotifyMessage() {
+    return BlocBuilder<TransactionDetailBloc, TransactionDetailState>(
+        builder: (context, state) {
+      final otpSessionInfo = state.otpSessionInfo;
+      return Container(
+          padding: const EdgeInsets.symmetric(
+              horizontal: kAppPaddingHorizontalAndBottomSize),
+          child: TransactionNotifyMessageWidget(
+              notifyMessage: otpSessionInfo.notifyMessage));
     });
   }
 }

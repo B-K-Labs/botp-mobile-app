@@ -3,6 +3,8 @@ class UserDataType {
   static const credentialSession = "credential_session_data";
   static const credentialPreferences = "credential_preferences_data";
   static const credentialTransactions = "credential_transactions_data";
+  static const credentialTransactionsSecret =
+      "credential_transactions_secret_data";
   static const credentialAgents = "credential_agents_data";
   static const credentialAccount = "credential_account_data";
   static const credentialProfile = "credential_profile_data";

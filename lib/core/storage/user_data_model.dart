@@ -67,11 +67,23 @@ class CredentialAgentsDataModel {
 }
 
 class CredentialTransactionsDataModel {
-  final Map<String, dynamic> objTransactionSecretMessages;
-  CredentialTransactionsDataModel({required this.objTransactionSecretMessages});
+  final Map<String, dynamic> objReceivedTransactions;
+  CredentialTransactionsDataModel({required this.objReceivedTransactions});
   CredentialTransactionsDataModel.fromJSON(Map<String, dynamic> json)
-      : objTransactionSecretMessages = json;
-  Map<String, dynamic> toJSON() => objTransactionSecretMessages;
+      : objReceivedTransactions = json["objReceivedTransactions"];
+  Map<String, dynamic> toJSON() =>
+      {"objReceivedTransactions": objReceivedTransactions};
+}
+
+class CredentialTransactionsSecretDataModel {
+  final Map<String, dynamic> objTransactionSecretMessages;
+  CredentialTransactionsSecretDataModel({
+    required this.objTransactionSecretMessages,
+  });
+  CredentialTransactionsSecretDataModel.fromJSON(Map<String, dynamic> json)
+      : objTransactionSecretMessages = json["objTransactionSecretMessages"];
+  Map<String, dynamic> toJSON() =>
+      {"objTransactionSecretMessages": objTransactionSecretMessages};
 }
 
 class CredentialProfileDataModel {

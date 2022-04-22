@@ -2,11 +2,9 @@ abstract class TransactionDetailEvent {
   const TransactionDetailEvent();
 }
 
-// Init state: get transaction detail and set interval for otp generator (if pending)
-class TransactionDetailEventInitState extends TransactionDetailEvent {}
-
 // Get transaction detail
-class TransactionDetailEventGetDetail extends TransactionDetailEvent {}
+class TransactionDetailEventGetTransactionDetailAndSetupTimer
+    extends TransactionDetailEvent {}
 
 // Request transaction
 class TransactionDetailEventConfirmTransaction extends TransactionDetailEvent {}

@@ -77,7 +77,7 @@ class UserData {
   static clearCredentialProfileData() async =>
       await SecureStorage.removeSecureValue(UserDataType.credentialProfile);
 
-  // Credential KYC: fullName, addressn age, gender, debitor
+  // Credential KYC: fullName, address, age, gender, debitor
   static Future<CredentialKYCDataModel?> getCredentialKYCData() async {
     final data = await SecureStorage.getSecureValue(UserDataType.credentialKYC);
     return data != null ? CredentialKYCDataModel.fromJSON(data) : null;
@@ -112,7 +112,7 @@ class UserData {
   static clearCredentialAgentsData() async =>
       await SecureStorage.removeSecureValue(UserDataType.credentialAgents);
 
-  // Credential Transaction: transaction secret messages object
+  // Credential Transaction: general transaction info object
   static Future<CredentialTransactionsDataModel?>
       getCredentialTransactionsData() async {
     final data =
@@ -121,13 +121,33 @@ class UserData {
   }
 
   static setCredentialTransactionsData(
-          Map<String, String> objTransactionSecretMessage) async =>
+          Map<String, dynamic> objReceivedTransactions) async =>
       await SecureStorage.setSecureValue(
-          UserDataType.credentialTransactions, objTransactionSecretMessage);
+          UserDataType.credentialTransactions, objReceivedTransactions);
 
   static clearCredentialTransactionData() async =>
       await SecureStorage.removeSecureValue(
           UserDataType.credentialTransactions);
+
+  // Credential Transaction Secret: transaction secret messages object
+  static Future<CredentialTransactionsSecretDataModel?>
+      getCredentialTransactionsSecretData() async {
+    final data = await SecureStorage.getSecureValue(
+        UserDataType.credentialTransactionsSecret);
+    return data != null
+        ? CredentialTransactionsSecretDataModel.fromJSON(data)
+        : null;
+  }
+
+  static setCredentialTransactionsSecretData(
+          Map<String, dynamic> objTransactionSecretMessage) async =>
+      await SecureStorage.setSecureValue(
+          UserDataType.credentialTransactionsSecret,
+          objTransactionSecretMessage);
+
+  static clearCredentialTransactionSecretData() async =>
+      await SecureStorage.removeSecureValue(
+          UserDataType.credentialTransactionsSecret);
 
   // Wipe out everything, in case of e.g signing out
   static clearData() async {
