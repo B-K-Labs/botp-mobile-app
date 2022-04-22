@@ -12,9 +12,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class TransactionDetailBloc
     extends Bloc<TransactionDetailEvent, TransactionDetailState> {
   AuthenticatorRepository authenticatorRepository;
-  // Constants
+  // Timer
   final periodGetTransactionDetail = 10;
-  final periodOtp = otpPeriodSecond;
+  final periodOtp = 1;
+  // Otp generator
+  final period = otpPeriodSecond;
   final digits = otpDigits;
   final algorithm = otpAlgorithm;
   final countdown = 1;
@@ -50,10 +52,8 @@ class TransactionDetailBloc
         final confirmTransactionResult =
             await authenticatorRepository.confirmTransaction(
                 otpSessionSecretInfo.secretId, accountData!.password);
-        // Update & store secret message (IMPORTANT)
-        otpSessionSecretInfo
-            .setSecretMessage(confirmTransactionResult.secretMessage);
-        _setSecretMessage(otpSessionSecretInfo.secretId,
+        // Save secret message (IMPORTANT)
+        _saveSecretMessage(otpSessionSecretInfo.secretId,
             confirmTransactionResult.secretMessage);
         // Change to pending status
         _changeTransactionStatusTemporarily(emit, TransactionStatus.pending);
@@ -77,7 +77,7 @@ class TransactionDetailBloc
             otpSessionSecretInfo.secretId, accountData!.password);
         emit(state.copyWith(userRequestStatus: RequestStatusSuccess()));
         // Clean message
-        otpSessionSecretInfo.clearSecretMessage();
+        _removeSecretMessage(otpSessionSecretInfo.secretId);
         // Change to failed
         _changeTransactionStatusTemporarily(emit, TransactionStatus.failed);
         // Sync data
@@ -100,7 +100,7 @@ class TransactionDetailBloc
             otpSessionSecretInfo.secretId, accountData!.password);
         emit(state.copyWith(userRequestStatus: RequestStatusSuccess()));
         // Clean message
-        otpSessionSecretInfo.clearSecretMessage();
+        _removeSecretMessage(otpSessionSecretInfo.secretId);
         // Change to failed
         _changeTransactionStatusTemporarily(emit, TransactionStatus.failed);
         // Sync data
@@ -123,7 +123,7 @@ class TransactionDetailBloc
     getTransactionDetailTimer = Timer.periodic(
         Duration(seconds: periodGetTransactionDetail), (Timer timer) {
       if (isClosed || (!_isGetTransactionDetailTimerRunning)) {
-        timer.cancel(); // When the stream is closed, or actively stop
+        _cancelGetTransactionDetailTimer(); // When the stream is closed, or actively stop
       } else {
         _getTransactionDetailAndSetupTimers(emit);
       }
@@ -136,9 +136,17 @@ class TransactionDetailBloc
   }
 
   // 2. Generate OTP Timer
-  _setupAndRunGenerateOtpTimer(emit) {
+  _setupAndRunGenerateOtpTimer(emit) async {
     if (_isGenerateOtpTimerRunning) return;
     _isGenerateOtpTimerRunning = true;
+    await _generateOtp(emit);
+    generateOtpTimer = Timer.periodic(Duration(seconds: periodOtp), (timer) {
+      if (isClosed || !_isGenerateOtpTimerRunning) {
+        _cancelGenerateOtpTimer();
+      } else {
+        _generateOtp(emit);
+      }
+    });
   }
 
   _cancelGenerateOtpTimer() {
@@ -156,19 +164,17 @@ class TransactionDetailBloc
       // Get transaction detail
       final getTransactionDetailResult = await authenticatorRepository
           .getTransactionDetail(otpSessionSecretInfo.secretId);
-      // - Get new info
+      // - Get new transaction info
       final newOtpSessionInfo =
           getTransactionDetailResult.transactionDetail.otpSessionInfo;
-      // - Get new secret info
+      // - Get new transaction secret info
       otpSessionSecretInfo =
           getTransactionDetailResult.transactionDetail.otpSessionSecretInfo;
       emit(state.copyWith(otpSessionInfo: newOtpSessionInfo));
 
-      // Secret message
+      // Sync/remove secret message
       if (newOtpSessionInfo.transactionStatus == TransactionStatus.pending) {
-        final secretMessage =
-            await _getSecretMessage(otpSessionSecretInfo.secretId);
-        otpSessionSecretInfo.setSecretMessage(secretMessage);
+        await _syncSecretMessage(otpSessionSecretInfo.secretId);
       } else {
         _removeSecretMessage(otpSessionSecretInfo.secretId);
       }
@@ -203,24 +209,25 @@ class TransactionDetailBloc
         final newOtpValueInfo = state.otpValueInfo;
         newOtpValueInfo.countdown();
         emit(state.copyWith(otpValueInfo: newOtpValueInfo));
-      } else {
+      }
+      // Else, create a new one
+      else {
         final keyMessage = otpSessionSecretInfo.secretMessage;
+        // Invalid key message: OTP not available
         if (keyMessage == null) {
-          // Invalid otp value: stop the timer
-
           emit(state.copyWith(otpValueInfo: OTPValueInfo()));
           return;
         }
-        // Self-generating OTP
+        // Generate OTP
         final otpGeneratedTime = DateTime.now().millisecondsSinceEpoch;
         final otpValue = generateTOTP(
-            keyMessage, digits, periodOtp, otpGeneratedTime, algorithm);
+            keyMessage, digits, period, otpGeneratedTime, algorithm);
         // Calculate the otp remaining time
         final otpRemainingTime = (otpGeneratedTime +
-                periodOtp * Duration.millisecondsPerSecond -
+                period * Duration.millisecondsPerSecond -
                 otpGeneratedTime) ~/
             Duration.millisecondsPerSecond;
-        // Update state
+        // Update OTP value
         emit(state.copyWith(
             otpValueInfo: OTPValueInfo(
                 value: otpValue, remainingSecond: otpRemainingTime)));
@@ -241,14 +248,15 @@ class TransactionDetailBloc
 
   // 2. Secret Message
   // - Get secret message
-  _getSecretMessage(String secretId) async {
+  _syncSecretMessage(String secretId) async {
     final transactionsData =
         await UserData.getCredentialTransactionsSecretData();
     // Note: Secret message is saved in the confirmation event
-    return transactionsData?.objTransactionSecretMessages[secretId];
+    otpSessionSecretInfo.setSecretMessage(
+        transactionsData?.objTransactionSecretMessages[secretId]);
   }
 
-  _setSecretMessage(String secretId, String secretMessage) async {
+  _saveSecretMessage(String secretId, String secretMessage) async {
     final transactionData =
         await UserData.getCredentialTransactionsSecretData();
     if (transactionData == null) {
@@ -262,8 +270,10 @@ class TransactionDetailBloc
       await UserData.setCredentialTransactionsSecretData(
           objTransactionSecretMessages);
     }
+    otpSessionSecretInfo.setSecretMessage(secretMessage);
   }
 
+  // Remove secret message
   _removeSecretMessage(String secretId) async {
     final transactionData =
         await UserData.getCredentialTransactionsSecretData();
@@ -273,5 +283,6 @@ class TransactionDetailBloc
       await UserData.setCredentialTransactionsSecretData(
           transactionData.objTransactionSecretMessages);
     }
+    otpSessionSecretInfo.clearSecretMessage();
   }
 }
