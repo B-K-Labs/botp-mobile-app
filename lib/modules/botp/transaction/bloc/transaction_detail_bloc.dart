@@ -16,12 +16,13 @@ class TransactionDetailBloc
   final periodSecond = otpPeriodSecond;
   final algorithm = otpAlgorithm;
   Timer? timer;
-  bool _cancelGenerateOtp = false;
   // Bloc keep all otp session info
   OTPSessionInfo otpSessionInfo;
   OTPSessionSecretInfo otpSessionSecretInfo;
-  // Action submitting
-  bool _isSubmitting = false;
+  // Flags
+  bool _isUserRequestSubmitting = false;
+  bool _isGetTransactionInfoSubmitting = false;
+  bool _cancelGenerateOtp = false;
 
   TransactionDetailBloc(
       {required this.authenticatorRepository,
@@ -30,14 +31,14 @@ class TransactionDetailBloc
       : super(TransactionDetailState(
             otpSessionInfo: otpSessionInfo, otpValueInfo: OTPValueInfo())) {
     on<TransactionDetailEventInitState>((event, emit) async {
-      await _getTransactionInfo(emit);
+      await _getTransactionDetail(emit);
     });
-    on<TransactionDetailEventGetInfo>((event, emit) async {
-      await _getTransactionInfo(emit);
+    on<TransactionDetailEventGetDetail>((event, emit) async {
+      await _getTransactionDetail(emit);
     });
     on<TransactionDetailEventConfirmTransaction>((event, emit) async {
-      if (_isSubmitting) return;
-      _isSubmitting = true;
+      if (_isUserRequestSubmitting) return;
+      _isUserRequestSubmitting = true;
       emit(state.copyWith(transactionActionStatus: RequestStatusSubmitting()));
       try {
         final accountData = await UserData.getCredentialAccountData();
@@ -53,11 +54,11 @@ class TransactionDetailBloc
       } on Exception catch (e) {
         emit(state.copyWith(transactionActionStatus: RequestStatusFailed(e)));
       }
-      _isSubmitting = false;
+      _isUserRequestSubmitting = false;
     });
     on<TransactionDetailEventRejectTransaction>((event, emit) async {
-      if (_isSubmitting) return;
-      _isSubmitting = true;
+      if (_isUserRequestSubmitting) return;
+      _isUserRequestSubmitting = true;
       try {
         final accountData = await UserData.getCredentialAccountData();
         await authenticatorRepository.denyTransaction(
@@ -70,11 +71,11 @@ class TransactionDetailBloc
       } on Exception catch (e) {
         emit(state.copyWith(transactionActionStatus: RequestStatusFailed(e)));
       }
-      _isSubmitting = false;
+      _isUserRequestSubmitting = false;
     });
     on<TransactionDetailEventCancelTransaction>((event, emit) async {
-      if (_isSubmitting) return;
-      _isSubmitting = true;
+      if (_isUserRequestSubmitting) return;
+      _isUserRequestSubmitting = true;
       try {
         final accountData = await UserData.getCredentialAccountData();
         await authenticatorRepository.cancelTransaction(
@@ -86,7 +87,7 @@ class TransactionDetailBloc
       } on Exception catch (e) {
         emit(state.copyWith(transactionActionStatus: RequestStatusFailed(e)));
       }
-      _isSubmitting = false;
+      _isUserRequestSubmitting = false;
     });
   }
 
@@ -104,22 +105,23 @@ class TransactionDetailBloc
 
   _getTransactionInfoAndGenerateOtp(emit) async {
     try {
-      await _getTransactionInfo(emit);
+      await _getTransactionDetail(emit);
       _generateOtp(emit);
     } on Exception catch (e) {
       // TODO: emit error;
     }
   }
 
-  _getTransactionInfo(emit) async {
-    if (_isSubmitting) return;
-    _isSubmitting = true;
+  _getTransactionDetail(emit) async {
+    if (_isGetTransactionInfoSubmitting) return;
+    _isGetTransactionInfoSubmitting = true;
     try {
-      // TODO: Wait for Khiem API :<
+      final getTransactionDetailResult = await authenticatorRepository
+          .getTransactionDetail(otpSessionSecretInfo.secretId);
     } on Exception catch (e) {
       emit(state.copyWith(transactionActionStatus: RequestStatusFailed(e)));
     }
-    _isSubmitting = false;
+    _isGetTransactionInfoSubmitting = false;
   }
 
   _generateOtp(emit) async {
@@ -145,6 +147,25 @@ class TransactionDetailBloc
               value: otpValue, remainingSecond: otpRemainingTime)));
     } on Exception catch (e) {
       // TODO: otp status
+    }
+  }
+
+  _updateTransactionInfoState(
+      OTPSessionInfo? newOtpSessionInfo, OTPValueInfo? newOtpValueInfo) {
+    if (newOtpSessionInfo != null) {
+      final newTransactionStatus = newOtpSessionInfo.transactionStatus;
+      switch (newTransactionStatus) {
+        case TransactionStatus.requesting:
+          break;
+        case TransactionStatus.pending:
+          break;
+        case TransactionStatus.success:
+          break;
+        case TransactionStatus.failed:
+          break;
+        default:
+          break;
+      }
     }
   }
 }

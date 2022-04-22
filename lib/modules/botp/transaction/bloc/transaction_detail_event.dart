@@ -6,7 +6,7 @@ abstract class TransactionDetailEvent {
 class TransactionDetailEventInitState extends TransactionDetailEvent {}
 
 // Get transaction detail
-class TransactionDetailEventGetInfo extends TransactionDetailEvent {}
+class TransactionDetailEventGetDetail extends TransactionDetailEvent {}
 
 // Request transaction
 class TransactionDetailEventConfirmTransaction extends TransactionDetailEvent {}
