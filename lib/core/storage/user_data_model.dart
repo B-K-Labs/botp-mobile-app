@@ -66,6 +66,14 @@ class CredentialAgentsDataModel {
       };
 }
 
+class CredentialTransactionsDataModel {
+  final Map<String, dynamic> objTransactionSecretMessages;
+  CredentialTransactionsDataModel({required this.objTransactionSecretMessages});
+  CredentialTransactionsDataModel.fromJSON(Map<String, dynamic> json)
+      : objTransactionSecretMessages = json;
+  Map<String, dynamic> toJSON() => objTransactionSecretMessages;
+}
+
 class CredentialProfileDataModel {
   final String? avatarUrl;
   final bool didKyc;

@@ -98,7 +98,7 @@ class UserData {
   static clearCredentialKYCData() async =>
       await SecureStorage.removeSecureValue(UserDataType.credentialKYC);
 
-  // Credential Agent: agents list
+  // Credential Agent: agent addresses list
   static Future<CredentialAgentsDataModel?> getCredentialAgentsData() async {
     final data =
         await SecureStorage.getSecureValue(UserDataType.credentialAgents);
@@ -111,6 +111,23 @@ class UserData {
 
   static clearCredentialAgentsData() async =>
       await SecureStorage.removeSecureValue(UserDataType.credentialAgents);
+
+  // Credential Transaction: transaction secret messages object
+  static Future<CredentialTransactionsDataModel?>
+      getCredentialTransactionsData() async {
+    final data =
+        await SecureStorage.getSecureValue(UserDataType.credentialTransactions);
+    return data != null ? CredentialTransactionsDataModel.fromJSON(data) : null;
+  }
+
+  static setCredentialTransactionsData(
+          Map<String, String> objTransactionSecretMessage) async =>
+      await SecureStorage.setSecureValue(
+          UserDataType.credentialTransactions, objTransactionSecretMessage);
+
+  static clearCredentialTransactionData() async =>
+      await SecureStorage.removeSecureValue(
+          UserDataType.credentialTransactions);
 
   // Wipe out everything, in case of e.g signing out
   static clearData() async {

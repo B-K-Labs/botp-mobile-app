@@ -8,9 +8,6 @@ class TransactionDetailEventInitState extends TransactionDetailEvent {}
 // Get transaction detail
 class TransactionDetailEventGetInfo extends TransactionDetailEvent {}
 
-// OTP request
-class TransactionDetailEventOTPNearlyDead extends TransactionDetailEvent {}
-
 // Request transaction
 class TransactionDetailEventConfirmTransaction extends TransactionDetailEvent {}
 
