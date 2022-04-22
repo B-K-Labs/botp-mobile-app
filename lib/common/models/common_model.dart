@@ -82,8 +82,19 @@ class OTPSessionSecretInfo {
 
 class OTPValueInfo {
   String value;
-  int remainingTime;
-  OTPValueInfo({required this.value, required this.remainingTime});
+  int remainingSecond;
+  OTPValueStatus get status => value.isEmpty
+      ? OTPValueStatus.notAvailable
+      : remainingSecond > otpRemainingSecondThreshold
+          ? OTPValueStatus.valid
+          : remainingSecond > 0
+              ? OTPValueStatus.nearlyDead
+              : OTPValueStatus.dead;
+  void setInvalid() => value = "";
+  OTPValueInfo({this.value = "", this.remainingSecond = 0});
+  OTPValueInfo copyWith({String? value, int? remainingSecond}) => OTPValueInfo(
+      value: value ?? this.value,
+      remainingSecond: remainingSecond ?? this.remainingSecond);
 }
 
 class TransactionDetail {

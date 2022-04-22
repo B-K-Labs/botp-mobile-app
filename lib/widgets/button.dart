@@ -5,22 +5,22 @@ import 'package:botp_auth/constants/theme.dart';
 class ButtonNormalWidget extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
-  final ButtonNormalType buttonType;
-  final ButtonNormalSize buttonSize;
+  final ButtonNormalType type;
+  final ButtonNormalSize size;
 
   const ButtonNormalWidget(
       {Key? key,
       required this.text,
       required this.onPressed,
-      this.buttonType = ButtonNormalType.primary,
-      this.buttonSize = ButtonNormalSize.full})
+      this.type = ButtonNormalType.primary,
+      this.size = ButtonNormalSize.full})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // Button theme
     // - Width
-    final _width = buttonSize == ButtonNormalSize.full ? double.infinity : null;
+    final _width = size == ButtonNormalSize.full ? double.infinity : null;
     // - Colors
     final Color? _borderColor;
     final Color _primary;
@@ -30,7 +30,7 @@ class ButtonNormalWidget extends StatelessWidget {
       _primary = Theme.of(context).colorScheme.onSurfaceVariant;
       _backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
     } else {
-      switch (buttonType) {
+      switch (type) {
         case ButtonNormalType.primary:
           _borderColor = null;
           _primary = Theme.of(context).colorScheme.onPrimary;
@@ -89,8 +89,7 @@ class ButtonNormalWidget extends StatelessWidget {
         ?.copyWith(fontWeight: FontWeight.bold);
     // - Padding
     final _padding = EdgeInsets.symmetric(
-        vertical: 16,
-        horizontal: buttonType == ButtonNormalSize.short ? 8 : 32);
+        vertical: 16, horizontal: type == ButtonNormalSize.short ? 8 : 32);
 
     // Return button
     return SizedBox(
@@ -117,18 +116,22 @@ class ButtonNormalWidget extends StatelessWidget {
 class ButtonTextWidget extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
+  final ButtonTextType? type;
 
   const ButtonTextWidget({
     Key? key,
     required this.text,
     required this.onPressed,
+    this.type = ButtonTextType.primary,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // Button theme
     // - Color
-    final _primary = Theme.of(context).colorScheme.primary;
+    final _primary = type == ButtonTextType.primary
+        ? Theme.of(context).colorScheme.primary
+        : Theme.of(context).colorScheme.error;
     // - Text
     final _textStyle = Theme.of(context).textTheme.bodyText1;
 
@@ -148,29 +151,29 @@ class ButtonTextWidget extends StatelessWidget {
 class ButtonIconWidget extends StatelessWidget {
   final IconData iconData;
   final VoidCallback? onTap;
-  final ButtonIconType buttonType;
-  final ButtonIconSize buttonSize;
-  final ButtonIconShape buttonShape;
+  final ButtonIconType type;
+  final ButtonIconSize size;
+  final ButtonIconShape shape;
 
   const ButtonIconWidget(
       {Key? key,
       required this.iconData,
       required this.onTap,
-      this.buttonType = ButtonIconType.primaryOutlined,
-      this.buttonSize = ButtonIconSize.normal,
-      this.buttonShape = ButtonIconShape.normal})
+      this.type = ButtonIconType.primaryOutlined,
+      this.size = ButtonIconSize.normal,
+      this.shape = ButtonIconShape.normal})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // Button theme
     // - Size
-    final double _size = buttonSize == ButtonIconSize.big ? 36 : 24;
+    final double _size = size == ButtonIconSize.big ? 36 : 24;
     // - Colors
     final Color? _borderColor;
     final Color _primary; // Icon color
     final Color? _backgroundColor;
-    switch (buttonType) {
+    switch (type) {
       case ButtonIconType.primaryOutlined:
         _borderColor = Theme.of(context).colorScheme.primary;
         _primary = Theme.of(context).colorScheme.primary;
@@ -193,7 +196,7 @@ class ButtonIconWidget extends StatelessWidget {
     }
     // - Shape
     final _borderRadius = BorderRadius.circular(
-        buttonShape == ButtonIconShape.round ? 1000 : BorderRadiusSize.normal);
+        shape == ButtonIconShape.round ? 1000 : BorderRadiusSize.normal);
     // - Padding
     const _padding = EdgeInsets.all(6.0);
 

@@ -172,11 +172,9 @@ class TransactionItemWidget extends StatelessWidget {
 }
 
 class TransactionOTPWidget extends StatefulWidget {
-  final bool isValidOTP;
-  final OTPValueInfo? otpValueInfo;
+  final OTPValueInfo otpValueInfo;
 
-  const TransactionOTPWidget(
-      {Key? key, this.isValidOTP = false, this.otpValueInfo})
+  const TransactionOTPWidget({Key? key, required this.otpValueInfo})
       : super(key: key);
 
   @override
@@ -186,22 +184,62 @@ class TransactionOTPWidget extends StatefulWidget {
 class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
   @override
   Widget build(BuildContext context) {
+    // OTP theme
+    // - Color
+    final Color _primary;
+    final Color _backgroundColor;
+    switch (widget.otpValueInfo.status) {
+      case OTPValueStatus.notAvailable:
+        _primary = Theme.of(context).colorScheme.outline;
+        _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
+        break;
+      case OTPValueStatus.valid:
+        _primary = Theme.of(context).colorScheme.primary;
+        _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
+        break;
+      case OTPValueStatus.nearlyDead:
+        _primary = Theme.of(context).colorScheme.error;
+        _backgroundColor = Theme.of(context).colorScheme.error;
+        break;
+      case OTPValueStatus.dead:
+        _primary = Theme.of(context).colorScheme.error;
+        _backgroundColor = Theme.of(context).colorScheme.error;
+        break;
+      default: // Not available
+        _primary = Theme.of(context).colorScheme.outline;
+        _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
+        break;
+    }
+    // - Border
+    final _border = Border.all(color: _primary, width: 3.0);
+    // - Text
+    final _otpStyle =
+        Theme.of(context).textTheme.headline4?.copyWith(color: _primary);
+    final _captionStyle = Theme.of(context)
+        .textTheme
+        .caption
+        ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
+
     return Container(
         decoration: BoxDecoration(
-            border: Border.all(
-                color: Theme.of(context).colorScheme.outline, width: 1.0),
+            border: _border,
             borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
         padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 24.0),
         child: Column(children: [
           Text("OTP", style: Theme.of(context).textTheme.headline6),
-          Divider(color: Theme.of(context).colorScheme.outline),
-          widget.isValidOTP
-              ? Text(widget.otpValueInfo?.value ?? "")
-              : const CircularProgressIndicator(),
-          const Text("Tap to copy OTP"),
-          widget.isValidOTP
-              ? Text(widget.otpValueInfo!.remainingTime.toString() + "s left")
-              : const CircularProgressIndicator(),
+          const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+          Divider(height: 1.0, color: Theme.of(context).colorScheme.outline),
+          const SizedBox(height: kAppPaddingBetweenItemLargeSize),
+          Column(children: [
+            Text(widget.otpValueInfo.value, style: _otpStyle),
+            const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+            Text("Tap to copy OTP", style: _captionStyle)
+          ]),
+          const SizedBox(height: kAppPaddingBetweenItemVeryLargeSize),
+          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            Text(widget.otpValueInfo.remainingSecond.toString() + "s left",
+                style: _captionStyle?.copyWith(color: _primary))
+          ]),
         ]));
   }
 }
@@ -255,9 +293,9 @@ class TransactionDetailWidget extends StatelessWidget {
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             _transactionDetailTextLineWidget(Text("Address", style: _textStyle),
                 BcAddressWidget(bcAddress: agentBcAddress)),
-            const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-            Divider(color: Theme.of(context).colorScheme.outline),
-            const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+            const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+            Divider(height: 1.0, color: Theme.of(context).colorScheme.outline),
+            const SizedBox(height: kAppPaddingBetweenItemNormalSize),
             _transactionDetailTextLineWidget(
                 Text("Date", style: _textStyle),
                 Text(DateTime.fromMillisecondsSinceEpoch(timestamp).toString(),

@@ -9,7 +9,7 @@ import 'package:botp_auth/modules/authentication/walkthroughs/screens/walkthroug
 import 'package:botp_auth/modules/authentication/init/screens/init_screen.dart';
 import 'package:botp_auth/modules/botp/home/screens/botp_home.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/screens/account_home_screen.dart';
-import 'package:botp_auth/modules/botp/transaction/screens/transaction_details_screen.dart';
+import 'package:botp_auth/modules/botp/transaction/screens/transaction_detail_screen.dart';
 import 'package:botp_auth/modules/utils/biometric_setup/screens/biometric_setup_screen.dart';
 import 'package:botp_auth/modules/utils/qr_scanner/screens/qr_scanner.dart';
 import 'package:botp_auth/modules/botp/settings/account/kyc_setup/screens/kyc_setup_screen.dart';

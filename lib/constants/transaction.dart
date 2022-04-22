@@ -22,8 +22,18 @@ extension ToTransactionStatusType on String {
   }
 }
 
+enum OTPValueStatus {
+  notAvailable,
+  valid,
+  nearlyDead,
+  dead,
+}
+
 enum TransactionRequestAction {
   confirm,
   deny,
   cancel,
 }
+
+// OTP threshold
+const otpRemainingSecondThreshold = 3.0;

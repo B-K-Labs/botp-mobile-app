@@ -124,9 +124,9 @@ class _SignInBodyState extends State<SignInBody> {
         onTap: () {
           // TODO: local auth
         },
-        buttonType: ButtonIconType.primaryOutlined,
-        buttonSize: ButtonIconSize.big,
-        buttonShape: ButtonIconShape.normal);
+        type: ButtonIconType.primaryOutlined,
+        size: ButtonIconSize.big,
+        shape: ButtonIconShape.normal);
   }
 
   Widget _otherOptions() {

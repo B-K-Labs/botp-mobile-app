@@ -219,7 +219,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
   Widget _cancelProfileButton() {
     return ButtonNormalWidget(
       text: "I'll do later",
-      buttonType: ButtonNormalType.secondaryOutlined,
+      type: ButtonNormalType.secondaryOutlined,
       onPressed: () {
         Application.router.pop(context, false);
       },

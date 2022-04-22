@@ -38,3 +38,15 @@ class BcAddressWidget extends StatelessWidget {
         ));
   }
 }
+
+class SettingsOptionWidget extends StatelessWidget {
+  final SettingsOptionType optionType;
+  const SettingsOptionWidget(
+      {Key? key, this.optionType = SettingsOptionType.textNormalValue})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}

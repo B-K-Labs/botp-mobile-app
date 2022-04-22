@@ -52,7 +52,7 @@ class InitBody extends StatelessWidget {
                 onPressed: () {
                   Application.router.navigateTo(context, "/auth/import");
                 },
-                buttonType: ButtonNormalType.primaryGhost,
+                type: ButtonNormalType.primaryGhost,
               ),
               const SizedBox(height: kAppPaddingHorizontalAndBottomSize),
             ])
