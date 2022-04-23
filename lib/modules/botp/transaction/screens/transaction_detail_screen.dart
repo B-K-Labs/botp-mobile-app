@@ -44,7 +44,7 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
         create: (context) => TransactionDetailBloc(
             authenticatorRepository: context.read<AuthenticatorRepository>(),
             otpSessionSecretInfo: widget.transactionDetail.otpSessionSecretInfo)
-          ..add(TransactionDetailEventGetTransactionDetailAndSetupTimer()),
+          ..add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers()),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -139,8 +139,10 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
           child: SingleChildScrollView(
               child: Column(mainAxisSize: MainAxisSize.min, children: [
         // Show OTP only in the pending state
-        const SizedBox(height: kAppPaddingTopSize),
-        _transactionOTP(),
+
+        otpSessionInfo?.transactionStatus == TransactionStatus.pending
+            ? _transactionOTP()
+            : Container(),
         _transactionDetail(),
         _transactionNotifyMessage(),
         const SizedBox(height: kAppPaddingHorizontalAndBottomSize),
@@ -195,11 +197,14 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
         builder: (context, state) {
       final otpSessionInfo = state.otpSessionInfo;
       return otpSessionInfo != null
-          ? Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: kAppPaddingHorizontalAndBottomSize),
-              child: TransactionNotifyMessageWidget(
-                  notifyMessage: otpSessionInfo.notifyMessage))
+          ? Column(children: [
+              const SizedBox(height: 24.0),
+              Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: kAppPaddingHorizontalAndBottomSize),
+                  child: TransactionNotifyMessageWidget(
+                      notifyMessage: otpSessionInfo.notifyMessage))
+            ])
           : Container();
     });
   }

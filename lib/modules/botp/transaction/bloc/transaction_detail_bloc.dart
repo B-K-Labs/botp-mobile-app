@@ -16,7 +16,7 @@ class TransactionDetailBloc
   final periodGetTransactionDetail = 10;
   final periodOtp = 1;
   // Otp generator
-  final period = otpPeriodSecond;
+  final period = 10;
   final digits = otpDigits;
   final algorithm = otpAlgorithm;
   final countdown = 1;
@@ -35,10 +35,88 @@ class TransactionDetailBloc
       {required this.authenticatorRepository,
       required this.otpSessionSecretInfo})
       : super(TransactionDetailState(otpValueInfo: OTPValueInfo())) {
-    // On initial state + refresh
-    on<TransactionDetailEventGetTransactionDetailAndSetupTimer>(
+    // Core events
+    // 1. Get transaction detail + setup timers
+    on<TransactionDetailEventGetTransactionDetailAndRunSetupTimers>(
         (event, emit) async {
-      await _setupGetTransactionDetailTimer(emit);
+      if (_isGetTransactionInfoSubmitting) return;
+      _isGetTransactionInfoSubmitting = true;
+      try {
+        // Get transaction detail
+        final getTransactionDetailResult = await authenticatorRepository
+            .getTransactionDetail(otpSessionSecretInfo.secretId);
+        // - Get new transaction info
+        final newOtpSessionInfo =
+            getTransactionDetailResult.transactionDetail.otpSessionInfo;
+        // - Get new transaction secret info
+        otpSessionSecretInfo =
+            getTransactionDetailResult.transactionDetail.otpSessionSecretInfo;
+        emit(state.copyWith(otpSessionInfo: newOtpSessionInfo));
+
+        // Sync/remove secret message
+        if (newOtpSessionInfo.transactionStatus == TransactionStatus.pending) {
+          await _syncSecretMessage(otpSessionSecretInfo.secretId);
+        } else {
+          _removeSecretMessage(otpSessionSecretInfo.secretId);
+        }
+
+        // Setup timers
+        // - Setup timer: get transaction detail
+        if (newOtpSessionInfo.transactionStatus ==
+            TransactionStatus.requesting) {
+          add(TransactionDetailEventSetupGetTransactionDetailTimer());
+        }
+        // - Setup timers: get transaction detail + generate otp
+        else if (newOtpSessionInfo.transactionStatus ==
+            TransactionStatus.pending) {
+          add(TransactionDetailEventSetupGetTransactionDetailTimer());
+          add(TransactionDetailEventSetupAndRunGenerateOTPTimer());
+        }
+        // - Cancel all timers
+        else {
+          add(TransactionDetailEventCancelGetTransactionDetailTimer());
+          add(TransactionDetailEventCancelGenerateOTPTimer());
+        }
+      } on Exception catch (e) {
+        emit(state.copyWith(userRequestStatus: RequestStatusFailed(e)));
+      }
+      _isGetTransactionInfoSubmitting = false;
+    });
+
+    // 2. Generate OTP
+    on<TransactionDetailEventGenerateOTP>((event, emit) async {
+      try {
+        // If OTP is valid, just count down
+        if (state.otpValueInfo.status == OTPValueStatus.valid) {
+          final newOtpValueInfo = state.otpValueInfo;
+          newOtpValueInfo.countdown();
+          emit(state.copyWith(otpValueInfo: newOtpValueInfo));
+        }
+        // Else, create a new one
+        else {
+          final keyMessage = otpSessionSecretInfo.secretMessage;
+          // Invalid key message: OTP not available
+          if (keyMessage == null) {
+            emit(state.copyWith(otpValueInfo: OTPValueInfo()));
+            return;
+          }
+          // Generate OTP
+          final otpGeneratedTime = DateTime.now().millisecondsSinceEpoch;
+          final otpValue = generateTOTP(
+              keyMessage, digits, period, otpGeneratedTime, algorithm);
+          // Calculate the otp remaining time
+          final otpRemainingTime = (otpGeneratedTime +
+                  period * Duration.millisecondsPerSecond -
+                  otpGeneratedTime) ~/
+              Duration.millisecondsPerSecond;
+          // Update OTP value
+          emit(state.copyWith(
+              otpValueInfo: OTPValueInfo(
+                  value: otpValue, remainingSecond: otpRemainingTime)));
+        }
+      } on Exception catch (e) {
+        // TODO: otp status
+      }
     });
 
     // User request actions
@@ -56,11 +134,12 @@ class TransactionDetailBloc
         _saveSecretMessage(otpSessionSecretInfo.secretId,
             confirmTransactionResult.secretMessage);
         // Change to pending status
-        _changeTransactionStatusTemporarily(emit, TransactionStatus.pending);
+        add(TransactionDetailEventChangeTransactionStatusTemporarily(
+            transactionStatus: TransactionStatus.pending));
         // Sync data
         emit(state.copyWith(userRequestStatus: RequestStatusSuccess()));
         _isUserRequestSubmitting = false;
-        add(TransactionDetailEventGetTransactionDetailAndSetupTimer());
+        add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers());
       } on Exception catch (e) {
         emit(state.copyWith(userRequestStatus: RequestStatusFailed(e)));
         _isUserRequestSubmitting = false;
@@ -79,11 +158,12 @@ class TransactionDetailBloc
         // Clean message
         _removeSecretMessage(otpSessionSecretInfo.secretId);
         // Change to failed
-        _changeTransactionStatusTemporarily(emit, TransactionStatus.failed);
+        add(TransactionDetailEventChangeTransactionStatusTemporarily(
+            transactionStatus: TransactionStatus.failed));
         // Sync data
         emit(state.copyWith(userRequestStatus: RequestStatusSuccess()));
         _isUserRequestSubmitting = false;
-        add(TransactionDetailEventGetTransactionDetailAndSetupTimer());
+        add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers());
       } on Exception catch (e) {
         emit(state.copyWith(userRequestStatus: RequestStatusFailed(e)));
         _isUserRequestSubmitting = false;
@@ -102,151 +182,66 @@ class TransactionDetailBloc
         // Clean message
         _removeSecretMessage(otpSessionSecretInfo.secretId);
         // Change to failed
-        _changeTransactionStatusTemporarily(emit, TransactionStatus.failed);
+        add(TransactionDetailEventChangeTransactionStatusTemporarily(
+            transactionStatus: TransactionStatus.failed));
         // Sync data
         emit(state.copyWith(userRequestStatus: RequestStatusSuccess()));
         _isUserRequestSubmitting = false;
-        add(TransactionDetailEventGetTransactionDetailAndSetupTimer());
+        add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers());
       } on Exception catch (e) {
         emit(state.copyWith(userRequestStatus: RequestStatusFailed(e)));
         _isUserRequestSubmitting = false;
       }
     });
-  }
 
-  // Timers
-  // 1. Get Transaction Detail Timer
-  // Note: set interval instead of socket listening :pepe-sad:
-  _setupGetTransactionDetailTimer(emit) {
-    if (_isGetTransactionDetailTimerRunning) return;
-    _isGetTransactionDetailTimerRunning = true;
-    getTransactionDetailTimer = Timer.periodic(
-        Duration(seconds: periodGetTransactionDetail), (Timer timer) {
-      if (isClosed || (!_isGetTransactionDetailTimerRunning)) {
-        _cancelGetTransactionDetailTimer(); // When the stream is closed, or actively stop
-      } else {
-        _getTransactionDetailAndSetupTimers(emit);
-      }
-    });
-  }
-
-  _cancelGetTransactionDetailTimer() {
-    getTransactionDetailTimer?.cancel();
-    _isGetTransactionDetailTimerRunning = false;
-  }
-
-  // 2. Generate OTP Timer
-  _setupAndRunGenerateOtpTimer(emit) async {
-    if (_isGenerateOtpTimerRunning) return;
-    _isGenerateOtpTimerRunning = true;
-    await _generateOtp(emit);
-    generateOtpTimer = Timer.periodic(Duration(seconds: periodOtp), (timer) {
-      if (isClosed || !_isGenerateOtpTimerRunning) {
-        _cancelGenerateOtpTimer();
-      } else {
-        _generateOtp(emit);
-      }
-    });
-  }
-
-  _cancelGenerateOtpTimer() {
-    generateOtpTimer?.cancel();
-    generateOtpTimer = null;
-    _isGenerateOtpTimerRunning = false;
-  }
-
-  // Core functions
-  // 1. Get transaction detail + setup timers
-  _getTransactionDetailAndSetupTimers(emit) async {
-    if (_isGetTransactionInfoSubmitting) return;
-    _isGetTransactionInfoSubmitting = true;
-    try {
-      // Get transaction detail
-      final getTransactionDetailResult = await authenticatorRepository
-          .getTransactionDetail(otpSessionSecretInfo.secretId);
-      // - Get new transaction info
-      final newOtpSessionInfo =
-          getTransactionDetailResult.transactionDetail.otpSessionInfo;
-      // - Get new transaction secret info
-      otpSessionSecretInfo =
-          getTransactionDetailResult.transactionDetail.otpSessionSecretInfo;
-      emit(state.copyWith(otpSessionInfo: newOtpSessionInfo));
-
-      // Sync/remove secret message
-      if (newOtpSessionInfo.transactionStatus == TransactionStatus.pending) {
-        await _syncSecretMessage(otpSessionSecretInfo.secretId);
-      } else {
-        _removeSecretMessage(otpSessionSecretInfo.secretId);
-      }
-
-      // Setup timers
-      // - Setup timer: get transaction detail
-      if (newOtpSessionInfo.transactionStatus == TransactionStatus.requesting) {
-        _setupGetTransactionDetailTimer(emit);
-      }
-      // - Setup timers: get transaction detail + generate otp
-      else if (newOtpSessionInfo.transactionStatus ==
-          TransactionStatus.pending) {
-        _setupGetTransactionDetailTimer(emit);
-        _setupAndRunGenerateOtpTimer(emit);
-      }
-      // - Cancel all timers
-      else {
-        _cancelGenerateOtpTimer();
-        _cancelGetTransactionDetailTimer();
-      }
-    } on Exception catch (e) {
-      emit(state.copyWith(userRequestStatus: RequestStatusFailed(e)));
-    }
-    _isGetTransactionInfoSubmitting = false;
-  }
-
-  // 2. Generate OTP
-  _generateOtp(emit) async {
-    try {
-      // If OTP is valid, just count down
-      if (state.otpValueInfo.status == OTPValueStatus.valid) {
-        final newOtpValueInfo = state.otpValueInfo;
-        newOtpValueInfo.countdown();
-        emit(state.copyWith(otpValueInfo: newOtpValueInfo));
-      }
-      // Else, create a new one
-      else {
-        final keyMessage = otpSessionSecretInfo.secretMessage;
-        // Invalid key message: OTP not available
-        if (keyMessage == null) {
-          emit(state.copyWith(otpValueInfo: OTPValueInfo()));
-          return;
+    // Timers
+    // 1. Get Transaction Detail Timer
+    // Note: set interval instead of socket listening :pepe-sad:
+    on<TransactionDetailEventSetupGetTransactionDetailTimer>(
+        (event, emit) async {
+      if (_isGetTransactionDetailTimerRunning) return;
+      _isGetTransactionDetailTimerRunning = true;
+      getTransactionDetailTimer = Timer.periodic(
+          Duration(seconds: periodGetTransactionDetail), (Timer timer) {
+        if (isClosed || (!_isGetTransactionDetailTimerRunning)) {
+          add(TransactionDetailEventCancelGetTransactionDetailTimer()); // When the stream is closed, or actively stop
+        } else {
+          add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers());
         }
-        // Generate OTP
-        final otpGeneratedTime = DateTime.now().millisecondsSinceEpoch;
-        final otpValue = generateTOTP(
-            keyMessage, digits, period, otpGeneratedTime, algorithm);
-        // Calculate the otp remaining time
-        final otpRemainingTime = (otpGeneratedTime +
-                period * Duration.millisecondsPerSecond -
-                otpGeneratedTime) ~/
-            Duration.millisecondsPerSecond;
-        // Update OTP value
-        emit(state.copyWith(
-            otpValueInfo: OTPValueInfo(
-                value: otpValue, remainingSecond: otpRemainingTime)));
-      }
-    } on Exception catch (e) {
-      // TODO: otp status
-    }
+      });
+    });
+
+    on<TransactionDetailEventCancelGetTransactionDetailTimer>((event, emit) {
+      getTransactionDetailTimer?.cancel();
+      _isGetTransactionDetailTimerRunning = false;
+    });
+
+    on<TransactionDetailEventSetupAndRunGenerateOTPTimer>((event, emit) async {
+      if (_isGenerateOtpTimerRunning) return;
+      _isGenerateOtpTimerRunning = true;
+      add(TransactionDetailEventGenerateOTP()); // TODO: should wait ?
+      generateOtpTimer = Timer.periodic(Duration(seconds: periodOtp), (timer) {
+        if (isClosed || !_isGenerateOtpTimerRunning) {
+          add(TransactionDetailEventCancelGenerateOTPTimer());
+        } else {
+          add(TransactionDetailEventGenerateOTP());
+        }
+      });
+    });
+
+    on<TransactionDetailEventCancelGenerateOTPTimer>((event, emit) {
+      generateOtpTimer?.cancel();
+      generateOtpTimer = null;
+      _isGenerateOtpTimerRunning = false;
+    });
+
+    on<TransactionDetailEventChangeTransactionStatusTemporarily>(
+        (event, emit) => emit(state.copyWith(
+            otpSessionInfo: state.otpSessionInfo
+                ?.copyWith(transactionStatus: event.transactionStatus))));
   }
 
   // Util functions
-  // 1. Change transaction status temporarily (but immediately)
-  _changeTransactionStatusTemporarily(
-      emit, TransactionStatus transactionStatus) {
-    emit(state.copyWith(
-        otpSessionInfo: state.otpSessionInfo
-            ?.copyWith(transactionStatus: transactionStatus)));
-  }
-
-  // 2. Secret Message
   // - Get secret message
   _syncSecretMessage(String secretId) async {
     final transactionsData =

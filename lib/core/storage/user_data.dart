@@ -123,7 +123,10 @@ class UserData {
   static setCredentialTransactionsData(
           Map<String, dynamic> objReceivedTransactions) async =>
       await SecureStorage.setSecureValue(
-          UserDataType.credentialTransactions, objReceivedTransactions);
+          UserDataType.credentialTransactions,
+          CredentialTransactionsDataModel(
+                  objReceivedTransactions: objReceivedTransactions)
+              .toJSON());
 
   static clearCredentialTransactionData() async =>
       await SecureStorage.removeSecureValue(
@@ -140,10 +143,12 @@ class UserData {
   }
 
   static setCredentialTransactionsSecretData(
-          Map<String, dynamic> objTransactionSecretMessage) async =>
+          Map<String, dynamic> objTransactionSecretMessages) async =>
       await SecureStorage.setSecureValue(
           UserDataType.credentialTransactionsSecret,
-          objTransactionSecretMessage);
+          CredentialTransactionsSecretDataModel(
+                  objTransactionSecretMessages: objTransactionSecretMessages)
+              .toJSON());
 
   static clearCredentialTransactionSecretData() async =>
       await SecureStorage.removeSecureValue(
