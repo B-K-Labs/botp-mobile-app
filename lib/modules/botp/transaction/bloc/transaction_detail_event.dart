@@ -18,12 +18,6 @@ class TransactionDetailEventSetupGetTransactionDetailTimer
 class TransactionDetailEventSetupAndRunGenerateOTPTimer
     extends TransactionDetailEvent {}
 
-class TransactionDetailEventCancelGetTransactionDetailTimer
-    extends TransactionDetailEvent {}
-
-class TransactionDetailEventCancelGenerateOTPTimer
-    extends TransactionDetailEvent {}
-
 // Request transaction
 class TransactionDetailEventConfirmTransaction extends TransactionDetailEvent {}
 

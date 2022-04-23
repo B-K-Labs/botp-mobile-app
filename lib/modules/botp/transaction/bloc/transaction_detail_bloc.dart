@@ -16,7 +16,7 @@ class TransactionDetailBloc
   final periodGetTransactionDetail = 10;
   final periodOtp = 1;
   // Otp generator
-  final period = 10;
+  final period = 10; // otpPeriod;
   final digits = otpDigits;
   final algorithm = otpAlgorithm;
   final countdown = 1;
@@ -74,8 +74,8 @@ class TransactionDetailBloc
         }
         // - Cancel all timers
         else {
-          add(TransactionDetailEventCancelGetTransactionDetailTimer());
-          add(TransactionDetailEventCancelGenerateOTPTimer());
+          _cancelGetTransactionDetailTimer();
+          _cancelGenerateOtpTimer();
         }
       } on Exception catch (e) {
         emit(state.copyWith(userRequestStatus: RequestStatusFailed(e)));
@@ -204,16 +204,11 @@ class TransactionDetailBloc
       getTransactionDetailTimer = Timer.periodic(
           Duration(seconds: periodGetTransactionDetail), (Timer timer) {
         if (isClosed || (!_isGetTransactionDetailTimerRunning)) {
-          add(TransactionDetailEventCancelGetTransactionDetailTimer()); // When the stream is closed, or actively stop
+          _cancelGetTransactionDetailTimer();
         } else {
           add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers());
         }
       });
-    });
-
-    on<TransactionDetailEventCancelGetTransactionDetailTimer>((event, emit) {
-      getTransactionDetailTimer?.cancel();
-      _isGetTransactionDetailTimerRunning = false;
     });
 
     on<TransactionDetailEventSetupAndRunGenerateOTPTimer>((event, emit) async {
@@ -222,17 +217,11 @@ class TransactionDetailBloc
       add(TransactionDetailEventGenerateOTP()); // TODO: should wait ?
       generateOtpTimer = Timer.periodic(Duration(seconds: periodOtp), (timer) {
         if (isClosed || !_isGenerateOtpTimerRunning) {
-          add(TransactionDetailEventCancelGenerateOTPTimer());
+          _cancelGenerateOtpTimer();
         } else {
           add(TransactionDetailEventGenerateOTP());
         }
       });
-    });
-
-    on<TransactionDetailEventCancelGenerateOTPTimer>((event, emit) {
-      generateOtpTimer?.cancel();
-      generateOtpTimer = null;
-      _isGenerateOtpTimerRunning = false;
     });
 
     on<TransactionDetailEventChangeTransactionStatusTemporarily>(
@@ -242,6 +231,18 @@ class TransactionDetailBloc
   }
 
   // Util functions
+  // - Cancel timers
+  _cancelGetTransactionDetailTimer() {
+    getTransactionDetailTimer?.cancel();
+    _isGetTransactionDetailTimerRunning = false;
+  }
+
+  _cancelGenerateOtpTimer() {
+    generateOtpTimer?.cancel();
+    generateOtpTimer = null;
+    _isGenerateOtpTimerRunning = false;
+  }
+
   // - Get secret message
   _syncSecretMessage(String secretId) async {
     final transactionsData =

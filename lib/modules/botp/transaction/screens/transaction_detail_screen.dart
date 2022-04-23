@@ -139,7 +139,6 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
           child: SingleChildScrollView(
               child: Column(mainAxisSize: MainAxisSize.min, children: [
         // Show OTP only in the pending state
-
         otpSessionInfo?.transactionStatus == TransactionStatus.pending
             ? _transactionOTP()
             : Container(),
