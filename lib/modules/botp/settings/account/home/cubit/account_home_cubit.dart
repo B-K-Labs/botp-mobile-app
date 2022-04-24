@@ -22,12 +22,12 @@ class ProfileViewCubit extends Cubit<ProfileViewState> {
             debitor: kycData.debitor,
             bcAddress: accountData!.bcAddress,
             publicKey: accountData.publicKey,
-            loadUserData: LoadUserDataStatusSuccessful()));
+            loadUserData: LoadUserDataStatusSuccess()));
       } else {
         emit(state.copyWith(
             bcAddress: accountData!.bcAddress,
             publicKey: accountData.publicKey,
-            loadUserData: LoadUserDataStatusSuccessful()));
+            loadUserData: LoadUserDataStatusSuccess()));
       }
     } on Exception catch (e) {
       emit(state.copyWith(loadUserData: LoadUserDataStatusFailed(e)));
@@ -38,8 +38,7 @@ class ProfileViewCubit extends Cubit<ProfileViewState> {
     try {
       await setClipboardData(state.bcAddress);
       if (state.copyBcAddressStatus is SetClipboardStatusInitial) {
-        emit(state.copyWith(
-            copyBcAddressStatus: SetClipboardStatusSuccessful()));
+        emit(state.copyWith(copyBcAddressStatus: SetClipboardStatusSuccess()));
       }
     } on Exception catch (e) {
       if (state.copyBcAddressStatus is SetClipboardStatusFailed) return;

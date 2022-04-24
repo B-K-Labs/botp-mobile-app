@@ -1,5 +1,6 @@
 import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
+import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/theme.dart';
@@ -15,9 +16,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletons/skeletons.dart';
 
-class TransactionDetailsScreen extends StatelessWidget {
+class TransactionDetailScreen extends StatelessWidget {
   final TransactionDetail transactionDetail;
-  const TransactionDetailsScreen(this.transactionDetail, {Key? key})
+  const TransactionDetailScreen(this.transactionDetail, {Key? key})
       : super(key: key);
 
   @override
@@ -25,20 +26,20 @@ class TransactionDetailsScreen extends StatelessWidget {
     return Scaffold(
         appBar:
             AppBarWidget.generate(context, title: "Authenticate Transaction"),
-        body: TransactionDetailsBody(transactionDetail));
+        body: TransactionDetailBody(transactionDetail));
   }
 }
 
-class TransactionDetailsBody extends StatefulWidget {
+class TransactionDetailBody extends StatefulWidget {
   final TransactionDetail transactionDetail;
-  const TransactionDetailsBody(this.transactionDetail, {Key? key})
+  const TransactionDetailBody(this.transactionDetail, {Key? key})
       : super(key: key);
 
   @override
-  State<TransactionDetailsBody> createState() => _TransactionDetailsBodyState();
+  State<TransactionDetailBody> createState() => _TransactionDetailBodyState();
 }
 
-class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
+class _TransactionDetailBodyState extends State<TransactionDetailBody> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<TransactionDetailBloc>(
@@ -141,8 +142,31 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
     return BlocConsumer<TransactionDetailBloc, TransactionDetailState>(
         listener: (context, state) {
       final userRequestStatus = state.userRequestStatus;
+      final generateOtpStatus = state.generateOtpStatus;
+      final getTransactionDetailStatus = state.getTransactionDetailStatus;
+      final copyBcAddressStatus = state.copyBcAddressStatus;
+      final copyOtpStatus = state.copyOtpStatus;
+      // Failed result
       if (userRequestStatus is RequestStatusFailed) {
         showSnackBar(context, userRequestStatus.exception.toString());
+      }
+      if (generateOtpStatus is RequestStatusFailed) {
+        showSnackBar(context, generateOtpStatus.exception.toString());
+      }
+      if (getTransactionDetailStatus is RequestStatusFailed) {
+        showSnackBar(context, getTransactionDetailStatus.exception.toString());
+      }
+      // Copy actions
+      if (copyBcAddressStatus is SetClipboardStatusSuccess) {
+        showSnackBar(
+            context, "Blockchain address copied.", SnackBarType.success);
+      } else if (copyBcAddressStatus is SetClipboardStatusFailed) {
+        showSnackBar(context, "Failed to copy blockchain address.");
+      }
+      if (copyOtpStatus is SetClipboardStatusSuccess) {
+        showSnackBar(context, "OTP copied.", SnackBarType.success);
+      } else if (copyOtpStatus is SetClipboardStatusFailed) {
+        showSnackBar(context, "Failed to copy OTP.");
       }
     }, builder: (context, state) {
       final otpSessionInfo = state.otpSessionInfo;
@@ -167,13 +191,18 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
     return BlocBuilder<TransactionDetailBloc, TransactionDetailState>(
         builder: (context, state) {
       final otpValueInfo = state.otpValueInfo;
+      _onTapOtp() {
+        context
+            .read<TransactionDetailBloc>()
+            .add(TransactionDetailEventCopyOTP());
+      }
+
       return Column(children: [
         Container(
             padding: const EdgeInsets.symmetric(
                 horizontal: kAppPaddingHorizontalAndBottomSize),
             child: TransactionOTPWidget(
-              otpValueInfo: otpValueInfo,
-            )),
+                otpValueInfo: otpValueInfo, onTap: _onTapOtp)),
         const SizedBox(height: kAppPaddingBetweenItemNormalSize),
       ]);
     });
@@ -183,6 +212,12 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
     return BlocBuilder<TransactionDetailBloc, TransactionDetailState>(
         builder: (context, state) {
       final otpSessionInfo = state.otpSessionInfo;
+      _onTapBcAddress() {
+        context
+            .read<TransactionDetailBloc>()
+            .add(TransactionDetailEventCopyBcAddress());
+      }
+
       return otpSessionInfo != null
           ? Column(children: [
               Container(
@@ -195,6 +230,7 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
                     agentBcAddress: otpSessionInfo.agentBcAddress,
                     timestamp: otpSessionInfo.timestamp,
                     transactionStatus: otpSessionInfo.transactionStatus,
+                    opTapBcAddress: _onTapBcAddress,
                   )),
               const SizedBox(height: kAppPaddingBetweenItemNormalSize),
             ])

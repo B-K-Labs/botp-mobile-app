@@ -46,7 +46,7 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
   Widget _profile() {
     return BlocBuilder<ProfileViewCubit, ProfileViewState>(
         builder: (context, state) {
-      if (state.loadUserData is! LoadUserDataStatusSuccessful) {
+      if (state.loadUserData is! LoadUserDataStatusSuccess) {
         return const CircularProgressIndicator();
       } else if (state.didKyc) {
         return Column(children: [

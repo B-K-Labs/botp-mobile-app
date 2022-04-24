@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
+import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:botp_auth/modules/botp/transaction/bloc/transaction_detail_event.dart';
 import 'package:botp_auth/modules/botp/transaction/bloc/transaction_detail_state.dart';
+import 'package:botp_auth/utils/services/clipboard_service.dart';
 import 'package:botp_auth/utils/services/crypto_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -250,10 +252,43 @@ class TransactionDetailBloc
       });
     });
 
+    // Help user not wait for new status longer
     on<TransactionDetailEventChangeTransactionStatusTemporarily>(
         (event, emit) => emit(state.copyWith(
             otpSessionInfo: state.otpSessionInfo
                 ?.copyWith(transactionStatus: event.transactionStatus))));
+
+    // Copy actions
+    on<TransactionDetailEventCopyBcAddress>((event, emit) async {
+      emit(state.copyWith(copyBcAddressStatus: SetClipboardStatusSubmitting()));
+      // Copy blockchain address to clipboard
+      await setClipboardData(state.otpSessionInfo!.agentBcAddress);
+      try {
+        emit(state.copyWith(copyBcAddressStatus: SetClipboardStatusSuccess()));
+      } on Exception catch (e) {
+        emit(state.copyWith(copyBcAddressStatus: SetClipboardStatusFailed(e)));
+      } finally {
+        emit(state.copyWith(
+            copyBcAddressStatus: const SetClipboardStatusInitial()));
+      }
+    });
+
+    on<TransactionDetailEventCopyOTP>((event, emit) async {
+      if ([OTPValueStatus.valid, OTPValueStatus.nearlyExpired]
+          .contains(state.otpValueInfo.status)) {
+        emit(state.copyWith(copyOtpStatus: SetClipboardStatusSubmitting()));
+        // Copy OTP to clipboard
+        await setClipboardData(state.otpValueInfo.value);
+        try {
+          emit(state.copyWith(copyOtpStatus: SetClipboardStatusSuccess()));
+        } on Exception catch (e) {
+          emit(state.copyWith(copyOtpStatus: SetClipboardStatusFailed(e)));
+        } finally {
+          emit(
+              state.copyWith(copyOtpStatus: const SetClipboardStatusInitial()));
+        }
+      }
+    });
   }
 
   // Common functions

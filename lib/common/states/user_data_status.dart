@@ -6,7 +6,7 @@ class LoadUserDataStatusInitial extends LoadUserDataStatus {
   const LoadUserDataStatusInitial();
 }
 
-class LoadUserDataStatusSuccessful extends LoadUserDataStatus {}
+class LoadUserDataStatusSuccess extends LoadUserDataStatus {}
 
 class LoadUserDataStatusFailed extends LoadUserDataStatus {
   Exception exception;

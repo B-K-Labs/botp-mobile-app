@@ -21,14 +21,15 @@ class SettingsHomeCubit extends Cubit<SettingsHomeState> {
 
   Future<void> copyBcAddress() async {
     try {
-      emit(state.copyWith(copyBcAddressStatus: SetClipboardStatusInitial()));
+      emit(state.copyWith(copyBcAddressStatus: SetClipboardStatusSubmitting()));
+      // Copy address to clipboard
       await setClipboardData(state.bcAddress);
-      if (state.copyBcAddressStatus is SetClipboardStatusInitial) {
-        emit(state.copyWith(
-            copyBcAddressStatus: SetClipboardStatusSuccessful()));
-      }
+      emit(state.copyWith(copyBcAddressStatus: SetClipboardStatusSuccess()));
     } on Exception catch (e) {
       emit(state.copyWith(copyBcAddressStatus: SetClipboardStatusFailed(e)));
+    } finally {
+      emit(state.copyWith(
+          copyBcAddressStatus: const SetClipboardStatusInitial()));
     }
   }
 }

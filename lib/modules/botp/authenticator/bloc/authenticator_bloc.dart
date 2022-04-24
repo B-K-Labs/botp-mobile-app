@@ -14,6 +14,8 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
   // Pagination
   int page;
   int size;
+  // Timer
+  Timer? _getTransactionsListTimer;
   // Lock
   bool _isGettingTransactionsListSubmitting = false;
   bool _isGettingTransactionsListTimerRunning = false;
@@ -57,21 +59,26 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
     on<AuthenticatorEventSetupGetTransactionsListTimer>((event, emit) async {
       if (_isGettingTransactionsListTimerRunning) return;
       _isGettingTransactionsListTimerRunning = true;
-      Timer.periodic(const Duration(seconds: socketPeriodSecond),
-          (Timer timer) {
+      _getTransactionsListTimer = Timer.periodic(
+          const Duration(seconds: socketPeriodSecond), (Timer timer) {
         if (isClosed || !_isGettingTransactionsListTimerRunning) {
           // Cancel timer
-          timer.cancel();
-          _isGettingTransactionsListTimerRunning = false;
+          _cancelGetTransactionsListTimer();
         } else {
-          print("Hello");
           add(AuthenticatorEventGetTransactionsListAndSetupTimer());
         }
       });
     });
   }
 
+  _cancelGetTransactionsListTimer() {
+    _getTransactionsListTimer?.cancel();
+    _getTransactionsListTimer = null;
+    _isGettingTransactionsListTimerRunning = false;
+  }
+
   refreshTransactionsList() async {
+    _cancelGetTransactionsListTimer();
     add(AuthenticatorEventGetTransactionsListAndSetupTimer());
     await stream.first; // Submitting
     await stream.first; // Success

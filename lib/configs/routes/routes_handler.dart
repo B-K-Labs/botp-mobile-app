@@ -72,7 +72,7 @@ var botpHomeHandler =
 var botpTransactionHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
   final transactionDetail = context?.settings?.arguments as TransactionDetail;
-  return TransactionDetailsScreen(transactionDetail);
+  return TransactionDetailScreen(transactionDetail);
 });
 
 // - Settings

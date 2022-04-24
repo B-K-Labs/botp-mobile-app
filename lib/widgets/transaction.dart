@@ -226,7 +226,7 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
         .caption
         ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
     final otpValueInfo = widget.otpValueInfo;
-    return GestureDetector(
+    return InkWell(
       onTap: widget.onTap,
       child: Container(
         decoration: BoxDecoration(
@@ -300,6 +300,7 @@ class TransactionDetailWidget extends StatelessWidget {
   final String agentAvatarUrl;
   final bool agentIsVerified;
   final String agentBcAddress;
+  final VoidCallback opTapBcAddress;
   final int timestamp;
   final TransactionStatus transactionStatus;
 
@@ -309,6 +310,7 @@ class TransactionDetailWidget extends StatelessWidget {
       required this.agentAvatarUrl,
       required this.agentIsVerified,
       required this.agentBcAddress,
+      required this.opTapBcAddress,
       required this.timestamp,
       required this.transactionStatus})
       : super(key: key);
@@ -342,8 +344,10 @@ class TransactionDetailWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-            _transactionDetailTextLineWidget(Text("Address", style: _textStyle),
-                BcAddressWidget(bcAddress: agentBcAddress)),
+            _transactionDetailTextLineWidget(
+                Text("Address", style: _textStyle),
+                BcAddressWidget(
+                    bcAddress: agentBcAddress, onTap: opTapBcAddress)),
             const SizedBox(height: kAppPaddingBetweenItemNormalSize),
             Divider(height: 1.0, color: Theme.of(context).colorScheme.outline),
             const SizedBox(height: kAppPaddingBetweenItemNormalSize),

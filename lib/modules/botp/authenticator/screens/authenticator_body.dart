@@ -42,15 +42,9 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
     return BlocBuilder<AuthenticatorBloc, AuthenticatorState>(
         builder: (context, state) {
       return Container(
-          padding: const EdgeInsets.symmetric(
-              horizontal: kAppPaddingHorizontalAndBottomSize),
-          child: ButtonNormalWidget(
-              text: "Refresh",
-              onPressed: () {
-                context
-                    .read<AuthenticatorBloc>()
-                    .add(AuthenticatorEventGetTransactionsListAndSetupTimer());
-              }));
+        padding: const EdgeInsets.symmetric(
+            horizontal: kAppPaddingHorizontalAndBottomSize),
+      );
     });
   }
 

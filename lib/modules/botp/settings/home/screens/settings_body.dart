@@ -32,9 +32,9 @@ class _SettingsBodyState extends State<SettingsBody> {
     return BlocListener<SettingsHomeCubit, SettingsHomeState>(
         listener: (context, state) {
       final copyBcAddressStatus = state.copyBcAddressStatus;
-      if (copyBcAddressStatus is SetClipboardStatusSuccessful) {
+      if (copyBcAddressStatus is SetClipboardStatusSuccess) {
         showSnackBar(
-            context, "Blockchain address copied", SnackBarType.success);
+            context, "Blockchain address copied.", SnackBarType.success);
       } else if (copyBcAddressStatus is SetClipboardStatusFailed) {
         showSnackBar(context, copyBcAddressStatus.exception.toString());
       }

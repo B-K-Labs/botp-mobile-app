@@ -4,9 +4,9 @@ import "package:flutter/material.dart";
 
 class BcAddressWidget extends StatelessWidget {
   final String bcAddress;
-  final VoidCallback? opTap;
+  final VoidCallback? onTap;
 
-  const BcAddressWidget({Key? key, required this.bcAddress, this.opTap})
+  const BcAddressWidget({Key? key, required this.bcAddress, this.onTap})
       : super(key: key);
 
   @override
@@ -26,7 +26,7 @@ class BcAddressWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(BorderRadiusSize.small));
 
     return GestureDetector(
-        onTap: opTap,
+        onTap: onTap,
         child: Container(
           decoration: _decoration,
           padding: _padding,
