@@ -44,3 +44,10 @@ enum SettingsOptionType {
   buttonNavigable,
   buttonSelectable
 }
+
+// Toast
+enum SnackBarType {
+  info,
+  success,
+  error,
+}

@@ -1,5 +1,6 @@
 import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
+import 'package:botp_auth/constants/theme.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_state.dart';
@@ -32,7 +33,8 @@ class _SettingsBodyState extends State<SettingsBody> {
         listener: (context, state) {
       final copyBcAddressStatus = state.copyBcAddressStatus;
       if (copyBcAddressStatus is SetClipboardStatusSuccessful) {
-        showSnackBar(context, "Blockchain address copied");
+        showSnackBar(
+            context, "Blockchain address copied", SnackBarType.success);
       } else if (copyBcAddressStatus is SetClipboardStatusFailed) {
         showSnackBar(context, copyBcAddressStatus.exception.toString());
       }
@@ -50,7 +52,7 @@ class _SettingsBodyState extends State<SettingsBody> {
                 radius: 80,
               ),
         const SizedBox(height: 18.0),
-        // Fullname
+        // FullName
         Text(fullName, style: Theme.of(context).textTheme.headline6),
         const SizedBox(height: 12.0),
         // Blockchain address
