@@ -1,6 +1,6 @@
 import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
-import 'package:botp_auth/constants/theme.dart';
+import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_state.dart';
