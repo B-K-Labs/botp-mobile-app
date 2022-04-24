@@ -3,6 +3,7 @@ import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/utils/helpers/account.dart';
 import "package:flutter/material.dart";
 
+// Bc address info
 class BcAddressWidget extends StatelessWidget {
   final String bcAddress;
   final VoidCallback? onTap;
@@ -40,6 +41,7 @@ class BcAddressWidget extends StatelessWidget {
   }
 }
 
+// Core setting option widgets
 class SettingsOptionWidget extends StatelessWidget {
   final SettingsOptionType optionType;
   const SettingsOptionWidget(

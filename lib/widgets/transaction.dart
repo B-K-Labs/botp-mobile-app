@@ -75,9 +75,10 @@ class ShadowTransactionItemWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
         boxShadow: [
           BoxShadow(
-              offset: const Offset(0.0, 2.0),
-              blurRadius: 30.0,
-              color: Theme.of(context).shadowColor.withOpacity(0.05))
+              offset: const Offset(boxShadowOffsetX, boxShadowOffsetY),
+              blurRadius: boxShadowBlurRadius,
+              color:
+                  Theme.of(context).shadowColor.withOpacity(boxShadowOpacity))
         ],
       ),
     );
