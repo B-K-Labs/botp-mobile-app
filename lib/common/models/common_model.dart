@@ -113,9 +113,9 @@ class OTPValueInfo {
               : remainingSecond > 0
                   ? OTPValueStatus.nearlyExpired
                   : OTPValueStatus.expired;
-  countdown() => remainingSecond > 0 ? remainingSecond -= 1 : remainingSecond;
+  countdown() => remainingSecond > -1 ? remainingSecond -= 1 : remainingSecond;
   OTPValueInfo(
-      {this.value = "", this.remainingSecond = 0, this.notAvailable = false});
+      {this.value = "", this.remainingSecond = -1, this.notAvailable = false});
   OTPValueInfo copyWith(
           {String? value, int? remainingSecond, bool? notAvailable}) =>
       OTPValueInfo(

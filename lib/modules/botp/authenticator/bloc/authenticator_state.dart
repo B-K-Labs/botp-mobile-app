@@ -8,13 +8,13 @@ class AuthenticatorState {
   // Pagination
   PaginationInfo? paginationInfo;
   // Transactions list
-  List<TransactionDetail> transactionsList;
+  List<TransactionDetail>? transactionsList;
   RequestStatus getTransactionListStatus;
 
   AuthenticatorState(
       {this.transactionStatus,
       this.paginationInfo,
-      this.transactionsList = const [],
+      this.transactionsList,
       this.getTransactionListStatus = const RequestStatusInitial()});
 
   AuthenticatorState copyWith(

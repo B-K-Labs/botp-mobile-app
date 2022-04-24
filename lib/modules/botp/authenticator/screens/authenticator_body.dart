@@ -11,6 +11,7 @@ import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletons/skeletons.dart';
 
 class AuthenticatorBody extends StatefulWidget {
   const AuthenticatorBody({Key? key}) : super(key: key);
@@ -64,20 +65,23 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
   // 3. Transaction list
   Widget _transactionItemsList() {
     return BlocConsumer<AuthenticatorBloc, AuthenticatorState>(
-        builder: (context, state) => Expanded(
-                child: Stack(children: [
+        builder: (context, state) {
+      final transactionsList = state.transactionsList;
+      return transactionsList != null
+          ? Expanded(
+              child: Stack(children: [
               Positioned.fill(
                   child: _generateShadowTransactionItemsList(
-                      state.transactionsList.length)),
-              _generateTransactionItemsList(state.transactionsList)
-            ])),
-        listener: (context, state) {
-          final getTransactionsListStatus = state.getTransactionListStatus;
-          if (getTransactionsListStatus is RequestStatusFailed) {
-            showSnackBar(
-                context, getTransactionsListStatus.exception.toString());
-          }
-        });
+                      transactionsList.length)),
+              _generateTransactionItemsList(transactionsList)
+            ]))
+          : SkeletonAvatar();
+    }, listener: (context, state) {
+      final getTransactionsListStatus = state.getTransactionListStatus;
+      if (getTransactionsListStatus is RequestStatusFailed) {
+        showSnackBar(context, getTransactionsListStatus.exception.toString());
+      }
+    });
   }
 
   Widget _generateTransactionItemsList(

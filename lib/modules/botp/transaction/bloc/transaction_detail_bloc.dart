@@ -16,7 +16,7 @@ class TransactionDetailBloc
   final periodGetTransactionDetail = 10;
   final periodOtp = 1;
   // Otp generator
-  final period = 10; // otpPeriod;
+  final period = 8; // otpPeriod;
   final digits = otpDigits;
   final algorithm = otpAlgorithm;
   final countdown = 1;
@@ -40,7 +40,7 @@ class TransactionDetailBloc
     // 1. Get transaction detail + setup timers
     on<TransactionDetailEventGetTransactionDetailAndRunSetupTimers>(
         (event, emit) async {
-      if (_isGetTransactionInfoSubmitting) return;
+      if (isClosed || _isGetTransactionInfoSubmitting) return;
       _isGetTransactionInfoSubmitting = true;
       try {
         emit(state.copyWith(
@@ -92,7 +92,8 @@ class TransactionDetailBloc
 
     // 2. Generate OTP
     on<TransactionDetailEventGenerateOTPAndSetupTimer>((event, emit) async {
-      if (_isGenerateOtpSubmitting) return;
+      print("Called");
+      if (isClosed || _isGenerateOtpSubmitting) return;
       _isGenerateOtpSubmitting = true;
       try {
         // (updated) If OTP is valid and not expired, just count down the time
@@ -100,50 +101,46 @@ class TransactionDetailBloc
             .contains(state.otpValueInfo.status)) {
           final newOtpValueInfo = state.otpValueInfo;
           newOtpValueInfo.countdown();
-          if (newOtpValueInfo.status == OTPValueStatus.expired) {
-            emit(state.copyWith(otpValueInfo: OTPValueInfo()));
-          } else {
+          print(newOtpValueInfo.status);
+          print(newOtpValueInfo.value);
+          print(newOtpValueInfo.remainingSecond);
+          if (newOtpValueInfo.status != OTPValueStatus.expired) {
             emit(state.copyWith(otpValueInfo: newOtpValueInfo));
+            _isGenerateOtpSubmitting = false;
+            print("Skip generating new otp");
+            return;
           }
         }
-
         // Else, create a new one
-        else {
+        emit(state.copyWith(generateOtpStatus: RequestStatusSubmitting()));
+        // OTP in RAM that was synced with local storage
+        final keyMessage = otpSessionSecretInfo.secretMessage;
+        // (updated) Key message not found: throw error
+        if (keyMessage == null) {
+          // Stop the timer
+          _cancelGenerateOtpTimer();
+          // Update OTP value
           emit(state.copyWith(
-              otpValueInfo: OTPValueInfo(),
-              generateOtpStatus: RequestStatusSubmitting()));
-          // OTP in RAM that was synced with local storage
-          final keyMessage = otpSessionSecretInfo.secretMessage;
-          // (updated) Key message not found: throw error
-          if (keyMessage == null) {
-            // Stop the timer
-            _cancelGenerateOtpTimer();
-            // Update OTP value
-            emit(state.copyWith(
-                generateOtpStatus: RequestStatusSuccess(),
-                otpValueInfo: OTPValueInfo(notAvailable: true)));
-          }
-          // Key message found: Generate OTP
-          else {
-            // Generate OTP
-            final otpGeneratedTime = DateTime.now().millisecondsSinceEpoch;
-            final otpValue = generateTOTP(
-                keyMessage, digits, period, otpGeneratedTime, algorithm);
-            // - Calculate the otp remaining time
-            final otpRemainingTime = (otpGeneratedTime +
-                    period * Duration.millisecondsPerSecond -
-                    otpGeneratedTime) ~/
-                Duration.millisecondsPerSecond;
-
-            // Setup timer: Generate OTP
-            add(TransactionDetailEventGenerateOTPAndSetupTimer());
-
-            // Update OTP value
-            emit(state.copyWith(
-                generateOtpStatus: RequestStatusSuccess(),
-                otpValueInfo: OTPValueInfo(
-                    value: otpValue, remainingSecond: otpRemainingTime)));
-          }
+              generateOtpStatus: RequestStatusSuccess(),
+              otpValueInfo: OTPValueInfo(notAvailable: true)));
+        }
+        // Key message found: Generate OTP
+        else {
+          // Generate OTP
+          final otpGeneratedTime = DateTime.now().millisecondsSinceEpoch;
+          final otpValue = generateTOTP(
+              keyMessage, digits, period, otpGeneratedTime, algorithm);
+          // - Calculate the otp remaining time
+          final otpRemainingTime = period -
+              ((otpGeneratedTime ~/ Duration.millisecondsPerSecond + period) %
+                  period);
+          // Setup timer: Generate OTP
+          add(TransactionDetailEventSetupGenerateOTPTimer());
+          // Update OTP value
+          emit(state.copyWith(
+              generateOtpStatus: RequestStatusSuccess(),
+              otpValueInfo: OTPValueInfo(
+                  value: otpValue, remainingSecond: otpRemainingTime)));
         }
       } on Exception catch (e) {
         // Stop the timer
