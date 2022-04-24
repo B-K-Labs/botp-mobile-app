@@ -129,25 +129,26 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
   Widget _transactionDetailSection() {
     return BlocConsumer<TransactionDetailBloc, TransactionDetailState>(
         listener: (context, state) {
-      final getTransactionDetailStatus = state.getTransactionDetailStatus;
       final userRequestStatus = state.userRequestStatus;
       if (userRequestStatus is RequestStatusFailed) {
         showSnackBar(context, userRequestStatus.exception.toString());
       }
     }, builder: (context, state) {
       final otpSessionInfo = state.otpSessionInfo;
-      return Expanded(
-          child: SingleChildScrollView(
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
-        const SizedBox(height: kAppPaddingBetweenItemNormalSize),
-        // Show OTP only in the pending state
-        otpSessionInfo?.transactionStatus == TransactionStatus.pending
-            ? _transactionOTP()
-            : Container(),
-        _transactionDetail(),
-        _transactionNotifyMessage(),
-        const SizedBox(height: kAppPaddingHorizontalAndBottomSize),
-      ])));
+      return otpSessionInfo != null
+          ? Expanded(
+              child: SingleChildScrollView(
+                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+              const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+              // Show OTP only in the pending state
+              otpSessionInfo.transactionStatus == TransactionStatus.pending
+                  ? _transactionOTP()
+                  : Container(),
+              _transactionDetail(),
+              _transactionNotifyMessage(),
+              const SizedBox(height: kAppPaddingHorizontalAndBottomSize),
+            ])))
+          : Container();
     });
   }
 
@@ -155,34 +156,13 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
     return BlocBuilder<TransactionDetailBloc, TransactionDetailState>(
         builder: (context, state) {
       final otpValueInfo = state.otpValueInfo;
-      final error = state.generateOtpStatus is RequestStatusFailed
-          ? state.generateOtpStatus.toString()
-          : "";
       return Column(children: [
-        otpValueInfo.status != OTPValueStatus.notAvailable
-            ? Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: kAppPaddingHorizontalAndBottomSize),
-                child: TransactionOTPWidget(
-                  otpValueInfo: OTPValueInfo(
-                      value: otpValueInfo.value,
-                      remainingSecond: otpValueInfo.remainingSecond,
-                      error: error),
-                ))
-            : Expanded(
-                child: SkeletonParagraph(
-                  style: SkeletonParagraphStyle(
-                      lines: 3,
-                      spacing: 6,
-                      lineStyle: SkeletonLineStyle(
-                        randomLength: true,
-                        height: 10,
-                        borderRadius: BorderRadius.circular(8),
-                        minLength: MediaQuery.of(context).size.width / 6,
-                        maxLength: MediaQuery.of(context).size.width / 3,
-                      )),
-                ),
-              ),
+        Container(
+            padding: const EdgeInsets.symmetric(
+                horizontal: kAppPaddingHorizontalAndBottomSize),
+            child: TransactionOTPWidget(
+              otpValueInfo: otpValueInfo,
+            )),
         const SizedBox(height: kAppPaddingBetweenItemNormalSize),
       ])
           // Skeleton view

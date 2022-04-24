@@ -2,11 +2,11 @@ import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 
 class TransactionDetailState {
-  OTPSessionInfo? otpSessionInfo;
-  OTPValueInfo otpValueInfo;
-  RequestStatus? userRequestStatus;
-  RequestStatus? getTransactionDetailStatus;
-  RequestStatus? generateOtpStatus;
+  final OTPSessionInfo? otpSessionInfo;
+  final OTPValueInfo otpValueInfo;
+  final RequestStatus userRequestStatus;
+  final RequestStatus getTransactionDetailStatus;
+  final RequestStatus generateOtpStatus;
 
   TransactionDetailState({
     this.otpSessionInfo,

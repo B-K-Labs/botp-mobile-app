@@ -98,20 +98,30 @@ class TransactionDetailBloc
         // (updated) If OTP is valid and not expired, just count down the time
         if ([OTPValueStatus.valid, OTPValueStatus.nearlyExpired]
             .contains(state.otpValueInfo.status)) {
-          // (optimize) Not emit event
           final newOtpValueInfo = state.otpValueInfo;
           newOtpValueInfo.countdown();
-          emit(state.copyWith(otpValueInfo: newOtpValueInfo));
+          if (newOtpValueInfo.status == OTPValueStatus.expired) {
+            emit(state.copyWith(otpValueInfo: OTPValueInfo()));
+          } else {
+            emit(state.copyWith(otpValueInfo: newOtpValueInfo));
+          }
         }
+
         // Else, create a new one
         else {
-          emit(state.copyWith(generateOtpStatus: RequestStatusSubmitting()));
+          emit(state.copyWith(
+              otpValueInfo: OTPValueInfo(),
+              generateOtpStatus: RequestStatusSubmitting()));
           // OTP in RAM that was synced with local storage
           final keyMessage = otpSessionSecretInfo.secretMessage;
           // (updated) Key message not found: throw error
           if (keyMessage == null) {
-            throw (Exception(
-                "You're not allowed to authenticate this transaction on this device."));
+            // Stop the timer
+            _cancelGenerateOtpTimer();
+            // Update OTP value
+            emit(state.copyWith(
+                generateOtpStatus: RequestStatusSuccess(),
+                otpValueInfo: OTPValueInfo(notAvailable: true)));
           }
           // Key message found: Generate OTP
           else {
@@ -139,9 +149,7 @@ class TransactionDetailBloc
         // Stop the timer
         _cancelGenerateOtpTimer();
         // Update state
-        emit(state.copyWith(
-            otpValueInfo: OTPValueInfo(),
-            generateOtpStatus: RequestStatusFailed(e)));
+        emit(state.copyWith(generateOtpStatus: RequestStatusFailed(e)));
       }
       _isGenerateOtpSubmitting = false;
     });
