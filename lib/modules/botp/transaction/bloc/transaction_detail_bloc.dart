@@ -137,7 +137,9 @@ class TransactionDetailBloc
           emit(state.copyWith(
               generateOtpStatus: RequestStatusSuccess(),
               otpValueInfo: OTPValueInfo(
-                  value: otpValue, remainingSecond: otpRemainingTime)));
+                  value: otpValue,
+                  remainingSecond: otpRemainingTime,
+                  totalSeconds: otpPeriodSecond)));
         }
       } on Exception catch (e) {
         // Stop the timer

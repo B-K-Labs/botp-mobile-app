@@ -103,6 +103,7 @@ class OTPSessionSecretInfo {
 class OTPValueInfo {
   String value;
   int remainingSecond;
+  int totalSeconds;
   bool notAvailable;
   OTPValueStatus get status => notAvailable
       ? OTPValueStatus.notAvailable
@@ -115,7 +116,10 @@ class OTPValueInfo {
                   : OTPValueStatus.expired;
   countdown() => remainingSecond > -1 ? remainingSecond -= 1 : remainingSecond;
   OTPValueInfo(
-      {this.value = "", this.remainingSecond = -1, this.notAvailable = false});
+      {this.value = "",
+      this.remainingSecond = -1,
+      this.totalSeconds = -1,
+      this.notAvailable = false});
   OTPValueInfo copyWith(
           {String? value, int? remainingSecond, bool? notAvailable}) =>
       OTPValueInfo(

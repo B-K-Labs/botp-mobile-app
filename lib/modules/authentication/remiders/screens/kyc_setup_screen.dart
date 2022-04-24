@@ -1,6 +1,6 @@
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/routing_param.dart';
-import 'package:botp_auth/constants/theme.dart';
+import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/widgets/button.dart';
 import "package:flutter/material.dart";

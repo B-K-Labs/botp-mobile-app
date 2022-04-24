@@ -3,7 +3,7 @@ import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
-import 'package:botp_auth/constants/theme.dart';
+import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/modules/botp/transaction/bloc/transaction_detail_bloc.dart';
 import 'package:botp_auth/modules/botp/transaction/bloc/transaction_detail_event.dart';
@@ -115,7 +115,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
                               }))
           ]);
           break;
-        case TransactionStatus.success:
+        case TransactionStatus.succeeded:
           _returnActionButtons = ButtonNormalWidget(
               text: "Go to home",
               onPressed: () {

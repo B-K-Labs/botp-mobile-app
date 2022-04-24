@@ -1,4 +1,4 @@
-import 'package:botp_auth/constants/theme.dart';
+import 'package:botp_auth/constants/common.dart';
 import 'package:flutter/material.dart';
 
 void showSnackBar(context, message, [SnackBarType type = SnackBarType.error]) {

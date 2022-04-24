@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:botp_auth/constants/theme.dart';
+import 'package:botp_auth/constants/common.dart';
 
 // Normal Button
 class ButtonNormalWidget extends StatelessWidget {

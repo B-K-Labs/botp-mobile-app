@@ -1,7 +1,7 @@
 enum TransactionStatus {
   requesting,
   pending,
-  success,
+  succeeded,
   failed,
   all,
 }

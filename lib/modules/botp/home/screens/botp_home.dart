@@ -1,4 +1,4 @@
-import 'package:botp_auth/constants/theme.dart';
+import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/modules/botp/authenticator/screens/authenticator_body.dart';
 import 'package:botp_auth/modules/botp/history/screens/history_body.dart';
 import 'package:botp_auth/modules/botp/settings/home/screens/settings_body.dart';

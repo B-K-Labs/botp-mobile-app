@@ -33,18 +33,6 @@ enum ButtonIconType { primaryOutlined, secondaryGhost, error }
 enum ButtonIconSize { big, normal }
 enum ButtonIconShape { normal, round }
 
-// Settings
-
-enum SettingsOptionType {
-  textNormalValue,
-  textMultilineValue,
-  textCustomWidgetValue,
-  buttonToggleable,
-  buttonTextOneSide,
-  buttonNavigable,
-  buttonSelectable
-}
-
 // Toast
 enum SnackBarType {
   info,

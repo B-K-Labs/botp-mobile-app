@@ -1,10 +1,11 @@
 import 'package:botp_auth/common/models/common_model.dart';
-import 'package:botp_auth/constants/theme.dart';
+import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/utils/helpers/transaction.dart';
 import 'package:botp_auth/widgets/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletons/skeletons.dart';
+import 'dart:math' as math;
 
 class _TransactionStatusWidget extends StatelessWidget {
   final TransactionStatus status;
@@ -29,7 +30,7 @@ class _TransactionStatusWidget extends StatelessWidget {
         _primary = Theme.of(context).colorScheme.onPrimaryContainer;
         _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
         break;
-      case TransactionStatus.success:
+      case TransactionStatus.succeeded:
         _primary = Theme.of(context).colorScheme.onSecondaryContainer;
         _backgroundColor = Theme.of(context).colorScheme.secondaryContainer;
         break;
@@ -201,11 +202,11 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
         break;
       case OTPValueStatus.nearlyExpired:
         _primary = Theme.of(context).colorScheme.error;
-        _backgroundColor = Theme.of(context).colorScheme.error;
+        _backgroundColor = Theme.of(context).colorScheme.errorContainer;
         break;
       case OTPValueStatus.expired:
         _primary = Theme.of(context).colorScheme.error;
-        _backgroundColor = Theme.of(context).colorScheme.error;
+        _backgroundColor = Theme.of(context).colorScheme.errorContainer;
         break;
       case OTPValueStatus.notAvailable:
         _primary = Theme.of(context).colorScheme.error;
@@ -213,7 +214,7 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
         break;
       default: // Not available
         _primary = Theme.of(context).colorScheme.outline;
-        _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
+        _backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
         break;
     }
     // - Border
@@ -279,8 +280,31 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
                 // If no error
                 [OTPValueStatus.valid, OTPValueStatus.nearlyExpired]
                         .contains(otpValueInfo.status)
-                    ? Text(otpValueInfo.remainingSecond.toString() + "s left",
-                        style: _captionStyle?.copyWith(color: _primary))
+                    ? Row(children: [
+                        Text(otpValueInfo.remainingSecond.toString() + "s left",
+                            style: _captionStyle?.copyWith(color: _primary)),
+                        const SizedBox(width: kAppPaddingBetweenItemSmallSize),
+                        Center(
+                            child: Container(
+                                padding: const EdgeInsets.only(right: 6.0),
+                                child: SizedBox(
+                                    width: 12,
+                                    height: 12,
+                                    child:
+                                        // Flip the circular
+                                        Transform(
+                                            alignment: Alignment.center,
+                                            transform:
+                                                Matrix4.rotationY(math.pi),
+                                            child: CircularProgressIndicator(
+                                              value:
+                                                  otpValueInfo.remainingSecond /
+                                                      otpValueInfo.totalSeconds,
+                                              strokeWidth: 12,
+                                              backgroundColor: _backgroundColor,
+                                              color: _primary,
+                                            )))))
+                      ])
                     : Text(
                         otpValueInfo.status == OTPValueStatus.expired
                             ? "Request for generating OTP"
