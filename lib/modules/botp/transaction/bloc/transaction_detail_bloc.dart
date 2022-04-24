@@ -92,7 +92,6 @@ class TransactionDetailBloc
 
     // 2. Generate OTP
     on<TransactionDetailEventGenerateOTPAndSetupTimer>((event, emit) async {
-      print("Called");
       if (isClosed || _isGenerateOtpSubmitting) return;
       _isGenerateOtpSubmitting = true;
       try {
@@ -101,13 +100,9 @@ class TransactionDetailBloc
             .contains(state.otpValueInfo.status)) {
           final newOtpValueInfo = state.otpValueInfo;
           newOtpValueInfo.countdown();
-          print(newOtpValueInfo.status);
-          print(newOtpValueInfo.value);
-          print(newOtpValueInfo.remainingSecond);
           if (newOtpValueInfo.status != OTPValueStatus.expired) {
             emit(state.copyWith(otpValueInfo: newOtpValueInfo));
             _isGenerateOtpSubmitting = false;
-            print("Skip generating new otp");
             return;
           }
         }
@@ -156,8 +151,8 @@ class TransactionDetailBloc
     on<TransactionDetailEventConfirmTransaction>((event, emit) async {
       if (_isUserRequestSubmitting) return;
       _isUserRequestSubmitting = true;
-      emit(state.copyWith(userRequestStatus: RequestStatusSubmitting()));
       try {
+        emit(state.copyWith(userRequestStatus: RequestStatusSubmitting()));
         final accountData = await UserData.getCredentialAccountData();
         final confirmTransactionResult =
             await authenticatorRepository.confirmTransaction(
@@ -183,10 +178,10 @@ class TransactionDetailBloc
       if (_isUserRequestSubmitting) return;
       _isUserRequestSubmitting = true;
       try {
+        emit(state.copyWith(userRequestStatus: RequestStatusSubmitting()));
         final accountData = await UserData.getCredentialAccountData();
         await authenticatorRepository.denyTransaction(
             otpSessionSecretInfo.secretId, accountData!.password);
-        emit(state.copyWith(userRequestStatus: RequestStatusSuccess()));
         // Clean message
         _removeSecretMessage(otpSessionSecretInfo.secretId);
         // Change to failed
@@ -207,10 +202,10 @@ class TransactionDetailBloc
       if (_isUserRequestSubmitting) return;
       _isUserRequestSubmitting = true;
       try {
+        emit(state.copyWith(userRequestStatus: RequestStatusSubmitting()));
         final accountData = await UserData.getCredentialAccountData();
         await authenticatorRepository.cancelTransaction(
             otpSessionSecretInfo.secretId, accountData!.password);
-        emit(state.copyWith(userRequestStatus: RequestStatusSuccess()));
         // Clean message
         _removeSecretMessage(otpSessionSecretInfo.secretId);
         // Change to failed

@@ -22,11 +22,13 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
       : super(AuthenticatorState()) {
     on<AuthenticatorEventTransacionStatusChanged>((event, emit) =>
         emit(state.copyWith(transactionStatus: event.transactionStatus)));
+
     on<AuthenticatorEventPaginationChanged>((event, emit) => emit(
         state.copyWith(
             paginationInfo: PaginationInfo(
                 currentPage: event.currentPage,
                 totalPage: state.paginationInfo!.totalPage))));
+
     on<AuthenticatorEventGetTransactionsList>((event, emit) async {
       if (_isGettingTransactionsList) return;
       _isGettingTransactionsList = true;
@@ -45,5 +47,11 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
       }
       _isGettingTransactionsList = false;
     });
+  }
+
+  refreshTransactionsList() async {
+    add(AuthenticatorEventGetTransactionsList());
+    await stream.first; // Submitting
+    await stream.first; // Success
   }
 }

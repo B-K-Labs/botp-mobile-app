@@ -65,21 +65,26 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
             Expanded(
                 child: ButtonNormalWidget(
                     text: "Reject",
-                    onPressed: () {
-                      context
-                          .read<TransactionDetailBloc>()
-                          .add(TransactionDetailEventRejectTransaction());
-                    },
+                    onPressed: state.userRequestStatus
+                            is RequestStatusSubmitting
+                        ? null
+                        : () {
+                            context
+                                .read<TransactionDetailBloc>()
+                                .add(TransactionDetailEventRejectTransaction());
+                          },
                     type: ButtonNormalType.errorOutlined)),
             const SizedBox(width: kAppPaddingBetweenItemSmallSize),
             Expanded(
                 child: ButtonNormalWidget(
               text: "Confirm",
-              onPressed: () {
-                context
-                    .read<TransactionDetailBloc>()
-                    .add(TransactionDetailEventConfirmTransaction());
-              },
+              onPressed: state.userRequestStatus is RequestStatusSubmitting
+                  ? null
+                  : () {
+                      context
+                          .read<TransactionDetailBloc>()
+                          .add(TransactionDetailEventConfirmTransaction());
+                    },
             ))
           ]);
           break;
@@ -88,19 +93,25 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
             Expanded(
                 child: ButtonNormalWidget(
                     text: "Cancel",
-                    onPressed: () {
-                      context
-                          .read<TransactionDetailBloc>()
-                          .add(TransactionDetailEventCancelTransaction());
-                    },
+                    onPressed: state.userRequestStatus
+                            is RequestStatusSubmitting
+                        ? null
+                        : () {
+                            context
+                                .read<TransactionDetailBloc>()
+                                .add(TransactionDetailEventCancelTransaction());
+                          },
                     type: ButtonNormalType.errorOutlined)),
             const SizedBox(width: kAppPaddingBetweenItemSmallSize),
             Expanded(
                 child: ButtonNormalWidget(
                     text: "Go to home",
-                    onPressed: () {
-                      Application.router.pop(context);
-                    }))
+                    onPressed:
+                        state.userRequestStatus is RequestStatusSubmitting
+                            ? null
+                            : () {
+                                Application.router.pop(context);
+                              }))
           ]);
           break;
         case TransactionStatus.success:
@@ -164,9 +175,7 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
               otpValueInfo: otpValueInfo,
             )),
         const SizedBox(height: kAppPaddingBetweenItemNormalSize),
-      ])
-          // Skeleton view
-          ;
+      ]);
     });
   }
 
