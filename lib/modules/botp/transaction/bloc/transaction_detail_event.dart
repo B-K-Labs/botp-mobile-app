@@ -9,13 +9,14 @@ class TransactionDetailEventGetTransactionDetailAndRunSetupTimers
     extends TransactionDetailEvent {}
 
 // Generate OTP
-class TransactionDetailEventGenerateOTP extends TransactionDetailEvent {}
+class TransactionDetailEventGenerateOTPAndSetupTimer
+    extends TransactionDetailEvent {}
 
 // Timers
 class TransactionDetailEventSetupGetTransactionDetailTimer
     extends TransactionDetailEvent {}
 
-class TransactionDetailEventSetupAndRunGenerateOTPTimer
+class TransactionDetailEventSetupGenerateOTPTimer
     extends TransactionDetailEvent {}
 
 // Request transaction

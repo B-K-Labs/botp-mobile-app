@@ -13,6 +13,7 @@ import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletons/skeletons.dart';
 
 class TransactionDetailsScreen extends StatelessWidget {
   final TransactionDetail transactionDetail;
@@ -138,6 +139,7 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
       return Expanded(
           child: SingleChildScrollView(
               child: Column(mainAxisSize: MainAxisSize.min, children: [
+        const SizedBox(height: kAppPaddingBetweenItemNormalSize),
         // Show OTP only in the pending state
         otpSessionInfo?.transactionStatus == TransactionStatus.pending
             ? _transactionOTP()
@@ -153,18 +155,38 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
     return BlocBuilder<TransactionDetailBloc, TransactionDetailState>(
         builder: (context, state) {
       final otpValueInfo = state.otpValueInfo;
-      return otpValueInfo.status != OTPValueStatus.notAvailable
-          ? Column(children: [
-              const SizedBox(height: 24.0),
-              Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: kAppPaddingHorizontalAndBottomSize),
-                  child: TransactionOTPWidget(
-                      otpValueInfo: OTPValueInfo(
-                          value: otpValueInfo.value,
-                          remainingSecond: otpValueInfo.remainingSecond)))
-            ])
-          : Container();
+      final error = state.generateOtpStatus is RequestStatusFailed
+          ? state.generateOtpStatus.toString()
+          : "";
+      return Column(children: [
+        otpValueInfo.status != OTPValueStatus.notAvailable
+            ? Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: kAppPaddingHorizontalAndBottomSize),
+                child: TransactionOTPWidget(
+                  otpValueInfo: OTPValueInfo(
+                      value: otpValueInfo.value,
+                      remainingSecond: otpValueInfo.remainingSecond,
+                      error: error),
+                ))
+            : Expanded(
+                child: SkeletonParagraph(
+                  style: SkeletonParagraphStyle(
+                      lines: 3,
+                      spacing: 6,
+                      lineStyle: SkeletonLineStyle(
+                        randomLength: true,
+                        height: 10,
+                        borderRadius: BorderRadius.circular(8),
+                        minLength: MediaQuery.of(context).size.width / 6,
+                        maxLength: MediaQuery.of(context).size.width / 3,
+                      )),
+                ),
+              ),
+        const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+      ])
+          // Skeleton view
+          ;
     });
   }
 
@@ -174,7 +196,6 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
       final otpSessionInfo = state.otpSessionInfo;
       return otpSessionInfo != null
           ? Column(children: [
-              const SizedBox(height: 24.0),
               Container(
                   padding: const EdgeInsets.symmetric(
                       horizontal: kAppPaddingHorizontalAndBottomSize),
@@ -185,7 +206,8 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
                     agentBcAddress: otpSessionInfo.agentBcAddress,
                     timestamp: otpSessionInfo.timestamp,
                     transactionStatus: otpSessionInfo.transactionStatus,
-                  ))
+                  )),
+              const SizedBox(height: kAppPaddingBetweenItemNormalSize),
             ])
           : Container();
     });
@@ -197,12 +219,12 @@ class _TransactionDetailsBodyState extends State<TransactionDetailsBody> {
       final otpSessionInfo = state.otpSessionInfo;
       return otpSessionInfo != null
           ? Column(children: [
-              const SizedBox(height: 24.0),
               Container(
                   padding: const EdgeInsets.symmetric(
                       horizontal: kAppPaddingHorizontalAndBottomSize),
                   child: TransactionNotifyMessageWidget(
-                      notifyMessage: otpSessionInfo.notifyMessage))
+                      notifyMessage: otpSessionInfo.notifyMessage)),
+              const SizedBox(height: kAppPaddingBetweenItemNormalSize),
             ])
           : Container();
     });

@@ -4,7 +4,7 @@ import 'package:botp_auth/constants/transaction.dart';
 
 class AuthenticatorState {
   // Filter
-  TransactionStatus transactionStatus;
+  TransactionStatus? transactionStatus;
   // Pagination
   PaginationInfo? paginationInfo;
   // Transactions list
@@ -12,7 +12,7 @@ class AuthenticatorState {
   RequestStatus getTransactionListStatus;
 
   AuthenticatorState(
-      {this.transactionStatus = TransactionStatus.requesting,
+      {this.transactionStatus,
       this.paginationInfo,
       this.transactionsList = const [],
       this.getTransactionListStatus = const RequestStatusInitial()});

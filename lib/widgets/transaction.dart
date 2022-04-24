@@ -173,8 +173,9 @@ class TransactionItemWidget extends StatelessWidget {
 
 class TransactionOTPWidget extends StatefulWidget {
   final OTPValueInfo otpValueInfo;
+  final VoidCallback? onTap;
 
-  const TransactionOTPWidget({Key? key, required this.otpValueInfo})
+  const TransactionOTPWidget({Key? key, required this.otpValueInfo, this.onTap})
       : super(key: key);
 
   @override
@@ -197,11 +198,11 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
         _primary = Theme.of(context).colorScheme.primary;
         _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
         break;
-      case OTPValueStatus.nearlyDead:
+      case OTPValueStatus.nearlyExpired:
         _primary = Theme.of(context).colorScheme.error;
         _backgroundColor = Theme.of(context).colorScheme.error;
         break;
-      case OTPValueStatus.dead:
+      case OTPValueStatus.expired:
         _primary = Theme.of(context).colorScheme.error;
         _backgroundColor = Theme.of(context).colorScheme.error;
         break;
@@ -219,28 +220,42 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
         .textTheme
         .caption
         ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
-
-    return Container(
-        decoration: BoxDecoration(
-            border: _border,
-            borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
-        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 24.0),
-        child: Column(children: [
-          Text("OTP", style: Theme.of(context).textTheme.headline6),
-          const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-          Divider(height: 1.0, color: Theme.of(context).colorScheme.outline),
-          const SizedBox(height: kAppPaddingBetweenItemLargeSize),
-          Column(children: [
-            Text(widget.otpValueInfo.value, style: _otpStyle),
+    final otpValueInfo = widget.otpValueInfo;
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: Container(
+          decoration: BoxDecoration(
+              border: _border,
+              borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
+          padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 24.0),
+          child: Column(children: [
+            Text("OTP", style: Theme.of(context).textTheme.headline6),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-            Text("Tap to copy OTP", style: _captionStyle)
-          ]),
-          const SizedBox(height: kAppPaddingBetweenItemVeryLargeSize),
-          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            Text(widget.otpValueInfo.remainingSecond.toString() + "s left",
-                style: _captionStyle?.copyWith(color: _primary))
-          ]),
-        ]));
+            Divider(height: 1.0, color: Theme.of(context).colorScheme.outline),
+            const SizedBox(height: kAppPaddingBetweenItemLargeSize),
+            Column(children: [
+              Text(otpValueInfo.value, style: _otpStyle),
+              const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+              Text("Tap to copy OTP", style: _captionStyle)
+            ]),
+            const SizedBox(height: kAppPaddingBetweenItemVeryLargeSize),
+            Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              // If no error
+              [OTPValueStatus.valid, OTPValueStatus.nearlyExpired]
+                      .contains(otpValueInfo.status)
+                  ? Text(otpValueInfo.remainingSecond.toString() + "s left",
+                      style: _captionStyle?.copyWith(color: _primary))
+                  : otpValueInfo.status == OTPValueStatus.expired
+                      ? Text("Waiting for new OTP",
+                          style: _captionStyle?.copyWith(color: _primary))
+                      : Text(
+                          otpValueInfo.error.isNotEmpty
+                              ? otpValueInfo.error
+                              : "Generating OTP",
+                          style: _captionStyle?.copyWith(color: _primary))
+            ]),
+          ])),
+    );
   }
 }
 

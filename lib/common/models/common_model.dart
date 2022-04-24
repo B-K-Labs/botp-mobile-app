@@ -94,28 +94,31 @@ class OTPSessionSecretInfo {
   String? secretMessage;
   OTPSessionSecretInfo({required this.secretId});
   OTPSessionSecretInfo.fromJSON(Map<String, dynamic> json)
-      : secretId = json["_id"],
+      : secretId = json["_id"], // (update) Khiem's mongo id
         secretMessage = null;
-  setSecretMessage(String secretMessage) => this.secretMessage = secretMessage;
+  setSecretMessage(String? secretMessage) => this.secretMessage = secretMessage;
   clearSecretMessage() => secretMessage = null;
 }
 
 class OTPValueInfo {
   String value;
   int remainingSecond;
-  OTPValueStatus get status => value.isEmpty
+  String error;
+  OTPValueStatus get status => value.isEmpty || error.isNotEmpty
       ? OTPValueStatus.notAvailable
       : remainingSecond > otpRemainingSecondThreshold
           ? OTPValueStatus.valid
           : remainingSecond > 0
-              ? OTPValueStatus.nearlyDead
-              : OTPValueStatus.dead;
+              ? OTPValueStatus.nearlyExpired
+              : OTPValueStatus.expired;
   void setInvalid() => value = "";
-  countdown() => remainingSecond -= 1;
-  OTPValueInfo({this.value = "", this.remainingSecond = 0});
-  OTPValueInfo copyWith({String? value, int? remainingSecond}) => OTPValueInfo(
-      value: value ?? this.value,
-      remainingSecond: remainingSecond ?? this.remainingSecond);
+  countdown() => remainingSecond > 0 ? remainingSecond -= 1 : remainingSecond;
+  OTPValueInfo({this.value = "", this.remainingSecond = 0, this.error = ""});
+  OTPValueInfo copyWith({String? value, int? remainingSecond, String? error}) =>
+      OTPValueInfo(
+          value: value ?? this.value,
+          remainingSecond: remainingSecond ?? this.remainingSecond,
+          error: error ?? this.error);
 }
 
 class TransactionDetail {

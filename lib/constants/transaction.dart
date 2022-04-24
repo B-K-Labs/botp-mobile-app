@@ -25,8 +25,8 @@ extension ToTransactionStatusType on String {
 enum OTPValueStatus {
   notAvailable,
   valid,
-  nearlyDead,
-  dead,
+  nearlyExpired,
+  expired,
 }
 
 enum TransactionRequestAction {
