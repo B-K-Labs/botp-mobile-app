@@ -4,10 +4,10 @@ abstract class AuthenticatorEvent {
   const AuthenticatorEvent();
 }
 
-class AuthenticatorEventTransacionStatusChanged extends AuthenticatorEvent {
+class AuthenticatorEventTransactionStatusChanged extends AuthenticatorEvent {
   TransactionStatus? transactionStatus;
 
-  AuthenticatorEventTransacionStatusChanged({this.transactionStatus});
+  AuthenticatorEventTransactionStatusChanged({this.transactionStatus});
 }
 
 class AuthenticatorEventPaginationChanged extends AuthenticatorEvent {
@@ -16,4 +16,8 @@ class AuthenticatorEventPaginationChanged extends AuthenticatorEvent {
   AuthenticatorEventPaginationChanged({this.currentPage = 1});
 }
 
-class AuthenticatorEventGetTransactionsList extends AuthenticatorEvent {}
+class AuthenticatorEventGetTransactionsListAndSetupTimer
+    extends AuthenticatorEvent {}
+
+class AuthenticatorEventSetupGetTransactionsListTimer
+    extends AuthenticatorEvent {}

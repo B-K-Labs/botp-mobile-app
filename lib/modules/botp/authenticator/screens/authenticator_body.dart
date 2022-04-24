@@ -26,7 +26,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
         create: (context) => AuthenticatorBloc(
             authenticatorRepository: context.read<AuthenticatorRepository>())
           // https://stackoverflow.com/questions/62648103/triggering-initial-event-in-bloc
-          ..add(AuthenticatorEventGetTransactionsList()),
+          ..add(AuthenticatorEventGetTransactionsListAndSetupTimer()),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -49,7 +49,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
               onPressed: () {
                 context
                     .read<AuthenticatorBloc>()
-                    .add(AuthenticatorEventGetTransactionsList());
+                    .add(AuthenticatorEventGetTransactionsListAndSetupTimer());
               }));
     });
   }

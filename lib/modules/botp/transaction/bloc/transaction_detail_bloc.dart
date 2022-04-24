@@ -13,10 +13,10 @@ class TransactionDetailBloc
     extends Bloc<TransactionDetailEvent, TransactionDetailState> {
   AuthenticatorRepository authenticatorRepository;
   // Timer
-  final periodGetTransactionDetail = 10;
+  final periodGetTransactionDetail = socketPeriodSecond;
   final periodOtp = 1;
   // Otp generator
-  final period = 8; // otpPeriod;
+  final period = otpPeriodSecond; // otpPeriod;
   final digits = otpDigits;
   final algorithm = otpAlgorithm;
   final countdown = 1;

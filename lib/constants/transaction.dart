@@ -43,3 +43,6 @@ const otpRemainingSecondThreshold = 3.0;
 const otpDigits = 8;
 const otpPeriodSecond = 120;
 const otpAlgorithm = "SHA-512";
+
+// Socket simulation
+const socketPeriodSecond = 10;
