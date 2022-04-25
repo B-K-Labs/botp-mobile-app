@@ -117,7 +117,9 @@ class _SettingsBodyState extends State<SettingsBody> {
   Widget _generateSettingsCategoriesList() {
     List<Widget> categoriesList = [
       _generateSettingsCategoryItem(Icons.person, "Account", "Account, Profile",
-          () {}, DecorationIconColorType.primary),
+          () {
+        Application.router.navigateTo(context, "/botp/settings/account");
+      }, DecorationIconColorType.primary),
       _generateSettingsCategoryItem(
           Icons.security,
           "Security",

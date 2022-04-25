@@ -34,7 +34,7 @@ class AppBarWidget {
       case AppBarType.authenticator:
         return AppBar(
           automaticallyImplyLeading: false,
-          title: title != null ? Text(title) : null,
+          title: const Text("BOTP Authenticator"),
           titleTextStyle: Theme.of(context)
               .textTheme
               .headline6
@@ -51,11 +51,11 @@ class AppBarWidget {
       case AppBarType.history:
         return AppBar(
           automaticallyImplyLeading: false,
-          title: title != null ? Text(title) : null,
+          title: const Text("History"),
           titleTextStyle: Theme.of(context)
               .textTheme
               .headline6
-              ?.copyWith(fontWeight: FontWeight.normal),
+              ?.copyWith(color: Theme.of(context).colorScheme.primary),
           centerTitle: true,
           elevation: 0,
           backgroundColor: Colors.transparent,

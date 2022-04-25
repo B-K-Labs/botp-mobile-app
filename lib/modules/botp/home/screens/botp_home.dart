@@ -37,20 +37,17 @@ class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
       appBar: _selectedIndex == 0
           ? AppBarWidget.generate(context,
               type: AppBarType.authenticator,
-              title: "BOTP Authenticator",
               // TODO: read user avatar
               // avatarUrl:,
               onPressedAvatar: () {})
           : _selectedIndex == 1
-              ? AppBarWidget.generate(context,
-                  type: AppBarType.history, title: "Provenance")
+              ? AppBarWidget.generate(context, type: AppBarType.history)
               : null,
       body: SafeArea(bottom: true, child: _getSelectedWidget()),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.search), label: "Provenance"),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: "History"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account")
         ],
         currentIndex: _selectedIndex,

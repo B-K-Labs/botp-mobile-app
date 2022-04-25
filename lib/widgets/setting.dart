@@ -135,7 +135,7 @@ class SettingsCategoryWidget extends StatelessWidget {
                 Text(description, style: _descriptionStyle)
               ])),
           Icon(Icons.arrow_forward_ios,
-              color: Theme.of(context).colorScheme.onSurfaceVariant, size: 16.0)
+              color: Theme.of(context).colorScheme.onSurfaceVariant)
         ]));
   }
 }
