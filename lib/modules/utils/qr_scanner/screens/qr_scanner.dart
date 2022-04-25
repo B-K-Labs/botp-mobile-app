@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/configs/themes/color_palette.dart';
 import 'package:botp_auth/constants/common.dart';
+import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -197,8 +198,14 @@ class _QRScannerFunctionalityOverlayState
                 final XFile? image =
                     await _picker.pickImage(source: ImageSource.gallery);
                 final imagePath = image?.path;
+                // If user chose an image
                 if (imagePath != null) {
-                  widget.cameraController.analyzeImage(imagePath);
+                  final analyzeQrImageResult =
+                      await widget.cameraController.analyzeImage(imagePath);
+                  if (!analyzeQrImageResult) {
+                    showSnackBar(
+                        context, "Invalid QR image. Please try another image.");
+                  }
                 }
               },
               size: ButtonNormalSize.normal,
