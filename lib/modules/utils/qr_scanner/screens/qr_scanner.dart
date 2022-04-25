@@ -203,8 +203,8 @@ class _QRScannerFunctionalityOverlayState
                   final analyzeQrImageResult =
                       await widget.cameraController.analyzeImage(imagePath);
                   if (!analyzeQrImageResult) {
-                    showSnackBar(context,
-                        "Inv alid QR image. Please try another image.");
+                    showSnackBar(
+                        context, "Invalid QR image. Please try another image.");
                   }
                 }
               },
