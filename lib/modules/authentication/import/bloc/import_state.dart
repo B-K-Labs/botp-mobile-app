@@ -7,7 +7,7 @@ class ImportState {
   String? get validatePrivateKey => privateKeyValidator(privateKey);
   // Password
   final String newPassword;
-  String? get validateNewPassword => passwordNormalValidator(newPassword);
+  String? get validateNewPassword => passwordStrictValidator(newPassword);
   // Form status
   final RequestStatus formStatus;
   // Qr scan
