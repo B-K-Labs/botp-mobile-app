@@ -89,7 +89,6 @@ class _QRScannerOverlayState extends State<QRScannerOverlay> {
   late int _qrBoxBarPosition;
   late Timer _qrBoxBarTimer;
   bool _qrBoxBarHitTop = true;
-  bool _qrBoxBarReady = false;
   @override
   void initState() {
     super.initState();
@@ -99,7 +98,6 @@ class _QRScannerOverlayState extends State<QRScannerOverlay> {
         Timer.periodic(const Duration(milliseconds: 1500), (Timer timer) {
       _qrBoxBarHitTop = !_qrBoxBarHitTop;
     });
-    _qrBoxBarReady = true;
   }
 
   @override
