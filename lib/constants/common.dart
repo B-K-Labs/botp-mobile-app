@@ -48,9 +48,14 @@ const boxShadowBlurRadius = 30.0;
 const boxShadowOpacity = 0.1;
 
 // Decorated icon color
-enum DecorationIconColorType {
+enum DecoratedIconColorType {
   primary,
   secondary,
   error,
   tertiary,
+}
+
+enum DecoratedIconSize {
+  normal,
+  small,
 }

@@ -112,39 +112,31 @@ class _SettingsBodyState extends State<SettingsBody> {
   Widget _generateShadowSettingsCategoryItem() => Container(
       padding:
           const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
-      child: const ShadowSettingsCategoryItem());
+      child: const ShadowSettingsCategoryWidget());
 
   Widget _generateSettingsCategoriesList() {
     List<Widget> categoriesList = [
       _generateSettingsCategoryItem(Icons.person, "Account", "Account, Profile",
           () {
         Application.router.navigateTo(context, "/botp/settings/account");
-      }, DecorationIconColorType.primary),
+      }, DecoratedIconColorType.primary),
       _generateSettingsCategoryItem(
           Icons.security,
           "Security",
           "Password, Biometrics, Sign-out",
           () {},
-          DecorationIconColorType.error),
+          DecoratedIconColorType.error),
       _generateSettingsCategoryItem(
           Icons.settings,
           "System",
           "Preferences, Notifications",
           () {},
-          DecorationIconColorType.secondary),
-      _generateSettingsCategoryItem(
-          Icons.info,
-          "About",
-          "Version, terms of services",
-          () {},
-          DecorationIconColorType.tertiary),
-      _generateSettingsCategoryItem(
-          Icons.arrow_back, "Sign out", "Sign out your account", () async {
-        await context.read<SessionCubit>().signOut();
-        Application.router.navigateTo(context, "/");
-      }, DecorationIconColorType.primary)
+          DecoratedIconColorType.secondary),
+      _generateSettingsCategoryItem(Icons.info, "About",
+          "Version, terms of services", () {}, DecoratedIconColorType.tertiary),
     ];
     return ListView.separated(
+        physics: const NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.symmetric(
             vertical: kAppPaddingBetweenItemSmallSize),
         itemCount: categoriesList.length,
@@ -155,12 +147,8 @@ class _SettingsBodyState extends State<SettingsBody> {
             ));
   }
 
-  Widget _generateSettingsCategoryItem(
-      IconData iconData,
-      String title,
-      String description,
-      Function() onTap,
-      DecorationIconColorType categoryType) {
+  Widget _generateSettingsCategoryItem(IconData iconData, String title,
+      String description, Function() onTap, DecoratedIconColorType colorType) {
     return Container(
         padding:
             const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
@@ -170,6 +158,6 @@ class _SettingsBodyState extends State<SettingsBody> {
                 iconData: iconData,
                 title: title,
                 description: description,
-                categoryType: categoryType)));
+                colorType: colorType)));
   }
 }

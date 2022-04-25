@@ -106,24 +106,56 @@ class AvatarWidget extends StatelessWidget {
 
 // Decorated icon
 class DecoratedIconWidget extends StatelessWidget {
-  final Color colorContainer;
-  final Color onColorContainer;
   final IconData iconData;
+  final DecoratedIconSize size;
+  final DecoratedIconColorType colorType;
+
   const DecoratedIconWidget(
       {Key? key,
-      required this.colorContainer,
-      required this.onColorContainer,
+      required this.colorType,
+      required this.size,
       required this.iconData})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Decorated icon theme
+    // - Color
+    final Color _onColorContainer;
+    final Color _colorContainer;
+    switch (colorType) {
+      case DecoratedIconColorType.primary:
+        _onColorContainer = Theme.of(context).colorScheme.onPrimaryContainer;
+        _colorContainer = Theme.of(context).colorScheme.primaryContainer;
+        break;
+      case DecoratedIconColorType.error:
+        _onColorContainer = Theme.of(context).colorScheme.onErrorContainer;
+        _colorContainer = Theme.of(context).colorScheme.errorContainer;
+        break;
+      case DecoratedIconColorType.secondary:
+        _onColorContainer = Theme.of(context).colorScheme.onSecondaryContainer;
+        _colorContainer = Theme.of(context).colorScheme.secondaryContainer;
+        break;
+      case DecoratedIconColorType.tertiary:
+        _onColorContainer = Theme.of(context).colorScheme.onTertiaryContainer;
+        _colorContainer = Theme.of(context).colorScheme.tertiaryContainer;
+        break;
+      default: // Account
+        _onColorContainer = Theme.of(context).colorScheme.onPrimaryContainer;
+        _colorContainer = Theme.of(context).colorScheme.primaryContainer;
+        break;
+    }
+    // - Size
+    final _containerSize = size == DecoratedIconSize.normal ? 48.0 : 36.0;
+    final _onContainerSize = size == DecoratedIconSize.normal ? 24.0 : 18.0;
+
     return Container(
         decoration: BoxDecoration(
-            color: colorContainer, borderRadius: BorderRadius.circular(100)),
-        width: 48.0,
-        height: 48.0,
-        child:
-            Center(child: Icon(iconData, color: onColorContainer, size: 24)));
+            color: _colorContainer, borderRadius: BorderRadius.circular(100)),
+        width: _containerSize,
+        height: _containerSize,
+        child: Center(
+            child: Icon(iconData,
+                color: _onColorContainer, size: _onContainerSize)));
   }
 }

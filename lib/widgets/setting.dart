@@ -67,44 +67,20 @@ class SettingsCategoryWidget extends StatelessWidget {
   final IconData iconData;
   final String title;
   final String description;
-  final DecorationIconColorType categoryType;
+  final DecoratedIconColorType colorType;
 
   const SettingsCategoryWidget(
       {Key? key,
       required this.iconData,
       required this.title,
       required this.description,
-      required this.categoryType})
+      required this.colorType})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // Category theme
-    // - Color
-    final Color _primary;
-    final Color _backgroundColor;
-    switch (categoryType) {
-      case DecorationIconColorType.primary:
-        _primary = Theme.of(context).colorScheme.onPrimaryContainer;
-        _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
-        break;
-      case DecorationIconColorType.error:
-        _primary = Theme.of(context).colorScheme.onErrorContainer;
-        _backgroundColor = Theme.of(context).colorScheme.errorContainer;
-        break;
-      case DecorationIconColorType.secondary:
-        _primary = Theme.of(context).colorScheme.onSecondaryContainer;
-        _backgroundColor = Theme.of(context).colorScheme.secondaryContainer;
-        break;
-      case DecorationIconColorType.tertiary:
-        _primary = Theme.of(context).colorScheme.onTertiaryContainer;
-        _backgroundColor = Theme.of(context).colorScheme.tertiaryContainer;
-        break;
-      default: // Account
-        _primary = Theme.of(context).colorScheme.onPrimaryContainer;
-        _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
-        break;
-    }
+
     // - Text
     final _titleStyle = Theme.of(context)
         .textTheme
@@ -117,12 +93,13 @@ class SettingsCategoryWidget extends StatelessWidget {
     return Container(
         decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surface,
+            // border: Border.all(color: Theme.of(context).colorScheme.outline),
             borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
         padding: _padding,
         child: Row(children: [
           DecoratedIconWidget(
-              colorContainer: _backgroundColor,
-              onColorContainer: _primary,
+              colorType: colorType,
+              size: DecoratedIconSize.small,
               iconData: iconData),
           const SizedBox(width: 24.0),
           Expanded(
@@ -135,20 +112,20 @@ class SettingsCategoryWidget extends StatelessWidget {
                 Text(description, style: _descriptionStyle)
               ])),
           Icon(Icons.arrow_forward_ios,
-              color: Theme.of(context).colorScheme.onSurfaceVariant)
+              color: Theme.of(context).colorScheme.onSurfaceVariant, size: 18.0)
         ]));
   }
 }
 
 // Shadow for category item
-class ShadowSettingsCategoryItem extends StatelessWidget {
-  const ShadowSettingsCategoryItem({Key? key}) : super(key: key);
+class ShadowSettingsCategoryWidget extends StatelessWidget {
+  const ShadowSettingsCategoryWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 80,
+      height: 70,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
         boxShadow: [
