@@ -51,7 +51,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
     return Container(
         padding: const EdgeInsets.symmetric(
             horizontal: kAppPaddingHorizontalAndBottomSize),
-        child: Column(children: [_profile()]));
+        child: _profile());
   }
 
   Widget _profile() {
@@ -75,12 +75,13 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
                 key: _formKey,
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                      Expanded(
+                          child: SingleChildScrollView(
+                              child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
                             const SizedBox(height: kAppPaddingTopSize),
                             Text("Full name",
                                 style: Theme.of(context).textTheme.bodyText1),
@@ -125,19 +126,20 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
                                 style: Theme.of(context).textTheme.bodyText1),
                             const SizedBox(height: 12.0),
                             _debitorField(),
-                          ]),
-                      Column(children: [
-                        Row(
-                          children: [
-                            Expanded(child: _cancelProfileButton()),
-                            const SizedBox(
-                                width: kAppPaddingBetweenItemSmallSize),
-                            Expanded(child: _editProfileButton()),
-                          ],
-                        ),
-                        const SizedBox(
-                            height: kAppPaddingHorizontalAndBottomSize)
-                      ])
+                          ]))),
+                      Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: kAppPaddingHorizontalAndBottomSize),
+                          child: Column(children: [
+                            Row(
+                              children: [
+                                Expanded(child: _cancelProfileButton()),
+                                const SizedBox(
+                                    width: kAppPaddingBetweenItemSmallSize),
+                                Expanded(child: _editProfileButton()),
+                              ],
+                            ),
+                          ]))
                     ]))));
   }
 
