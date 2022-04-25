@@ -33,8 +33,8 @@ class InitBody extends StatelessWidget {
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               SizedBox(
-                height: 150.0,
-                width: 150.0,
+                height: 120.0,
+                width: 120.0,
                 child: Image.asset("assets/images/temp/botp_temp.png",
                     scale: 1, fit: BoxFit.fitWidth),
               )

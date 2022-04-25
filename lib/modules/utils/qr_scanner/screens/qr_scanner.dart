@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -68,7 +70,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
       Center(
           child: Container(
               child: Text("Bar code is: $qrText",
-                  style: TextStyle(color: Colors.white)))),
+                  style: const TextStyle(color: Colors.white)))),
       ButtonNormalWidget(
           text: "Cancel",
           onPressed: () {
@@ -83,7 +85,7 @@ class QRScannerOverlay extends StatefulWidget {
   final double size;
   final Color color = Colors.black;
 
-  const QRScannerOverlay({Key? key, this.opacity = 0.5, this.size = 240})
+  const QRScannerOverlay({Key? key, this.opacity = 0.5, this.size = 300})
       : super(key: key);
 
   @override
@@ -97,47 +99,60 @@ class _QRScannerOverlayState extends State<QRScannerOverlay> {
     final height = MediaQuery.of(context).size.height;
     final overlayColor = widget.color.withOpacity(widget.opacity);
     final centerBoxSize = widget.size;
-    return Container(
-        width: width,
-        height: height,
-        child: Stack(children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                height: (height - centerBoxSize) / 2,
-                color: overlayColor,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    height: centerBoxSize,
-                    width: (width - centerBoxSize) / 2,
-                    color: overlayColor,
-                  ),
-                  Container(
-                    height: centerBoxSize,
-                    width: (width - centerBoxSize) / 2,
-                    color: overlayColor,
-                  ),
-                ],
-              ),
-              Container(
-                height: (height - centerBoxSize) / 2,
-                color: overlayColor,
-              ),
-            ],
-          ),
-          Center(
-              child: CustomPaint(
-            foregroundPainter: BorderPainter(),
-            child: SizedBox(
-              width: widget.size + 50,
-              height: widget.size + 50,
+    return Stack(children: [
+      SizedBox(
+          width: width,
+          height: height,
+          child: Stack(children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  height: (height - centerBoxSize) / 2,
+                  color: overlayColor,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      height: centerBoxSize,
+                      width: (width - centerBoxSize) / 2,
+                      color: overlayColor,
+                    ),
+                    Container(
+                      height: centerBoxSize,
+                      width: (width - centerBoxSize) / 2,
+                      color: overlayColor,
+                    ),
+                  ],
+                ),
+                Container(
+                  height: (height - centerBoxSize) / 2,
+                  color: overlayColor,
+                ),
+              ],
             ),
-          ))
-        ]));
+            Center(
+                child: CustomPaint(
+              foregroundPainter: BorderPainter(),
+              child: SizedBox(
+                width: widget.size + 50,
+                height: widget.size + 50,
+              ),
+            ))
+          ])),
+      Center(
+          child: SizedBox(
+              width: widget.size,
+              height: widget.size,
+              child: AnimatedPositioned(
+                  duration: const Duration(milliseconds: 1500),
+                  bottom: 0,
+                  child: Divider(
+                    thickness: 5,
+                    color: Theme.of(context).colorScheme.error,
+                  ))))
+    ]);
   }
 }
 
