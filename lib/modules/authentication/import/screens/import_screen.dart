@@ -41,8 +41,8 @@ class _ImportBodyState extends State<ImportBody> {
             authRepository: context.read<AuthenticationRepository>(),
             sessionCubit: context.read<SessionCubit>()),
         child: Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontal),
+            padding: const EdgeInsets.symmetric(
+                horizontal: kAppPaddingHorizontalSize),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

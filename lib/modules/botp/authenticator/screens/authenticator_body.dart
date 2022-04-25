@@ -7,7 +7,6 @@ import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_bloc.dar
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_event.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
-import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,8 +41,8 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
     return BlocBuilder<AuthenticatorBloc, AuthenticatorState>(
         builder: (context, state) {
       return Container(
-        padding: const EdgeInsets.symmetric(
-            horizontal: kAppPaddingHorizontalAndBottomSize),
+        padding:
+            const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
       );
     });
   }
@@ -107,7 +106,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
         },
         child: Container(
             padding: const EdgeInsets.symmetric(
-                horizontal: kAppPaddingHorizontalAndBottomSize),
+                horizontal: kAppPaddingHorizontalSize),
             child: TransactionItemWidget(
                 isNewest: false,
                 agentName: otpSessionInfo.agentName,
@@ -132,7 +131,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
   }
 
   Widget _generateBoxShadow() => Container(
-      padding: const EdgeInsets.symmetric(
-          horizontal: kAppPaddingHorizontalAndBottomSize),
+      padding:
+          const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
       child: const ShadowTransactionItemWidget());
 }

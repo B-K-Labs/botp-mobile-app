@@ -22,7 +22,8 @@ class ReminderKYCSetupBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontal),
+      padding:
+          const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,

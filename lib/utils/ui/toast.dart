@@ -24,9 +24,9 @@ void showSnackBar(context, message, [SnackBarType type = SnackBarType.error]) {
       borderRadius: BorderRadius.circular(BorderRadiusSize.small),
     ),
     margin: const EdgeInsets.only(
-        bottom: kAppPaddingHorizontalAndBottomSize,
-        right: kAppPaddingHorizontalAndBottomSize,
-        left: kAppPaddingHorizontalAndBottomSize),
+        bottom: kAppPaddingHorizontalSize,
+        right: kAppPaddingHorizontalSize,
+        left: kAppPaddingHorizontalSize),
   );
   ScaffoldMessenger.of(context).removeCurrentSnackBar();
   ScaffoldMessenger.of(context).showSnackBar(snackBar);

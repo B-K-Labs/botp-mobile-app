@@ -49,7 +49,8 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontal),
+        padding:
+            const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
         child: _profile());
   }
 

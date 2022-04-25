@@ -14,7 +14,6 @@ import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skeletons/skeletons.dart';
 
 class TransactionDetailScreen extends StatelessWidget {
   final TransactionDetail transactionDetail;
@@ -133,7 +132,9 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
           _returnActionButtons = Container(); // Null widget
       }
       return Container(
-          padding: const EdgeInsets.all(kAppPaddingHorizontalAndBottomSize),
+          padding: const EdgeInsets.symmetric(
+              horizontal: kAppPaddingHorizontalSize,
+              vertical: kAppPaddingBottomSize),
           child: _returnActionButtons);
     });
   }
@@ -181,7 +182,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
                   : Container(),
               _transactionDetail(),
               _transactionNotifyMessage(),
-              const SizedBox(height: kAppPaddingHorizontalAndBottomSize),
+              const SizedBox(height: kAppPaddingHorizontalSize),
             ])))
           : Container();
     });
@@ -200,7 +201,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
       return Column(children: [
         Container(
             padding: const EdgeInsets.symmetric(
-                horizontal: kAppPaddingHorizontalAndBottomSize),
+                horizontal: kAppPaddingHorizontalSize),
             child: TransactionOTPWidget(
                 otpValueInfo: otpValueInfo, onTap: _onTapOtp)),
         const SizedBox(height: kAppPaddingBetweenItemNormalSize),
@@ -222,7 +223,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
           ? Column(children: [
               Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: kAppPaddingHorizontalAndBottomSize),
+                      horizontal: kAppPaddingHorizontalSize),
                   child: TransactionDetailWidget(
                     agentName: otpSessionInfo.agentName,
                     agentIsVerified: otpSessionInfo.agentIsVerified,
@@ -246,7 +247,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
           ? Column(children: [
               Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: kAppPaddingHorizontalAndBottomSize),
+                      horizontal: kAppPaddingHorizontalSize),
                   child: TransactionNotifyMessageWidget(
                       notifyMessage: otpSessionInfo.notifyMessage)),
               const SizedBox(height: kAppPaddingBetweenItemNormalSize),
