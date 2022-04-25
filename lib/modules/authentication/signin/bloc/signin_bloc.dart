@@ -44,6 +44,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));
       }
+      emit(state.copyWith(formStatus: const RequestStatusInitial()));
       _isSubmitting = false;
     });
   }

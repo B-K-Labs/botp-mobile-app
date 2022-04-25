@@ -53,6 +53,8 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
       } on Exception catch (e) {
         emit(state.copyWith(getTransactionListStatus: RequestStatusFailed(e)));
       }
+      emit(state.copyWith(
+          getTransactionListStatus: const RequestStatusInitial()));
       _isGettingTransactionsListSubmitting = false;
     });
 

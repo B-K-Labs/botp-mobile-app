@@ -36,6 +36,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));
       }
+      emit(state.copyWith(formStatus: const RequestStatusInitial()));
       _isSubmitting = false;
     });
   }

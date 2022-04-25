@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/configs/routes/application.dart';
-import 'package:botp_auth/widgets/button.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:flutter/material.dart';
 
@@ -112,47 +110,45 @@ class _QRScannerOverlayState extends State<QRScannerOverlay> {
     final overlayColor = widget.color.withOpacity(widget.opacity);
     final centerBoxSize = widget.size;
     return Stack(children: [
-      SizedBox(
-          width: width,
-          height: height,
-          child: Stack(children: [
-            Column(
+      Stack(children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              height: (height - centerBoxSize) / 2,
+              color: overlayColor,
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  height: (height - centerBoxSize) / 2,
+                  height: centerBoxSize,
+                  width: (width - centerBoxSize) / 2,
                   color: overlayColor,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      height: centerBoxSize,
-                      width: (width - centerBoxSize) / 2,
-                      color: overlayColor,
-                    ),
-                    Container(
-                      height: centerBoxSize,
-                      width: (width - centerBoxSize) / 2,
-                      color: overlayColor,
-                    ),
-                  ],
-                ),
                 Container(
-                  height: (height - centerBoxSize) / 2,
+                  height: centerBoxSize,
+                  width: (width - centerBoxSize) / 2,
                   color: overlayColor,
                 ),
               ],
             ),
-            Center(
-                child: CustomPaint(
-              foregroundPainter: BorderPainter(),
-              child: SizedBox(
-                width: widget.size + widget.outerOffset,
-                height: widget.size + widget.outerOffset,
-              ),
-            ))
-          ])),
+            Container(
+              height: (height - centerBoxSize) / 2,
+              color: overlayColor,
+            ),
+          ],
+        ),
+        Center(
+            child: CustomPaint(
+          foregroundPainter: BorderPainter(),
+          child: SizedBox(
+            width: widget.size + widget.outerOffset,
+            height: widget.size + widget.outerOffset,
+          ),
+        ))
+      ]),
       Center(
           child: Container(
               width: widget.size,

@@ -148,6 +148,7 @@ class TransactionDetailBloc
         emit(state.copyWith(generateOtpStatus: RequestStatusFailed(e)));
       }
       _isGenerateOtpSubmitting = false;
+      emit(state.copyWith(generateOtpStatus: const RequestStatusInitial()));
     });
 
     // User request actions
@@ -170,10 +171,12 @@ class TransactionDetailBloc
         // Sync data
         emit(state.copyWith(userRequestStatus: RequestStatusSuccess()));
         _isUserRequestSubmitting = false;
+        emit(state.copyWith(userRequestStatus: const RequestStatusInitial()));
         add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers());
       } on Exception catch (e) {
         emit(state.copyWith(userRequestStatus: RequestStatusFailed(e)));
         _isUserRequestSubmitting = false;
+        emit(state.copyWith(userRequestStatus: const RequestStatusInitial()));
       }
     });
 
@@ -194,10 +197,12 @@ class TransactionDetailBloc
         // Sync data
         emit(state.copyWith(userRequestStatus: RequestStatusSuccess()));
         _isUserRequestSubmitting = false;
+        emit(state.copyWith(userRequestStatus: const RequestStatusInitial()));
         add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers());
       } on Exception catch (e) {
         emit(state.copyWith(userRequestStatus: RequestStatusFailed(e)));
         _isUserRequestSubmitting = false;
+        emit(state.copyWith(userRequestStatus: const RequestStatusInitial()));
       }
     });
 
@@ -218,10 +223,12 @@ class TransactionDetailBloc
         // Sync data
         emit(state.copyWith(userRequestStatus: RequestStatusSuccess()));
         _isUserRequestSubmitting = false;
+        emit(state.copyWith(userRequestStatus: const RequestStatusInitial()));
         add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers());
       } on Exception catch (e) {
         emit(state.copyWith(userRequestStatus: RequestStatusFailed(e)));
         _isUserRequestSubmitting = false;
+        emit(state.copyWith(userRequestStatus: const RequestStatusInitial()));
       }
     });
 

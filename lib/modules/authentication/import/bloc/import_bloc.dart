@@ -44,6 +44,7 @@ class ImportBloc extends Bloc<ImportEvent, ImportState> {
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));
       }
+      emit(state.copyWith(formStatus: const RequestStatusInitial()));
       _isSubmitting = false;
     });
 
@@ -59,6 +60,7 @@ class ImportBloc extends Bloc<ImportEvent, ImportState> {
             privateKey: event.scannedPrivateKey,
             scanQrStatus: RequestStatusSuccess()));
       }
+      emit(state.copyWith(scanQrStatus: const RequestStatusInitial()));
     });
   }
 }
