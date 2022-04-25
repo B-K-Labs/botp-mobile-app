@@ -9,7 +9,7 @@ import 'package:botp_auth/modules/botp/transaction/bloc/transaction_detail_bloc.
 import 'package:botp_auth/modules/botp/transaction/bloc/transaction_detail_event.dart';
 import 'package:botp_auth/modules/botp/transaction/bloc/transaction_detail_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
-import 'package:botp_auth/widgets/bars.dart';
+import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';

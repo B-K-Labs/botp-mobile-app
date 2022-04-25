@@ -6,8 +6,10 @@ import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_cubit.d
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_state.dart';
 import 'package:botp_auth/utils/helpers/account.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
+import 'package:botp_auth/widgets/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletons/skeletons.dart';
 
 class SettingsBody extends StatefulWidget {
   const SettingsBody({Key? key}) : super(key: key);
@@ -43,32 +45,13 @@ class _SettingsBodyState extends State<SettingsBody> {
       final fullName =
           state.fullName != null ? state.fullName! : state.guestName;
       return Column(children: [
-        // Avatar
-        state.avatarUrl != null
-            ? CircleAvatar(
-                backgroundImage: NetworkImage(state.avatarUrl!), radius: 80)
-            : CircleAvatar(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                radius: 80,
-              ),
-        const SizedBox(height: 18.0),
-        // FullName
-        Text(fullName, style: Theme.of(context).textTheme.headline6),
-        const SizedBox(height: 12.0),
-        // Blockchain address
-        state.bcAddress != null
-            ? Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                    Text(shortenBcAddress(state.bcAddress!)),
-                    IconButton(
-                        onPressed: () {
-                          context.read<SettingsHomeCubit>().copyBcAddress();
-                        },
-                        icon: const Icon(Icons.copy))
-                  ])
-            : const CircularProgressIndicator(),
+        const SizedBox(height: kAppPaddingTopSize),
+        state.bcAddress != null && state.fullName != null
+            ? SettingsHomeInfo(
+                avatarUrl: state.avatarUrl,
+                fullName: state.fullName!,
+                bcAddress: state.bcAddress!)
+            : SkeletonLine(style: SkeletonLineStyle())
       ]);
     }));
   }

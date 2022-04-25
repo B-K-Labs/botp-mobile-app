@@ -1,4 +1,5 @@
 import 'package:botp_auth/constants/common.dart';
+import 'package:botp_auth/widgets/setting.dart';
 import "package:flutter/material.dart";
 
 class AppBarWidget {
@@ -42,12 +43,7 @@ class AppBarWidget {
           elevation: 0,
           backgroundColor: Colors.transparent,
           actions: [
-            IconButton(
-              icon: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(100)),
-                  child: avatarUrl != null ? Image.network(avatarUrl) : null),
-              onPressed: onPressedAvatar,
-            ),
+            AvatarWidget(avatarUrl: avatarUrl, onPressed: onPressedAvatar),
             const SizedBox(width: 10.0),
           ],
           actionsIconTheme:
@@ -84,5 +80,27 @@ class AppBarWidget {
           ),
         );
     }
+  }
+}
+
+// Avatar
+class AvatarWidget extends StatelessWidget {
+  final String? avatarUrl;
+  final VoidCallback? onPressed;
+
+  const AvatarWidget({Key? key, this.avatarUrl, this.onPressed})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(100)),
+          child: avatarUrl != null
+              ? Image.network(avatarUrl!)
+              : Image.asset("assets/images/temp/botp_temp.png",
+                  scale: 1, fit: BoxFit.fitWidth)),
+      onPressed: onPressed,
+    );
   }
 }

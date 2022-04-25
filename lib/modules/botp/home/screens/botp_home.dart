@@ -2,7 +2,7 @@ import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/modules/botp/authenticator/screens/authenticator_body.dart';
 import 'package:botp_auth/modules/botp/history/screens/history_body.dart';
 import 'package:botp_auth/modules/botp/settings/home/screens/settings_body.dart';
-import 'package:botp_auth/widgets/bars.dart';
+import 'package:botp_auth/widgets/common.dart';
 import "package:flutter/material.dart";
 
 class BOTPHomeScreen extends StatefulWidget {
@@ -39,8 +39,7 @@ class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
               type: AppBarType.authenticator,
               title: "BOTP Authenticator",
               // TODO: read user avatar
-              avatarUrl:
-                  "https://i.pinimg.com/originals/9b/cd/dc/9bcddc6f49de22125e2494591e250096.png",
+              // avatarUrl:,
               onPressedAvatar: () {})
           : _selectedIndex == 1
               ? AppBarWidget.generate(context,

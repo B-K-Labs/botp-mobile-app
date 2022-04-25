@@ -7,7 +7,7 @@ import 'package:botp_auth/modules/authentication/import/bloc/import_state.dart';
 import 'package:botp_auth/modules/authentication/import/bloc/import_event.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
-import 'package:botp_auth/widgets/bars.dart';
+import 'package:botp_auth/widgets/common.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';

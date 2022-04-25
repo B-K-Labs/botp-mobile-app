@@ -45,4 +45,4 @@ enum SnackBarType {
 const boxShadowOffsetX = 0.0;
 const boxShadowOffsetY = 2.0;
 const boxShadowBlurRadius = 30.0;
-const boxShadowOpacity = 0.05;
+const boxShadowOpacity = 0.1;
