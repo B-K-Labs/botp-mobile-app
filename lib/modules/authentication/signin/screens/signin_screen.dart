@@ -96,6 +96,7 @@ class _SignInBodyState extends State<SignInBody> {
           .read<SignInBloc>()
           .add(SignInEventPasswordChanged(password: value));
       return FieldPasswordWidget(
+          textInputAction: TextInputAction.done,
           autofocus: true,
           hintText: "******",
           validator: _passwordValidator,

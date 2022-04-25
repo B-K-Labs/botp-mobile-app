@@ -146,6 +146,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
           .read<AccountSetupKYCBloc>()
           .add(AccountSetupKYCEventFullNameChanged(value));
       return FieldNormalWidget(
+          textInputAction: TextInputAction.next,
           autofocus: true,
           hintText: "Harry Jayson",
           validator: _fullNameValidator,
@@ -161,6 +162,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
           .read<AccountSetupKYCBloc>()
           .add(AccountSetupKYCEventAddressChanged(value));
       return FieldNormalWidget(
+          textInputAction: TextInputAction.next,
           hintText: "District 10, HCM, Viet Nam",
           validator: _addressValidator,
           onChanged: _addressOnChanged);
@@ -175,7 +177,10 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
           .read<AccountSetupKYCBloc>()
           .add(AccountSetupKYCEventAgeChanged(value));
       return FieldNormalWidget(
-          hintText: "18", validator: _ageValidator, onChanged: _ageOnChanged);
+          textInputAction: TextInputAction.next,
+          hintText: "18",
+          validator: _ageValidator,
+          onChanged: _ageOnChanged);
     });
   }
 
@@ -187,6 +192,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
           .read<AccountSetupKYCBloc>()
           .add(AccountSetupKYCEventGenderChanged(value));
       return FieldNormalWidget(
+          textInputAction: TextInputAction.next,
           hintText: "Male",
           validator: _genderValidator,
           onChanged: _genderOnChanged);
@@ -201,6 +207,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
           .read<AccountSetupKYCBloc>()
           .add(AccountSetupKYCEventDebitorChanged(value));
       return FieldNormalWidget(
+          textInputAction: TextInputAction.done,
           hintText: "999-999-9999",
           validator: _debitorValidator,
           onChanged: _debitorOnChanged);

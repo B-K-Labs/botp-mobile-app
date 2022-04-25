@@ -53,13 +53,14 @@ class _ImportBodyState extends State<ImportBody> {
     return BlocListener<ImportBloc, ImportState>(
         listener: (context, state) {
           final formStatus = state.formStatus;
-          final scanQrStatus = state.scanQrStatus;
+          // final scanQrStatus = state.scanQrStatus;
           if (formStatus is RequestStatusFailed) {
             showSnackBar(context, formStatus.exception.toString());
           }
-          if (scanQrStatus is RequestStatusFailed) {
-            showSnackBar(context, scanQrStatus.exception.toString());
-          }
+          // Hide QR Scan error
+          // if (scanQrStatus is RequestStatusFailed) {
+          //   showSnackBar(context, scanQrStatus.exception.toString());
+          // }
         },
         child: Form(
             key: _formKey,
@@ -100,6 +101,7 @@ class _ImportBodyState extends State<ImportBody> {
       }
 
       return FieldNormalWidget(
+          textInputAction: TextInputAction.next,
           autofocus: true,
           controller: context.read<ImportBloc>().privateKeyController,
           hintText: "123xxxxxx",
@@ -117,6 +119,7 @@ class _ImportBodyState extends State<ImportBody> {
           .read<ImportBloc>()
           .add(ImportEventNewPasswordChanged(newPassword: value));
       return FieldPasswordWidget(
+          textInputAction: TextInputAction.done,
           hintText: "******",
           validator: _newPasswordValidator,
           onChanged: _newPasswordOnChanged);

@@ -12,6 +12,7 @@ class FieldNormalWidget extends StatefulWidget {
   final VoidCallback? onTapPrefixIcon, onTapSuffixIcon;
   final TextEditingController? controller;
   final bool autofocus;
+  final TextInputAction textInputAction;
 
   const FieldNormalWidget({
     Key? key,
@@ -25,6 +26,7 @@ class FieldNormalWidget extends StatefulWidget {
     this.onTapPrefixIcon,
     this.onTapSuffixIcon,
     this.autofocus = false,
+    required this.textInputAction,
   }) : super(key: key);
 
   @override
@@ -77,6 +79,7 @@ class _FieldNormalWidgetState extends State<FieldNormalWidget> {
       onChanged: widget.onChanged,
       cursorColor: _cursorColor,
       style: _style,
+      textInputAction: widget.textInputAction,
       decoration: InputDecoration(
         prefixIcon: _prefixIcon,
         suffixIcon: _suffixIcon,
@@ -98,6 +101,7 @@ class FieldPasswordWidget extends StatefulWidget {
   final String? Function(String?) validator;
   final void Function(String?) onChanged;
   final bool autofocus;
+  final TextInputAction textInputAction;
 
   const FieldPasswordWidget(
       {Key? key,
@@ -106,7 +110,8 @@ class FieldPasswordWidget extends StatefulWidget {
       this.initialValue,
       required this.validator,
       required this.onChanged,
-      this.autofocus = false})
+      this.autofocus = false,
+      required this.textInputAction})
       : super(key: key);
 
   @override
@@ -162,6 +167,7 @@ class _FieldPasswordWidgetState extends State<FieldPasswordWidget> {
       obscureText: _obscureText,
       style: _style,
       autofocus: widget.autofocus,
+      textInputAction: widget.textInputAction,
       decoration: InputDecoration(
         suffixIcon: _suffixIcon,
         hintText: widget.hintText,
