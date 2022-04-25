@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/configs/themes/color_palette.dart';
 import 'package:botp_auth/constants/common.dart';
@@ -19,72 +20,64 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(
-        //   actions: [
-        //     IconButton(
-        //       color: Colors.white,
-        //       icon: ValueListenableBuilder(
-        //         valueListenable: cameraController.torchState,
-        //         builder: (context, state, child) {
-        //           switch (state as TorchState) {
-        //             case TorchState.off:
-        //               return const Icon(Icons.flash_off, color: Colors.grey);
-        //             case TorchState.on:
-        //               return const Icon(Icons.flash_on, color: Colors.yellow);
-        //           }
-        //         },
-        //       ),
-        //       iconSize: 32.0,
-        //       onPressed: () => cameraController.toggleTorch(),
-        //     ),
-        //     IconButton(
-        //       color: Colors.white,
-        //       icon: ValueListenableBuilder(
-        //         valueListenable: cameraController.cameraFacingState,
-        //         builder: (context, state, child) {
-        //           switch (state as CameraFacing) {
-        //             case CameraFacing.front:
-        //               return const Icon(Icons.camera_front);
-        //             case CameraFacing.back:
-        //               return const Icon(Icons.camera_rear);
-        //           }
-        //         },
-        //       ),
-        //       iconSize: 32.0,
-        //       onPressed: () => cameraController.switchCamera(),
-        //     ),
-        //   ],
-        // ),
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () {
+                Application.router.pop(context); // Null qr result
+              },
+              color: ColorPalette.gray50),
+          actions: [
+            IconButton(
+              color: Colors.white,
+              icon: ValueListenableBuilder(
+                valueListenable: cameraController.torchState,
+                builder: (context, state, child) {
+                  switch (state as TorchState) {
+                    case TorchState.off:
+                      return const Icon(Icons.flash_off,
+                          color: ColorPalette.gray50);
+                    case TorchState.on:
+                      return const Icon(Icons.flash_on,
+                          color: ColorPalette.blue400);
+                  }
+                },
+              ),
+              iconSize: 24.0,
+              onPressed: () => cameraController.toggleTorch(),
+            )
+          ],
+        ),
         body: Stack(children: [
-      MobileScanner(
-          allowDuplicates: false,
-          controller: cameraController,
-          onDetect: (barcode, args) {
-            // Return rawValue directly
-            Application.router.pop(context, barcode.rawValue);
-          }),
-      QRScannerFunctionalityOverlay(
-        cameraController: cameraController,
-        opacity: 0.6,
-        size: 350,
-      ),
-    ]));
+          MobileScanner(
+              allowDuplicates: false,
+              controller: cameraController,
+              onDetect: (barcode, args) {
+                // Return rawValue directly
+                Application.router.pop(context, barcode.rawValue);
+              }),
+          const QRScannerFunctionalityOverlay(
+            ratio: 0.8,
+            opacity: 0.6,
+          ),
+        ]));
   }
 }
 
 class QRScannerFunctionalityOverlay extends StatefulWidget {
-  final MobileScannerController cameraController;
   final double opacity;
-  final double size;
+  final double ratio;
   final double outerOffset = 10;
   final int reverseMilliseconds = 1500;
   final Color color = ColorPalette.black;
 
   const QRScannerFunctionalityOverlay({
     Key? key,
-    required this.cameraController,
+    required this.ratio,
     required this.opacity,
-    required this.size,
   }) : super(key: key);
 
   @override
@@ -131,13 +124,16 @@ class _QRScannerFunctionalityOverlayState
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     final overlayColor = widget.color.withOpacity(widget.opacity);
-    // final qrBoxPaddingBottom = widget.size / 4;
-    final qrBoxSize = widget.size;
-    final qrBorderBoxSize = widget.size + widget.outerOffset;
-    final qrBoxBarSize = widget.size - widget.outerOffset;
+    // Get the appropriate size
+    final qrBoxSize =
+        min(screenWidth, screenHeight - 4 * kAppPaddingBetweenItemLargeSize) *
+                widget.ratio -
+            widget.outerOffset;
+    final qrBorderBoxSize = qrBoxSize + widget.outerOffset;
+    final qrBarBoxSize = qrBoxSize - widget.outerOffset;
 
     return Stack(children: [
       Stack(children: [
@@ -147,7 +143,7 @@ class _QRScannerFunctionalityOverlayState
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              height: (height - qrBoxSize) / 2,
+              height: (screenHeight - qrBoxSize) / 2,
               color: overlayColor,
             ),
             Row(
@@ -155,18 +151,18 @@ class _QRScannerFunctionalityOverlayState
               children: [
                 Container(
                   height: qrBoxSize,
-                  width: (width - qrBoxSize) / 2,
+                  width: (screenWidth - qrBoxSize) / 2,
                   color: overlayColor,
                 ),
                 Container(
                   height: qrBoxSize,
-                  width: (width - qrBoxSize) / 2,
+                  width: (screenWidth - qrBoxSize) / 2,
                   color: overlayColor,
                 ),
               ],
             ),
             Container(
-              height: (height - qrBoxSize) / 2,
+              height: (screenHeight - qrBoxSize) / 2,
               color: overlayColor,
             ),
           ],
@@ -182,8 +178,8 @@ class _QRScannerFunctionalityOverlayState
                   .bodyText1
                   ?.copyWith(color: ColorPalette.gray50)),
           SizedBox(
-              width: widget.size,
-              height: widget.size + 2 * kAppPaddingBetweenItemLargeSize),
+              width: qrBoxSize,
+              height: qrBoxSize + 2 * kAppPaddingBetweenItemLargeSize),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             ButtonNormalWidget(
               text: "Choose from gallery",
@@ -192,41 +188,6 @@ class _QRScannerFunctionalityOverlayState
             )
           ]),
         ])),
-        // Navigate and flash button
-        SizedBox(
-            width: width,
-            height: 56,
-            child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 6.0),
-                child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                          icon: const Icon(Icons.close),
-                          onPressed: () {
-                            Application.router.pop(context); // Null qr result
-                          },
-                          color: ColorPalette.gray50),
-                      IconButton(
-                        color: Colors.white,
-                        icon: ValueListenableBuilder(
-                          valueListenable: widget.cameraController.torchState,
-                          builder: (context, state, child) {
-                            switch (state as TorchState) {
-                              case TorchState.off:
-                                return const Icon(Icons.flash_off,
-                                    color: ColorPalette.gray50);
-                              case TorchState.on:
-                                return const Icon(Icons.flash_on,
-                                    color: ColorPalette.blue400);
-                            }
-                          },
-                        ),
-                        iconSize: 24.0,
-                        onPressed: () => widget.cameraController.toggleTorch(),
-                      ),
-                    ]))),
         // QR Box Border
         Center(
             child: CustomPaint(
@@ -239,18 +200,18 @@ class _QRScannerFunctionalityOverlayState
         // QR Box Bar
         Center(
             child: SizedBox(
-          width: qrBoxBarSize,
-          height: qrBoxBarSize,
+          width: qrBarBoxSize,
+          height: qrBarBoxSize,
           child: Stack(children: [
             AnimatedPositioned(
-                width: qrBoxBarSize,
+                width: qrBarBoxSize,
                 duration: Duration(milliseconds: widget.reverseMilliseconds),
                 curve: Curves.easeInOut,
                 top: _qrBoxBarHitTop == null
                     ? 0
                     : _qrBoxBarHitTop == true
                         ? 0
-                        : qrBoxBarSize - 2,
+                        : qrBarBoxSize - 2,
                 child: const Divider(
                   height: 2,
                   thickness: 2,
