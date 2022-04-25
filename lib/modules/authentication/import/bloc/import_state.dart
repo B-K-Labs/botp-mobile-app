@@ -10,21 +10,24 @@ class ImportState {
   String? get validateNewPassword => passwordNormalValidator(newPassword);
   // Form status
   final RequestStatus formStatus;
+  // Qr scan
+  final RequestStatus scanQrStatus;
 
   ImportState({
     this.privateKey = '',
     this.newPassword = '',
     this.formStatus = const RequestStatusInitial(),
+    this.scanQrStatus = const RequestStatusInitial(),
   });
 
   ImportState copyWith(
           {String? privateKey,
           String? newPassword,
           RequestStatus? formStatus,
-          bool? didKyc}) =>
+          RequestStatus? scanQrStatus}) =>
       ImportState(
-        privateKey: privateKey ?? this.privateKey,
-        newPassword: newPassword ?? this.newPassword,
-        formStatus: formStatus ?? this.formStatus,
-      );
+          privateKey: privateKey ?? this.privateKey,
+          newPassword: newPassword ?? this.newPassword,
+          formStatus: formStatus ?? this.formStatus,
+          scanQrStatus: scanQrStatus ?? this.scanQrStatus);
 }

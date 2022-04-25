@@ -1,15 +1,21 @@
 abstract class ImportEvent {}
 
-class ImportPrivateKeyChanged extends ImportEvent {
+class ImportEventPrivateKeyChanged extends ImportEvent {
   final String privateKey;
 
-  ImportPrivateKeyChanged({required this.privateKey});
+  ImportEventPrivateKeyChanged({required this.privateKey});
 }
 
-class ImportNewPasswordChanged extends ImportEvent {
+class ImportEventNewPasswordChanged extends ImportEvent {
   final String newPassword;
 
-  ImportNewPasswordChanged({required this.newPassword});
+  ImportEventNewPasswordChanged({required this.newPassword});
 }
 
-class ImportSubmitted extends ImportEvent {}
+class ImportEventSubmitted extends ImportEvent {}
+
+class ImportEventScanQRPrivateKey extends ImportEvent {
+  String? scannedPrivateKey;
+
+  ImportEventScanQRPrivateKey({required this.scannedPrivateKey});
+}

@@ -87,10 +87,12 @@ class _ImportBodyState extends State<ImportBody> {
       _privateKeyValidator(value) => state.validatePrivateKey;
       _privateKeyOnChanged(value) => context
           .read<ImportBloc>()
-          .add(ImportPrivateKeyChanged(privateKey: value));
-      _onNavigateQrCode() {
-        // TODO: QR scanner
-        Application.router.navigateTo(context, "/utils/qrScanner");
+          .add(ImportEventPrivateKeyChanged(privateKey: value));
+      _onNavigateQrCode() async {
+        final scannedPrivateKey = await Application.router
+            .navigateTo(context, "/utils/qrScanner") as String?;
+        context.read<ImportBloc>().add(
+            ImportEventScanQRPrivateKey(scannedPrivateKey: scannedPrivateKey));
       }
 
       return FieldNormalWidget(
@@ -107,7 +109,7 @@ class _ImportBodyState extends State<ImportBody> {
       _newPasswordValidator(value) => state.validateNewPassword;
       _newPasswordOnChanged(value) => context
           .read<ImportBloc>()
-          .add(ImportNewPasswordChanged(newPassword: value));
+          .add(ImportEventNewPasswordChanged(newPassword: value));
       return FieldPasswordWidget(
           hintText: "******",
           validator: _newPasswordValidator,
@@ -121,7 +123,7 @@ class _ImportBodyState extends State<ImportBody> {
           ? null
           : () {
               if (_formKey.currentState!.validate()) {
-                context.read<ImportBloc>().add(ImportSubmitted());
+                context.read<ImportBloc>().add(ImportEventSubmitted());
               }
             };
       return ButtonNormalWidget(

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -63,7 +64,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
           }),
       const QRScannerOverlay(
         opacity: 0.5,
-        size: 325,
+        size: 300,
       ),
     ]));
   }
@@ -86,13 +87,11 @@ class QRScannerOverlay extends StatefulWidget {
 }
 
 class _QRScannerOverlayState extends State<QRScannerOverlay> {
-  late int _qrBoxBarPosition;
   late Timer _qrBoxBarTimer;
   bool _qrBoxBarHitTop = true;
   @override
   void initState() {
     super.initState();
-    _qrBoxBarPosition = 0;
     _qrBoxBarHitTop = false;
     _qrBoxBarTimer =
         Timer.periodic(const Duration(milliseconds: 1500), (Timer timer) {
@@ -156,17 +155,17 @@ class _QRScannerOverlayState extends State<QRScannerOverlay> {
           ])),
       Center(
           child: Container(
-              child: SizedBox(
+              width: widget.size,
+              height: widget.size,
+              child: AnimatedPositioned(
                   width: widget.size,
-                  height: widget.size,
-                  child: AnimatedPositioned(
-                      duration: const Duration(milliseconds: 1000),
-                      curve: Curves.easeInOutCubic,
-                      top: _qrBoxBarHitTop ? 10 : 100,
-                      child: const Divider(
-                        thickness: 2,
-                        color: Colors.white,
-                      ))),
+                  duration: const Duration(milliseconds: 1000),
+                  curve: Curves.easeInOutCubic,
+                  top: 100,
+                  child: const Divider(
+                    thickness: 2,
+                    color: Colors.white,
+                  )),
               color: Colors.red))
     ]);
   }

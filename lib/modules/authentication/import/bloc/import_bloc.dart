@@ -15,13 +15,13 @@ class ImportBloc extends Bloc<ImportEvent, ImportState> {
   ImportBloc({required this.authRepository, required this.sessionCubit})
       : super(ImportState()) {
     // On changed
-    on<ImportPrivateKeyChanged>(
+    on<ImportEventPrivateKeyChanged>(
         (event, emit) => emit(state.copyWith(privateKey: event.privateKey)));
-    on<ImportNewPasswordChanged>(
+    on<ImportEventNewPasswordChanged>(
         (event, emit) => emit(state.copyWith(newPassword: event.newPassword)));
 
     // On submitted
-    on<ImportSubmitted>((event, emit) async {
+    on<ImportEventSubmitted>((event, emit) async {
       if (_isSubmitting) return;
       _isSubmitting = true;
       emit(state.copyWith(formStatus: RequestStatusSubmitting()));
@@ -45,6 +45,20 @@ class ImportBloc extends Bloc<ImportEvent, ImportState> {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));
       }
       _isSubmitting = false;
+    });
+
+    // Scan qr
+    on<ImportEventScanQRPrivateKey>((event, emit) {
+      emit(state.copyWith(scanQrStatus: RequestStatusSubmitting()));
+      if (event.scannedPrivateKey == null) {
+        emit(state.copyWith(
+            scanQrStatus: RequestStatusFailed(
+                Exception("Could not scan your private key."))));
+      } else {
+        emit(state.copyWith(
+            privateKey: event.scannedPrivateKey,
+            scanQrStatus: RequestStatusSuccess()));
+      }
     });
   }
 }

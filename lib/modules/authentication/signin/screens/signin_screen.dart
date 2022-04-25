@@ -94,7 +94,7 @@ class _SignInBodyState extends State<SignInBody> {
       _passwordValidator(value) => state.validatePassword;
       _passwordOnChanged(value) => context
           .read<SignInBloc>()
-          .add(SignInPasswordChanged(password: value));
+          .add(SignInEventPasswordChanged(password: value));
       return FieldPasswordWidget(
           hintText: "******",
           validator: _passwordValidator,
@@ -108,7 +108,7 @@ class _SignInBodyState extends State<SignInBody> {
           ? null
           : () {
               if (_formKey.currentState!.validate()) {
-                context.read<SignInBloc>().add(SignInSubmitted());
+                context.read<SignInBloc>().add(SignInEventSubmitted());
               }
             };
       return ButtonNormalWidget(

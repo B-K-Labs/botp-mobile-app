@@ -15,11 +15,11 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   SignInBloc({required this.authRepository, required this.sessionCubit})
       : super(SignInState()) {
     // On changed
-    on<SignInPasswordChanged>(
+    on<SignInEventPasswordChanged>(
         (event, emit) => emit(state.copyWith(password: event.password)));
 
     // On submitted
-    on<SignInSubmitted>((event, emit) async {
+    on<SignInEventSubmitted>((event, emit) async {
       if (_isSubmitting) return;
       _isSubmitting = true;
       emit(state.copyWith(formStatus: RequestStatusSubmitting()));
