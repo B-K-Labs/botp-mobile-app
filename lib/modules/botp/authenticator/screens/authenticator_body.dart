@@ -101,14 +101,14 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
 
   Widget _generateTransactionItem(TransactionDetail transactionDetail) {
     final otpSessionInfo = transactionDetail.otpSessionInfo;
-    return GestureDetector(
-        onTap: () {
-          Application.router.navigateTo(context, "/botp/transaction",
-              routeSettings: RouteSettings(arguments: transactionDetail));
-        },
-        child: Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: kAppPaddingHorizontalSize),
+    return Container(
+        padding:
+            const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
+        child: GestureDetector(
+            onTap: () {
+              Application.router.navigateTo(context, "/botp/transaction",
+                  routeSettings: RouteSettings(arguments: transactionDetail));
+            },
             child: TransactionItemWidget(
                 isNewest: false,
                 agentName: otpSessionInfo.agentName,
