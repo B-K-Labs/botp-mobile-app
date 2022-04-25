@@ -3,10 +3,8 @@ import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/utils/helpers/account.dart';
 import 'package:botp_auth/widgets/common.dart';
 import "package:flutter/material.dart";
-import 'package:skeletons/skeletons.dart';
 
 // Home Info
-
 class SettingsHomeInfo extends StatelessWidget {
   final String? avatarUrl;
   final String fullName;
@@ -110,9 +108,9 @@ class SettingsCategoryWidget extends StatelessWidget {
     // - Text
     final _titleStyle = Theme.of(context)
         .textTheme
-        .bodyText1
+        .bodyText2
         ?.copyWith(fontWeight: FontWeight.bold);
-    final _descriptionStyle = Theme.of(context).textTheme.bodyText1;
+    final _descriptionStyle = Theme.of(context).textTheme.bodyText2;
     // - Padding
     const _padding = EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0);
 
@@ -137,7 +135,7 @@ class SettingsCategoryWidget extends StatelessWidget {
                 Text(description, style: _descriptionStyle)
               ])),
           Icon(Icons.arrow_forward_ios,
-              color: Theme.of(context).colorScheme.onSurfaceVariant)
+              color: Theme.of(context).colorScheme.onSurfaceVariant, size: 16.0)
         ]));
   }
 }
