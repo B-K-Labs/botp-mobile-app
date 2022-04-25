@@ -149,6 +149,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
           .read<AccountSetupKYCBloc>()
           .add(AccountSetupKYCEventFullNameChanged(value));
       return FieldNormalWidget(
+          autofocus: true,
           hintText: "Harry Jayson",
           validator: _fullNameValidator,
           onChanged: _fullNameOnChanged);
