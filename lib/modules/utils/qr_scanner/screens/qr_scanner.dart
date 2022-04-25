@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'package:botp_auth/configs/routes/application.dart';
+import 'package:botp_auth/configs/themes/color_palette.dart';
+import 'package:botp_auth/constants/common.dart';
+import 'package:botp_auth/widgets/button.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +63,8 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
             // Return rawValue directly
             Application.router.pop(context, barcode.rawValue);
           }),
-      const QRScannerOverlay(
+      QRScannerFunctionalityOverlay(
+        cameraController: cameraController,
         opacity: 0.6,
         size: 350,
       ),
@@ -68,24 +72,28 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
   }
 }
 
-class QRScannerOverlay extends StatefulWidget {
+class QRScannerFunctionalityOverlay extends StatefulWidget {
+  final MobileScannerController cameraController;
   final double opacity;
   final double size;
   final double outerOffset = 10;
   final int reverseMilliseconds = 1500;
-  final Color color = Colors.black;
+  final Color color = ColorPalette.black;
 
-  const QRScannerOverlay({
+  const QRScannerFunctionalityOverlay({
     Key? key,
+    required this.cameraController,
     required this.opacity,
     required this.size,
   }) : super(key: key);
 
   @override
-  State<QRScannerOverlay> createState() => _QRScannerOverlayState();
+  State<QRScannerFunctionalityOverlay> createState() =>
+      _QRScannerFunctionalityOverlayState();
 }
 
-class _QRScannerOverlayState extends State<QRScannerOverlay> {
+class _QRScannerFunctionalityOverlayState
+    extends State<QRScannerFunctionalityOverlay> {
   late Timer _qrBoxBarTimer;
   bool? _qrBoxBarHitTop;
   @override
@@ -126,13 +134,14 @@ class _QRScannerOverlayState extends State<QRScannerOverlay> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final overlayColor = widget.color.withOpacity(widget.opacity);
+    // final qrBoxPaddingBottom = widget.size / 4;
     final qrBoxSize = widget.size;
     final qrBorderBoxSize = widget.size + widget.outerOffset;
     final qrBoxBarSize = widget.size - widget.outerOffset;
 
     return Stack(children: [
       Stack(children: [
-        // QR Overlay
+        // QR Background overlay
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -162,10 +171,66 @@ class _QRScannerOverlayState extends State<QRScannerOverlay> {
             ),
           ],
         ),
+        // Text and gallery button
+        Center(
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          const SizedBox(height: kAppPaddingBetweenItemLargeSize),
+          Text("Place your QR code inside this box",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  ?.copyWith(color: ColorPalette.gray50)),
+          SizedBox(
+              width: widget.size,
+              height: widget.size + 2 * kAppPaddingBetweenItemLargeSize),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            ButtonNormalWidget(
+              text: "Choose from gallery",
+              onPressed: () {},
+              size: ButtonNormalSize.normal,
+            )
+          ]),
+        ])),
+        // Navigate and flash button
+        SizedBox(
+            width: width,
+            height: 56,
+            child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 6.0),
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () {
+                            Application.router.pop(context); // Null qr result
+                          },
+                          color: ColorPalette.gray50),
+                      IconButton(
+                        color: Colors.white,
+                        icon: ValueListenableBuilder(
+                          valueListenable: widget.cameraController.torchState,
+                          builder: (context, state, child) {
+                            switch (state as TorchState) {
+                              case TorchState.off:
+                                return const Icon(Icons.flash_off,
+                                    color: ColorPalette.gray50);
+                              case TorchState.on:
+                                return const Icon(Icons.flash_on,
+                                    color: ColorPalette.blue400);
+                            }
+                          },
+                        ),
+                        iconSize: 24.0,
+                        onPressed: () => widget.cameraController.toggleTorch(),
+                      ),
+                    ]))),
         // QR Box Border
         Center(
             child: CustomPaint(
-          foregroundPainter: BorderPainter(),
+          foregroundPainter: QRBoxBorderPainter(),
           child: SizedBox(
             width: qrBorderBoxSize,
             height: qrBorderBoxSize,
@@ -189,7 +254,7 @@ class _QRScannerOverlayState extends State<QRScannerOverlay> {
                 child: const Divider(
                   height: 2,
                   thickness: 2,
-                  color: Colors.blue,
+                  color: ColorPalette.blue400,
                 ))
           ]),
         ))
@@ -198,7 +263,7 @@ class _QRScannerOverlayState extends State<QRScannerOverlay> {
   }
 }
 
-class BorderPainter extends CustomPainter {
+class QRBoxBorderPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     double sh = size.height;
@@ -207,7 +272,7 @@ class BorderPainter extends CustomPainter {
     double extendedCornerSide = sh / 10;
 
     Paint paint = Paint()
-      ..color = Colors.white
+      ..color = ColorPalette.gray50
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.square;
@@ -234,8 +299,8 @@ class BorderPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(BorderPainter oldDelegate) => false;
+  bool shouldRepaint(QRBoxBorderPainter oldDelegate) => false;
 
   @override
-  bool shouldRebuildSemantics(BorderPainter oldDelegate) => false;
+  bool shouldRebuildSemantics(QRBoxBorderPainter oldDelegate) => false;
 }

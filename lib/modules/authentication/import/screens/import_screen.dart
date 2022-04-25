@@ -71,7 +71,7 @@ class _ImportBodyState extends State<ImportBody> {
                 Text("Import an existing account",
                     style: Theme.of(context).textTheme.headline4?.copyWith(
                         color: Theme.of(context).colorScheme.primary)),
-                const SizedBox(height: 48.0),
+                const SizedBox(height: 24.0),
                 Text("Private key",
                     style: Theme.of(context).textTheme.bodyText1),
                 const SizedBox(height: 12.0),
@@ -100,6 +100,8 @@ class _ImportBodyState extends State<ImportBody> {
       }
 
       return FieldNormalWidget(
+          autofocus: true,
+          controller: context.read<ImportBloc>().privateKeyController,
           hintText: "123xxxxxx",
           validator: _privateKeyValidator,
           onChanged: _privateKeyOnChanged,

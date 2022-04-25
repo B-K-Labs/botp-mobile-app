@@ -4,6 +4,7 @@ import 'package:botp_auth/modules/authentication/import/bloc/import_event.dart';
 import 'package:botp_auth/modules/authentication/import/bloc/import_state.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 
@@ -11,6 +12,8 @@ class ImportBloc extends Bloc<ImportEvent, ImportState> {
   final AuthenticationRepository authRepository;
   final SessionCubit sessionCubit;
   bool _isSubmitting = false;
+  // Controller
+  final privateKeyController = TextEditingController();
 
   ImportBloc({required this.authRepository, required this.sessionCubit})
       : super(ImportState()) {
@@ -51,14 +54,16 @@ class ImportBloc extends Bloc<ImportEvent, ImportState> {
     // Scan qr
     on<ImportEventScanQRPrivateKey>((event, emit) {
       emit(state.copyWith(scanQrStatus: RequestStatusSubmitting()));
-      if (event.scannedPrivateKey == null) {
+      final scannedPrivateKey = event.scannedPrivateKey;
+      if (scannedPrivateKey == null) {
         emit(state.copyWith(
             scanQrStatus: RequestStatusFailed(
                 Exception("Could not scan your private key."))));
       } else {
         emit(state.copyWith(
-            privateKey: event.scannedPrivateKey,
+            privateKey: scannedPrivateKey,
             scanQrStatus: RequestStatusSuccess()));
+        privateKeyController.text = scannedPrivateKey;
       }
       emit(state.copyWith(scanQrStatus: const RequestStatusInitial()));
     });

@@ -72,7 +72,7 @@ class _SignInBodyState extends State<SignInBody> {
                 Text("Welcome back!",
                     style: Theme.of(context).textTheme.headline4?.copyWith(
                         color: Theme.of(context).colorScheme.primary)),
-                const SizedBox(height: 48.0),
+                const SizedBox(height: 24.0),
                 Text("Enter your password",
                     style: Theme.of(context).textTheme.bodyText1),
                 const SizedBox(height: 12.0),
@@ -96,6 +96,7 @@ class _SignInBodyState extends State<SignInBody> {
           .read<SignInBloc>()
           .add(SignInEventPasswordChanged(password: value));
       return FieldPasswordWidget(
+          autofocus: true,
           hintText: "******",
           validator: _passwordValidator,
           onChanged: _passwordOnChanged);
@@ -134,7 +135,7 @@ class _SignInBodyState extends State<SignInBody> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 72.0),
+        const SizedBox(height: 60.0),
         ButtonTextWidget(
           text: "Import existing account",
           onPressed: () {

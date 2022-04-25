@@ -10,9 +10,12 @@ class FieldNormalWidget extends StatefulWidget {
   final void Function(String?) onChanged;
   final IconData? prefixIconData, suffixIconData;
   final VoidCallback? onTapPrefixIcon, onTapSuffixIcon;
+  final TextEditingController? controller;
+  final bool autofocus;
 
   const FieldNormalWidget({
     Key? key,
+    this.controller,
     this.hintText = '',
     this.initialValue,
     required this.validator,
@@ -21,6 +24,7 @@ class FieldNormalWidget extends StatefulWidget {
     this.suffixIconData,
     this.onTapPrefixIcon,
     this.onTapSuffixIcon,
+    this.autofocus = false,
   }) : super(key: key);
 
   @override
@@ -66,6 +70,8 @@ class _FieldNormalWidgetState extends State<FieldNormalWidget> {
     const _padding = EdgeInsets.all(16.0);
 
     return TextFormField(
+      autofocus: widget.autofocus,
+      controller: widget.controller,
       initialValue: widget.initialValue,
       validator: widget.validator,
       onChanged: widget.onChanged,
@@ -86,17 +92,21 @@ class _FieldNormalWidgetState extends State<FieldNormalWidget> {
 
 // Password Input Field
 class FieldPasswordWidget extends StatefulWidget {
+  final TextEditingController? controller;
   final String hintText;
   final String? initialValue;
   final String? Function(String?) validator;
   final void Function(String?) onChanged;
+  final bool autofocus;
 
   const FieldPasswordWidget(
       {Key? key,
+      this.controller,
       this.hintText = '',
       this.initialValue,
       required this.validator,
-      required this.onChanged})
+      required this.onChanged,
+      this.autofocus = false})
       : super(key: key);
 
   @override
@@ -144,12 +154,14 @@ class _FieldPasswordWidgetState extends State<FieldPasswordWidget> {
 
     // Return final text field
     return TextFormField(
+      controller: widget.controller,
       initialValue: widget.initialValue,
       validator: widget.validator,
       onChanged: widget.onChanged,
       cursorColor: _cursorColor,
       obscureText: _obscureText,
       style: _style,
+      autofocus: widget.autofocus,
       decoration: InputDecoration(
         suffixIcon: _suffixIcon,
         hintText: widget.hintText,

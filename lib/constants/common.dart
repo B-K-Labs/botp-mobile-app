@@ -4,8 +4,8 @@ const kAppPaddingBetweenItemSmallSize = 12.0;
 const kAppPaddingBetweenItemNormalSize = 24.0;
 const kAppPaddingBetweenItemLargeSize = 36.0;
 const kAppPaddingBetweenItemVeryLargeSize = 48.0;
-const kAppPaddingTopSize = 48.0;
-const kAppPaddingTopWithoutAppBarSize = 104.0;
+const kAppPaddingTopSize = 24.0;
+const kAppPaddingTopWithoutAppBarSize = 80.0; // 56 + 24
 
 // Border radius
 class BorderRadiusSize {

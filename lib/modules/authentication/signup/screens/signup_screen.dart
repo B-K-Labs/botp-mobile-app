@@ -70,7 +70,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                 Text("Create new account",
                     style: Theme.of(context).textTheme.headline4?.copyWith(
                         color: Theme.of(context).colorScheme.primary)),
-                const SizedBox(height: 48.0),
+                const SizedBox(height: 24.0),
                 Text('Password', style: Theme.of(context).textTheme.bodyText1),
                 const SizedBox(height: 12.0),
                 _passwordField(),
@@ -87,6 +87,7 @@ class _SignUpBodyState extends State<SignUpBody> {
           .read<SignUpBloc>()
           .add(SignUpEventPasswordChanged(password: value));
       return FieldPasswordWidget(
+        autofocus: true,
         hintText: "******",
         validator: _passwordValidator,
         onChanged: _passwordOnChanged,
