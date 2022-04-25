@@ -4,6 +4,7 @@ import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/configs/themes/color_palette.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/widgets/button.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:flutter/material.dart';
 
@@ -59,26 +60,31 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                 // Return rawValue directly
                 Application.router.pop(context, barcode.rawValue);
               }),
-          const QRScannerFunctionalityOverlay(
+          QRScannerFunctionalityOverlay(
             ratio: 0.8,
             opacity: 0.6,
+            cameraController: cameraController,
           ),
         ]));
   }
 }
 
 class QRScannerFunctionalityOverlay extends StatefulWidget {
+  // Controller
+  final MobileScannerController cameraController;
+  // Sizes
   final double opacity;
   final double ratio;
   final double outerOffset = 10;
   final int reverseMilliseconds = 1500;
   final Color color = ColorPalette.black;
 
-  const QRScannerFunctionalityOverlay({
-    Key? key,
-    required this.ratio,
-    required this.opacity,
-  }) : super(key: key);
+  const QRScannerFunctionalityOverlay(
+      {Key? key,
+      required this.ratio,
+      required this.opacity,
+      required this.cameraController})
+      : super(key: key);
 
   @override
   State<QRScannerFunctionalityOverlay> createState() =>
@@ -124,6 +130,7 @@ class _QRScannerFunctionalityOverlayState
 
   @override
   Widget build(BuildContext context) {
+    // Sizes
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     final overlayColor = widget.color.withOpacity(widget.opacity);
@@ -183,7 +190,17 @@ class _QRScannerFunctionalityOverlayState
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             ButtonNormalWidget(
               text: "Choose from gallery",
-              onPressed: () {},
+              onPressed: () async {
+                // Create image picker
+                final ImagePicker _picker = ImagePicker();
+                // Pick an image
+                final XFile? image =
+                    await _picker.pickImage(source: ImageSource.gallery);
+                final imagePath = image?.path;
+                if (imagePath != null) {
+                  widget.cameraController.analyzeImage(imagePath);
+                }
+              },
               size: ButtonNormalSize.normal,
             )
           ]),
