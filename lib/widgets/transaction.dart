@@ -239,7 +239,7 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
     return Stack(alignment: AlignmentDirectional.center, children: [
       AnimatedContainer(
         duration: const Duration(seconds: 1),
-        curve: Curves.easeInOut,
+        curve: Curves.easeInOutCubic,
         decoration: BoxDecoration(
           border: Border.all(
               color: _backgroundColor,
