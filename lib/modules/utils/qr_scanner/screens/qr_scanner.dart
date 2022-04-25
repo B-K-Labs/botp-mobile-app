@@ -61,8 +61,8 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
             Application.router.pop(context, barcode.rawValue);
           }),
       const QRScannerOverlay(
-        opacity: 0.5,
-        size: 300,
+        opacity: 0.6,
+        size: 350,
       ),
     ]));
   }
@@ -71,7 +71,8 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
 class QRScannerOverlay extends StatefulWidget {
   final double opacity;
   final double size;
-  final double outerOffset = 20;
+  final double outerOffset = 10;
+  final int reverseMilliseconds = 1500;
   final Color color = Colors.black;
 
   const QRScannerOverlay({
@@ -86,14 +87,31 @@ class QRScannerOverlay extends StatefulWidget {
 
 class _QRScannerOverlayState extends State<QRScannerOverlay> {
   late Timer _qrBoxBarTimer;
-  bool _qrBoxBarHitTop = true;
+  bool? _qrBoxBarHitTop;
   @override
   void initState() {
     super.initState();
-    _qrBoxBarHitTop = false;
-    _qrBoxBarTimer =
-        Timer.periodic(const Duration(milliseconds: 1500), (Timer timer) {
-      _qrBoxBarHitTop = !_qrBoxBarHitTop;
+    // Run method on Widget build completed: https://stackoverflow.com/questions/49466556/flutter-run-method-on-widget-build-complete
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      switchQrBoxBarHitTop();
+      setupSwitchQrBoxBarHitTopTimer();
+    });
+  }
+
+  void setupSwitchQrBoxBarHitTopTimer() {
+    _qrBoxBarTimer = Timer.periodic(
+        Duration(milliseconds: widget.reverseMilliseconds), (Timer timer) {
+      switchQrBoxBarHitTop();
+    });
+  }
+
+  void switchQrBoxBarHitTop() {
+    setState(() {
+      if (_qrBoxBarHitTop == null) {
+        _qrBoxBarHitTop = false;
+      } else {
+        _qrBoxBarHitTop = !_qrBoxBarHitTop!;
+      }
     });
   }
 
@@ -108,61 +126,74 @@ class _QRScannerOverlayState extends State<QRScannerOverlay> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     final overlayColor = widget.color.withOpacity(widget.opacity);
-    final centerBoxSize = widget.size;
+    final qrBoxSize = widget.size;
+    final qrBorderBoxSize = widget.size + widget.outerOffset;
+    final qrBoxBarSize = widget.size - widget.outerOffset;
+
     return Stack(children: [
       Stack(children: [
+        // QR Overlay
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              height: (height - centerBoxSize) / 2,
+              height: (height - qrBoxSize) / 2,
               color: overlayColor,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  height: centerBoxSize,
-                  width: (width - centerBoxSize) / 2,
+                  height: qrBoxSize,
+                  width: (width - qrBoxSize) / 2,
                   color: overlayColor,
                 ),
                 Container(
-                  height: centerBoxSize,
-                  width: (width - centerBoxSize) / 2,
+                  height: qrBoxSize,
+                  width: (width - qrBoxSize) / 2,
                   color: overlayColor,
                 ),
               ],
             ),
             Container(
-              height: (height - centerBoxSize) / 2,
+              height: (height - qrBoxSize) / 2,
               color: overlayColor,
             ),
           ],
         ),
+        // QR Box Border
         Center(
             child: CustomPaint(
           foregroundPainter: BorderPainter(),
           child: SizedBox(
-            width: widget.size + widget.outerOffset,
-            height: widget.size + widget.outerOffset,
+            width: qrBorderBoxSize,
+            height: qrBorderBoxSize,
           ),
+        )),
+        // QR Box Bar
+        Center(
+            child: SizedBox(
+          width: qrBoxBarSize,
+          height: qrBoxBarSize,
+          child: Stack(children: [
+            AnimatedPositioned(
+                width: qrBoxBarSize,
+                duration: Duration(milliseconds: widget.reverseMilliseconds),
+                curve: Curves.easeInOut,
+                top: _qrBoxBarHitTop == null
+                    ? 0
+                    : _qrBoxBarHitTop == true
+                        ? 0
+                        : qrBoxBarSize - 2,
+                child: const Divider(
+                  height: 2,
+                  thickness: 2,
+                  color: Colors.blue,
+                ))
+          ]),
         ))
       ]),
-      Center(
-          child: Container(
-              width: widget.size,
-              height: widget.size,
-              child: AnimatedPositioned(
-                  width: widget.size,
-                  duration: const Duration(milliseconds: 1000),
-                  curve: Curves.easeInOutCubic,
-                  top: 100,
-                  child: const Divider(
-                    thickness: 2,
-                    color: Colors.white,
-                  )),
-              color: Colors.red))
     ]);
   }
 }
