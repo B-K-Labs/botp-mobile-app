@@ -151,8 +151,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
       return FieldNormalWidget(
           hintText: "Harry Jayson",
           validator: _fullNameValidator,
-          onChanged: _fullNameOnChanged,
-          initialValue: state.fullName);
+          onChanged: _fullNameOnChanged);
     });
   }
 
@@ -166,8 +165,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
       return FieldNormalWidget(
           hintText: "District 10, HCM, Viet Nam",
           validator: _addressValidator,
-          onChanged: _addressOnChanged,
-          initialValue: state.fullName);
+          onChanged: _addressOnChanged);
     });
   }
 
@@ -179,10 +177,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
           .read<AccountSetupKYCBloc>()
           .add(AccountSetupKYCEventAgeChanged(value));
       return FieldNormalWidget(
-          hintText: "18",
-          validator: _ageValidator,
-          onChanged: _ageOnChanged,
-          initialValue: state.age?.toString());
+          hintText: "18", validator: _ageValidator, onChanged: _ageOnChanged);
     });
   }
 
@@ -196,8 +191,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
       return FieldNormalWidget(
           hintText: "Male",
           validator: _genderValidator,
-          onChanged: _genderOnChanged,
-          initialValue: state.gender);
+          onChanged: _genderOnChanged);
     });
   }
 
@@ -211,8 +205,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
       return FieldNormalWidget(
           hintText: "999-999-9999",
           validator: _debitorValidator,
-          onChanged: _debitorOnChanged,
-          initialValue: state.gender);
+          onChanged: _debitorOnChanged);
     });
   }
 
