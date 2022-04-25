@@ -63,7 +63,7 @@ class SettingsHomeInfo extends StatelessWidget {
   }
 }
 
-// Bc address info
+// Blockchain address info
 class BcAddressWidget extends StatelessWidget {
   final String bcAddress;
   final VoidCallback? onTap;
@@ -100,6 +100,8 @@ class BcAddressWidget extends StatelessWidget {
         ));
   }
 }
+
+//
 
 // Core setting option widgets
 class SettingsOptionWidget extends StatelessWidget {

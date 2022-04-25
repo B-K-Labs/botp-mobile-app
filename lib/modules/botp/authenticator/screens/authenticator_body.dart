@@ -89,6 +89,8 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
             (transactionDetail) => _generateTransactionItem(transactionDetail))
         .toList();
     return ListView.separated(
+        padding: const EdgeInsets.symmetric(
+            vertical: kAppPaddingBetweenItemSmallSize),
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         itemBuilder: (_, index) => transactionWidgetsList[index],
@@ -123,6 +125,10 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
     final shadowTransactionWidgetsList = List<Widget>.generate(
         transactionsListLength, (_) => _generateBoxShadow());
     return ListView.separated(
+      padding:
+          const EdgeInsets.symmetric(vertical: kAppPaddingBetweenItemSmallSize),
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
       itemBuilder: (_, index) => shadowTransactionWidgetsList[index],
       itemCount: shadowTransactionWidgetsList.length,
       separatorBuilder: (BuildContext context, int index) =>

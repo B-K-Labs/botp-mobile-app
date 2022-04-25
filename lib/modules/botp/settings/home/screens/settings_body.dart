@@ -26,7 +26,7 @@ class _SettingsBodyState extends State<SettingsBody> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [_info(), const SizedBox(height: 60), _categories()],
+          children: [_info(), const SizedBox(height: 48.0), _categories()],
         ));
   }
 
@@ -85,11 +85,11 @@ class _SettingsBodyState extends State<SettingsBody> {
 
   Widget _categories() {
     List<Widget> _categoriesList = [
-      _category(const Icon(Icons.person), "Profile", "Export, profile", () {}),
-      _category(
-          const Icon(Icons.dashboard), "Preferences", "Language, theme", () {}),
-      _category(
-          const Icon(Icons.security), "Security", "Password, sign out", () {}),
+      _category(const Icon(Icons.person), "Account", "Account, Profile", () {}),
+      _category(const Icon(Icons.security), "Security",
+          "Password, Biometrics, Sign-out", () {}),
+      _category(const Icon(Icons.settings), "System",
+          "Preferences, Notifications", () {}),
       _category(
           const Icon(Icons.info), "About", "Version, terms of services", () {}),
       _category(
