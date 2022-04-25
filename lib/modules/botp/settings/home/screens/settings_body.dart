@@ -4,7 +4,6 @@ import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_state.dart';
-import 'package:botp_auth/utils/helpers/account.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/setting.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,7 @@ class _SettingsBodyState extends State<SettingsBody> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [_info(), const SizedBox(height: 48.0), _categories()],
+          children: [_info(), const SizedBox(height: 48.0), _categoriesList()],
         ));
   }
 
@@ -50,7 +49,11 @@ class _SettingsBodyState extends State<SettingsBody> {
             ? SettingsHomeInfo(
                 avatarUrl: state.avatarUrl,
                 fullName: state.fullName!,
-                bcAddress: state.bcAddress!)
+                bcAddress: state.bcAddress!,
+                onTapBcAddress: () {
+                  context.read<SettingsHomeCubit>().copyBcAddress();
+                },
+              )
             : SkeletonItem(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -83,51 +86,88 @@ class _SettingsBodyState extends State<SettingsBody> {
     }));
   }
 
-  Widget _categories() {
-    List<Widget> _categoriesList = [
-      _category(const Icon(Icons.person), "Account", "Account, Profile", () {}),
-      _category(const Icon(Icons.security), "Security",
-          "Password, Biometrics, Sign-out", () {}),
-      _category(const Icon(Icons.settings), "System",
-          "Preferences, Notifications", () {}),
-      _category(
-          const Icon(Icons.info), "About", "Version, terms of services", () {}),
-      _category(
-          const Icon(Icons.arrow_back), "Sign out", "Sign out your account",
-          () async {
-        await context.read<SessionCubit>().signOut();
-        Application.router.navigateTo(context, "/");
-      })
-    ];
+  Widget _categoriesList() {
     return Expanded(
-        child: ListView.separated(
-            itemCount: _categoriesList.length,
-            itemBuilder: (context, index) => _categoriesList[index],
-            // physics: const NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) => const Divider()));
+        child: Stack(children: [
+      Positioned.fill(child: _generateSettingsShadowCategoriesList()),
+      _generateSettingsCategoriesList()
+    ]));
   }
 
-  Widget _category(Icon icon, String title, String tooltip, Function() onTap) {
-    return InkWell(
-        onTap: onTap,
-        child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Row(
-              children: [
-                icon,
-                const SizedBox(width: 20.0),
-                Expanded(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                      Text(title, style: Theme.of(context).textTheme.bodyLarge),
-                      const SizedBox(height: 4),
-                      Text(tooltip,
-                          style: Theme.of(context).textTheme.bodyMedium)
-                    ])),
-                const Icon(Icons.arrow_forward_ios)
-              ],
-            )));
+  Widget _generateSettingsShadowCategoriesList() {
+    List<Widget> shadowCategoriesList =
+        List<Widget>.generate(4, (_) => _generateShadowSettingsCategoryItem());
+    return ListView.separated(
+      padding:
+          const EdgeInsets.symmetric(vertical: kAppPaddingBetweenItemSmallSize),
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemBuilder: (_, index) => shadowCategoriesList[index],
+      itemCount: shadowCategoriesList.length,
+      separatorBuilder: (BuildContext context, int index) =>
+          const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+    );
+  }
+
+  Widget _generateShadowSettingsCategoryItem() => Container(
+      padding:
+          const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
+      child: const ShadowSettingsCategoryItem());
+
+  Widget _generateSettingsCategoriesList() {
+    List<Widget> categoriesList = [
+      _generateSettingsCategoryItem(Icons.person, "Account", "Account, Profile",
+          () {}, DecorationIconColorType.primary),
+      _generateSettingsCategoryItem(
+          Icons.security,
+          "Security",
+          "Password, Biometrics, Sign-out",
+          () {},
+          DecorationIconColorType.error),
+      _generateSettingsCategoryItem(
+          Icons.settings,
+          "System",
+          "Preferences, Notifications",
+          () {},
+          DecorationIconColorType.secondary),
+      _generateSettingsCategoryItem(
+          Icons.info,
+          "About",
+          "Version, terms of services",
+          () {},
+          DecorationIconColorType.tertiary),
+      _generateSettingsCategoryItem(
+          Icons.arrow_back, "Sign out", "Sign out your account", () async {
+        await context.read<SessionCubit>().signOut();
+        Application.router.navigateTo(context, "/");
+      }, DecorationIconColorType.primary)
+    ];
+    return ListView.separated(
+        padding: const EdgeInsets.symmetric(
+            vertical: kAppPaddingBetweenItemSmallSize),
+        itemCount: categoriesList.length,
+        itemBuilder: (context, index) => categoriesList[index],
+        // physics: const NeverScrollableScrollPhysics(),
+        separatorBuilder: (context, index) => const SizedBox(
+              height: kAppPaddingBetweenItemSmallSize,
+            ));
+  }
+
+  Widget _generateSettingsCategoryItem(
+      IconData iconData,
+      String title,
+      String description,
+      Function() onTap,
+      DecorationIconColorType categoryType) {
+    return Container(
+        padding:
+            const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
+        child: GestureDetector(
+            onTap: onTap,
+            child: SettingsCategoryWidget(
+                iconData: iconData,
+                title: title,
+                description: description,
+                categoryType: categoryType)));
   }
 }

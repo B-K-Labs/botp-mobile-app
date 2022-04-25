@@ -1,12 +1,5 @@
 // Settings
 
-enum SettingsCategoryTpe {
-  account,
-  system,
-  security,
-  about,
-}
-
 enum SettingsOptionType {
   textNormalValue,
   textMultilineValue,

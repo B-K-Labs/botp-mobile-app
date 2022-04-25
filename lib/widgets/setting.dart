@@ -1,6 +1,7 @@
 import 'package:botp_auth/constants/settings.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/utils/helpers/account.dart';
+import 'package:botp_auth/widgets/common.dart';
 import "package:flutter/material.dart";
 import 'package:skeletons/skeletons.dart';
 
@@ -60,6 +61,107 @@ class SettingsHomeInfo extends StatelessWidget {
         ))
       ])
     ]);
+  }
+}
+
+// Settings category
+class SettingsCategoryWidget extends StatelessWidget {
+  final IconData iconData;
+  final String title;
+  final String description;
+  final DecorationIconColorType categoryType;
+
+  const SettingsCategoryWidget(
+      {Key? key,
+      required this.iconData,
+      required this.title,
+      required this.description,
+      required this.categoryType})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // Category theme
+    // - Color
+    final Color _primary;
+    final Color _backgroundColor;
+    switch (categoryType) {
+      case DecorationIconColorType.primary:
+        _primary = Theme.of(context).colorScheme.onPrimaryContainer;
+        _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
+        break;
+      case DecorationIconColorType.error:
+        _primary = Theme.of(context).colorScheme.onErrorContainer;
+        _backgroundColor = Theme.of(context).colorScheme.errorContainer;
+        break;
+      case DecorationIconColorType.secondary:
+        _primary = Theme.of(context).colorScheme.onSecondaryContainer;
+        _backgroundColor = Theme.of(context).colorScheme.secondaryContainer;
+        break;
+      case DecorationIconColorType.tertiary:
+        _primary = Theme.of(context).colorScheme.onTertiaryContainer;
+        _backgroundColor = Theme.of(context).colorScheme.tertiaryContainer;
+        break;
+      default: // Account
+        _primary = Theme.of(context).colorScheme.onPrimaryContainer;
+        _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
+        break;
+    }
+    // - Text
+    final _titleStyle = Theme.of(context)
+        .textTheme
+        .bodyText1
+        ?.copyWith(fontWeight: FontWeight.bold);
+    final _descriptionStyle = Theme.of(context).textTheme.bodyText1;
+    // - Padding
+    const _padding = EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0);
+
+    return Container(
+        decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
+        padding: _padding,
+        child: Row(children: [
+          DecoratedIconWidget(
+              colorContainer: _backgroundColor,
+              onColorContainer: _primary,
+              iconData: iconData),
+          const SizedBox(width: 24.0),
+          Expanded(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                Text(title, style: _titleStyle),
+                const SizedBox(height: 4),
+                Text(description, style: _descriptionStyle)
+              ])),
+          Icon(Icons.arrow_forward_ios,
+              color: Theme.of(context).colorScheme.onSurfaceVariant)
+        ]));
+  }
+}
+
+// Shadow for category item
+class ShadowSettingsCategoryItem extends StatelessWidget {
+  const ShadowSettingsCategoryItem({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 80,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
+        boxShadow: [
+          BoxShadow(
+              offset: const Offset(boxShadowOffsetX, boxShadowOffsetY),
+              blurRadius: boxShadowBlurRadius,
+              color:
+                  Theme.of(context).shadowColor.withOpacity(boxShadowOpacity))
+        ],
+      ),
+    );
   }
 }
 

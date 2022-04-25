@@ -1,5 +1,4 @@
 import 'package:botp_auth/constants/common.dart';
-import 'package:botp_auth/widgets/setting.dart';
 import "package:flutter/material.dart";
 
 class AppBarWidget {
@@ -102,5 +101,29 @@ class AvatarWidget extends StatelessWidget {
                   scale: 1, fit: BoxFit.fitWidth)),
       onPressed: onPressed,
     );
+  }
+}
+
+// Decorated icon
+class DecoratedIconWidget extends StatelessWidget {
+  final Color colorContainer;
+  final Color onColorContainer;
+  final IconData iconData;
+  const DecoratedIconWidget(
+      {Key? key,
+      required this.colorContainer,
+      required this.onColorContainer,
+      required this.iconData})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+            color: colorContainer, borderRadius: BorderRadius.circular(100)),
+        width: 48.0,
+        height: 48.0,
+        child:
+            Center(child: Icon(iconData, color: onColorContainer, size: 24)));
   }
 }

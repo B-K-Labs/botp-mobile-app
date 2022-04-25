@@ -123,7 +123,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
 
   Widget _generateShadowTransactionItemsList(int transactionsListLength) {
     final shadowTransactionWidgetsList = List<Widget>.generate(
-        transactionsListLength, (_) => _generateBoxShadow());
+        transactionsListLength, (_) => _generateShadowTransactionItem());
     return ListView.separated(
       padding:
           const EdgeInsets.symmetric(vertical: kAppPaddingBetweenItemSmallSize),
@@ -136,7 +136,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
     );
   }
 
-  Widget _generateBoxShadow() => Container(
+  Widget _generateShadowTransactionItem() => Container(
       padding:
           const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
       child: const ShadowTransactionItemWidget());
