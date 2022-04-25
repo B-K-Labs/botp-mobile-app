@@ -44,8 +44,8 @@ class _SignUpBodyState extends State<SignUpBody> {
             authRepo: context.read<AuthenticationRepository>(),
             sessionCubit: context.read<SessionCubit>()),
         child: Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: kAppPaddingHorizontalAndBottomSize),
+            padding:
+                const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontal),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

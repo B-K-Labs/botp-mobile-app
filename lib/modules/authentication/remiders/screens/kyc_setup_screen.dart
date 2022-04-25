@@ -22,8 +22,7 @@ class ReminderKYCSetupBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-          horizontal: kAppPaddingHorizontalAndBottomSize),
+      padding: const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontal),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -35,7 +34,7 @@ class ReminderKYCSetupBody extends StatelessWidget {
                     .textTheme
                     .headline4
                     ?.copyWith(color: Theme.of(context).colorScheme.primary)),
-            const SizedBox(height: 48.0),
+            const SizedBox(height: 24.0),
             Text(
               "To able to use the authenticator, you have to setup your KYC information",
               style: Theme.of(context).textTheme.bodyText1,
@@ -80,7 +79,7 @@ class ReminderKYCSetupBody extends StatelessWidget {
                               .launchSession(skipSetupKyc: true);
                         })),
               ]),
-              const SizedBox(height: kAppPaddingHorizontalAndBottomSize)
+              const SizedBox(height: kAppPaddingBottomSize)
             ],
           )
         ],

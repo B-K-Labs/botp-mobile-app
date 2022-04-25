@@ -18,7 +18,7 @@ class InitBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        padding: const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontal),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +54,7 @@ class InitBody extends StatelessWidget {
                 },
                 type: ButtonNormalType.primaryGhost,
               ),
-              const SizedBox(height: kAppPaddingHorizontalAndBottomSize),
+              const SizedBox(height: kAppPaddingBottomSize),
             ])
           ],
         ));

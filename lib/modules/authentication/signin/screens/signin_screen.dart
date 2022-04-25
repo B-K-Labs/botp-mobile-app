@@ -43,8 +43,8 @@ class _SignInBodyState extends State<SignInBody> {
             authRepository: context.read<AuthenticationRepository>(),
             sessionCubit: context.read<SessionCubit>()),
         child: Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: kAppPaddingHorizontalAndBottomSize),
+            padding:
+                const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontal),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,7 +81,7 @@ class _SignInBodyState extends State<SignInBody> {
                 Row(children: <Widget>[
                   Expanded(child: _signInCurrentButton()),
                   const SizedBox(
-                    width: 24.0,
+                    width: kAppPaddingBetweenItemSmallSize,
                   ),
                   _signInFingerprint(),
                 ]),

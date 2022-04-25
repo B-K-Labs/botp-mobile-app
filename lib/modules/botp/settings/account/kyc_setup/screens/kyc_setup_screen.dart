@@ -49,8 +49,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.symmetric(
-            horizontal: kAppPaddingHorizontalAndBottomSize),
+        padding: const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontal),
         child: _profile());
   }
 
@@ -70,77 +69,72 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
             Application.router.pop(context);
           }
         },
-        child: Expanded(
-            child: Form(
-                key: _formKey,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                          child: SingleChildScrollView(
+        child: Form(
+            key: _formKey,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                      child: SingleChildScrollView(
+                          child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                        const SizedBox(height: kAppPaddingTopSize),
+                        Text("Full name",
+                            style: Theme.of(context).textTheme.bodyText1),
+                        const SizedBox(height: 12.0),
+                        _fullNameField(),
+                        const SizedBox(height: 24.0),
+                        Text("Address",
+                            style: Theme.of(context).textTheme.bodyText1),
+                        const SizedBox(height: 12.0),
+                        _addressField(),
+                        const SizedBox(height: 24.0),
+                        Row(children: [
+                          Expanded(
                               child: Column(
-                                  mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Age",
+                                  style: Theme.of(context).textTheme.bodyText1),
+                              const SizedBox(height: 12.0),
+                              _ageField(),
+                            ],
+                          )),
+                          const SizedBox(
+                              width: kAppPaddingBetweenItemSmallSize),
+                          Expanded(
+                              child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                            const SizedBox(height: kAppPaddingTopSize),
-                            Text("Full name",
-                                style: Theme.of(context).textTheme.bodyText1),
-                            const SizedBox(height: 12.0),
-                            _fullNameField(),
-                            const SizedBox(height: 24.0),
-                            Text("Address",
-                                style: Theme.of(context).textTheme.bodyText1),
-                            const SizedBox(height: 12.0),
-                            _addressField(),
-                            const SizedBox(height: 24.0),
-                            Row(children: [
-                              Expanded(
-                                  child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Age",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1),
-                                  const SizedBox(height: 12.0),
-                                  _ageField(),
-                                ],
-                              )),
-                              const SizedBox(
-                                  width: kAppPaddingBetweenItemSmallSize),
-                              Expanded(
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                    Text("Gender",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1),
-                                    const SizedBox(height: 12.0),
-                                    _genderField(),
-                                  ]))
-                            ]),
-                            const SizedBox(height: 24.0),
-                            Text("Phone number",
-                                style: Theme.of(context).textTheme.bodyText1),
-                            const SizedBox(height: 12.0),
-                            _debitorField(),
-                          ]))),
-                      Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: kAppPaddingHorizontalAndBottomSize),
-                          child: Column(children: [
-                            Row(
-                              children: [
-                                Expanded(child: _cancelProfileButton()),
-                                const SizedBox(
-                                    width: kAppPaddingBetweenItemSmallSize),
-                                Expanded(child: _editProfileButton()),
-                              ],
-                            ),
-                          ]))
-                    ]))));
+                                Text("Gender",
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1),
+                                const SizedBox(height: 12.0),
+                                _genderField(),
+                              ]))
+                        ]),
+                        const SizedBox(height: 24.0),
+                        Text("Phone number",
+                            style: Theme.of(context).textTheme.bodyText1),
+                        const SizedBox(height: 12.0),
+                        _debitorField(),
+                      ]))),
+                  Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: kAppPaddingBottomSize),
+                      child: Column(children: [
+                        Row(
+                          children: [
+                            Expanded(child: _cancelProfileButton()),
+                            const SizedBox(
+                                width: kAppPaddingBetweenItemSmallSize),
+                            Expanded(child: _editProfileButton()),
+                          ],
+                        ),
+                      ]))
+                ])));
   }
 
   Widget _fullNameField() {
