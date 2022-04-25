@@ -207,13 +207,19 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
   }
 
   Widget _cancelProfileButton() {
-    return ButtonNormalWidget(
-      text: "I'll do later",
-      type: ButtonNormalType.secondaryOutlined,
-      onPressed: () {
-        Application.router.pop(context, false);
-      },
-    );
+    return BlocBuilder<AccountSetupKYCBloc, AccountSetupKYCState>(
+        builder: (context, state) {
+      final onCancelEdit = state.formStatus is RequestStatusSubmitting
+          ? null
+          : () {
+              Application.router.pop(context, false);
+            };
+      return ButtonNormalWidget(
+        text: "I'll do later",
+        type: ButtonNormalType.secondaryOutlined,
+        onPressed: onCancelEdit,
+      );
+    });
   }
 
   Widget _editProfileButton() {
