@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -15,13 +14,10 @@ class QRScannerScreen extends StatefulWidget {
 class _QRScannerScreenState extends State<QRScannerScreen> {
   MobileScannerController cameraController = MobileScannerController();
 
-  String qrText = "";
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         // appBar: AppBar(
-        //   title: const Text('Mobile Scanner'),
         //   actions: [
         //     IconButton(
         //       color: Colors.white,
@@ -62,20 +58,13 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
           allowDuplicates: false,
           controller: cameraController,
           onDetect: (barcode, args) {
-            setState(() {
-              qrText = barcode.rawValue ?? "nothing";
-            });
+            // Return rawValue directly
+            Application.router.pop(context, barcode.rawValue);
           }),
-      const QRScannerOverlay(),
-      Center(
-          child: Container(
-              child: Text("Bar code is: $qrText",
-                  style: const TextStyle(color: Colors.white)))),
-      ButtonNormalWidget(
-          text: "Cancel",
-          onPressed: () {
-            Application.router.pop(context);
-          })
+      const QRScannerOverlay(
+        opacity: 0.5,
+        size: 325,
+      ),
     ]));
   }
 }
@@ -83,16 +72,42 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
 class QRScannerOverlay extends StatefulWidget {
   final double opacity;
   final double size;
+  final double outerOffset = 20;
   final Color color = Colors.black;
 
-  const QRScannerOverlay({Key? key, this.opacity = 0.5, this.size = 300})
-      : super(key: key);
+  const QRScannerOverlay({
+    Key? key,
+    required this.opacity,
+    required this.size,
+  }) : super(key: key);
 
   @override
   State<QRScannerOverlay> createState() => _QRScannerOverlayState();
 }
 
 class _QRScannerOverlayState extends State<QRScannerOverlay> {
+  late int _qrBoxBarPosition;
+  late Timer _qrBoxBarTimer;
+  bool _qrBoxBarHitTop = true;
+  bool _qrBoxBarReady = false;
+  @override
+  void initState() {
+    super.initState();
+    _qrBoxBarPosition = 0;
+    _qrBoxBarHitTop = false;
+    _qrBoxBarTimer =
+        Timer.periodic(const Duration(milliseconds: 1500), (Timer timer) {
+      _qrBoxBarHitTop = !_qrBoxBarHitTop;
+    });
+    _qrBoxBarReady = true;
+  }
+
+  @override
+  void dispose() {
+    _qrBoxBarTimer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -136,50 +151,60 @@ class _QRScannerOverlayState extends State<QRScannerOverlay> {
                 child: CustomPaint(
               foregroundPainter: BorderPainter(),
               child: SizedBox(
-                width: widget.size + 50,
-                height: widget.size + 50,
+                width: widget.size + widget.outerOffset,
+                height: widget.size + widget.outerOffset,
               ),
             ))
           ])),
       Center(
-          child: SizedBox(
-              width: widget.size,
-              height: widget.size,
-              child: AnimatedPositioned(
-                  duration: const Duration(milliseconds: 1500),
-                  bottom: 0,
-                  child: Divider(
-                    thickness: 5,
-                    color: Theme.of(context).colorScheme.error,
-                  ))))
+          child: Container(
+              child: SizedBox(
+                  width: widget.size,
+                  height: widget.size,
+                  child: AnimatedPositioned(
+                      duration: const Duration(milliseconds: 1000),
+                      curve: Curves.easeInOutCubic,
+                      top: _qrBoxBarHitTop ? 10 : 100,
+                      child: const Divider(
+                        thickness: 2,
+                        color: Colors.white,
+                      ))),
+              color: Colors.red))
     ]);
   }
 }
 
-// Custom paint: https://stackoverflow.com/questions/66579202/border-at-corner-only-in-flutter
-// Corner: https://viblo.asia/p/flutter-custompaint-phan-2-3P0lP0RPlox
 class BorderPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     double sh = size.height;
     double sw = size.width;
-    double cornerSide = sh * 0.15; // desirable value for corners side
+    double cornerSide = sh / 50; // desirable value for corners side
+    double extendedCornerSide = sh / 10;
 
     Paint paint = Paint()
       ..color = Colors.white
-      ..strokeWidth = 6
+      ..strokeWidth = 2
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.square;
 
     Path path = Path()
-      ..moveTo(cornerSide, 0)
+      ..moveTo(extendedCornerSide, 0)
+      ..lineTo(cornerSide, 0)
       ..quadraticBezierTo(0, 0, 0, cornerSide)
-      ..moveTo(0, sh - cornerSide)
+      ..lineTo(0, extendedCornerSide)
+      ..moveTo(0, sh - extendedCornerSide)
+      ..lineTo(0, sh - cornerSide)
       ..quadraticBezierTo(0, sh, cornerSide, sh)
-      ..moveTo(sw - cornerSide, sh)
+      ..lineTo(extendedCornerSide, sh)
+      ..moveTo(sw - extendedCornerSide, sh)
+      ..lineTo(sw - cornerSide, sh)
       ..quadraticBezierTo(sw, sh, sw, sh - cornerSide)
-      ..moveTo(sw, cornerSide)
-      ..quadraticBezierTo(sw, 0, sw - cornerSide, 0);
+      ..lineTo(sw, sh - extendedCornerSide)
+      ..moveTo(sw, extendedCornerSide)
+      ..lineTo(sw, cornerSide)
+      ..quadraticBezierTo(sw, 0, sw - cornerSide, 0)
+      ..lineTo(sw - extendedCornerSide, 0);
 
     canvas.drawPath(path, paint);
   }
