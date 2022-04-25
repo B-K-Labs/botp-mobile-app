@@ -20,8 +20,4 @@ String? passwordStrictValidator(String? password) => password == null ||
             : "Must contain one uppercase, lowercase, digit, and special character";
 
 String? passwordNormalValidator(String? password) =>
-    password == null || password.isEmpty
-        ? "Missing password"
-        : password.length < 6
-            ? "Password must be at least 6 characters"
-            : null;
+    password == null || password.isEmpty ? "Missing password" : null;
