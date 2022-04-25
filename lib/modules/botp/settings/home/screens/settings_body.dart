@@ -51,7 +51,34 @@ class _SettingsBodyState extends State<SettingsBody> {
                 avatarUrl: state.avatarUrl,
                 fullName: state.fullName!,
                 bcAddress: state.bcAddress!)
-            : SkeletonLine(style: SkeletonLineStyle())
+            : SkeletonItem(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                    SkeletonAvatar(
+                        style: SkeletonAvatarStyle(
+                            width: 120,
+                            height: 120,
+                            borderRadius: BorderRadius.circular(100))),
+                    const SizedBox(height: 24.0),
+                    SkeletonLine(
+                        style: SkeletonLineStyle(
+                            borderRadius:
+                                BorderRadius.circular(BorderRadiusSize.normal),
+                            alignment: AlignmentDirectional.center,
+                            height: 28.0,
+                            randomLength: true,
+                            minLength: 200,
+                            maxLength: 300)),
+                    const SizedBox(height: 12.0),
+                    SkeletonLine(
+                        style: SkeletonLineStyle(
+                            borderRadius:
+                                BorderRadius.circular(BorderRadiusSize.small),
+                            alignment: AlignmentDirectional.center,
+                            height: 25.0,
+                            width: 200)),
+                  ]))
       ]);
     }));
   }
