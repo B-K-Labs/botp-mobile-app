@@ -53,7 +53,10 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
                     title: "You're almost done!",
                     description:
                         "BOTP Auth need to know you. Enter your information here to use the authenticator!",
-                    onTap: () {},
+                    onTap: () {
+                      Application.router.navigateTo(
+                          context, "/botp/settings/account/setupKyc");
+                    },
                   )
                 : Container());
   }

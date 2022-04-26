@@ -27,8 +27,7 @@ class AccountSetupKYCScreen extends StatelessWidget {
         child: Scaffold(
             appBar: from == FromScreen.authReminderKYCSetup
                 ? null
-                : AppBarWidget.generate(context,
-                    title: "Update profile information"),
+                : AppBarWidget.generate(context, title: "Setup KYC"),
             body: SafeArea(
                 bottom: true, child: AccountSetupKYCBody(from: from))));
   }

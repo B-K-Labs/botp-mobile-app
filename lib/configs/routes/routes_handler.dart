@@ -84,7 +84,7 @@ var botpSettingsAccountHandler =
 
 var botpSettingsAccountUpdateKYCHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-  final fromScreen = context?.settings?.arguments as FromScreen;
+  final fromScreen = context?.settings?.arguments as FromScreen?;
   return AccountSetupKYCScreen(from: fromScreen);
 });
 // - 2. Security
