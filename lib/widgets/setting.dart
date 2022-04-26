@@ -2,8 +2,6 @@ import 'package:botp_auth/constants/settings.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/utils/helpers/account.dart';
 import 'package:botp_auth/widgets/common.dart';
-import 'package:fluent_ui/fluent_ui.dart';
-import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 
 // Blockchain address info
@@ -241,7 +239,6 @@ class SettingsOptionWidget extends StatelessWidget {
     // - Style
     final _labelStyle = Theme.of(context).textTheme.bodyText1;
     final _valueStyle = Theme.of(context).textTheme.bodyText2;
-    final _descriptionStyle = Theme.of(context).textTheme.caption;
     // Child widget
     final Widget _optionWidget;
     switch (type) {
