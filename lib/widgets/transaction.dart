@@ -366,7 +366,10 @@ class TransactionDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _headlineStyle = Theme.of(context).textTheme.headline6;
+    final _headlineStyle = Theme.of(context)
+        .textTheme
+        .bodyText1
+        ?.copyWith(fontWeight: FontWeight.bold);
     final _labelStyle = Theme.of(context)
         .textTheme
         .bodyText1
@@ -380,7 +383,7 @@ class TransactionDetailWidget extends StatelessWidget {
             border: Border.all(
                 color: Theme.of(context).colorScheme.outline, width: 1.0),
             borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
-        padding: const EdgeInsets.symmetric(vertical: 28.0, horizontal: 24.0),
+        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -424,7 +427,10 @@ class TransactionDetailSkeletonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _headlineStyle = Theme.of(context).textTheme.headline6;
+    final _headlineStyle = Theme.of(context)
+        .textTheme
+        .bodyText1
+        ?.copyWith(fontWeight: FontWeight.bold);
     final _labelStyle = Theme.of(context)
         .textTheme
         .bodyText1
@@ -434,7 +440,7 @@ class TransactionDetailSkeletonWidget extends StatelessWidget {
             border: Border.all(
                 color: Theme.of(context).colorScheme.outline, width: 1.0),
             borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
-        padding: const EdgeInsets.symmetric(vertical: 28.0, horizontal: 24.0),
+        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -483,7 +489,10 @@ class TransactionNotifyMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _headlineStyle = Theme.of(context).textTheme.headline6;
+    final _headlineStyle = Theme.of(context)
+        .textTheme
+        .bodyText1
+        ?.copyWith(fontWeight: FontWeight.bold);
     final _textStyle = Theme.of(context)
         .textTheme
         .bodyText2
@@ -511,7 +520,10 @@ class TransactionNotifyMessageSkeletonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _headlineStyle = Theme.of(context).textTheme.headline6;
+    final _headlineStyle = Theme.of(context)
+        .textTheme
+        .bodyText1
+        ?.copyWith(fontWeight: FontWeight.bold);
     return Container(
         decoration: BoxDecoration(
             border: Border.all(

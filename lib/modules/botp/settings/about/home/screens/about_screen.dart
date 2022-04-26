@@ -31,23 +31,26 @@ class _AboutHomeBodyState extends State<AboutHomeBody> {
 
   Widget _appInfo() {
     return Column(children: [
-      SettingsSectionWidget(title: "Preferences", children: [
+      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        SizedBox(
+          height: 120.0,
+          width: 120.0,
+          child: Image.asset("assets/images/temp/botp_temp.png",
+              scale: 1, fit: BoxFit.fitWidth),
+        )
+      ]),
+      SettingsSectionWidget(children: [
         SettingsOptionWidget(
-          label: "Dark mode",
-          type: SettingsOptionType.labelSwitchable,
+          label: "Version",
+          value: "1.0.0",
+          type: SettingsOptionType.labelAndValue,
         ),
         SettingsOptionWidget(
-          label: "Transfer account",
-          type: SettingsOptionType.labelNavigable,
-          navigateDescription: "Engrish",
+          label: "Develop team",
+          type: SettingsOptionType.labelAndValue,
+          value: "Shinebright team",
         ),
       ]),
-      SettingsSectionWidget(title: "Notifications", children: [
-        SettingsOptionWidget(
-          label: "Notify when received new transactions",
-          type: SettingsOptionType.labelSwitchable,
-        ),
-      ])
     ]);
   }
 }

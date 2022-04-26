@@ -179,29 +179,31 @@ class ShadowSettingsCategoryWidget extends StatelessWidget {
 
 // Settings section
 class SettingsSectionWidget extends StatelessWidget {
-  final String title;
+  final String? title;
   final List<Widget> children;
-  const SettingsSectionWidget(
-      {Key? key, required this.title, required this.children})
+  const SettingsSectionWidget({Key? key, this.title, required this.children})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final _titleStyle = Theme.of(context)
-        .textTheme
-        .headline6
-        ?.copyWith(color: Theme.of(context).colorScheme.onSurface);
+    final _titleStyle = Theme.of(context).textTheme.bodyText1?.copyWith(
+        color: Theme.of(context).colorScheme.onSurface,
+        fontWeight: FontWeight.bold);
     return Container(
         padding: const EdgeInsets.symmetric(
             vertical: kAppPaddingBetweenItemNormalSize),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: kAppPaddingHorizontalSize),
-              child: Text(title, style: _titleStyle)),
-          const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-          ...children,
-        ]));
+        child: title != null
+            ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: kAppPaddingHorizontalSize),
+                    child: Text(title!, style: _titleStyle)),
+                const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+                ...children,
+              ])
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [...children]));
   }
 }
 
