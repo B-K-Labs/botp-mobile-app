@@ -5,6 +5,7 @@ import 'package:botp_auth/configs/themes/color_palette.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/button.dart';
+import 'package:botp_auth/widgets/common.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:flutter/material.dart';
@@ -236,7 +237,7 @@ class _QRScannerFunctionalityOverlayState
                     : _qrBoxBarHitTop == true
                         ? 0
                         : qrBarBoxSize - 2,
-                child: const Divider(
+                child: const DividerWidget(
                   height: 2,
                   thickness: 2,
                   color: ColorPalette.blue400,

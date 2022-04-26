@@ -1,5 +1,6 @@
 import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
+import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/constants/routing_param.dart';
 import 'package:botp_auth/constants/settings.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/cubit/account_home_cubit.dart';
@@ -33,10 +34,43 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
     return BlocProvider(
         create: (context) => ProfileViewCubit(),
         child: Column(children: [
-          _profile(),
-          const SizedBox(height: 20),
+          reminder(),
           _account(),
+          const DividerWidget(
+              padding:
+                  EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize)),
+          _profile(),
         ]));
+  }
+
+  Widget reminder() {
+    return BlocBuilder<ProfileViewCubit, ProfileViewState>(
+        builder: (context, state) => Column(children: const []));
+  }
+
+  Widget _account() {
+    return BlocConsumer<ProfileViewCubit, ProfileViewState>(
+        listener: (context, state) {
+      // Copy bcAddress
+    }, builder: (context, state) {
+      if (state.loadUserData is! LoadUserDataStatusSuccess) {
+        return const CircularProgressIndicator();
+      } else {
+        return SettingsSectionWidget(title: "Your account", children: [
+          SettingsOptionWidget(
+              type: SettingsOptionType.labelAndCustomWidget,
+              label: "Blockchain address",
+              customWidget: BcAddressWidget(
+                  bcAddress: state.bcAddress!,
+                  onTap: () {
+                    context.read<ProfileViewCubit>().copyBcAddress();
+                  })),
+          const SettingsOptionWidget(
+              type: SettingsOptionType.buttonTextOneSide,
+              label: "Add new agent"),
+        ]);
+      }
+    });
   }
 
   Widget _profile() {
@@ -45,7 +79,7 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
       if (state.loadUserData is! LoadUserDataStatusSuccess) {
         return const CircularProgressIndicator();
       } else if (state.didKyc) {
-        return Column(children: [
+        return SettingsSectionWidget(title: "Your profile", children: [
           SettingsOptionWidget(
               type: SettingsOptionType.labelAndValue,
               label: "Name",
@@ -68,15 +102,9 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
               value: state.debitor!),
         ]);
       } else {
-        // TODO: Remind
-        return const Text("DO KYC");
+        // Return nothing
+        return Container();
       }
     });
-  }
-
-  Widget _account() {
-    return BlocConsumer<ProfileViewCubit, ProfileViewState>(
-        listener: (context, state) {},
-        builder: (context, state) => Column(children: const []));
   }
 }

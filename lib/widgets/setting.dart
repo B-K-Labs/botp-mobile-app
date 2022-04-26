@@ -182,14 +182,29 @@ class ShadowSettingsCategoryWidget extends StatelessWidget {
 
 // Settings section
 class SettingsSectionWidget extends StatelessWidget {
-  final String? title;
-  final Widget child;
-  const SettingsSectionWidget({Key? key, this.title, required this.child})
+  final String title;
+  final List<Widget> children;
+  const SettingsSectionWidget(
+      {Key? key, required this.title, required this.children})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    final _titleStyle = Theme.of(context)
+        .textTheme
+        .headline6
+        ?.copyWith(color: Theme.of(context).colorScheme.onSurface);
+    return Container(
+        padding: const EdgeInsets.symmetric(
+            vertical: kAppPaddingBetweenItemNormalSize),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Container(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: kAppPaddingHorizontalSize),
+              child: Text(title, style: _titleStyle)),
+          const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+          ...children,
+        ]));
   }
 }
 
@@ -229,11 +244,19 @@ class SettingsOptionWidget extends StatelessWidget {
     // - Style
     final _labelStyle = Theme.of(context).textTheme.bodyText1;
     final _valueStyle =
-        Theme.of(context).textTheme.bodyText2?.copyWith(color: _valueColor);
+        Theme.of(context).textTheme.bodyText1?.copyWith(color: _valueColor);
     final _descriptionStyle = Theme.of(context).textTheme.bodyText2;
     // Child widget
     final Widget _optionWidget;
     switch (type) {
+      case SettingsOptionType.labelAndCustomWidget:
+        _optionWidget = Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(label, style: _labelStyle),
+              customWidget ?? Container()
+            ]);
+        break;
       case SettingsOptionType.labelNavigable:
         _optionWidget =
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -292,10 +315,12 @@ class SettingsOptionWidget extends StatelessWidget {
     return _wrapSettingsOptionWidget(_optionWidget);
   }
 
-  Widget _wrapSettingsOptionWidget(Widget child, {VoidCallback? onTap}) =>
+  Widget _wrapSettingsOptionWidget(Widget child, [VoidCallback? onTap]) =>
       InkWell(
-          onTap: onTap,
+          onTap: onTap ?? () {},
           child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: kAppPaddingHorizontalSize,
+                  vertical: kAppPaddingBetweenItemSmallSize),
               child: child));
 }

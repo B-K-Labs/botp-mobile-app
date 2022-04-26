@@ -2,6 +2,7 @@ import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/utils/helpers/transaction.dart';
+import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletons/skeletons.dart';
@@ -260,9 +261,7 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
                 Column(children: [
                   Text("OTP", style: Theme.of(context).textTheme.headline6),
                   const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-                  Divider(
-                      height: 1.0,
-                      color: Theme.of(context).colorScheme.outline),
+                  const DividerWidget(),
                   const SizedBox(height: kAppPaddingBetweenItemLargeSize),
                   [OTPValueStatus.valid, OTPValueStatus.nearlyExpired]
                           .contains(otpValueInfo.status)
@@ -399,7 +398,7 @@ class TransactionDetailWidget extends StatelessWidget {
                 BcAddressWidget(
                     bcAddress: agentBcAddress, onTap: opTapBcAddress)),
             const SizedBox(height: kAppPaddingBetweenItemNormalSize),
-            Divider(height: 1.0, color: Theme.of(context).colorScheme.outline),
+            const DividerWidget(),
             const SizedBox(height: kAppPaddingBetweenItemNormalSize),
             _transactionDetailTextLineWidget(
                 Text("Date", style: _textStyle),

@@ -137,3 +137,24 @@ class DecoratedIconWidget extends StatelessWidget {
                 color: _onColorContainer, size: _onContainerSize)));
   }
 }
+
+// Divider
+class DividerWidget extends StatelessWidget {
+  final EdgeInsets? padding;
+  final double height;
+  final double? thickness;
+  final Color? color;
+  const DividerWidget(
+      {Key? key, this.height = 1.0, this.thickness, this.color, this.padding})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final _color = color ?? Theme.of(context).colorScheme.outline;
+    return padding != null
+        ? Container(
+            padding: padding,
+            child: Divider(height: height, color: _color, thickness: thickness))
+        : Divider(height: height, color: _color, thickness: thickness);
+  }
+}
