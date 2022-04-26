@@ -2,7 +2,6 @@ import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
-import 'package:botp_auth/constants/routing_param.dart';
 import 'package:botp_auth/constants/settings.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/cubit/account_home_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/cubit/account_home_state.dart';
@@ -18,7 +17,7 @@ class AccountHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBarWidget.generate(context, title: "Accounts"),
+        appBar: AppBarWidget.generate(context, title: "Account"),
         body: const AccountHomeBody());
   }
 }
@@ -82,7 +81,7 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
       if (state.loadUserData is! LoadUserDataStatusSuccess) {
         return const CircularProgressIndicator();
       } else {
-        return SettingsSectionWidget(title: "Your account", children: [
+        return SettingsSectionWidget(title: "Account", children: [
           SettingsOptionWidget(
               type: SettingsOptionType.labelAndCustomWidget,
               label: "Blockchain address",
@@ -104,7 +103,7 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
       if (state.loadUserData is! LoadUserDataStatusSuccess) {
         return const CircularProgressIndicator();
       } else if (state.didKyc) {
-        return SettingsSectionWidget(title: "Your profile", children: [
+        return SettingsSectionWidget(title: "Profile", children: [
           SettingsOptionWidget(
               type: SettingsOptionType.labelAndValue,
               label: "Name",

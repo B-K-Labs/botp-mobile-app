@@ -120,8 +120,10 @@ class _SettingsBodyState extends State<SettingsBody> {
           () {
         Application.router.navigateTo(context, "/botp/settings/account");
       }, ColorType.primary),
-      _generateSettingsCategoryItem(Icons.security, "Security",
-          "Password, Biometrics, Sign-out", () {}, ColorType.error),
+      _generateSettingsCategoryItem(
+          Icons.security, "Security", "Password, Biometrics, Sign-out", () {
+        Application.router.navigateTo(context, "/botp/settings/security");
+      }, ColorType.error),
       _generateSettingsCategoryItem(Icons.settings, "System",
           "Preferences, Notifications", () {}, ColorType.secondary),
       _generateSettingsCategoryItem(Icons.info, "About",
@@ -139,15 +141,12 @@ class _SettingsBodyState extends State<SettingsBody> {
 
   Widget _generateSettingsCategoryItem(IconData iconData, String title,
       String description, Function() onTap, ColorType colorType) {
-    return Container(
-        padding:
-            const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
-        child: GestureDetector(
-            onTap: onTap,
-            child: SettingsCategoryWidget(
-                iconData: iconData,
-                title: title,
-                description: description,
-                colorType: colorType)));
+    return InkWell(
+        onTap: onTap,
+        child: SettingsCategoryWidget(
+            iconData: iconData,
+            title: title,
+            description: description,
+            colorType: colorType));
   }
 }

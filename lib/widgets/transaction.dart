@@ -330,11 +330,11 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
                         ])
                       : Text(
                           otpValueInfo.status == OTPValueStatus.expired
-                              ? "Request for generating OTP"
+                              ? "Syncing data"
                               : otpValueInfo.status ==
                                       OTPValueStatus.notAvailable
                                   ? "Failed to generate OTP"
-                                  : "Generating OTP",
+                                  : "Requesting",
                           style: _captionStyle?.copyWith(color: _primary))
                 ]),
               ]),
@@ -380,7 +380,7 @@ class TransactionDetailWidget extends StatelessWidget {
             border: Border.all(
                 color: Theme.of(context).colorScheme.outline, width: 1.0),
             borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
-        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 24.0),
+        padding: const EdgeInsets.symmetric(vertical: 28.0, horizontal: 24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -419,6 +419,63 @@ class TransactionDetailWidget extends StatelessWidget {
   }
 }
 
+class TransactionDetailSkeletonWidget extends StatelessWidget {
+  const TransactionDetailSkeletonWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final _headlineStyle = Theme.of(context).textTheme.headline6;
+    final _labelStyle = Theme.of(context)
+        .textTheme
+        .bodyText1
+        ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
+    return Container(
+        decoration: BoxDecoration(
+            border: Border.all(
+                color: Theme.of(context).colorScheme.outline, width: 1.0),
+            borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
+        padding: const EdgeInsets.symmetric(vertical: 28.0, horizontal: 24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Transaction details", style: _headlineStyle),
+            const SizedBox(height: 18.0),
+            _transactionDetailTextLineWidget(
+              const SkeletonLine(
+                  style: SkeletonLineStyle(
+                      height: 19.0,
+                      minLength: 100,
+                      maxLength: 150,
+                      randomLength: true)),
+              const SkeletonAvatar(
+                  style: SkeletonAvatarStyle(width: 48, height: 48)),
+            ),
+            const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+            _transactionDetailTextLineWidget(
+                Text("Address", style: _labelStyle),
+                const SkeletonLine(
+                    style: SkeletonLineStyle(height: 24.0, width: 120))),
+            const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+            const DividerWidget(),
+            const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+            _transactionDetailTextLineWidget(
+                Text("Date", style: _labelStyle),
+                const SkeletonLine(
+                    style: SkeletonLineStyle(height: 19.0, width: 162))),
+            const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+            _transactionDetailTextLineWidget(
+                Text("Status", style: _labelStyle),
+                const SkeletonLine(
+                    style: SkeletonLineStyle(
+                        height: 24.0,
+                        minLength: 50,
+                        maxLength: 100,
+                        randomLength: true))),
+          ],
+        ));
+  }
+}
+
 class TransactionNotifyMessageWidget extends StatelessWidget {
   final String notifyMessage;
   const TransactionNotifyMessageWidget({Key? key, required this.notifyMessage})
@@ -444,6 +501,33 @@ class TransactionNotifyMessageWidget extends StatelessWidget {
             const SizedBox(height: 18.0),
             _transactionDetailTextLineWidget(
                 Text(notifyMessage, style: _textStyle), null)
+          ],
+        ));
+  }
+}
+
+class TransactionNotifyMessageSkeletonWidget extends StatelessWidget {
+  const TransactionNotifyMessageSkeletonWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final _headlineStyle = Theme.of(context).textTheme.headline6;
+    return Container(
+        decoration: BoxDecoration(
+            border: Border.all(
+                color: Theme.of(context).colorScheme.outline, width: 1.0),
+            borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
+        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Notify message", style: _headlineStyle),
+            const SizedBox(height: 18.0),
+            _transactionDetailTextLineWidget(
+                const SkeletonLine(
+                    style: SkeletonLineStyle(
+                        height: 16.0, minLength: 150, maxLength: 300)),
+                null)
           ],
         ));
   }

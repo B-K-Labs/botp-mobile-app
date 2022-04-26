@@ -3,8 +3,10 @@ import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 
 class TransactionDetailState {
+  // Important data
   final OTPSessionInfo? otpSessionInfo;
   final OTPValueInfo otpValueInfo;
+  bool isOutdated;
   // Request operations
   final RequestStatus userRequestStatus;
   final RequestStatus getTransactionDetailStatus;
@@ -21,6 +23,7 @@ class TransactionDetailState {
     this.generateOtpStatus = const RequestStatusInitial(),
     this.copyBcAddressStatus = const SetClipboardStatusInitial(),
     this.copyOtpStatus = const SetClipboardStatusInitial(),
+    this.isOutdated = true,
   });
   TransactionDetailState copyWith({
     OTPValueInfo? otpValueInfo,
@@ -30,6 +33,7 @@ class TransactionDetailState {
     RequestStatus? generateOtpStatus,
     SetClipboardStatus? copyBcAddressStatus,
     SetClipboardStatus? copyOtpStatus,
+    bool? isOutdated,
   }) =>
       TransactionDetailState(
           otpValueInfo: otpValueInfo ?? this.otpValueInfo,
@@ -39,5 +43,6 @@ class TransactionDetailState {
               getTransactionDetailStatus ?? this.getTransactionDetailStatus,
           generateOtpStatus: generateOtpStatus ?? this.generateOtpStatus,
           copyBcAddressStatus: copyBcAddressStatus ?? this.copyBcAddressStatus,
-          copyOtpStatus: copyOtpStatus ?? this.copyOtpStatus);
+          copyOtpStatus: copyOtpStatus ?? this.copyOtpStatus,
+          isOutdated: isOutdated ?? this.isOutdated);
 }

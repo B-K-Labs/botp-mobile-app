@@ -14,6 +14,7 @@ import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletons/skeletons.dart';
 
 class TransactionDetailScreen extends StatelessWidget {
   final TransactionDetail transactionDetail;
@@ -56,80 +57,81 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
   Widget _actionButtons() {
     return BlocBuilder<TransactionDetailBloc, TransactionDetailState>(
         builder: (context, state) {
-      final Widget _returnActionButtons;
+      Widget _returnActionButtons = const SkeletonAvatar(
+          style: SkeletonAvatarStyle(width: double.infinity, height: 50.0));
+
       final TransactionStatus? transactionStatus =
           state.otpSessionInfo?.transactionStatus;
-      switch (transactionStatus) {
-        case TransactionStatus.requesting:
-          _returnActionButtons = Row(children: [
-            Expanded(
-                child: ButtonNormalWidget(
-                    text: "Reject",
-                    onPressed: state.userRequestStatus
-                            is RequestStatusSubmitting
-                        ? null
-                        : () {
-                            context
-                                .read<TransactionDetailBloc>()
-                                .add(TransactionDetailEventRejectTransaction());
-                          },
-                    type: ButtonNormalType.errorOutlined)),
-            const SizedBox(width: kAppPaddingBetweenItemSmallSize),
-            Expanded(
-                child: ButtonNormalWidget(
-              text: "Confirm",
-              onPressed: state.userRequestStatus is RequestStatusSubmitting
-                  ? null
-                  : () {
-                      context
-                          .read<TransactionDetailBloc>()
-                          .add(TransactionDetailEventConfirmTransaction());
-                    },
-            ))
-          ]);
-          break;
-        case TransactionStatus.pending:
-          _returnActionButtons = Row(children: [
-            Expanded(
-                child: ButtonNormalWidget(
-                    text: "Cancel",
-                    onPressed: state.userRequestStatus
-                            is RequestStatusSubmitting
-                        ? null
-                        : () {
-                            context
-                                .read<TransactionDetailBloc>()
-                                .add(TransactionDetailEventCancelTransaction());
-                          },
-                    type: ButtonNormalType.errorOutlined)),
-            const SizedBox(width: kAppPaddingBetweenItemSmallSize),
-            Expanded(
-                child: ButtonNormalWidget(
-                    text: "Go to home",
-                    onPressed:
-                        state.userRequestStatus is RequestStatusSubmitting
-                            ? null
-                            : () {
-                                Application.router.pop(context);
-                              }))
-          ]);
-          break;
-        case TransactionStatus.succeeded:
-          _returnActionButtons = ButtonNormalWidget(
-              text: "Go to home",
-              onPressed: () {
-                Application.router.pop(context);
-              });
-          break;
-        case TransactionStatus.failed:
-          _returnActionButtons = ButtonNormalWidget(
-              text: "Go to home",
-              onPressed: () {
-                Application.router.pop(context);
-              });
-          break;
-        default: // Null
-          _returnActionButtons = Container(); // Null widget
+      if (!state.isOutdated) {
+        switch (transactionStatus) {
+          case TransactionStatus.pending:
+            _returnActionButtons = Row(children: [
+              Expanded(
+                  child: ButtonNormalWidget(
+                      text: "Cancel",
+                      onPressed:
+                          state.userRequestStatus is RequestStatusSubmitting
+                              ? null
+                              : () {
+                                  context.read<TransactionDetailBloc>().add(
+                                      TransactionDetailEventCancelTransaction());
+                                },
+                      type: ButtonNormalType.errorOutlined)),
+              const SizedBox(width: kAppPaddingBetweenItemSmallSize),
+              Expanded(
+                  child: ButtonNormalWidget(
+                      text: "Go to home",
+                      onPressed:
+                          state.userRequestStatus is RequestStatusSubmitting
+                              ? null
+                              : () {
+                                  Application.router.pop(context);
+                                }))
+            ]);
+            break;
+          case TransactionStatus.succeeded:
+            _returnActionButtons = ButtonNormalWidget(
+                text: "Go to home",
+                onPressed: () {
+                  Application.router.pop(context);
+                });
+            break;
+          case TransactionStatus.failed:
+            _returnActionButtons = ButtonNormalWidget(
+                text: "Go to home",
+                onPressed: () {
+                  Application.router.pop(context);
+                });
+            break;
+          case TransactionStatus.requesting:
+          default:
+            _returnActionButtons = Row(children: [
+              Expanded(
+                  child: ButtonNormalWidget(
+                      text: "Reject",
+                      onPressed:
+                          state.userRequestStatus is RequestStatusSubmitting
+                              ? null
+                              : () {
+                                  context.read<TransactionDetailBloc>().add(
+                                      TransactionDetailEventRejectTransaction());
+                                },
+                      type: ButtonNormalType.errorOutlined)),
+              const SizedBox(width: kAppPaddingBetweenItemSmallSize),
+              Expanded(
+                  child: ButtonNormalWidget(
+                text: "Confirm",
+                onPressed: state.userRequestStatus is RequestStatusSubmitting
+                    ? null
+                    : () {
+                        context
+                            .read<TransactionDetailBloc>()
+                            .add(TransactionDetailEventConfirmTransaction());
+                      },
+              ))
+            ]);
+            break;
+        }
       }
       return Container(
           padding: const EdgeInsets.symmetric(
@@ -171,27 +173,44 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
       }
     }, builder: (context, state) {
       final otpSessionInfo = state.otpSessionInfo;
-      return otpSessionInfo != null
-          ? Expanded(
-              child: SingleChildScrollView(
-                  child: Column(mainAxisSize: MainAxisSize.min, children: [
-              const SizedBox(height: kAppPaddingBetweenItemNormalSize),
-              // Show OTP only in the pending state
-              otpSessionInfo.transactionStatus == TransactionStatus.pending
-                  ? _transactionOTP()
-                  : Container(),
-              _transactionDetail(),
-              _transactionNotifyMessage(),
-              const SizedBox(height: kAppPaddingHorizontalSize),
-            ])))
-          : Container();
+      final transactionStatus = state.otpSessionInfo?.transactionStatus ??
+          widget.transactionDetail.otpSessionInfo.transactionStatus;
+      return Expanded(
+          child: SingleChildScrollView(
+              child: otpSessionInfo != null && !state.isOutdated
+                  ? Column(mainAxisSize: MainAxisSize.min, children: [
+                      const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+                      // Show OTP only in the pending state
+                      otpSessionInfo.transactionStatus ==
+                              TransactionStatus.pending
+                          ? _transactionOTP()
+                          : Container(),
+                      _transactionDetail(),
+                      _transactionNotifyMessage(),
+                      const SizedBox(height: kAppPaddingHorizontalSize),
+                    ])
+                  : Column(mainAxisSize: MainAxisSize.min, children: [
+                      const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+                      transactionStatus == TransactionStatus.pending
+                          ? _transactionOTP(true)
+                          : Container(),
+                      Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: kAppPaddingHorizontalSize),
+                          child: const TransactionDetailSkeletonWidget()),
+                      const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+                      Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: kAppPaddingHorizontalSize),
+                          child: const TransactionNotifyMessageSkeletonWidget())
+                    ])));
     });
   }
 
-  Widget _transactionOTP() {
+  Widget _transactionOTP([bool isSkeleton = false]) {
     return BlocBuilder<TransactionDetailBloc, TransactionDetailState>(
         builder: (context, state) {
-      final otpValueInfo = state.otpValueInfo;
+      final otpValueInfo = isSkeleton ? OTPValueInfo() : state.otpValueInfo;
       _onTapOtp() {
         context
             .read<TransactionDetailBloc>()

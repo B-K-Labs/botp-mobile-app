@@ -28,35 +28,42 @@ class Routes {
   static void configureRoutes(FluroRouter router) {
     // 1. Authentication modules
     router.define(authSession,
-        handler: authSessionHandler, transitionType: TransitionType.fadeIn);
+        handler: authSessionHandler,
+        transitionType: TransitionType.inFromRight);
     router.define(walkThrough,
-        handler: authWalkThoughHandle, transitionType: TransitionType.fadeIn);
+        handler: authWalkThoughHandle,
+        transitionType: TransitionType.inFromRight);
     router.define(init,
-        handler: authInitHandle, transitionType: TransitionType.fadeIn);
+        handler: authInitHandle, transitionType: TransitionType.inFromRight);
     router.define(signUp,
-        handler: authSignUpHandler, transitionType: TransitionType.fadeIn);
+        handler: authSignUpHandler, transitionType: TransitionType.inFromRight);
     router.define(signIn,
-        handler: authSignInHandler, transitionType: TransitionType.fadeIn);
+        handler: authSignInHandler, transitionType: TransitionType.inFromRight);
     router.define(import,
-        handler: authImportHandler, transitionType: TransitionType.fadeIn);
+        handler: authImportHandler, transitionType: TransitionType.inFromRight);
     router.define(reminderKYC,
         handler: reminderKYCSetupHandler,
-        transitionType: TransitionType.fadeIn);
+        transitionType: TransitionType.inFromRight);
     // 2. BOTP modules
     router.define(home,
-        handler: botpHomeHandler, transitionType: TransitionType.fadeIn);
+        handler: botpHomeHandler, transitionType: TransitionType.inFromRight);
     router.define(transaction,
-        handler: botpTransactionHandler, transitionType: TransitionType.fadeIn);
+        handler: botpTransactionHandler,
+        transitionType: TransitionType.inFromRight);
     router.define(settingsAccount,
         handler: botpSettingsAccountHandler,
-        transitionType: TransitionType.fadeIn);
+        transitionType: TransitionType.inFromRight);
     router.define(settingsAccountSetupKYC,
         handler: botpSettingsAccountUpdateKYCHandler,
-        transitionType: TransitionType.fadeIn);
+        transitionType: TransitionType.inFromRight);
+    router.define(settingsSecurity,
+        handler: botpSettingsSecurityHandler,
+        transitionType: TransitionType.inFromRight);
     // 3. Utils modules
     router.define(qrScanner,
-        handler: qrScannerHandler, transitionType: TransitionType.fadeIn);
+        handler: qrScannerHandler, transitionType: TransitionType.inFromRight);
     router.define(biometricSetup,
-        handler: biometricSetupHandler, transitionType: TransitionType.fadeIn);
+        handler: biometricSetupHandler,
+        transitionType: TransitionType.inFromRight);
   }
 }

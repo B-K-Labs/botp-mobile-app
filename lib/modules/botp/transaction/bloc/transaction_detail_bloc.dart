@@ -39,7 +39,7 @@ class TransactionDetailBloc
       required this.otpSessionSecretInfo})
       : super(TransactionDetailState(otpValueInfo: OTPValueInfo())) {
     // Core events
-    // 1. Get transaction detail + setup timers
+    // 1. Get transaction detail (Sync data) + setup timers
     on<TransactionDetailEventGetTransactionDetailAndRunSetupTimers>(
         (event, emit) async {
       if (isClosed || _isGetTransactionInfoSubmitting) return;
@@ -50,14 +50,14 @@ class TransactionDetailBloc
         // Get transaction detail
         final getTransactionDetailResult = await authenticatorRepository
             .getTransactionDetail(otpSessionSecretInfo.secretId);
-        // - Get new transaction info
+        // - New transaction info
         final newOtpSessionInfo =
             getTransactionDetailResult.transactionDetail.otpSessionInfo;
-        // - Get new transaction secret info
+        // - New transaction secret info
         otpSessionSecretInfo =
             getTransactionDetailResult.transactionDetail.otpSessionSecretInfo;
 
-        // Sync/remove secret message
+        // Add/remove secret message
         if (newOtpSessionInfo.transactionStatus == TransactionStatus.pending) {
           await _syncSecretMessage(otpSessionSecretInfo.secretId);
         } else {
@@ -74,7 +74,7 @@ class TransactionDetailBloc
         else if (newOtpSessionInfo.transactionStatus ==
             TransactionStatus.pending) {
           add(TransactionDetailEventSetupGetTransactionDetailTimer());
-          add(TransactionDetailEventSetupGenerateOTPTimer());
+          add(TransactionDetailEventGenerateOTPAndSetupTimer());
         }
         // - Cancel all timers
         else {
@@ -82,10 +82,11 @@ class TransactionDetailBloc
           _cancelGenerateOtpTimer();
         }
 
-        // Update state
+        // Update state ^_^
         emit(state.copyWith(
             otpSessionInfo: newOtpSessionInfo,
-            getTransactionDetailStatus: RequestStatusSubmitting()));
+            getTransactionDetailStatus: RequestStatusSubmitting(),
+            isOutdated: false));
       } on Exception catch (e) {
         emit(state.copyWith(userRequestStatus: RequestStatusFailed(e)));
       }
@@ -165,11 +166,13 @@ class TransactionDetailBloc
         // Save secret message (IMPORTANT)
         _saveSecretMessage(otpSessionSecretInfo.secretId,
             confirmTransactionResult.secretMessage);
-        // Change to pending status
-        add(TransactionDetailEventChangeTransactionStatusTemporarily(
-            transactionStatus: TransactionStatus.pending));
-        // Sync data
-        emit(state.copyWith(userRequestStatus: RequestStatusSuccess()));
+        // Sync data (data is temporarily outdated)
+        emit(state.copyWith(
+          userRequestStatus: RequestStatusSuccess(),
+          otpSessionInfo: state.otpSessionInfo
+              ?.copyWith(transactionStatus: TransactionStatus.pending),
+          isOutdated: true,
+        ));
         _isUserRequestSubmitting = false;
         emit(state.copyWith(userRequestStatus: const RequestStatusInitial()));
         add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers());
@@ -191,11 +194,13 @@ class TransactionDetailBloc
             otpSessionSecretInfo.secretId, accountData!.password);
         // Clean message
         _removeSecretMessage(otpSessionSecretInfo.secretId);
-        // Change to failed
-        add(TransactionDetailEventChangeTransactionStatusTemporarily(
-            transactionStatus: TransactionStatus.failed));
-        // Sync data
-        emit(state.copyWith(userRequestStatus: RequestStatusSuccess()));
+        // Sync data (data is temporarily outdated)
+        emit(state.copyWith(
+          userRequestStatus: RequestStatusSuccess(),
+          otpSessionInfo: state.otpSessionInfo
+              ?.copyWith(transactionStatus: TransactionStatus.failed),
+          isOutdated: true,
+        ));
         _isUserRequestSubmitting = false;
         emit(state.copyWith(userRequestStatus: const RequestStatusInitial()));
         add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers());
@@ -217,11 +222,13 @@ class TransactionDetailBloc
             otpSessionSecretInfo.secretId, accountData!.password);
         // Clean message
         _removeSecretMessage(otpSessionSecretInfo.secretId);
-        // Change to failed
-        add(TransactionDetailEventChangeTransactionStatusTemporarily(
-            transactionStatus: TransactionStatus.failed));
-        // Sync data
-        emit(state.copyWith(userRequestStatus: RequestStatusSuccess()));
+        // Sync data (data is temporarily outdated)
+        emit(state.copyWith(
+          userRequestStatus: RequestStatusSuccess(),
+          otpSessionInfo: state.otpSessionInfo
+              ?.copyWith(transactionStatus: TransactionStatus.failed),
+          isOutdated: true,
+        ));
         _isUserRequestSubmitting = false;
         emit(state.copyWith(userRequestStatus: const RequestStatusInitial()));
         add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers());
@@ -260,12 +267,6 @@ class TransactionDetailBloc
         }
       });
     });
-
-    // Help user not wait for new status longer
-    on<TransactionDetailEventChangeTransactionStatusTemporarily>(
-        (event, emit) => emit(state.copyWith(
-            otpSessionInfo: state.otpSessionInfo
-                ?.copyWith(transactionStatus: event.transactionStatus))));
 
     // Copy actions
     on<TransactionDetailEventCopyBcAddress>((event, emit) async {
