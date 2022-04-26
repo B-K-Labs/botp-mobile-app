@@ -179,7 +179,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
           child: SingleChildScrollView(
               child: otpSessionInfo != null && !state.isOutdated
                   ? Column(mainAxisSize: MainAxisSize.min, children: [
-                      const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+                      const SizedBox(height: kAppPaddingTopSize),
                       // Show OTP only in the pending state
                       otpSessionInfo.transactionStatus ==
                               TransactionStatus.pending
@@ -190,7 +190,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
                       const SizedBox(height: kAppPaddingHorizontalSize),
                     ])
                   : Column(mainAxisSize: MainAxisSize.min, children: [
-                      const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+                      const SizedBox(height: kAppPaddingTopSize),
                       transactionStatus == TransactionStatus.pending
                           ? _transactionOTP(true)
                           : Container(),
@@ -198,7 +198,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: kAppPaddingHorizontalSize),
                           child: const TransactionDetailSkeletonWidget()),
-                      const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+                      const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                       Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: kAppPaddingHorizontalSize),
@@ -223,7 +223,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
                 horizontal: kAppPaddingHorizontalSize),
             child: TransactionOTPWidget(
                 otpValueInfo: otpValueInfo, onTap: _onTapOtp)),
-        const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+        const SizedBox(height: kAppPaddingBetweenItemSmallSize),
       ]);
     });
   }
@@ -252,7 +252,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
                     transactionStatus: otpSessionInfo.transactionStatus,
                     opTapBcAddress: _onTapBcAddress,
                   )),
-              const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+              const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             ])
           : Container();
     });
@@ -269,7 +269,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
                       horizontal: kAppPaddingHorizontalSize),
                   child: TransactionNotifyMessageWidget(
                       notifyMessage: otpSessionInfo.notifyMessage)),
-              const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+              const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             ])
           : Container();
     });
