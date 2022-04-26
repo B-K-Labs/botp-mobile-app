@@ -17,6 +17,7 @@ class ProfileViewCubit extends Cubit<ProfileViewState> {
       if (kycData != null) {
         emit(state.copyWith(
             fullName: kycData.fullName,
+            address: kycData.address,
             age: kycData.age,
             gender: kycData.gender,
             debitor: kycData.debitor,

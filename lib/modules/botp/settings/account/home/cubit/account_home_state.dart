@@ -5,6 +5,7 @@ class ProfileViewState {
   LoadUserDataStatus loadUserData;
   // Profile
   String? fullName;
+  String? address;
   int? age;
   String? gender;
   String? debitor;
@@ -16,6 +17,7 @@ class ProfileViewState {
 
   ProfileViewState(
       {this.fullName,
+      this.address,
       this.age,
       this.gender,
       this.debitor,
@@ -26,6 +28,7 @@ class ProfileViewState {
   ProfileViewState copyWith(
           {LoadUserDataStatus? loadUserData,
           String? fullName,
+          String? address,
           int? age,
           String? gender,
           String? debitor,
@@ -35,6 +38,7 @@ class ProfileViewState {
       ProfileViewState(
           loadUserData: loadUserData ?? this.loadUserData,
           fullName: fullName ?? this.fullName,
+          address: address ?? this.address,
           age: age ?? this.age,
           gender: gender ?? this.gender,
           debitor: debitor ?? this.debitor,

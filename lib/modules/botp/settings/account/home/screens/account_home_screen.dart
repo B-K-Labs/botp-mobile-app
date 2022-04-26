@@ -46,11 +46,26 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
         return const CircularProgressIndicator();
       } else if (state.didKyc) {
         return Column(children: [
-          SettingsOptionWidget(type: SettingsOptionType.labelAndValue),
-          Text(state.fullName!),
-          Text(state.age!.toString()),
-          Text(state.gender!),
-          Text(state.debitor!),
+          SettingsOptionWidget(
+              type: SettingsOptionType.labelAndValue,
+              label: "Name",
+              value: state.fullName!),
+          SettingsOptionWidget(
+              type: SettingsOptionType.labelAndValue,
+              label: "Address",
+              value: state.address!),
+          SettingsOptionWidget(
+              type: SettingsOptionType.labelAndValue,
+              label: "Age",
+              value: state.age!.toString()),
+          SettingsOptionWidget(
+              type: SettingsOptionType.labelAndValue,
+              label: "Gender",
+              value: state.gender!),
+          SettingsOptionWidget(
+              type: SettingsOptionType.labelAndValue,
+              label: "Phone number",
+              value: state.debitor!),
         ]);
       } else {
         return const Text("Please f*cking do KYC");

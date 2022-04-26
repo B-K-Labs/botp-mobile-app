@@ -195,8 +195,8 @@ class SettingsSectionWidget extends StatelessWidget {
 // Core setting option widgets
 class SettingsOptionWidget extends StatelessWidget {
   final SettingsOptionType type;
-  final String textLabel;
-  final String textValue;
+  final String label;
+  final String value;
   final Widget? customWidget;
   final bool buttonSide;
   final bool isChecked;
@@ -204,8 +204,8 @@ class SettingsOptionWidget extends StatelessWidget {
   const SettingsOptionWidget(
       {Key? key,
       this.type = SettingsOptionType.labelAndValue,
-      this.textLabel = "",
-      this.textValue = "",
+      this.label = "",
+      this.value = "",
       this.customWidget,
       this.buttonSide = false, // left
       this.isChecked = false,
@@ -214,22 +214,28 @@ class SettingsOptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Widget _optionWidget;
     switch (type) {
       case SettingsOptionType.labelNavigable:
-        return Container();
+        _optionWidget = Container();
+        break;
       case SettingsOptionType.labelSelectable:
-        return Container();
+        _optionWidget = Container();
+        break;
       case SettingsOptionType.labelToggleable:
-        return Container();
+        _optionWidget = Container();
+        break;
       case SettingsOptionType.buttonTextOneSide:
-        return Container();
+        _optionWidget = Container();
+        break;
       case SettingsOptionType.labelAndValue:
       default:
-        return Row(
-            mainAxisSize: MainAxisSize.max,
+        _optionWidget = Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: []);
+            children: [Text(label), Text(value)]);
+        break;
     }
+    return _wrapSettingsOptionWidget(_optionWidget);
   }
 
   Widget _wrapSettingsOptionWidget(Widget child) => Container(

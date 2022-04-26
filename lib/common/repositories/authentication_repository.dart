@@ -15,7 +15,7 @@ class AuthenticationRepository {
     if (result.statusCode == HttpStatus.ok) {
       return SignUpResponseModel.fromJSON(json.decode(result.body)["data"]);
     }
-    throw Exception('Failed to sign up');
+    throw Exception(result.body);
   }
 
   // Sign in
