@@ -68,7 +68,8 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
               value: state.debitor!),
         ]);
       } else {
-        return const Text("Please f*cking do KYC");
+        // TODO: Remind
+        return const Text("DO KYC");
       }
     });
   }

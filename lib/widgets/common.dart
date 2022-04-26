@@ -89,7 +89,7 @@ class AvatarWidget extends StatelessWidget {
 class DecoratedIconWidget extends StatelessWidget {
   final IconData iconData;
   final DecoratedIconSize size;
-  final DecoratedIconColorType colorType;
+  final ColorType colorType;
 
   const DecoratedIconWidget(
       {Key? key,
@@ -105,19 +105,19 @@ class DecoratedIconWidget extends StatelessWidget {
     final Color _onColorContainer;
     final Color _colorContainer;
     switch (colorType) {
-      case DecoratedIconColorType.error:
+      case ColorType.error:
         _onColorContainer = Theme.of(context).colorScheme.onErrorContainer;
         _colorContainer = Theme.of(context).colorScheme.errorContainer;
         break;
-      case DecoratedIconColorType.secondary:
+      case ColorType.secondary:
         _onColorContainer = Theme.of(context).colorScheme.onSecondaryContainer;
         _colorContainer = Theme.of(context).colorScheme.secondaryContainer;
         break;
-      case DecoratedIconColorType.tertiary:
+      case ColorType.tertiary:
         _onColorContainer = Theme.of(context).colorScheme.onTertiaryContainer;
         _colorContainer = Theme.of(context).colorScheme.tertiaryContainer;
         break;
-      case DecoratedIconColorType.primary:
+      case ColorType.primary:
       default:
         _onColorContainer = Theme.of(context).colorScheme.onPrimaryContainer;
         _colorContainer = Theme.of(context).colorScheme.primaryContainer;

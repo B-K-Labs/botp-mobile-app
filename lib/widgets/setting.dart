@@ -2,6 +2,7 @@ import 'package:botp_auth/constants/settings.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/utils/helpers/account.dart';
 import 'package:botp_auth/widgets/common.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 
@@ -106,7 +107,7 @@ class SettingsCategoryWidget extends StatelessWidget {
   final IconData iconData;
   final String title;
   final String description;
-  final DecoratedIconColorType colorType;
+  final ColorType colorType;
 
   const SettingsCategoryWidget(
       {Key? key,
@@ -198,47 +199,103 @@ class SettingsOptionWidget extends StatelessWidget {
   final String label;
   final String value;
   final Widget? customWidget;
-  final bool buttonSide;
+  final OptionButtonOneSide buttonSide;
+  final ColorType buttonSideColorType;
+  final bool switchValue;
+  final ValueChanged<bool>? onSwitched;
   final bool isChecked;
   final String navigateDescription;
+  final void Function(bool)? onNavigate;
   const SettingsOptionWidget(
       {Key? key,
       this.type = SettingsOptionType.labelAndValue,
       this.label = "",
       this.value = "",
       this.customWidget,
-      this.buttonSide = false, // left
+      this.buttonSide = OptionButtonOneSide.left,
+      this.buttonSideColorType = ColorType.primary,
+      this.switchValue = false,
+      this.onSwitched,
       this.isChecked = false,
-      this.navigateDescription = ""})
+      this.navigateDescription = "",
+      this.onNavigate})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Option Theme
+    // - Color
+    final Color _valueColor = Theme.of(context).colorScheme.surfaceVariant;
+    // - Style
+    final _labelStyle = Theme.of(context).textTheme.bodyText1;
+    final _valueStyle =
+        Theme.of(context).textTheme.bodyText2?.copyWith(color: _valueColor);
+    final _descriptionStyle = Theme.of(context).textTheme.bodyText2;
+    // Child widget
     final Widget _optionWidget;
     switch (type) {
       case SettingsOptionType.labelNavigable:
-        _optionWidget = Container();
+        _optionWidget =
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Text(label, style: _labelStyle),
+          Row(
+            children: [
+              Text(navigateDescription, style: _valueStyle),
+              const SizedBox(width: 8.0),
+              Icon(Icons.arrow_forward_ios, color: _valueColor)
+            ],
+          )
+        ]);
         break;
       case SettingsOptionType.labelSelectable:
-        _optionWidget = Container();
+        _optionWidget =
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Text(label, style: _labelStyle),
+          Icon(Icons.check_circle,
+              color: Theme.of(context).colorScheme.secondary)
+        ]);
         break;
-      case SettingsOptionType.labelToggleable:
-        _optionWidget = Container();
+      case SettingsOptionType.labelSwitchable:
+        _optionWidget =
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Text(label, style: _labelStyle),
+          Switch.adaptive(value: switchValue, onChanged: onSwitched)
+        ]);
         break;
       case SettingsOptionType.buttonTextOneSide:
-        _optionWidget = Container();
+        final _textColor = buttonSideColorType == ColorType.primary
+            ? Theme.of(context).colorScheme.primary
+            : Theme.of(context).colorScheme.error;
+        _optionWidget = Row(
+            mainAxisAlignment: buttonSide == OptionButtonOneSide.left
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.end,
+            children: [
+              Text(label, style: _labelStyle?.copyWith(color: _textColor))
+            ]);
         break;
       case SettingsOptionType.labelAndValue:
       default:
-        _optionWidget = Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text(label), Text(value)]);
+        _optionWidget =
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Expanded(flex: 1, child: Text(label, style: _labelStyle)),
+          Expanded(
+              flex: 1,
+              child: Text(
+                value,
+                style: _labelStyle,
+                textAlign: TextAlign.right,
+              ))
+        ]);
         break;
     }
     return _wrapSettingsOptionWidget(_optionWidget);
   }
 
-  Widget _wrapSettingsOptionWidget(Widget child) => Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      child: child);
+  Widget _wrapSettingsOptionWidget(Widget child, {VoidCallback? onTap}) =>
+      InkWell(
+          onTap: onTap,
+          child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              child: child));
 }

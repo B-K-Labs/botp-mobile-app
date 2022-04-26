@@ -119,21 +119,13 @@ class _SettingsBodyState extends State<SettingsBody> {
       _generateSettingsCategoryItem(Icons.person, "Account", "Account, Profile",
           () {
         Application.router.navigateTo(context, "/botp/settings/account");
-      }, DecoratedIconColorType.primary),
-      _generateSettingsCategoryItem(
-          Icons.security,
-          "Security",
-          "Password, Biometrics, Sign-out",
-          () {},
-          DecoratedIconColorType.error),
-      _generateSettingsCategoryItem(
-          Icons.settings,
-          "System",
-          "Preferences, Notifications",
-          () {},
-          DecoratedIconColorType.secondary),
+      }, ColorType.primary),
+      _generateSettingsCategoryItem(Icons.security, "Security",
+          "Password, Biometrics, Sign-out", () {}, ColorType.error),
+      _generateSettingsCategoryItem(Icons.settings, "System",
+          "Preferences, Notifications", () {}, ColorType.secondary),
       _generateSettingsCategoryItem(Icons.info, "About",
-          "Version, terms of services", () {}, DecoratedIconColorType.tertiary),
+          "Version, terms of services", () {}, ColorType.tertiary),
     ];
     return ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
@@ -148,7 +140,7 @@ class _SettingsBodyState extends State<SettingsBody> {
   }
 
   Widget _generateSettingsCategoryItem(IconData iconData, String title,
-      String description, Function() onTap, DecoratedIconColorType colorType) {
+      String description, Function() onTap, ColorType colorType) {
     return Container(
         padding:
             const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
