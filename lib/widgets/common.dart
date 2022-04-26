@@ -1,5 +1,4 @@
 import 'package:botp_auth/constants/common.dart';
-import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 
 class AppBarWidget {
@@ -9,13 +8,14 @@ class AppBarWidget {
       String? title,
       String? avatarUrl,
       VoidCallback? onPressedAvatar}) {
+    final Color _appbarBackgroundColor = Theme.of(context).colorScheme.surface;
     switch (type) {
       case AppBarType.blank:
         return AppBar(
           automaticallyImplyLeading: false,
           centerTitle: true,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
+          elevation: 1,
+          backgroundColor: _appbarBackgroundColor,
         );
       case AppBarType.authenticator:
         return AppBar(
@@ -25,8 +25,8 @@ class AppBarWidget {
               .textTheme
               .headline6
               ?.copyWith(color: Theme.of(context).colorScheme.primary),
-          elevation: 0,
-          backgroundColor: Colors.transparent,
+          elevation: 1,
+          backgroundColor: _appbarBackgroundColor,
           actions: [
             AvatarWidget(avatarUrl: avatarUrl, onPressed: onPressedAvatar),
             const SizedBox(width: 10.0),
@@ -43,8 +43,9 @@ class AppBarWidget {
               .headline6
               ?.copyWith(color: Theme.of(context).colorScheme.primary),
           // centerTitle: true,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
+          elevation: 1,
+          // backgroundColor: Colors.transparent,
+          backgroundColor: _appbarBackgroundColor,
         );
       case AppBarType.normal:
       default:
@@ -53,8 +54,9 @@ class AppBarWidget {
           title: title != null ? Text(title) : null,
           titleTextStyle: Theme.of(context).textTheme.headline6,
           centerTitle: true,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
+          elevation: 1,
+          // backgroundColor: Colors.transparent,
+          backgroundColor: _appbarBackgroundColor,
           iconTheme: IconThemeData(
             color: Theme.of(context).colorScheme.onSurface,
           ),

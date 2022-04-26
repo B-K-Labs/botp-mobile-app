@@ -20,7 +20,7 @@ class ImportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBarWidget.generate(context),
-        body: const SafeArea(bottom: true, child: ImportBody()));
+        body: const SafeArea(child: ImportBody()));
   }
 }
 

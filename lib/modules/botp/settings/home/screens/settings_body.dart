@@ -1,7 +1,6 @@
 import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
-import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
@@ -124,10 +123,14 @@ class _SettingsBodyState extends State<SettingsBody> {
           Icons.security, "Security", "Password, Biometrics, Sign-out", () {
         Application.router.navigateTo(context, "/botp/settings/security");
       }, ColorType.error),
-      _generateSettingsCategoryItem(Icons.settings, "System",
-          "Preferences, Notifications", () {}, ColorType.secondary),
-      _generateSettingsCategoryItem(Icons.info, "About",
-          "Version, terms of services", () {}, ColorType.tertiary),
+      _generateSettingsCategoryItem(
+          Icons.settings, "System", "Preferences, Notifications", () {
+        Application.router.navigateTo(context, "/botp/settings/system");
+      }, ColorType.secondary),
+      _generateSettingsCategoryItem(
+          Icons.info, "About", "Version, terms of services", () {
+        Application.router.navigateTo(context, "/botp/settings/about");
+      }, ColorType.tertiary),
     ];
     return ListView.separated(
         physics: const NeverScrollableScrollPhysics(),

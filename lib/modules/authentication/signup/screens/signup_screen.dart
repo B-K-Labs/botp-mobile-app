@@ -19,10 +19,7 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWidget.generate(context),
-      body: const SafeArea(
-        bottom: true,
-        child: SignUpBody(),
-      ),
+      body: const SafeArea(child: SignUpBody()),
     );
   }
 }

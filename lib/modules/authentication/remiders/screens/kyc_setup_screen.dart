@@ -11,8 +11,7 @@ class ReminderKYCSetupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        body: SafeArea(bottom: true, child: ReminderKYCSetupBody()));
+    return const Scaffold(body: SafeArea(child: ReminderKYCSetupBody()));
   }
 }
 

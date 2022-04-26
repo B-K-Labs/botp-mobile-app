@@ -81,7 +81,7 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
       if (state.loadUserData is! LoadUserDataStatusSuccess) {
         return const CircularProgressIndicator();
       } else {
-        return SettingsSectionWidget(title: "Account", children: [
+        return SettingsSectionWidget(title: "Account info", children: [
           SettingsOptionWidget(
               type: SettingsOptionType.labelAndCustomWidget,
               label: "Blockchain address",
@@ -91,7 +91,9 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
                     context.read<ProfileViewCubit>().copyBcAddress();
                   })),
           const SettingsOptionWidget(
-              type: SettingsOptionType.labelNavigable, label: "Add new agent"),
+              type: SettingsOptionType.buttonTextOneSide,
+              buttonSide: OptionButtonOneSide.right,
+              label: "Add new agent by scanning QR"),
         ]);
       }
     });
@@ -103,7 +105,7 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
       if (state.loadUserData is! LoadUserDataStatusSuccess) {
         return const CircularProgressIndicator();
       } else if (state.didKyc) {
-        return SettingsSectionWidget(title: "Profile", children: [
+        return SettingsSectionWidget(title: "KYC Info", children: [
           SettingsOptionWidget(
               type: SettingsOptionType.labelAndValue,
               label: "Name",

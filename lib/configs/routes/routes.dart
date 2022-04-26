@@ -59,6 +59,12 @@ class Routes {
     router.define(settingsSecurity,
         handler: botpSettingsSecurityHandler,
         transitionType: TransitionType.inFromRight);
+    router.define(settingsSystem,
+        handler: botpSettingsSystemHandler,
+        transitionType: TransitionType.inFromRight);
+    router.define(settingsAbout,
+        handler: botpSettingsAboutHandler,
+        transitionType: TransitionType.inFromRight);
     // 3. Utils modules
     router.define(qrScanner,
         handler: qrScannerHandler, transitionType: TransitionType.inFromRight);

@@ -10,8 +10,7 @@ class WalkThroughScreen extends StatefulWidget {
 class _WalkThroughScreenState extends State<WalkThroughScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        body: SafeArea(bottom: true, child: WalkThroughBody()));
+    return const Scaffold(body: SafeArea(child: WalkThroughBody()));
   }
 }
 

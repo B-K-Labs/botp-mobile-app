@@ -43,7 +43,7 @@ class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
           : _selectedIndex == 1
               ? AppBarWidget.generate(context, type: AppBarType.history)
               : null,
-      body: SafeArea(bottom: true, child: _getSelectedWidget()),
+      body: SafeArea(child: _getSelectedWidget()),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
