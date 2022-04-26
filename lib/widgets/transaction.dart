@@ -22,10 +22,6 @@ class _TransactionStatusWidget extends StatelessWidget {
     final Color _primary;
     final Color _backgroundColor;
     switch (status) {
-      case TransactionStatus.requesting:
-        _primary = Theme.of(context).colorScheme.onTertiaryContainer;
-        _backgroundColor = Theme.of(context).colorScheme.tertiaryContainer;
-        break;
       case TransactionStatus.pending:
         _primary = Theme.of(context).colorScheme.onPrimaryContainer;
         _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
@@ -38,9 +34,11 @@ class _TransactionStatusWidget extends StatelessWidget {
         _primary = Theme.of(context).colorScheme.onErrorContainer;
         _backgroundColor = Theme.of(context).colorScheme.errorContainer;
         break;
-      default: // Requesting
+      case TransactionStatus.requesting:
+      default:
         _primary = Theme.of(context).colorScheme.onTertiaryContainer;
         _backgroundColor = Theme.of(context).colorScheme.tertiaryContainer;
+        break;
     }
     // - Text
     final _textStyle = size == TransactionStatusSize.small
@@ -193,10 +191,6 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
     final Color _primary;
     final Color _backgroundColor;
     switch (widget.otpValueInfo.status) {
-      case OTPValueStatus.initial:
-        _primary = Theme.of(context).colorScheme.outline;
-        _backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
-        break;
       case OTPValueStatus.valid:
         _primary = Theme.of(context).colorScheme.primary;
         _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
@@ -213,9 +207,10 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
         _primary = Theme.of(context).colorScheme.error;
         _backgroundColor = Theme.of(context).colorScheme.errorContainer;
         break;
-      default: // Not available
-        _primary = Theme.of(context).colorScheme.outline;
-        _backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
+      case OTPValueStatus.initial:
+      default:
+        _primary = Theme.of(context).colorScheme.primary;
+        _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
         break;
     }
     // - Border

@@ -29,13 +29,12 @@ class Environment {
 
   BaseConfig _getConfig(String? flutterEnv) {
     switch (flutterEnv) {
-      case kProduction:
-        return ProductionConfig();
       case kStaging:
         return StagingConfig();
       case kDevelopment:
         return DevelopmentConfig();
-      default: // Null or other
+      case kProduction:
+      default:
         return ProductionConfig();
     }
   }

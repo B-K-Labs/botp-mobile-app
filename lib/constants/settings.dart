@@ -1,11 +1,10 @@
 // Settings
 
 enum SettingsOptionType {
-  textNormalValue,
-  textMultilineValue,
-  textCustomWidgetValue,
-  buttonToggleable,
+  labelAndValue,
+  labelAndCustomWidget,
   buttonTextOneSide,
-  buttonNavigable,
-  buttonSelectable
+  labelToggleable,
+  labelNavigable,
+  labelSelectable
 }

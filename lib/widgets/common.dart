@@ -1,4 +1,5 @@
 import 'package:botp_auth/constants/common.dart';
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 
 class AppBarWidget {
@@ -9,21 +10,6 @@ class AppBarWidget {
       String? avatarUrl,
       VoidCallback? onPressedAvatar}) {
     switch (type) {
-      case AppBarType.normal:
-        return AppBar(
-          automaticallyImplyLeading: implyLeading,
-          title: title != null ? Text(title) : null,
-          titleTextStyle: Theme.of(context)
-              .textTheme
-              .headline6
-              ?.copyWith(fontWeight: FontWeight.normal),
-          centerTitle: true,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          iconTheme: IconThemeData(
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-        );
       case AppBarType.blank:
         return AppBar(
           automaticallyImplyLeading: false,
@@ -56,21 +42,16 @@ class AppBarWidget {
               .textTheme
               .headline6
               ?.copyWith(color: Theme.of(context).colorScheme.primary),
-          centerTitle: true,
+          // centerTitle: true,
           elevation: 0,
           backgroundColor: Colors.transparent,
-          iconTheme: IconThemeData(
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
         );
-      default: // Normal
+      case AppBarType.normal:
+      default:
         return AppBar(
           automaticallyImplyLeading: implyLeading,
           title: title != null ? Text(title) : null,
-          titleTextStyle: Theme.of(context)
-              .textTheme
-              .headline6
-              ?.copyWith(fontWeight: FontWeight.normal),
+          titleTextStyle: Theme.of(context).textTheme.headline6,
           centerTitle: true,
           elevation: 0,
           backgroundColor: Colors.transparent,
@@ -124,10 +105,6 @@ class DecoratedIconWidget extends StatelessWidget {
     final Color _onColorContainer;
     final Color _colorContainer;
     switch (colorType) {
-      case DecoratedIconColorType.primary:
-        _onColorContainer = Theme.of(context).colorScheme.onPrimaryContainer;
-        _colorContainer = Theme.of(context).colorScheme.primaryContainer;
-        break;
       case DecoratedIconColorType.error:
         _onColorContainer = Theme.of(context).colorScheme.onErrorContainer;
         _colorContainer = Theme.of(context).colorScheme.errorContainer;
@@ -140,7 +117,8 @@ class DecoratedIconWidget extends StatelessWidget {
         _onColorContainer = Theme.of(context).colorScheme.onTertiaryContainer;
         _colorContainer = Theme.of(context).colorScheme.tertiaryContainer;
         break;
-      default: // Account
+      case DecoratedIconColorType.primary:
+      default:
         _onColorContainer = Theme.of(context).colorScheme.onPrimaryContainer;
         _colorContainer = Theme.of(context).colorScheme.primaryContainer;
         break;

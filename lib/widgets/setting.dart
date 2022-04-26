@@ -2,7 +2,46 @@ import 'package:botp_auth/constants/settings.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/utils/helpers/account.dart';
 import 'package:botp_auth/widgets/common.dart';
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
+
+// Blockchain address info
+class BcAddressWidget extends StatelessWidget {
+  final String bcAddress;
+  final VoidCallback? onTap;
+
+  const BcAddressWidget({Key? key, required this.bcAddress, this.onTap})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // Transaction Item theme
+    // - Colors
+    final Color _primary = Theme.of(context).colorScheme.onSurfaceVariant;
+    final Color _backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
+    // - Text
+    final _textStyle =
+        Theme.of(context).textTheme.bodyText1?.copyWith(color: _primary);
+    // - Padding
+    const _padding = EdgeInsets.symmetric(vertical: 3.0, horizontal: 12.0);
+    // - Decoration
+    final _decoration = BoxDecoration(
+        color: _backgroundColor,
+        borderRadius: BorderRadius.circular(BorderRadiusSize.small));
+
+    return GestureDetector(
+        onTap: onTap,
+        child: Container(
+          decoration: _decoration,
+          padding: _padding,
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text(shortenBcAddress(bcAddress), style: _textStyle),
+            const SizedBox(width: 8.0),
+            Icon(Icons.copy, size: 16.0, color: _primary)
+          ]),
+        ));
+  }
+}
 
 // Home Info
 class SettingsHomeInfo extends StatelessWidget {
@@ -62,7 +101,7 @@ class SettingsHomeInfo extends StatelessWidget {
   }
 }
 
-// Settings category
+// Category
 class SettingsCategoryWidget extends StatelessWidget {
   final IconData iconData;
   final String title;
@@ -140,55 +179,60 @@ class ShadowSettingsCategoryWidget extends StatelessWidget {
   }
 }
 
-// Blockchain address info
-class BcAddressWidget extends StatelessWidget {
-  final String bcAddress;
-  final VoidCallback? onTap;
-
-  const BcAddressWidget({Key? key, required this.bcAddress, this.onTap})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    // Transaction Item theme
-    // - Colors
-    final Color _primary = Theme.of(context).colorScheme.onSurfaceVariant;
-    final Color _backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
-    // - Text
-    final _textStyle =
-        Theme.of(context).textTheme.bodyText1?.copyWith(color: _primary);
-    // - Padding
-    const _padding = EdgeInsets.symmetric(vertical: 3.0, horizontal: 12.0);
-    // - Decoration
-    final _decoration = BoxDecoration(
-        color: _backgroundColor,
-        borderRadius: BorderRadius.circular(BorderRadiusSize.small));
-
-    return GestureDetector(
-        onTap: onTap,
-        child: Container(
-          decoration: _decoration,
-          padding: _padding,
-          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text(shortenBcAddress(bcAddress), style: _textStyle),
-            const SizedBox(width: 8.0),
-            Icon(Icons.copy, size: 16.0, color: _primary)
-          ]),
-        ));
-  }
-}
-
-//
-
-// Core setting option widgets
-class SettingsOptionWidget extends StatelessWidget {
-  final SettingsOptionType optionType;
-  const SettingsOptionWidget(
-      {Key? key, this.optionType = SettingsOptionType.textNormalValue})
+// Settings section
+class SettingsSectionWidget extends StatelessWidget {
+  final String? title;
+  final Widget child;
+  const SettingsSectionWidget({Key? key, this.title, required this.child})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container();
   }
+}
+
+// Core setting option widgets
+class SettingsOptionWidget extends StatelessWidget {
+  final SettingsOptionType type;
+  final String textLabel;
+  final String textValue;
+  final Widget? customWidget;
+  final bool buttonSide;
+  final bool isChecked;
+  final String navigateDescription;
+  const SettingsOptionWidget(
+      {Key? key,
+      this.type = SettingsOptionType.labelAndValue,
+      this.textLabel = "",
+      this.textValue = "",
+      this.customWidget,
+      this.buttonSide = false, // left
+      this.isChecked = false,
+      this.navigateDescription = ""})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    switch (type) {
+      case SettingsOptionType.labelNavigable:
+        return Container();
+      case SettingsOptionType.labelSelectable:
+        return Container();
+      case SettingsOptionType.labelToggleable:
+        return Container();
+      case SettingsOptionType.buttonTextOneSide:
+        return Container();
+      case SettingsOptionType.labelAndValue:
+      default:
+        return Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: []);
+    }
+  }
+
+  Widget _wrapSettingsOptionWidget(Widget child) => Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      child: child);
 }

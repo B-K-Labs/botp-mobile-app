@@ -1,8 +1,11 @@
 import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/routing_param.dart';
+import 'package:botp_auth/constants/settings.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/cubit/account_home_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/cubit/account_home_state.dart';
+import 'package:botp_auth/widgets/common.dart';
+import 'package:botp_auth/widgets/setting.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,14 +15,7 @@ class AccountHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(actions: [
-          IconButton(
-              onPressed: () => Application.router.navigateTo(
-                  context, "/botp/settings/account/setupKyc",
-                  routeSettings: const RouteSettings(
-                      arguments: FromScreen.botpSettingsAccount)),
-              icon: const Icon(Icons.edit))
-        ]),
+        appBar: AppBarWidget.generate(context, title: "Accounts"),
         body: const AccountHomeBody());
   }
 }
@@ -50,6 +46,7 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
         return const CircularProgressIndicator();
       } else if (state.didKyc) {
         return Column(children: [
+          SettingsOptionWidget(type: SettingsOptionType.labelAndValue),
           Text(state.fullName!),
           Text(state.age!.toString()),
           Text(state.gender!),

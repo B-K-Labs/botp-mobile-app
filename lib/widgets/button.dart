@@ -31,11 +31,6 @@ class ButtonNormalWidget extends StatelessWidget {
       _backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
     } else {
       switch (type) {
-        case ButtonNormalType.primary:
-          _borderColor = null;
-          _primary = Theme.of(context).colorScheme.onPrimary;
-          _backgroundColor = Theme.of(context).colorScheme.primary;
-          break;
         case ButtonNormalType.primaryOutlined:
           _borderColor = Theme.of(context).colorScheme.primary;
           _primary = Theme.of(context).colorScheme.primary;
@@ -71,8 +66,9 @@ class ButtonNormalWidget extends StatelessWidget {
           _primary = Theme.of(context).colorScheme.onSurfaceVariant;
           _backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
           break;
-        default: // Primary
-          _borderColor = Theme.of(context).colorScheme.primary;
+        case ButtonNormalType.primary:
+        default:
+          _borderColor = null;
           _primary = Theme.of(context).colorScheme.onPrimary;
           _backgroundColor = Theme.of(context).colorScheme.primary;
           break;
@@ -174,11 +170,6 @@ class ButtonIconWidget extends StatelessWidget {
     final Color _primary; // Icon color
     final Color? _backgroundColor;
     switch (type) {
-      case ButtonIconType.primaryOutlined:
-        _borderColor = Theme.of(context).colorScheme.primary;
-        _primary = Theme.of(context).colorScheme.primary;
-        _backgroundColor = null;
-        break;
       case ButtonIconType.secondaryGhost:
         _borderColor = Theme.of(context).colorScheme.background;
         _primary = Theme.of(context).colorScheme.onSurfaceVariant;
@@ -189,10 +180,12 @@ class ButtonIconWidget extends StatelessWidget {
         _primary = Theme.of(context).colorScheme.onError;
         _backgroundColor = Theme.of(context).colorScheme.error;
         break;
-      default: // Primary outlined
+      case ButtonIconType.primaryOutlined:
+      default:
         _borderColor = Theme.of(context).colorScheme.primary;
         _primary = Theme.of(context).colorScheme.primary;
         _backgroundColor = null;
+        break;
     }
     // - Shape
     final _borderRadius = BorderRadius.circular(

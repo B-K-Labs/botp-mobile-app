@@ -11,10 +11,9 @@ void showSnackBar(context, message, [SnackBarType type = SnackBarType.error]) {
       _backgroundColor = Theme.of(context).colorScheme.secondary;
       break;
     case SnackBarType.error:
+    default:
       _backgroundColor = Theme.of(context).colorScheme.error;
       break;
-    default: // Error
-      _backgroundColor = Theme.of(context).colorScheme.error;
   }
   final snackBar = SnackBar(
     content: Text(message),
