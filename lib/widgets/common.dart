@@ -158,3 +158,121 @@ class DividerWidget extends StatelessWidget {
         : Divider(height: height, color: _color, thickness: thickness);
   }
 }
+
+class ReminderWidget extends StatelessWidget {
+  final IconData iconData;
+  final ColorType colorType;
+  final String title;
+  final String? description;
+  final VoidCallback? onTap;
+  final Widget? child;
+
+  const ReminderWidget(
+      {Key? key,
+      required this.iconData,
+      required this.colorType,
+      required this.title,
+      this.description,
+      this.child,
+      this.onTap})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // Reminder theme
+    // - Color
+    final Color _onContainer;
+    final Color _container;
+    final Color _primary;
+    switch (colorType) {
+      case ColorType.secondary:
+        _onContainer = Theme.of(context).colorScheme.onSecondaryContainer;
+        _container = Theme.of(context).colorScheme.secondaryContainer;
+        _primary = Theme.of(context).colorScheme.secondary;
+        break;
+      case ColorType.tertiary:
+        _onContainer = Theme.of(context).colorScheme.onTertiaryContainer;
+        _container = Theme.of(context).colorScheme.tertiaryContainer;
+        _primary = Theme.of(context).colorScheme.tertiary;
+        break;
+      case ColorType.error:
+        _onContainer = Theme.of(context).colorScheme.onErrorContainer;
+        _container = Theme.of(context).colorScheme.errorContainer;
+        _primary = Theme.of(context).colorScheme.error;
+        break;
+      case ColorType.primary:
+      default:
+        _onContainer = Theme.of(context).colorScheme.onPrimaryContainer;
+        _container = Theme.of(context).colorScheme.primaryContainer;
+        _primary = Theme.of(context).colorScheme.primary;
+        break;
+    }
+    // - Text
+    final _titleStyle = Theme.of(context)
+        .textTheme
+        .bodyText1
+        ?.copyWith(color: _onContainer, fontWeight: FontWeight.bold);
+    final _descriptionStyle =
+        Theme.of(context).textTheme.caption?.copyWith(color: _onContainer);
+
+    return GestureDetector(
+        onTap: onTap,
+        child: Container(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+            decoration: BoxDecoration(
+                color: _container,
+                boxShadow: [
+                  BoxShadow(
+                      offset: const Offset(boxShadowOffsetX, boxShadowOffsetY),
+                      blurRadius: boxShadowBlurRadius,
+                      color: Theme.of(context)
+                          .shadowColor
+                          .withOpacity(boxShadowOpacity))
+                ],
+                borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                      child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                        Row(
+                          children: [
+                            Icon(iconData, color: _onContainer),
+                            const SizedBox(width: 8.0),
+                            Text(title, style: _titleStyle),
+                          ],
+                        ),
+                        const SizedBox(height: 12.0),
+                        Row(children: [
+                          Expanded(
+                              child: description != null
+                                  ? Text(
+                                      description!,
+                                      style: _descriptionStyle,
+                                    )
+                                  : Container())
+                        ]),
+                        Row(children: [
+                          Expanded(child: child != null ? child! : Container())
+                        ])
+                      ])),
+                  const SizedBox(width: 12.0),
+                  onTap != null
+                      ? Container(
+                          width: 36.0,
+                          height: 36.0,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: Theme.of(context).colorScheme.surface,
+                          ),
+                          child: Icon(Icons.navigate_next_outlined,
+                              color: _primary))
+                      : Container()
+                ])));
+  }
+}

@@ -45,7 +45,17 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
 
   Widget reminder() {
     return BlocBuilder<ProfileViewCubit, ProfileViewState>(
-        builder: (context, state) => Column(children: const []));
+        builder: (context, state) =>
+            state.loadUserData is LoadUserDataStatusSuccess && !state.didKyc
+                ? ReminderWidget(
+                    iconData: Icons.verified_outlined,
+                    colorType: ColorType.primary,
+                    title: "You're almost done!",
+                    description:
+                        "BOTP Auth need to know you. Enter your information here to use the authenticator!",
+                    onTap: () {},
+                  )
+                : Container());
   }
 
   Widget _account() {
