@@ -1,3 +1,4 @@
+import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/constants/settings.dart';
 import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/setting.dart';
@@ -25,23 +26,33 @@ class _SystemHomeBodyState extends State<SystemHomeBody> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      SettingsSectionWidget(title: "Preferences", children: [
-        SettingsOptionWidget(
-          label: "Dark mode",
-          type: SettingsOptionType.labelSwitchable,
-        ),
-        SettingsOptionWidget(
-          label: "Transfer account",
-          type: SettingsOptionType.labelNavigable,
-          navigateDescription: "Engrish",
-        ),
-      ]),
-      SettingsSectionWidget(title: "Notifications", children: [
-        SettingsOptionWidget(
-          label: "Notify when received new transactions",
-          type: SettingsOptionType.labelSwitchable,
-        ),
-      ])
+      _preferences(),
+      const DividerWidget(
+          padding: EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize)),
+      _notifications(),
+    ]);
+  }
+
+  Widget _preferences() {
+    return SettingsSectionWidget(title: "Preferences", children: [
+      SettingsOptionWidget(
+        label: "Dark mode",
+        type: SettingsOptionType.labelSwitchable,
+      ),
+      SettingsOptionWidget(
+        label: "Transfer account",
+        type: SettingsOptionType.labelNavigable,
+        navigateDescription: "Engrish",
+      )
+    ]);
+  }
+
+  Widget _notifications() {
+    return SettingsSectionWidget(title: "Notifications", children: [
+      SettingsOptionWidget(
+        label: "Notify when received new transactions",
+        type: SettingsOptionType.labelSwitchable,
+      ),
     ]);
   }
 }

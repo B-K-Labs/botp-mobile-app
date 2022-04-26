@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:botp_auth/constants/settings.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/utils/helpers/account.dart';
@@ -212,6 +214,7 @@ class SettingsOptionWidget extends StatelessWidget {
   final SettingsOptionType type;
   final String label;
   final String value;
+  final bool multiLine;
   final Widget? customWidget;
   final OptionButtonOneSide buttonSide;
   final ColorType buttonSideColorType;
@@ -219,12 +222,13 @@ class SettingsOptionWidget extends StatelessWidget {
   final ValueChanged<bool>? onSwitched;
   final bool isChecked;
   final String navigateDescription;
-  final void Function(bool)? onNavigate;
+  final VoidCallback? onNavigate;
   const SettingsOptionWidget(
       {Key? key,
       this.type = SettingsOptionType.labelAndValue,
       this.label = "",
       this.value = "",
+      this.multiLine = false,
       this.customWidget,
       this.buttonSide = OptionButtonOneSide.left,
       this.buttonSideColorType = ColorType.primary,
@@ -241,6 +245,7 @@ class SettingsOptionWidget extends StatelessWidget {
     // - Style
     final _labelStyle = Theme.of(context).textTheme.bodyText1;
     final _valueStyle = Theme.of(context).textTheme.bodyText2;
+    final _descriptionStyle = Theme.of(context).textTheme.bodyText2;
     // Child widget
     final Widget _optionWidget;
     switch (type) {
@@ -258,7 +263,7 @@ class SettingsOptionWidget extends StatelessWidget {
           Text(label, style: _labelStyle),
           Row(
             children: [
-              Text(navigateDescription, style: _valueStyle),
+              Text(navigateDescription, style: _descriptionStyle),
               const SizedBox(width: 8.0),
               Icon(Icons.navigate_next_outlined,
                   color: Theme.of(context).colorScheme.onSurfaceVariant)

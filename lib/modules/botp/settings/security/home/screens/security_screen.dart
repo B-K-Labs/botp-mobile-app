@@ -28,38 +28,62 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
   Widget build(BuildContext context) {
     return Column(children: [
       _account(),
+      const DividerWidget(
+          padding: EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize)),
       _session(),
     ]);
   }
 
   Widget _account() {
-    return Column(children: [
-      SettingsSectionWidget(title: "Account security", children: [
-        SettingsOptionWidget(
-          label: "Change password",
-          type: SettingsOptionType.labelNavigable,
-        ),
-        SettingsOptionWidget(
-          label: "Transfer account",
-          type: SettingsOptionType.labelNavigable,
-        ),
-        SettingsOptionWidget(
-          label: "Fingerprint auth",
-          type: SettingsOptionType.labelNavigable,
-          navigateDescription: "Not set up yet",
-        ),
-      ]),
-      SettingsSectionWidget(title: "Session", children: [
-        SettingsOptionWidget(
-          label: "Sign out",
-          type: SettingsOptionType.buttonTextOneSide,
-          buttonSideColorType: ColorType.error,
-        ),
-      ])
+    return SettingsSectionWidget(title: "Account security", children: [
+      SettingsOptionWidget(
+        label: "Change password",
+        type: SettingsOptionType.labelNavigable,
+      ),
+      SettingsOptionWidget(
+        label: "Transfer account",
+        type: SettingsOptionType.labelNavigable,
+      ),
+      SettingsOptionWidget(
+        label: "Fingerprint authentication",
+        type: SettingsOptionType.labelNavigable,
+        navigateDescription: "Not set up yet",
+      ),
     ]);
   }
 
   Widget _session() {
-    return Container();
+    return SettingsSectionWidget(title: "Session", children: [
+      SettingsOptionWidget(
+        label: "Sign out",
+        type: SettingsOptionType.buttonTextOneSide,
+        buttonSideColorType: ColorType.error,
+        onNavigate: signOut,
+      ),
+    ]);
+  }
+
+  signOut() {
+    showModalBottomSheet<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: 200,
+            color: Colors.amber,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  const Text('Modal BottomSheet'),
+                  ElevatedButton(
+                    child: const Text('Close BottomSheet'),
+                    onPressed: () => Navigator.pop(context),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

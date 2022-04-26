@@ -1,3 +1,4 @@
+import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/constants/settings.dart';
 import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/setting.dart';
@@ -9,7 +10,7 @@ class AboutHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBarWidget.generate(context, title: "System"),
+        appBar: AppBarWidget.generate(context, title: "About"),
         body: const SafeArea(child: AboutHomeBody()));
   }
 }
@@ -31,15 +32,18 @@ class _AboutHomeBodyState extends State<AboutHomeBody> {
 
   Widget _appInfo() {
     return Column(children: [
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        SizedBox(
-          height: 120.0,
-          width: 120.0,
-          child: Image.asset("assets/images/temp/botp_temp.png",
-              scale: 1, fit: BoxFit.fitWidth),
-        )
-      ]),
-      SettingsSectionWidget(children: [
+      SettingsSectionWidget(title: "BOTP Authenticator", children: [
+        Container(
+            padding: const EdgeInsets.symmetric(
+                vertical: kAppPaddingBetweenItemSmallSize),
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              SizedBox(
+                height: 120.0,
+                width: 120.0,
+                child: Image.asset("assets/images/temp/botp_temp.png",
+                    scale: 1, fit: BoxFit.fitWidth),
+              )
+            ])),
         SettingsOptionWidget(
           label: "Version",
           value: "1.0.0",
