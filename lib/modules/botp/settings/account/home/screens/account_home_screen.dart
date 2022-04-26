@@ -1,3 +1,4 @@
+import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
@@ -5,6 +6,7 @@ import 'package:botp_auth/constants/routing_param.dart';
 import 'package:botp_auth/constants/settings.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/cubit/account_home_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/cubit/account_home_state.dart';
+import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/setting.dart';
 import "package:flutter/material.dart";
@@ -47,17 +49,21 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
     return BlocBuilder<ProfileViewCubit, ProfileViewState>(
         builder: (context, state) =>
             state.loadUserData is LoadUserDataStatusSuccess && !state.didKyc
-                ? ReminderWidget(
-                    iconData: Icons.verified_outlined,
-                    colorType: ColorType.primary,
-                    title: "You're almost done!",
-                    description:
-                        "BOTP Auth need to know you. Enter your information here to use the authenticator!",
-                    onTap: () {
-                      Application.router.navigateTo(
-                          context, "/botp/settings/account/setupKyc");
-                    },
-                  )
+                ? Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: kAppPaddingHorizontalSize,
+                        vertical: kAppPaddingTopSize),
+                    child: ReminderWidget(
+                      iconData: Icons.verified_outlined,
+                      colorType: ColorType.primary,
+                      title: "You're almost done!",
+                      description:
+                          "BOTP Auth need to know you. Enter your information here to use the authenticator!",
+                      onTap: () {
+                        Application.router.navigateTo(
+                            context, "/botp/settings/account/setupKyc");
+                      },
+                    ))
                 : Container());
   }
 
@@ -65,6 +71,13 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
     return BlocConsumer<ProfileViewCubit, ProfileViewState>(
         listener: (context, state) {
       // Copy bcAddress
+      final copyBcAddressStatus = state.copyBcAddressStatus;
+      if (copyBcAddressStatus is SetClipboardStatusSuccess) {
+        showSnackBar(
+            context, "Blockchain address copied.", SnackBarType.success);
+      } else if (copyBcAddressStatus is SetClipboardStatusFailed) {
+        showSnackBar(context, copyBcAddressStatus.exception.toString());
+      }
     }, builder: (context, state) {
       if (state.loadUserData is! LoadUserDataStatusSuccess) {
         return const CircularProgressIndicator();
@@ -79,8 +92,7 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
                     context.read<ProfileViewCubit>().copyBcAddress();
                   })),
           const SettingsOptionWidget(
-              type: SettingsOptionType.buttonTextOneSide,
-              label: "Add new agent"),
+              type: SettingsOptionType.labelNavigable, label: "Add new agent"),
         ]);
       }
     });

@@ -44,9 +44,9 @@ class _TransactionStatusWidget extends StatelessWidget {
     // - Text
     final _textStyle = size == TransactionStatusSize.small
         ? Theme.of(context).textTheme.caption?.copyWith(color: _primary)
-        : Theme.of(context).textTheme.bodyText1?.copyWith(color: _primary);
+        : Theme.of(context).textTheme.bodyText2?.copyWith(color: _primary);
     // - Padding
-    const _padding = EdgeInsets.symmetric(vertical: 3.0, horizontal: 12.0);
+    const _padding = EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0);
     // - Decoration
     final _decoration = size == TransactionStatusSize.normal
         ? BoxDecoration(
@@ -367,10 +367,14 @@ class TransactionDetailWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _headlineStyle = Theme.of(context).textTheme.headline6;
-    final _textStyle = Theme.of(context)
+    final _labelStyle = Theme.of(context)
         .textTheme
         .bodyText1
         ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
+    final _textStyle = Theme.of(context)
+        .textTheme
+        .bodyText2
+        ?.copyWith(color: Theme.of(context).colorScheme.onSurface);
     return Container(
         decoration: BoxDecoration(
             border: Border.all(
@@ -384,7 +388,7 @@ class TransactionDetailWidget extends StatelessWidget {
             const SizedBox(height: 18.0),
             _transactionDetailTextLineWidget(
               Text(agentIsVerified ? '$agentName (verified)' : agentName,
-                  style: _textStyle),
+                  style: _labelStyle),
               SizedBox(
                 height: 48.0,
                 width: 48.0,
@@ -394,19 +398,19 @@ class TransactionDetailWidget extends StatelessWidget {
             ),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             _transactionDetailTextLineWidget(
-                Text("Address", style: _textStyle),
+                Text("Address", style: _labelStyle),
                 BcAddressWidget(
                     bcAddress: agentBcAddress, onTap: opTapBcAddress)),
             const SizedBox(height: kAppPaddingBetweenItemNormalSize),
             const DividerWidget(),
             const SizedBox(height: kAppPaddingBetweenItemNormalSize),
             _transactionDetailTextLineWidget(
-                Text("Date", style: _textStyle),
+                Text("Date", style: _labelStyle),
                 Text(DateTime.fromMillisecondsSinceEpoch(timestamp).toString(),
                     style: _textStyle)),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             _transactionDetailTextLineWidget(
-                Text("Status", style: _textStyle),
+                Text("Status", style: _labelStyle),
                 _TransactionStatusWidget(
                     status: transactionStatus,
                     size: TransactionStatusSize.normal)),
@@ -425,8 +429,8 @@ class TransactionNotifyMessageWidget extends StatelessWidget {
     final _headlineStyle = Theme.of(context).textTheme.headline6;
     final _textStyle = Theme.of(context)
         .textTheme
-        .bodyText1
-        ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
+        .bodyText2
+        ?.copyWith(color: Theme.of(context).colorScheme.onSurface);
     return Container(
         decoration: BoxDecoration(
             border: Border.all(

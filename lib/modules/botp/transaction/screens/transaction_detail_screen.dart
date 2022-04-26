@@ -162,12 +162,12 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
         showSnackBar(
             context, "Blockchain address copied.", SnackBarType.success);
       } else if (copyBcAddressStatus is SetClipboardStatusFailed) {
-        showSnackBar(context, "Failed to copy blockchain address.");
+        showSnackBar(context, copyBcAddressStatus.exception.toString());
       }
       if (copyOtpStatus is SetClipboardStatusSuccess) {
         showSnackBar(context, "OTP copied.", SnackBarType.success);
       } else if (copyOtpStatus is SetClipboardStatusFailed) {
-        showSnackBar(context, "Failed to copy OTP.");
+        showSnackBar(context, copyOtpStatus.exception.toString());
       }
     }, builder: (context, state) {
       final otpSessionInfo = state.otpSessionInfo;

@@ -38,7 +38,7 @@ class ReminderKYCSetupBody extends StatelessWidget {
             const SizedBox(height: 24.0),
             Text(
               "To able to use the authenticator, you have to setup your KYC information",
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyText2,
             )
           ]),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [

@@ -47,7 +47,7 @@ class InitBody extends StatelessWidget {
                   Application.router.navigateTo(context, "/auth/signUp");
                 },
               ),
-              const SizedBox(height: 24.0),
+              const SizedBox(height: 12.0),
               ButtonNormalWidget(
                 text: 'Import an account',
                 onPressed: () {

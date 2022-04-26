@@ -22,9 +22,9 @@ class BcAddressWidget extends StatelessWidget {
     final Color _backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
     // - Text
     final _textStyle =
-        Theme.of(context).textTheme.bodyText1?.copyWith(color: _primary);
+        Theme.of(context).textTheme.bodyText2?.copyWith(color: _primary);
     // - Padding
-    const _padding = EdgeInsets.symmetric(vertical: 3.0, horizontal: 12.0);
+    const _padding = EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0);
     // - Decoration
     final _decoration = BoxDecoration(
         color: _backgroundColor,
@@ -120,26 +120,25 @@ class SettingsCategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Category theme
-
     // - Text
     final _titleStyle = Theme.of(context)
         .textTheme
-        .bodyText2
+        .bodyText1
         ?.copyWith(fontWeight: FontWeight.bold);
     final _descriptionStyle = Theme.of(context).textTheme.bodyText2;
     // - Padding
     const _padding = EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0);
 
     return Container(
-        decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            // border: Border.all(color: Theme.of(context).colorScheme.outline),
-            borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
+        // decoration: BoxDecoration(
+        //     // color: Theme.of(context).colorScheme.surface,
+        //     // border: Border.all(color: Theme.of(context).colorScheme.outline),
+        //     borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
         padding: _padding,
         child: Row(children: [
           DecoratedIconWidget(
               colorType: colorType,
-              size: DecoratedIconSize.small,
+              size: DecoratedIconSize.normal,
               iconData: iconData),
           const SizedBox(width: 24.0),
           Expanded(
@@ -148,11 +147,11 @@ class SettingsCategoryWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                 Text(title, style: _titleStyle),
-                const SizedBox(height: 4),
+                const SizedBox(height: 8.0),
                 Text(description, style: _descriptionStyle)
               ])),
-          Icon(Icons.arrow_forward_ios,
-              color: Theme.of(context).colorScheme.onSurfaceVariant, size: 18.0)
+          Icon(Icons.navigate_next_outlined,
+              color: Theme.of(context).colorScheme.onSurfaceVariant)
         ]));
   }
 }
@@ -239,13 +238,10 @@ class SettingsOptionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Option Theme
-    // - Color
-    final Color _valueColor = Theme.of(context).colorScheme.surfaceVariant;
     // - Style
     final _labelStyle = Theme.of(context).textTheme.bodyText1;
-    final _valueStyle =
-        Theme.of(context).textTheme.bodyText1?.copyWith(color: _valueColor);
-    final _descriptionStyle = Theme.of(context).textTheme.bodyText2;
+    final _valueStyle = Theme.of(context).textTheme.bodyText2;
+    final _descriptionStyle = Theme.of(context).textTheme.caption;
     // Child widget
     final Widget _optionWidget;
     switch (type) {
@@ -265,7 +261,8 @@ class SettingsOptionWidget extends StatelessWidget {
             children: [
               Text(navigateDescription, style: _valueStyle),
               const SizedBox(width: 8.0),
-              Icon(Icons.arrow_forward_ios, color: _valueColor)
+              Icon(Icons.navigate_next_outlined,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant)
             ],
           )
         ]);
@@ -306,7 +303,7 @@ class SettingsOptionWidget extends StatelessWidget {
               flex: 1,
               child: Text(
                 value,
-                style: _labelStyle,
+                style: _valueStyle,
                 textAlign: TextAlign.right,
               ))
         ]);

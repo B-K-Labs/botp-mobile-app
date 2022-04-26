@@ -89,7 +89,7 @@ class _SettingsBodyState extends State<SettingsBody> {
   Widget _categoriesList() {
     return Expanded(
         child: Stack(children: [
-      Positioned.fill(child: _generateSettingsShadowCategoriesList()),
+      // Positioned.fill(child: _generateSettingsShadowCategoriesList()),
       _generateSettingsCategoriesList()
     ]));
   }
@@ -134,9 +134,7 @@ class _SettingsBodyState extends State<SettingsBody> {
         itemCount: categoriesList.length,
         itemBuilder: (context, index) => categoriesList[index],
         // physics: const NeverScrollableScrollPhysics(),
-        separatorBuilder: (context, index) => const SizedBox(
-              height: kAppPaddingBetweenItemSmallSize,
-            ));
+        separatorBuilder: (context, index) => const SizedBox(height: 0.0));
   }
 
   Widget _generateSettingsCategoryItem(IconData iconData, String title,

@@ -56,7 +56,7 @@ class _FieldNormalWidgetState extends State<FieldNormalWidget> {
       borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
     );
     // - Text
-    final TextStyle? _style = Theme.of(context).textTheme.bodyText1;
+    final TextStyle? _style = Theme.of(context).textTheme.bodyText2;
     // - Icons
     Widget? _prefixIcon = widget.prefixIconData != null
         ? GestureDetector(
@@ -143,7 +143,7 @@ class _FieldPasswordWidgetState extends State<FieldPasswordWidget> {
       borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
     );
     // - Text
-    final TextStyle? _style = Theme.of(context).textTheme.bodyText1;
+    final TextStyle? _style = Theme.of(context).textTheme.bodyText2;
     // - Suffix icon
     Widget _suffixIcon = GestureDetector(
       onTap: () {

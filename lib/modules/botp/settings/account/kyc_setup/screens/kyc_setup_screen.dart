@@ -82,12 +82,12 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
                               children: [
                         const SizedBox(height: kAppPaddingTopSize),
                         Text("Full name",
-                            style: Theme.of(context).textTheme.bodyText1),
+                            style: Theme.of(context).textTheme.bodyText2),
                         const SizedBox(height: 12.0),
                         _fullNameField(),
                         const SizedBox(height: 24.0),
                         Text("Address",
-                            style: Theme.of(context).textTheme.bodyText1),
+                            style: Theme.of(context).textTheme.bodyText2),
                         const SizedBox(height: 12.0),
                         _addressField(),
                         const SizedBox(height: 24.0),
@@ -97,7 +97,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text("Age",
-                                  style: Theme.of(context).textTheme.bodyText1),
+                                  style: Theme.of(context).textTheme.bodyText2),
                               const SizedBox(height: 12.0),
                               _ageField(),
                             ],
@@ -110,14 +110,14 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
                                   children: [
                                 Text("Gender",
                                     style:
-                                        Theme.of(context).textTheme.bodyText1),
+                                        Theme.of(context).textTheme.bodyText2),
                                 const SizedBox(height: 12.0),
                                 _genderField(),
                               ]))
                         ]),
                         const SizedBox(height: 24.0),
                         Text("Phone number",
-                            style: Theme.of(context).textTheme.bodyText1),
+                            style: Theme.of(context).textTheme.bodyText2),
                         const SizedBox(height: 12.0),
                         _debitorField(),
                       ]))),

@@ -71,7 +71,7 @@ class _SignUpBodyState extends State<SignUpBody> {
                     style: Theme.of(context).textTheme.headline4?.copyWith(
                         color: Theme.of(context).colorScheme.primary)),
                 const SizedBox(height: 24.0),
-                Text('Password', style: Theme.of(context).textTheme.bodyText1),
+                Text('Password', style: Theme.of(context).textTheme.bodyText2),
                 const SizedBox(height: 12.0),
                 _passwordField(),
                 const SizedBox(height: 24.0),

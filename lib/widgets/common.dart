@@ -213,7 +213,7 @@ class ReminderWidget extends StatelessWidget {
         .bodyText1
         ?.copyWith(color: _onContainer, fontWeight: FontWeight.bold);
     final _descriptionStyle =
-        Theme.of(context).textTheme.caption?.copyWith(color: _onContainer);
+        Theme.of(context).textTheme.bodyText2?.copyWith(color: _onContainer);
 
     return GestureDetector(
         onTap: onTap,
