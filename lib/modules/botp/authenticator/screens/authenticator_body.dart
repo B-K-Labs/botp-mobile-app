@@ -8,6 +8,7 @@ import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_event.da
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/transaction.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -55,6 +56,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
   }
 
   // 3. Transaction list
+  // Two scrollable: https://www.youtube.com/watch?v=8T7hetwuwY4
   Widget _transactionItemsList() {
     return BlocConsumer<AuthenticatorBloc, AuthenticatorState>(
         builder: (context, state) {
@@ -62,12 +64,17 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
       return transactionsList != null
           ? Expanded(
               child: RefreshIndicator(
-                  child: Stack(children: [
-                    Positioned.fill(
-                        child: _generateShadowTransactionItemsList(
-                            transactionsList.length)),
-                    _generateTransactionItemsList(transactionsList)
-                  ]),
+                  // Scroll double list view
+                  // 1. Use it as a parent
+                  // 2. Disable physical scrollable for all list views
+                  child: SingleChildScrollView(
+                      child: Column(children: [
+                    Stack(children: [
+                      _generateShadowTransactionItemsList(
+                          transactionsList.length),
+                      _generateTransactionItemsList(transactionsList)
+                    ])
+                  ])),
                   onRefresh: () async {
                     await context
                         .read<AuthenticatorBloc>()
@@ -93,6 +100,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
             vertical: kAppPaddingBetweenItemSmallSize),
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
         itemBuilder: (_, index) => transactionWidgetsList[index],
         separatorBuilder: (BuildContext context, int index) =>
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
@@ -129,6 +137,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
           const EdgeInsets.symmetric(vertical: kAppPaddingBetweenItemSmallSize),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
       itemBuilder: (_, index) => shadowTransactionWidgetsList[index],
       itemCount: shadowTransactionWidgetsList.length,
       separatorBuilder: (BuildContext context, int index) =>

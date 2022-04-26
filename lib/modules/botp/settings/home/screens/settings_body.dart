@@ -24,7 +24,11 @@ class _SettingsBodyState extends State<SettingsBody> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [_info(), const SizedBox(height: 48.0), _categoriesList()],
+          children: [
+            _info(),
+            const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+            _categoriesList()
+          ],
         ));
   }
 
@@ -93,25 +97,25 @@ class _SettingsBodyState extends State<SettingsBody> {
     ]));
   }
 
-  Widget _generateSettingsShadowCategoriesList() {
-    List<Widget> shadowCategoriesList =
-        List<Widget>.generate(4, (_) => _generateShadowSettingsCategoryItem());
-    return ListView.separated(
-      padding:
-          const EdgeInsets.symmetric(vertical: kAppPaddingBetweenItemSmallSize),
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      itemBuilder: (_, index) => shadowCategoriesList[index],
-      itemCount: shadowCategoriesList.length,
-      separatorBuilder: (BuildContext context, int index) =>
-          const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-    );
-  }
+  // Widget _generateSettingsShadowCategoriesList() {
+  //   List<Widget> shadowCategoriesList =
+  //       List<Widget>.generate(4, (_) => _generateShadowSettingsCategoryItem());
+  //   return ListView.separated(
+  //     padding:
+  //         const EdgeInsets.symmetric(vertical: kAppPaddingBetweenItemSmallSize),
+  //     scrollDirection: Axis.vertical,
+  //     shrinkWrap: true,
+  //     itemBuilder: (_, index) => shadowCategoriesList[index],
+  //     itemCount: shadowCategoriesList.length,
+  //     separatorBuilder: (BuildContext context, int index) =>
+  //         const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+  //   );
+  // }
 
-  Widget _generateShadowSettingsCategoryItem() => Container(
-      padding:
-          const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
-      child: const ShadowSettingsCategoryWidget());
+  // Widget _generateShadowSettingsCategoryItem() => Container(
+  //     padding:
+  //         const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
+  //     child: const ShadowSettingsCategoryWidget());
 
   Widget _generateSettingsCategoriesList() {
     List<Widget> categoriesList = [

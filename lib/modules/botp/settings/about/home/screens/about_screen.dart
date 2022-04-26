@@ -35,7 +35,7 @@ class _AboutHomeBodyState extends State<AboutHomeBody> {
       SettingsSectionWidget(title: "BOTP Authenticator", children: [
         Container(
             padding: const EdgeInsets.symmetric(
-                vertical: kAppPaddingBetweenItemSmallSize),
+                vertical: kAppPaddingBetweenItemLargeSize),
             child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               SizedBox(
                 height: 120.0,

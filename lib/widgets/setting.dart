@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:botp_auth/constants/settings.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/utils/helpers/account.dart';
@@ -156,28 +154,28 @@ class SettingsCategoryWidget extends StatelessWidget {
   }
 }
 
-// Shadow for category item
-class ShadowSettingsCategoryWidget extends StatelessWidget {
-  const ShadowSettingsCategoryWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 70,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
-        boxShadow: [
-          BoxShadow(
-              offset: const Offset(boxShadowOffsetX, boxShadowOffsetY),
-              blurRadius: boxShadowBlurRadius,
-              color:
-                  Theme.of(context).shadowColor.withOpacity(boxShadowOpacity))
-        ],
-      ),
-    );
-  }
-}
+// // Shadow for category item
+// class ShadowSettingsCategoryWidget extends StatelessWidget {
+//   const ShadowSettingsCategoryWidget({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: double.infinity,
+//       height: 70,
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
+//         boxShadow: [
+//           BoxShadow(
+//               offset: const Offset(boxShadowOffsetX, boxShadowOffsetY),
+//               blurRadius: boxShadowBlurRadius,
+//               color:
+//                   Theme.of(context).shadowColor.withOpacity(boxShadowOpacity))
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 // Settings section
 class SettingsSectionWidget extends StatelessWidget {
