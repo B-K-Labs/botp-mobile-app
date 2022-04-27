@@ -209,7 +209,7 @@ class _QRScannerFunctionalityOverlayState
                   }
                 }
               },
-              size: ButtonNormalSize.normal,
+              mode: ButtonNormalMode.normal,
             )
           ]),
         ])),

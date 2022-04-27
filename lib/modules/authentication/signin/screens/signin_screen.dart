@@ -69,7 +69,7 @@ class _SignInBodyState extends State<SignInBody> {
                     style: Theme.of(context).textTheme.headline4?.copyWith(
                         color: Theme.of(context).colorScheme.primary)),
                 const SizedBox(height: 24.0),
-                Text("Enter your password"),
+                const Text("Enter your password"),
                 const SizedBox(height: 12.0),
                 _passwordField(),
                 const SizedBox(height: 24.0),

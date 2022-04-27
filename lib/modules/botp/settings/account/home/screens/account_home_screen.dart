@@ -98,7 +98,7 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
                   })),
           SettingsOptionWidget(
             type: SettingsOptionType.buttonTextOneSide,
-            buttonSide: OptionButtonOneSide.right,
+            buttonSide: OptionButtonOneSide.left,
             label: "Add new agent by scanning QR",
             onTap: () async {
               final data = await Application.router
@@ -106,11 +106,15 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
               if (data != null) {
                 final result =
                     await context.read<ProfileViewCubit>().setupAgent(data);
-                if (result) {
-                  showSnackBar(context, "Added new agent successfully.",
-                      SnackBarType.success);
-                } else {
+                if (result == null) {
                   showSnackBar(context, "Failed to add new agent.");
+                } else {
+                  // showSnackBar(context, "Added new agent successfully.",
+                  //     SnackBarType.success);
+                  Application.router.navigateTo(
+                      context, "/botp/settings/account/agentInfo",
+                      routeSettings:
+                          RouteSettings(arguments: result.agentInfo));
                 }
               }
             },

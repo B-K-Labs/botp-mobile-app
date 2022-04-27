@@ -1,8 +1,10 @@
+import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/constants/settings.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/utils/helpers/account.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/common.dart';
+import 'package:botp_auth/widgets/transaction.dart';
 import "package:flutter/material.dart";
 
 // Blockchain address info
@@ -282,24 +284,32 @@ class SettingsOptionWidget extends StatelessWidget {
         ]);
         break;
       case SettingsOptionType.labelSwitchable:
-        _optionWidget =
+        return _wrapSettingsOptionWidget(
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Text(label, style: _labelStyle),
-          Switch.adaptive(value: switchValue, onChanged: onSwitched)
-        ]);
-        break;
+              Text(label, style: _labelStyle),
+              Switch.adaptive(value: switchValue, onChanged: onSwitched)
+            ]),
+            onTap,
+            hasPadding: false);
       case SettingsOptionType.buttonTextOneSide:
-        final _textColor = buttonSideColorType == ColorType.primary
-            ? Theme.of(context).colorScheme.primary
-            : Theme.of(context).colorScheme.error;
-        _optionWidget = Row(
-            mainAxisAlignment: buttonSide == OptionButtonOneSide.left
-                ? MainAxisAlignment.start
-                : MainAxisAlignment.end,
-            children: [
-              Text(label, style: _labelStyle?.copyWith(color: _textColor))
-            ]);
-        break;
+        final _buttonType = buttonSideColorType == ColorType.primary
+            ? ButtonNormalType.primary
+            : ButtonNormalType.error;
+        return _wrapSettingsOptionWidget(
+            Row(
+                mainAxisAlignment: buttonSide == OptionButtonOneSide.left
+                    ? MainAxisAlignment.start
+                    : MainAxisAlignment.end,
+                children: [
+                  ButtonNormalWidget(
+                      type: _buttonType,
+                      text: label,
+                      onPressed: onTap,
+                      mode: ButtonNormalMode.normal,
+                      size: ButtonNormalSize.small)
+                ]),
+            onTap,
+            hasPadding: false);
       case SettingsOptionType.labelAndValue:
       default:
         _optionWidget =
@@ -318,13 +328,18 @@ class SettingsOptionWidget extends StatelessWidget {
     return _wrapSettingsOptionWidget(_optionWidget, onTap);
   }
 
-  Widget _wrapSettingsOptionWidget(Widget child, VoidCallback? onTap) =>
+  Widget _wrapSettingsOptionWidget(Widget child, VoidCallback? onTap,
+          {EdgeInsets? padding, bool hasPadding = true}) =>
       InkWell(
           onTap: onTap ?? () {},
           child: Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: kAppPaddingHorizontalSize,
-                  vertical: kAppPaddingBetweenItemSmallSize),
+              padding: padding ??
+                  (hasPadding
+                      ? const EdgeInsets.symmetric(
+                          horizontal: kAppPaddingHorizontalSize,
+                          vertical: kAppPaddingBetweenItemSmallSize)
+                      : const EdgeInsets.symmetric(
+                          horizontal: kAppPaddingHorizontalSize)),
               child: child));
 }
 
@@ -375,4 +390,66 @@ class SettingsTransferWidget extends StatelessWidget {
               Text(description, style: _descriptionStyle),
             ])));
   }
+}
+
+class AgentInfoWidget extends StatelessWidget {
+  final AgentInfo agentInfo;
+  final VoidCallback opTapBcAddress;
+
+  const AgentInfoWidget(
+      {Key? key, required this.agentInfo, required this.opTapBcAddress})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final _headlineStyle = Theme.of(context)
+        .textTheme
+        .bodyText1
+        ?.copyWith(fontWeight: FontWeight.bold);
+    final _labelStyle = Theme.of(context).textTheme.bodyText2;
+    final _textStyle = Theme.of(context).textTheme.bodyText2;
+    return Container(
+        decoration: BoxDecoration(
+            border: Border.all(
+                color: Theme.of(context).colorScheme.outline, width: 1.0),
+            borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
+        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Transaction details", style: _headlineStyle),
+            const SizedBox(height: 18.0),
+            _agentInfoTextLineWidget(
+              agentInfo.isVerified
+                  ? Row(children: [
+                      Text(agentInfo.name,
+                          style: _labelStyle?.copyWith(
+                              fontWeight: FontWeight.bold)),
+                      const SizedBox(width: 8.0),
+                      Tooltip(
+                          child: Icon(Icons.verified,
+                              size: 18,
+                              color: Theme.of(context).colorScheme.secondary),
+                          message: '${agentInfo.name} is verified')
+                    ])
+                  : Text(agentInfo.name,
+                      style:
+                          _labelStyle?.copyWith(fontWeight: FontWeight.bold)),
+              AgentAvatar(avatarUrl: agentInfo.avatarUrl),
+            ),
+            const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+            _agentInfoTextLineWidget(
+                Text("Address", style: _labelStyle),
+                BcAddressWidget(
+                    bcAddress: agentInfo.bcAddress, onTap: opTapBcAddress)),
+          ],
+        ));
+  }
+}
+
+Widget _agentInfoTextLineWidget(Widget label, Widget? value) {
+  return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: value != null ? [label, value] : [Expanded(child: label)]);
 }

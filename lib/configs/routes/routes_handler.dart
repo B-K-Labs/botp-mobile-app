@@ -9,6 +9,7 @@ import 'package:botp_auth/modules/authentication/walkthroughs/screens/walkthroug
 import 'package:botp_auth/modules/authentication/init/screens/init_screen.dart';
 import 'package:botp_auth/modules/botp/home/screens/botp_home.dart';
 import 'package:botp_auth/modules/botp/settings/about/home/screens/about_screen.dart';
+import 'package:botp_auth/modules/botp/settings/account/agent_info/screens/agent_info_screen.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/screens/account_home_screen.dart';
 import 'package:botp_auth/modules/botp/settings/security/export_account/screens/export_account_screen.dart';
 import 'package:botp_auth/modules/botp/settings/security/home/screens/security_screen.dart';
@@ -91,6 +92,12 @@ var botpSettingsAccountUpdateKYCHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
   final fromScreen = context?.settings?.arguments as FromScreen?;
   return AccountSetupKYCScreen(from: fromScreen);
+});
+
+var botpSettingsAccountAgentInfoHandler =
+    Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  final agentInfo = context?.settings?.arguments as AgentInfo;
+  return AccountAgentInfoScreen(agentInfo: agentInfo);
 });
 
 // - 2. Security

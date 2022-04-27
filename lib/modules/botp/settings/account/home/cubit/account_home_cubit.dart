@@ -1,3 +1,4 @@
+import 'package:botp_auth/common/models/settings_model.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
 import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/common/states/user_data_status.dart';
@@ -39,15 +40,14 @@ class ProfileViewCubit extends Cubit<ProfileViewState> {
     }
   }
 
-  Future<bool> setupAgent(String setupAgentUrl) async {
+  Future<SetupAgentResponseModel?> setupAgent(String setupAgentUrl) async {
     final accountData = await UserData.getCredentialAccountData();
     try {
       final setupAgentResult = await settingsRepository.setUpAgent(
           setupAgentUrl, accountData!.bcAddress);
-      return true;
+      return setupAgentResult;
     } on Exception catch (e) {
-      emit(state.copyWith());
-      return false;
+      return null;
     }
   }
 

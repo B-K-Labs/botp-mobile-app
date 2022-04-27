@@ -23,24 +23,6 @@ class UserKYC {
         debitor = json["debitor"];
 }
 
-// OTP sessions list
-// Example
-// {
-// "_id": "62611cb32c0e920016f746ed",
-// "status": "REQUESTING",
-// "agentAddr": "0x6ddecf74606378775bb11a227956793cFcf963a4",
-// "userAddr": "0x0D7631Ab6FF72e66e283E62C27600911e9eAE24C",
-// "notifyMessage": "[khiem20tc] 006 - End!",
-// "date": 1650531507528,
-// "__v": 0,
-// "agentInfo": {
-// "_id": "626113c80e797d0016eb7766",
-// "info": {
-// "fullName": "The Coffee House",
-// "description": "Coffee company"
-// }
-// }
-// },
 class OTPSessionInfo {
   String agentName;
   String agentAvatarUrl;
@@ -147,4 +129,19 @@ class PaginationInfo {
   final int currentPage;
   final int totalPage;
   PaginationInfo({required this.currentPage, required this.totalPage});
+}
+
+class AgentInfo {
+  final String name;
+  final String description;
+  final String bcAddress;
+  final String avatarUrl;
+  final bool isVerified;
+
+  AgentInfo(
+      {required this.name,
+      required this.description,
+      required this.bcAddress,
+      required this.avatarUrl,
+      required this.isVerified});
 }

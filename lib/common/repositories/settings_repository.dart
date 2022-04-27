@@ -30,14 +30,15 @@ class SettingsRepository {
   // TODO
 
   // Send Agent
-  Future<void> setUpAgent(String setupAgentUrl, String userBcAddress) async {
+  Future<SetupAgentResponseModel> setUpAgent(
+      String setupAgentUrl, String userBcAddress) async {
     final data = SetupAgentRequestModel(setupAgentUrl, userBcAddress).toJSON();
     http.Response result =
         await post(makeApiUrlString(path: "/QRcode/processQRInfo"), data);
-
+    print(result.body);
     if (result.statusCode == HttpStatus.ok) {
-      return;
+      return SetupAgentResponseModel.fromJSON(json.decode(result.body));
     }
-    throw Exception();
+    throw Exception(result.body);
   }
 }

@@ -6,6 +6,7 @@ class ButtonNormalWidget extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final ButtonNormalType type;
+  final ButtonNormalMode mode;
   final ButtonNormalSize size;
 
   const ButtonNormalWidget(
@@ -13,14 +14,15 @@ class ButtonNormalWidget extends StatelessWidget {
       required this.text,
       required this.onPressed,
       this.type = ButtonNormalType.primary,
-      this.size = ButtonNormalSize.full})
+      this.mode = ButtonNormalMode.full,
+      this.size = ButtonNormalSize.normal})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // Button theme
     // - Width
-    final _width = size == ButtonNormalSize.full ? double.infinity : null;
+    final _width = mode == ButtonNormalMode.full ? double.infinity : null;
     // - Colors
     final Color? _borderColor;
     final Color _primary;
@@ -79,13 +81,21 @@ class ButtonNormalWidget extends StatelessWidget {
         ? BorderSide.none
         : BorderSide(color: _borderColor, width: 1.0, style: BorderStyle.solid);
     // - Text
-    final _textStyle = Theme.of(context)
-        .textTheme
-        .bodyText1
-        ?.copyWith(fontWeight: FontWeight.bold);
+    final _textStyle = size == ButtonNormalSize.normal
+        ? Theme.of(context)
+            .textTheme
+            .bodyText1
+            ?.copyWith(fontWeight: FontWeight.bold)
+        : Theme.of(context)
+            .textTheme
+            .bodyText2
+            ?.copyWith(fontWeight: FontWeight.bold);
     // - Padding
-    final _padding = EdgeInsets.symmetric(
-        vertical: 16, horizontal: type == ButtonNormalSize.short ? 8 : 32);
+    final _padding = size == ButtonNormalSize.normal
+        ? EdgeInsets.symmetric(
+            vertical: 16, horizontal: type == ButtonNormalMode.short ? 8 : 32)
+        : EdgeInsets.symmetric(
+            vertical: 8, horizontal: type == ButtonNormalMode.short ? 4 : 16);
 
     // Return button
     return SizedBox(
@@ -129,7 +139,7 @@ class ButtonTextWidget extends StatelessWidget {
         ? Theme.of(context).colorScheme.primary
         : Theme.of(context).colorScheme.error;
     // - Text
-    final _textStyle = Theme.of(context).textTheme.bodyText1;
+    final _textStyle = Theme.of(context).textTheme.bodyText2;
 
     return TextButton(
         style: TextButton.styleFrom(

@@ -1,3 +1,5 @@
+import 'package:botp_auth/common/models/common_model.dart';
+
 class KYCRequestModel {
   final String bcAddress;
   final String password;
@@ -35,4 +37,17 @@ class SetupAgentRequestModel {
   SetupAgentRequestModel(this.setupAgentUrl, this.userBcAddress);
   Map<String, dynamic> toJSON() =>
       {"url": setupAgentUrl, "userAddr": userBcAddress};
+}
+
+class SetupAgentResponseModel {
+  AgentInfo agentInfo;
+
+  SetupAgentResponseModel(this.agentInfo);
+  SetupAgentResponseModel.fromJSON(Map<String, dynamic> json)
+      : agentInfo = AgentInfo(
+            name: json["agentInfo"]["info"]["fullName"],
+            description: json["agentInfo"]["info"]["description"],
+            bcAddress: json["agentInfo"]["bcAddress"],
+            avatarUrl: json["agentInfo"]["avatar"],
+            isVerified: true);
 }

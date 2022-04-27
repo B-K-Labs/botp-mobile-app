@@ -27,7 +27,8 @@ enum ButtonNormalType {
   errorOutlined,
   disabled,
 }
-enum ButtonNormalSize { full, normal, short }
+enum ButtonNormalMode { full, normal, short }
+enum ButtonNormalSize { normal, small }
 enum ButtonTextType { primary, error }
 enum ButtonIconType { primaryOutlined, secondaryGhost, error }
 enum ButtonIconSize { big, normal }
