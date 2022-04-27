@@ -102,20 +102,21 @@ class _SecurityExportAccountBodyState extends State<SecurityExportAccountBody> {
                       .shadowColor
                       .withOpacity(boxShadowOpacity))
             ]),
-        child: QrImage(
+        child: RepaintBoundary(
             key: qrKey,
-            backgroundColor: Colors.white,
-            version: QrVersions.auto,
-            errorCorrectionLevel: QrErrorCorrectLevel.M,
-            data:
-                "fd1f00d03005178763d675ee510d398c4037f85f70c9411254996934b5a1db85",
-            size: 240.0,
-            gapless: false,
-            embeddedImage: const AssetImage(
-                "assets/images/logo/botp_logo_embedded_qr.png"),
-            embeddedImageStyle: QrEmbeddedImageStyle(
-              size: const Size(60, 60),
-            )));
+            child: QrImage(
+                backgroundColor: Colors.white,
+                version: QrVersions.auto,
+                errorCorrectionLevel: QrErrorCorrectLevel.M,
+                data:
+                    "fd1f00d03005178763d675ee510d398c4037f85f70c9411254996934b5a1db85",
+                size: 240.0,
+                gapless: false,
+                embeddedImage: const AssetImage(
+                    "assets/images/logo/botp_logo_embedded_qr.png"),
+                embeddedImageStyle: QrEmbeddedImageStyle(
+                  size: const Size(60, 60),
+                ))));
   }
 
   Widget _actionButtons() {
@@ -128,9 +129,9 @@ class _SecurityExportAccountBodyState extends State<SecurityExportAccountBody> {
               flex: 1,
               child: ButtonNormalWidget(
                 text: 'Download image',
-                onPressed: () {
+                onPressed: () async {
                   // TODO: Save image
-                  saveQrCodeToGallery();
+                  await saveQrCodeToGallery();
                 },
                 type: ButtonNormalType.secondaryOutlined,
               )),
@@ -145,28 +146,30 @@ class _SecurityExportAccountBodyState extends State<SecurityExportAccountBody> {
         ]));
   }
 
-  void saveQrCodeToGallery() async {
-    PermissionStatus res;
-    res = await Permission.storage.request();
-    if (res.isGranted) {
-      final boundary =
-          qrKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-      // Increase the QR image size
-      final image = await boundary.toImage(pixelRatio: 5.0);
-      final byteData = await (image.toByteData(format: ui.ImageByteFormat.png));
-      if (byteData != null) {
-        final pngBytes = byteData.buffer.asUint8List();
-        // getting directory of our phone
-        final directory = (await getApplicationDocumentsDirectory()).path;
-        final imgFile = File('$directory/${DateTime.now()}${"qr"}.png');
-        imgFile.writeAsBytes(pngBytes);
-        GallerySaver.saveImage(imgFile.path).then((success) async {
-          showSnackBar(
-              context, "Save QR image successfully.", SnackBarType.success);
-        }).catchError((e) {
-          showSnackBar(context, "Save QR image failed.");
-        });
-      }
+  saveQrCodeToGallery() async {
+    // PermissionStatus res;
+    // res = await Permission.storage.request();
+    // if (res.isGranted) {
+    final boundary =
+        qrKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    // Increase the QR image size
+    final image = await boundary.toImage(pixelRatio: 5.0);
+    final byteData = await (image.toByteData(format: ui.ImageByteFormat.png));
+    if (byteData != null) {
+      final pngBytes = byteData.buffer.asUint8List();
+      // Get app document directory
+      final directory = (await getApplicationDocumentsDirectory()).path;
+      final imgFile = File('$directory/${DateTime.now()}.${"qr"}.png');
+      imgFile.writeAsBytes(pngBytes);
+      // Save image
+      GallerySaver.saveImage(imgFile.path).then((success) async {
+        showSnackBar(
+            context, "Saved QR image successfully.", SnackBarType.success);
+      }).catchError((e) {
+        showSnackBar(context, "Failed to save the QR image.");
+      });
+      return;
     }
+    showSnackBar(context, "Failed to save the QR image.");
   }
 }
