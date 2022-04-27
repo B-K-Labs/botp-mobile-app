@@ -28,17 +28,20 @@ class BcAddressWidget extends StatelessWidget {
         color: _backgroundColor,
         borderRadius: BorderRadius.circular(BorderRadiusSize.small));
 
-    return GestureDetector(
-        onTap: onTap,
-        child: Container(
-          decoration: _decoration,
-          padding: _padding,
-          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text(shortenBcAddress(bcAddress), style: _textStyle),
-            const SizedBox(width: 8.0),
-            Icon(Icons.copy, size: 16.0, color: _primary)
-          ]),
-        ));
+    return Tooltip(
+        message: bcAddress,
+        child: GestureDetector(
+            onTap: onTap,
+            child: Container(
+              decoration: _decoration,
+              padding: _padding,
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Text(shortenBcAddress(bcAddress), style: _textStyle),
+                const SizedBox(width: 8.0),
+                Icon(Icons.copy, size: 16.0, color: _primary)
+              ]),
+            )));
   }
 }
 
