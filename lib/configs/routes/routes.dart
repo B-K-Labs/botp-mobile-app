@@ -17,8 +17,10 @@ class Routes {
   static String transaction = "/botp/transaction";
   static String settingsAccount = "/botp/settings/account";
   static String settingsAccountSetupKYC = "/botp/settings/account/setupKyc";
-  static String settingsSystem = "/botp/settings/system";
   static String settingsSecurity = "/botp/settings/security";
+  static String settingsSecurityTransferAccount =
+      "/botp/settings/security/transfer";
+  static String settingsSystem = "/botp/settings/system";
   static String settingsAbout = "/botp/settings/about";
   // 3. Utils modules
   static String qrScanner = "/utils/qrScanner";
@@ -58,6 +60,9 @@ class Routes {
         transitionType: TransitionType.inFromRight);
     router.define(settingsSecurity,
         handler: botpSettingsSecurityHandler,
+        transitionType: TransitionType.inFromRight);
+    router.define(settingsSecurityTransferAccount,
+        handler: botpSettingsSecurityTransferAccountHandler,
         transitionType: TransitionType.inFromRight);
     router.define(settingsSystem,
         handler: botpSettingsSystemHandler,

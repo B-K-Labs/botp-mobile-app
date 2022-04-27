@@ -69,7 +69,7 @@ class ShadowTransactionItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 94,
+      height: 96,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
         boxShadow: [
@@ -116,7 +116,7 @@ class TransactionItemWidget extends StatelessWidget {
     // - Text
     final TextStyle? _textStyle = Theme.of(context)
         .textTheme
-        .bodyText1
+        .bodyText2
         ?.copyWith(fontWeight: FontWeight.bold);
     final TextStyle? _smallTextStyle =
         Theme.of(context).textTheme.caption?.copyWith(color: _smallTextColor);
@@ -126,14 +126,13 @@ class TransactionItemWidget extends StatelessWidget {
           borderRadius: _borderRadius,
           border: _border,
         ),
-        height: 94,
-        width: double.infinity,
+        height: 96,
         child: Stack(alignment: AlignmentDirectional.topEnd, children: [
           Positioned.fill(
               child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
             Container(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 27.0, vertical: 23.0),
+                    horizontal: 30.0, vertical: 24.0),
                 child: SizedBox(
                   height: 48.0,
                   width: 48.0,
@@ -142,27 +141,32 @@ class TransactionItemWidget extends StatelessWidget {
                 )),
             Expanded(
                 flex: 1,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const SizedBox(height: 16.0),
-                    Text(
-                      agentName,
-                      style: _textStyle,
-                    ),
-                    const SizedBox(height: 6.0),
-                    Text(
-                      date,
-                      style: _smallTextStyle,
-                    ),
-                    const SizedBox(height: 6.0),
-                    Text(
-                      shortenNotifyMessage(notifyMessage),
-                      style: _smallTextStyle,
-                    ),
-                  ],
-                )),
+                child: Center(
+                    child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            agentName,
+                            style: _textStyle,
+                          ),
+                          const SizedBox(height: 6.0),
+                          Text(
+                            date,
+                            style: _smallTextStyle,
+                          ),
+                          const SizedBox(height: 6.0),
+                          Text(
+                            shortenNotifyMessage(notifyMessage),
+                            style: _smallTextStyle,
+                          ),
+                        ],
+                      )
+                    ]))),
           ])),
           Container(
               padding: const EdgeInsets.only(top: 16.0),
@@ -217,6 +221,10 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
     // - Border
     final _border = Border.all(color: _primary, width: 3.0);
     // - Text
+    final _titleStyle = Theme.of(context)
+        .textTheme
+        .headline6
+        ?.copyWith(fontWeight: FontWeight.bold);
     final _otpStyle =
         Theme.of(context).textTheme.headline4?.copyWith(color: _primary);
     final _captionStyle = Theme.of(context)
@@ -259,7 +267,7 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(children: [
-                  Text("OTP", style: Theme.of(context).textTheme.headline6),
+                  Text("OTP", style: _titleStyle),
                   const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                   const DividerWidget(),
                   const SizedBox(height: kAppPaddingBetweenItemLargeSize),
