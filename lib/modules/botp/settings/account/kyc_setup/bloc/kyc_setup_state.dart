@@ -1,6 +1,6 @@
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/common/states/user_data_status.dart';
-import 'package:botp_auth/common/validators/profiles.dart';
+import 'package:botp_auth/common/validators/kyc.dart';
 
 class AccountSetupKYCState {
   // User data
