@@ -141,13 +141,8 @@ class TransactionItemWidget extends StatelessWidget {
                           children: [
                         Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 30.0, vertical: 24.0),
-                            child: SizedBox(
-                              height: 48.0,
-                              width: 48.0,
-                              child: Image.network(agentAvatarUrl,
-                                  scale: 1, fit: BoxFit.fitWidth),
-                            )),
+                                horizontal: 24.0, vertical: 24.0),
+                            child: AgentAvatar(avatarUrl: agentAvatarUrl)),
                         Expanded(
                             flex: 1,
                             child: Center(
@@ -161,10 +156,23 @@ class TransactionItemWidget extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Text(
-                                        agentName,
-                                        style: _textStyle,
-                                      ),
+                                      agentIsVerified
+                                          ? Row(children: [
+                                              Text(
+                                                agentName,
+                                                style: _textStyle,
+                                              ),
+                                              const SizedBox(width: 8.0),
+                                              Icon(Icons.verified,
+                                                  size: 18,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .secondary)
+                                            ])
+                                          : Text(
+                                              agentName,
+                                              style: _textStyle,
+                                            ),
                                       const SizedBox(height: 6.0),
                                       Text(
                                         date,
@@ -389,14 +397,8 @@ class TransactionDetailWidget extends StatelessWidget {
         .textTheme
         .bodyText1
         ?.copyWith(fontWeight: FontWeight.bold);
-    final _labelStyle = Theme.of(context)
-        .textTheme
-        .bodyText1
-        ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
-    final _textStyle = Theme.of(context)
-        .textTheme
-        .bodyText2
-        ?.copyWith(color: Theme.of(context).colorScheme.onSurface);
+    final _labelStyle = Theme.of(context).textTheme.bodyText2;
+    final _textStyle = Theme.of(context).textTheme.bodyText2;
     return Container(
         decoration: BoxDecoration(
             border: Border.all(
@@ -409,14 +411,22 @@ class TransactionDetailWidget extends StatelessWidget {
             Text("Transaction details", style: _headlineStyle),
             const SizedBox(height: 18.0),
             _transactionDetailTextLineWidget(
-              Text(agentIsVerified ? '$agentName (verified)' : agentName,
-                  style: _labelStyle),
-              SizedBox(
-                height: 48.0,
-                width: 48.0,
-                child: Image.network(agentAvatarUrl,
-                    scale: 1, fit: BoxFit.fitWidth),
-              ),
+              agentIsVerified
+                  ? Row(children: [
+                      Text(agentName,
+                          style: _labelStyle?.copyWith(
+                              fontWeight: FontWeight.bold)),
+                      const SizedBox(width: 8.0),
+                      Tooltip(
+                          child: Icon(Icons.verified,
+                              size: 18,
+                              color: Theme.of(context).colorScheme.secondary),
+                          message: '$agentName is verified')
+                    ])
+                  : Text(agentName,
+                      style:
+                          _labelStyle?.copyWith(fontWeight: FontWeight.bold)),
+              AgentAvatar(avatarUrl: agentAvatarUrl),
             ),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             _transactionDetailTextLineWidget(
@@ -450,10 +460,7 @@ class TransactionDetailSkeletonWidget extends StatelessWidget {
         .textTheme
         .bodyText1
         ?.copyWith(fontWeight: FontWeight.bold);
-    final _labelStyle = Theme.of(context)
-        .textTheme
-        .bodyText1
-        ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
+    final _labelStyle = Theme.of(context).textTheme.bodyText2;
     return Container(
         decoration: BoxDecoration(
             border: Border.all(
@@ -468,7 +475,7 @@ class TransactionDetailSkeletonWidget extends StatelessWidget {
             _transactionDetailTextLineWidget(
               const SkeletonLine(
                   style: SkeletonLineStyle(
-                      height: 19.0,
+                      height: 16.0,
                       minLength: 100,
                       maxLength: 150,
                       randomLength: true)),
@@ -486,7 +493,7 @@ class TransactionDetailSkeletonWidget extends StatelessWidget {
             _transactionDetailTextLineWidget(
                 Text("Date", style: _labelStyle),
                 const SkeletonLine(
-                    style: SkeletonLineStyle(height: 19.0, width: 162))),
+                    style: SkeletonLineStyle(height: 16.0, width: 162))),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             _transactionDetailTextLineWidget(
                 Text("Status", style: _labelStyle),
@@ -569,4 +576,20 @@ Widget _transactionDetailTextLineWidget(Widget label, Widget? value) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: value != null ? [label, value] : [Expanded(child: label)]);
+}
+
+// Agent
+class AgentAvatar extends StatelessWidget {
+  final String avatarUrl;
+  final bool isVerified;
+  const AgentAvatar({Key? key, required this.avatarUrl, this.isVerified = true})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        height: 48.0,
+        width: 48.0,
+        child: Image.network(avatarUrl, scale: 1, fit: BoxFit.fitWidth));
+  }
 }
