@@ -1,6 +1,7 @@
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/constants/settings.dart';
+import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/setting.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
   }
 
   Widget _account() {
-    return SettingsSectionWidget(title: "Account security", children: [
+    return const SettingsSectionWidget(title: "Account security", children: [
       SettingsOptionWidget(
         label: "Change password",
         type: SettingsOptionType.labelNavigable,
@@ -54,11 +55,79 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
   }
 
   Widget _session() {
+    Future<bool?> _signOutConfirmation() => showModalBottomSheet<bool>(
+        context: context,
+        builder: (context) {
+          final _titleStyle = Theme.of(context)
+              .textTheme
+              .headline5
+              ?.copyWith(color: Theme.of(context).colorScheme.primary);
+          final _descriptionStyle = Theme.of(context)
+              .textTheme
+              .bodyText2
+              ?.copyWith(color: Theme.of(context).colorScheme.primary);
+
+          return Container(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: kAppPaddingHorizontalSize,
+                  vertical: kAppPaddingTopSize),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("Are you sure you want to sign out?",
+                        style: _titleStyle),
+                    const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+                    ReminderWidget(
+                      iconData: Icons.warning_rounded,
+                      colorType: ColorType.error,
+                      title: "Caution!",
+                      description:
+                          "After this operation, you must enter password to access this account. Remember that you've saved your account.",
+                      child: GestureDetector(
+                          onTap: () {
+                            print("Export account");
+                          },
+                          child: Text(
+                            "If you haven't yet, click here to export your account",
+                            style: _descriptionStyle,
+                          )),
+                    ),
+                    const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: ButtonNormalWidget(
+                                text: "Cancel",
+                                onPressed: () {
+                                  Application.router.pop(context, false);
+                                },
+                                type: ButtonNormalType.secondaryOutlined)),
+                        const SizedBox(width: kAppPaddingBetweenItemSmallSize),
+                        Expanded(
+                            flex: 1,
+                            child: ButtonNormalWidget(
+                                text: "Sign out",
+                                onPressed: () {
+                                  Application.router.pop(context, true);
+                                },
+                                type: ButtonNormalType.error))
+                      ],
+                    ),
+                  ]));
+        });
+
     _onSignOut() async {
-      print("Sign out");
-      await context.read<SessionCubit>().signOut();
-      // Navigate to Session Screen itself instead
-      Application.router.navigateTo(context, "/");
+      // Wait for confirmation
+      final signOutConfirmationResult = await _signOutConfirmation();
+      // Perform action
+      if (signOutConfirmationResult == true) {
+        await context.read<SessionCubit>().signOut();
+        // Navigate to Session Screen
+        Application.router.navigateTo(context, "/", clearStack: true);
+      }
     }
 
     return SettingsSectionWidget(title: "Session", children: [

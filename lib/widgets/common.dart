@@ -287,19 +287,24 @@ class ReminderWidget extends StatelessWidget {
                             Text(title, style: _titleStyle),
                           ],
                         ),
-                        const SizedBox(height: 12.0),
-                        Row(children: [
-                          Expanded(
-                              child: description != null
-                                  ? Text(
-                                      description!,
-                                      style: _descriptionStyle,
-                                    )
-                                  : Container())
-                        ]),
-                        Row(children: [
-                          Expanded(child: child != null ? child! : Container())
-                        ])
+                        description != null
+                            ? Column(children: [
+                                const SizedBox(height: 12.0),
+                                Row(children: [
+                                  Expanded(
+                                      child: Text(
+                                    description!,
+                                    style: _descriptionStyle,
+                                  ))
+                                ])
+                              ])
+                            : Container(),
+                        child != null
+                            ? Column(children: [
+                                const SizedBox(height: 12.0),
+                                Row(children: [Expanded(child: child!)])
+                              ])
+                            : Container()
                       ])),
                   const SizedBox(width: 12.0),
                   onTap != null

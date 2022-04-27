@@ -1,4 +1,3 @@
-import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/storage.dart';
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_state.dart';
@@ -44,6 +43,6 @@ class SessionCubit extends Cubit<SessionState> {
 
   Future<void> signOut() async {
     await UserData.setCredentialSessionData(UserDataSession.expired);
-    // emit(ExpiredSessionState()); // Can't: SessionScreen is wiped after a clear stack. Navigate to the Session Screen instead
+    emit(ExpiredSessionState()); // Use the same instance
   }
 }

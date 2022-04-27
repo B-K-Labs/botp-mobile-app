@@ -8,7 +8,6 @@ import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_event.da
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/transaction.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -100,7 +99,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
             vertical: kAppPaddingBetweenItemSmallSize),
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (_, index) => transactionWidgetsList[index],
         separatorBuilder: (BuildContext context, int index) =>
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
@@ -137,7 +136,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
           const EdgeInsets.symmetric(vertical: kAppPaddingBetweenItemSmallSize),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (_, index) => shadowTransactionWidgetsList[index],
       itemCount: shadowTransactionWidgetsList.length,
       separatorBuilder: (BuildContext context, int index) =>

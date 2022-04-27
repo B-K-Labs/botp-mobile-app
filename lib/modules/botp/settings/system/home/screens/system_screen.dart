@@ -32,7 +32,7 @@ class _SystemHomeBodyState extends State<SystemHomeBody> {
   }
 
   Widget _preferences() {
-    return SettingsSectionWidget(title: "Preferences", children: [
+    return const SettingsSectionWidget(title: "Preferences", children: [
       SettingsOptionWidget(
         label: "Dark mode",
         type: SettingsOptionType.labelSwitchable,
@@ -46,7 +46,7 @@ class _SystemHomeBodyState extends State<SystemHomeBody> {
   }
 
   Widget _notifications() {
-    return SettingsSectionWidget(title: "Notifications", children: [
+    return const SettingsSectionWidget(title: "Notifications", children: [
       SettingsOptionWidget(
         label: "Notify when received new transactions",
         type: SettingsOptionType.labelSwitchable,

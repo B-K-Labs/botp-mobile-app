@@ -42,12 +42,12 @@ class _AboutHomeBodyState extends State<AboutHomeBody> {
                     scale: 1, fit: BoxFit.fitWidth),
               )
             ])),
-        SettingsOptionWidget(
+        const SettingsOptionWidget(
           label: "Version",
           value: "1.0.0",
           type: SettingsOptionType.labelAndValue,
         ),
-        SettingsOptionWidget(
+        const SettingsOptionWidget(
           label: "Develop team",
           type: SettingsOptionType.labelAndValue,
           value: "Shinebright team",
