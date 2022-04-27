@@ -220,7 +220,7 @@ class SettingsOptionWidget extends StatelessWidget {
   final ValueChanged<bool>? onSwitched;
   final bool isChecked;
   final String navigateDescription;
-  final VoidCallback? onNavigate;
+  final VoidCallback? onTap;
   const SettingsOptionWidget(
       {Key? key,
       this.type = SettingsOptionType.labelAndValue,
@@ -234,7 +234,7 @@ class SettingsOptionWidget extends StatelessWidget {
       this.onSwitched,
       this.isChecked = false,
       this.navigateDescription = "",
-      this.onNavigate})
+      this.onTap})
       : super(key: key);
 
   @override
@@ -311,10 +311,10 @@ class SettingsOptionWidget extends StatelessWidget {
         ]);
         break;
     }
-    return _wrapSettingsOptionWidget(_optionWidget);
+    return _wrapSettingsOptionWidget(_optionWidget, onTap);
   }
 
-  Widget _wrapSettingsOptionWidget(Widget child, [VoidCallback? onTap]) =>
+  Widget _wrapSettingsOptionWidget(Widget child, VoidCallback? onTap) =>
       InkWell(
           onTap: onTap ?? () {},
           child: Container(

@@ -1,3 +1,4 @@
+import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/storage.dart';
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_state.dart';
@@ -17,9 +18,8 @@ class SessionCubit extends Cubit<SessionState> {
     // Get session data
     final sessionData = await UserData.getCredentialSessionData();
     // First time
-    if (sessionData == null ||
-        sessionData.sessionType == UserDataSession.firstTime) {
-      // TODO: Walkthrough here
+    if (sessionData == null) {
+      // TODO: WalkThrough here
       UserData.setCredentialSessionData(UserDataSession.unauthenticated);
       // emit(FirstTimeSessionState());
       emit(UnauthenticatedSessionState());
@@ -44,6 +44,6 @@ class SessionCubit extends Cubit<SessionState> {
 
   Future<void> signOut() async {
     await UserData.setCredentialSessionData(UserDataSession.expired);
-    emit(ExpiredSessionState());
+    // emit(ExpiredSessionState()); // Can't: SessionScreen is wiped after a clear stack. Navigate to the Session Screen instead
   }
 }
