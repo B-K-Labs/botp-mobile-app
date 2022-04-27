@@ -10,6 +10,7 @@ import 'package:botp_auth/modules/authentication/init/screens/init_screen.dart';
 import 'package:botp_auth/modules/botp/home/screens/botp_home.dart';
 import 'package:botp_auth/modules/botp/settings/about/home/screens/about_screen.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/screens/account_home_screen.dart';
+import 'package:botp_auth/modules/botp/settings/security/export_account/screens/export_account_screen.dart';
 import 'package:botp_auth/modules/botp/settings/security/home/screens/security_screen.dart';
 import 'package:botp_auth/modules/botp/settings/security/transfer_account/screens/transfer_account_screen.dart';
 import 'package:botp_auth/modules/botp/settings/system/home/screens/system_screen.dart';
@@ -101,6 +102,11 @@ var botpSettingsSecurityHandler =
 var botpSettingsSecurityTransferAccountHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
   return const SecurityTransferAccountScreen();
+});
+
+var botpSettingsSecurityExportAccountHandler =
+    Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  return const SecurityExportAccountScreen();
 });
 
 // - 3. System

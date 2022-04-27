@@ -1,3 +1,4 @@
+import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/setting.dart';
@@ -47,7 +48,10 @@ class SecurityTransferAccountBody extends StatelessWidget {
                     transferColorType: ColorType.tertiary,
                     title: "Export account",
                     description: "Display/save your QR code",
-                    onTap: () {})),
+                    onTap: () {
+                      Application.router.navigateTo(
+                          context, "/botp/settings/security/transfer/export");
+                    })),
             const SizedBox(
               width: kAppPaddingBetweenItemSmallSize,
             ),
@@ -56,8 +60,8 @@ class SecurityTransferAccountBody extends StatelessWidget {
                 child: SettingsTransferWidget(
                     iconData: FontAwesomeIcons.person,
                     transferColorType: ColorType.primary,
-                    title: "Export account",
-                    description: "Display/save your QR code",
+                    title: "Import account",
+                    description: "Scan QR code/Enter private key",
                     onTap: () {}))
           ]),
         ]));

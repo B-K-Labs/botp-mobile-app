@@ -44,7 +44,7 @@ enum SnackBarType {
 const boxShadowOffsetX = 0.0;
 const boxShadowOffsetY = 2.0;
 const boxShadowBlurRadius = 10.0;
-const boxShadowOpacity = 0.1;
+const boxShadowOpacity = 0.2;
 
 // icon color
 enum ColorType {

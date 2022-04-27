@@ -20,6 +20,8 @@ class Routes {
   static String settingsSecurity = "/botp/settings/security";
   static String settingsSecurityTransferAccount =
       "/botp/settings/security/transfer";
+  static String settingsSecurityExportAccount =
+      "/botp/settings/security/transfer/export";
   static String settingsSystem = "/botp/settings/system";
   static String settingsAbout = "/botp/settings/about";
   // 3. Utils modules
@@ -63,6 +65,9 @@ class Routes {
         transitionType: TransitionType.inFromRight);
     router.define(settingsSecurityTransferAccount,
         handler: botpSettingsSecurityTransferAccountHandler,
+        transitionType: TransitionType.inFromRight);
+    router.define(settingsSecurityExportAccount,
+        handler: botpSettingsSecurityExportAccountHandler,
         transitionType: TransitionType.inFromRight);
     router.define(settingsSystem,
         handler: botpSettingsSystemHandler,
