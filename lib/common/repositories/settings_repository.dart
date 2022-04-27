@@ -28,4 +28,16 @@ class SettingsRepository {
 
   // Update Avatar
   // TODO
+
+  // Send Agent
+  Future<void> setUpAgent(String setupAgentUrl, String userBcAddress) async {
+    final data = SetupAgentRequestModel(setupAgentUrl, userBcAddress).toJSON();
+    http.Response result =
+        await post(makeApiUrlString(path: "/QRcode/processQRInfo"), data);
+
+    if (result.statusCode == HttpStatus.ok) {
+      return;
+    }
+    throw Exception();
+  }
 }

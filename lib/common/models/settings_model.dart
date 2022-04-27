@@ -27,3 +27,12 @@ class KYCResponseModel {
   KYCResponseModel(this.info);
   KYCResponseModel.fromJSON(Map<String, dynamic> json) : info = json["info"];
 }
+
+class SetupAgentRequestModel {
+  final String setupAgentUrl;
+  final String userBcAddress;
+
+  SetupAgentRequestModel(this.setupAgentUrl, this.userBcAddress);
+  Map<String, dynamic> toJSON() =>
+      {"url": setupAgentUrl, "userAddr": userBcAddress};
+}

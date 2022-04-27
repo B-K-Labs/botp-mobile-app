@@ -1,3 +1,4 @@
+import 'package:botp_auth/common/repositories/settings_repository.dart';
 import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
@@ -6,7 +7,10 @@ import 'package:botp_auth/utils/services/clipboard_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileViewCubit extends Cubit<ProfileViewState> {
-  ProfileViewCubit() : super(ProfileViewState()) {
+  final SettingsRepository settingsRepository;
+
+  ProfileViewCubit({required this.settingsRepository})
+      : super(ProfileViewState()) {
     readProfileData();
   }
 
@@ -32,6 +36,18 @@ class ProfileViewCubit extends Cubit<ProfileViewState> {
       }
     } on Exception catch (e) {
       emit(state.copyWith(loadUserData: LoadUserDataStatusFailed(e)));
+    }
+  }
+
+  Future<bool> setupAgent(String setupAgentUrl) async {
+    final accountData = await UserData.getCredentialAccountData();
+    try {
+      final setupAgentResult = await settingsRepository.setUpAgent(
+          setupAgentUrl, accountData!.bcAddress);
+      return true;
+    } on Exception catch (e) {
+      emit(state.copyWith());
+      return false;
     }
   }
 

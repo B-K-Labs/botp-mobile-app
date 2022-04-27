@@ -129,7 +129,7 @@ class ButtonTextWidget extends StatelessWidget {
         ? Theme.of(context).colorScheme.primary
         : Theme.of(context).colorScheme.error;
     // - Text
-    final _textStyle = Theme.of(context).textTheme.bodyText2;
+    final _textStyle = Theme.of(context).textTheme.bodyText1;
 
     return TextButton(
         style: TextButton.styleFrom(

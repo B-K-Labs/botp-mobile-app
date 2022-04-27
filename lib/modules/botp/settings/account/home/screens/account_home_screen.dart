@@ -1,3 +1,4 @@
+import 'package:botp_auth/common/repositories/settings_repository.dart';
 import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
@@ -31,7 +32,8 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => ProfileViewCubit(),
+        create: (context) => ProfileViewCubit(
+            settingsRepository: context.read<SettingsRepository>()),
         child: Column(children: [
           reminder(),
           _account(),
@@ -94,10 +96,25 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
                   onTap: () {
                     context.read<ProfileViewCubit>().copyBcAddress();
                   })),
-          const SettingsOptionWidget(
-              type: SettingsOptionType.buttonTextOneSide,
-              buttonSide: OptionButtonOneSide.right,
-              label: "Add new agent by scanning QR"),
+          SettingsOptionWidget(
+            type: SettingsOptionType.buttonTextOneSide,
+            buttonSide: OptionButtonOneSide.right,
+            label: "Add new agent by scanning QR",
+            onTap: () async {
+              final data = await Application.router
+                  .navigateTo(context, "/utils/qrScanner") as String?;
+              if (data != null) {
+                final result =
+                    await context.read<ProfileViewCubit>().setupAgent(data);
+                if (result) {
+                  showSnackBar(context, "Added new agent successfully.",
+                      SnackBarType.success);
+                } else {
+                  showSnackBar(context, "Failed to add new agent.");
+                }
+              }
+            },
+          ),
         ]);
       }
     });

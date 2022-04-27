@@ -65,7 +65,7 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
         builder: (context) {
           final _titleStyle = Theme.of(context)
               .textTheme
-              .headline5
+              .headline6
               ?.copyWith(color: Theme.of(context).colorScheme.primary);
           final _descriptionStyle = Theme.of(context)
               .textTheme
@@ -82,9 +82,9 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
                   children: [
                     Text("Are you sure you want to sign out?",
                         style: _titleStyle),
-                    const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+                    const SizedBox(height: kAppPaddingBetweenItemNormalSize),
                     const Text(
-                        "You have to re-enter password to access this account."),
+                        "You have to enter password to access this account."),
                     const SizedBox(height: kAppPaddingBetweenItemNormalSize),
                     ReminderWidget(
                       iconData: Icons.warning_rounded,
@@ -94,7 +94,8 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
                           "You won't be able to sign in if you forgot your password. Remember that you've saved your account.",
                       child: GestureDetector(
                           onTap: () {
-                            print("Export account");
+                            Application.router.navigateTo(
+                                context, "/botp/settings/security/transfer");
                           },
                           child: Text(
                             "If you haven't yet, click here to export your account",

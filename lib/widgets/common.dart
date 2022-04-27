@@ -94,12 +94,11 @@ class ScreenWidget extends StatelessWidget {
       _appBar = null;
     }
     // Wrap the Scaffold inside a Colored Container would fill the status bar
-    return Container(
-        color: _appbarBackgroundColor,
-        child: Scaffold(
-            appBar: _appBar,
-            bottomNavigationBar: bottomNavigationBar,
-            body: SafeArea(child: body)));
+    return Scaffold(
+        appBar: _appBar,
+        bottomNavigationBar: bottomNavigationBar,
+        body: Container(
+            color: _appbarBackgroundColor, child: SafeArea(child: body)));
   }
 }
 
