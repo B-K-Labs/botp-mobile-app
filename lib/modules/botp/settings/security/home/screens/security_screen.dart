@@ -37,16 +37,20 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
   }
 
   Widget _account() {
-    return const SettingsSectionWidget(title: "Account security", children: [
-      SettingsOptionWidget(
+    return SettingsSectionWidget(title: "Account security", children: [
+      const SettingsOptionWidget(
         label: "Change password",
         type: SettingsOptionType.labelNavigable,
       ),
       SettingsOptionWidget(
         label: "Transfer account",
         type: SettingsOptionType.labelNavigable,
+        onTap: () {
+          Application.router
+              .navigateTo(context, "/botp/settings/security/transfer");
+        },
       ),
-      SettingsOptionWidget(
+      const SettingsOptionWidget(
         label: "Fingerprint authentication",
         type: SettingsOptionType.labelNavigable,
         navigateDescription: "Not set up yet",
@@ -70,7 +74,7 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
           return Container(
               padding: const EdgeInsets.symmetric(
                   horizontal: kAppPaddingHorizontalSize,
-                  vertical: kAppPaddingTopSize),
+                  vertical: kAppPaddingVerticalSize),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,

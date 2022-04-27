@@ -49,7 +49,7 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
                 ? Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: kAppPaddingHorizontalSize,
-                        vertical: kAppPaddingTopSize),
+                        vertical: kAppPaddingVerticalSize),
                     child: ReminderWidget(
                       iconData: Icons.verified_outlined,
                       colorType: ColorType.primary,

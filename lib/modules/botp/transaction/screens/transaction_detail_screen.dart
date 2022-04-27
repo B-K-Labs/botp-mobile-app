@@ -135,7 +135,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
       return Container(
           padding: const EdgeInsets.symmetric(
               horizontal: kAppPaddingHorizontalSize,
-              vertical: kAppPaddingBottomSize),
+              vertical: kAppPaddingVerticalSize),
           child: _returnActionButtons);
     });
   }
@@ -178,7 +178,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
           child: SingleChildScrollView(
               child: otpSessionInfo != null && !state.isOutdated
                   ? Column(mainAxisSize: MainAxisSize.min, children: [
-                      const SizedBox(height: kAppPaddingTopSize),
+                      const SizedBox(height: kAppPaddingVerticalSize),
                       // Show OTP only in the pending state
                       otpSessionInfo.transactionStatus ==
                               TransactionStatus.pending
@@ -189,7 +189,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
                       const SizedBox(height: kAppPaddingHorizontalSize),
                     ])
                   : Column(mainAxisSize: MainAxisSize.min, children: [
-                      const SizedBox(height: kAppPaddingTopSize),
+                      const SizedBox(height: kAppPaddingVerticalSize),
                       transactionStatus == TransactionStatus.pending
                           ? _transactionOTP(true)
                           : Container(),

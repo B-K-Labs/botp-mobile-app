@@ -80,7 +80,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                        const SizedBox(height: kAppPaddingTopSize),
+                        const SizedBox(height: kAppPaddingVerticalSize),
                         Text("Full name",
                             style: Theme.of(context).textTheme.bodyText2),
                         const SizedBox(height: 12.0),
@@ -123,7 +123,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
                       ]))),
                   Container(
                       padding: const EdgeInsets.symmetric(
-                          vertical: kAppPaddingBottomSize),
+                          vertical: kAppPaddingVerticalSize),
                       child: Column(children: [
                         Row(
                           children: [

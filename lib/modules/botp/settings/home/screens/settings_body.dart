@@ -47,7 +47,7 @@ class _SettingsBodyState extends State<SettingsBody> {
       final fullName =
           state.fullName != null ? state.fullName! : state.guestName;
       return Column(children: [
-        const SizedBox(height: kAppPaddingTopSize),
+        const SizedBox(height: kAppPaddingVerticalSize),
         state.bcAddress != null && state.fullName != null
             ? SettingsHomeInfo(
                 avatarUrl: state.avatarUrl,

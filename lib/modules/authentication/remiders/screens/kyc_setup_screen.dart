@@ -79,7 +79,7 @@ class ReminderKYCSetupBody extends StatelessWidget {
                               .launchSession(skipSetupKyc: true);
                         })),
               ]),
-              const SizedBox(height: kAppPaddingBottomSize)
+              const SizedBox(height: kAppPaddingVerticalSize)
             ],
           )
         ],

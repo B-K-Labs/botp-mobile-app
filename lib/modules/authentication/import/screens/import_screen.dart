@@ -66,7 +66,7 @@ class _ImportBodyState extends State<ImportBody> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const SizedBox(height: kAppPaddingTopSize),
+                const SizedBox(height: kAppPaddingVerticalSize),
                 Text("Import existing account",
                     style: Theme.of(context).textTheme.headline4?.copyWith(
                         color: Theme.of(context).colorScheme.primary)),

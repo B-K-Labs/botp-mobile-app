@@ -1,3 +1,4 @@
+import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/widgets/common.dart';
 import "package:flutter/material.dart";
 
@@ -16,8 +17,16 @@ class SecurityTransferAccountBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [Text("Hello")],
-    );
+    // Transfer account theme
+    final _titleStyle = Theme.of(context)
+        .textTheme
+        .headline5
+        ?.copyWith(color: Theme.of(context).colorScheme.primary);
+
+    return Column(children: [
+      const SizedBox(height: kAppPaddingVerticalSize),
+      Text("Transfer your account", style: _titleStyle),
+      const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+    ]);
   }
 }
