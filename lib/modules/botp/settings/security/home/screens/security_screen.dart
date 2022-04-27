@@ -45,6 +45,7 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
       SettingsOptionWidget(
         label: "Transfer account",
         type: SettingsOptionType.labelNavigable,
+        navigateDescription: "Export/Import",
         onTap: () {
           Application.router
               .navigateTo(context, "/botp/settings/security/transfer");
@@ -76,18 +77,21 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
                   horizontal: kAppPaddingHorizontalSize,
                   vertical: kAppPaddingVerticalSize),
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text("Are you sure you want to sign out?",
                         style: _titleStyle),
+                    const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+                    const Text(
+                        "You have to re-enter password to access this account."),
                     const SizedBox(height: kAppPaddingBetweenItemNormalSize),
                     ReminderWidget(
                       iconData: Icons.warning_rounded,
                       colorType: ColorType.error,
                       title: "Caution!",
                       description:
-                          "After this operation, you must enter password to access this account. Remember that you've saved your account.",
+                          "You won't be able to sign in if you forgot your password. Remember that you've saved your account.",
                       child: GestureDetector(
                           onTap: () {
                             print("Export account");

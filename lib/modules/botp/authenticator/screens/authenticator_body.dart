@@ -111,21 +111,20 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
     return Container(
         padding:
             const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
-        child: GestureDetector(
-            onTap: () {
-              Application.router.navigateTo(context, "/botp/transaction",
-                  routeSettings: RouteSettings(arguments: transactionDetail));
-            },
-            child: TransactionItemWidget(
-                isNewest: false,
-                agentName: otpSessionInfo.agentName,
-                agentAvatarUrl: otpSessionInfo.agentAvatarUrl,
-                agentIsVerified: otpSessionInfo.agentIsVerified,
-                date: DateTime.fromMillisecondsSinceEpoch(
-                        otpSessionInfo.timestamp)
-                    .toString(),
-                notifyMessage: otpSessionInfo.notifyMessage,
-                transactionStatus: otpSessionInfo.transactionStatus)));
+        child: TransactionItemWidget(
+          isNewest: false,
+          agentName: otpSessionInfo.agentName,
+          agentAvatarUrl: otpSessionInfo.agentAvatarUrl,
+          agentIsVerified: otpSessionInfo.agentIsVerified,
+          date: DateTime.fromMillisecondsSinceEpoch(otpSessionInfo.timestamp)
+              .toString(),
+          notifyMessage: otpSessionInfo.notifyMessage,
+          transactionStatus: otpSessionInfo.transactionStatus,
+          onTap: () {
+            Application.router.navigateTo(context, "/botp/transaction",
+                routeSettings: RouteSettings(arguments: transactionDetail));
+          },
+        ));
   }
 
   Widget _generateShadowTransactionItemsList(int transactionsListLength) {

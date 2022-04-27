@@ -323,3 +323,52 @@ class SettingsOptionWidget extends StatelessWidget {
                   vertical: kAppPaddingBetweenItemSmallSize),
               child: child));
 }
+
+class SettingsTransferWidget extends StatelessWidget {
+  final IconData iconData;
+  final ColorType transferColorType;
+  final String title;
+  final String description;
+  final VoidCallback? onTap;
+  const SettingsTransferWidget(
+      {Key? key,
+      required this.iconData,
+      required this.transferColorType,
+      required this.title,
+      required this.description,
+      this.onTap})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // Text style
+    final _titleStyle = Theme.of(context)
+        .textTheme
+        .bodyText1
+        ?.copyWith(fontWeight: FontWeight.bold);
+    final _descriptionStyle = Theme.of(context).textTheme.bodyText2;
+
+    return InkWell(
+        borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
+        onTap: onTap,
+        child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
+                border: Border.all(
+                    color: Theme.of(context).colorScheme.outline, width: 1.0)),
+            padding: const EdgeInsets.symmetric(
+                horizontal: kAppPaddingBetweenItemNormalSize,
+                vertical: kAppPaddingBetweenItemNormalSize),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              DecoratedIconWidget(
+                  colorType: transferColorType,
+                  size: DecoratedIconSize.normal,
+                  iconData: iconData),
+              const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+              Text(title, style: _titleStyle),
+              const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+              Text(description, style: _descriptionStyle),
+            ])));
+  }
+}

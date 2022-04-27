@@ -92,16 +92,18 @@ class TransactionItemWidget extends StatelessWidget {
   final String date;
   final String notifyMessage;
   final TransactionStatus transactionStatus;
-  const TransactionItemWidget({
-    Key? key,
-    required this.isNewest,
-    required this.agentName,
-    required this.agentAvatarUrl,
-    this.agentIsVerified = true,
-    required this.date,
-    required this.notifyMessage,
-    required this.transactionStatus,
-  }) : super(key: key);
+  final VoidCallback? onTap;
+  const TransactionItemWidget(
+      {Key? key,
+      required this.isNewest,
+      required this.agentName,
+      required this.agentAvatarUrl,
+      this.agentIsVerified = true,
+      required this.date,
+      required this.notifyMessage,
+      required this.transactionStatus,
+      this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -127,53 +129,62 @@ class TransactionItemWidget extends StatelessWidget {
           border: _border,
         ),
         height: 96,
-        child: Stack(alignment: AlignmentDirectional.topEnd, children: [
-          Positioned.fill(
-              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 30.0, vertical: 24.0),
-                child: SizedBox(
-                  height: 48.0,
-                  width: 48.0,
-                  child: Image.network(agentAvatarUrl,
-                      scale: 1, fit: BoxFit.fitWidth),
-                )),
-            Expanded(
-                flex: 1,
-                child: Center(
-                    child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            agentName,
-                            style: _textStyle,
-                          ),
-                          const SizedBox(height: 6.0),
-                          Text(
-                            date,
-                            style: _smallTextStyle,
-                          ),
-                          const SizedBox(height: 6.0),
-                          Text(
-                            shortenNotifyMessage(notifyMessage),
-                            style: _smallTextStyle,
-                          ),
-                        ],
-                      )
-                    ]))),
-          ])),
-          Container(
-              padding: const EdgeInsets.only(top: 16.0),
-              child: _TransactionStatusWidget(
-                status: transactionStatus,
-              ))
-        ]));
+        child: Material(
+            borderRadius: _borderRadius,
+            child: InkWell(
+                borderRadius: _borderRadius,
+                onTap: onTap,
+                child: Stack(alignment: AlignmentDirectional.topEnd, children: [
+                  Positioned.fill(
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                        Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 30.0, vertical: 24.0),
+                            child: SizedBox(
+                              height: 48.0,
+                              width: 48.0,
+                              child: Image.network(agentAvatarUrl,
+                                  scale: 1, fit: BoxFit.fitWidth),
+                            )),
+                        Expanded(
+                            flex: 1,
+                            child: Center(
+                                child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        agentName,
+                                        style: _textStyle,
+                                      ),
+                                      const SizedBox(height: 6.0),
+                                      Text(
+                                        date,
+                                        style: _smallTextStyle,
+                                      ),
+                                      const SizedBox(height: 6.0),
+                                      Text(
+                                        shortenNotifyMessage(notifyMessage),
+                                        style: _smallTextStyle,
+                                      ),
+                                    ],
+                                  )
+                                ]))),
+                      ])),
+                  Container(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: _TransactionStatusWidget(
+                        status: transactionStatus,
+                      ))
+                ]))));
   }
 }
 
