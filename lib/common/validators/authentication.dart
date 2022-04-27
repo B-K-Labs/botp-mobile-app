@@ -17,7 +17,7 @@ String? passwordStrictValidator(String? password) => password == null ||
         : RegExp(r'''^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\\\|\;\:\'\"\,\<\.\>\/\?]).{6,}$''')
                 .hasMatch(password)
             ? null
-            : "Must contain one uppercase, lowercase, digit, and special character";
+            : "Must contain at least one uppercase, lowercase, digit, and special character";
 
 String? passwordNormalValidator(String? password) =>
     password == null || password.isEmpty ? "Missing password" : null;

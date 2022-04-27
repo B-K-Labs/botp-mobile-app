@@ -1,6 +1,6 @@
 enum TransactionStatus {
   requesting,
-  pending,
+  waiting, // Updated 27/04/2022
   succeeded,
   failed,
   all,

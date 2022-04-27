@@ -23,7 +23,7 @@ class _TransactionStatusWidget extends StatelessWidget {
     final Color _primary;
     final Color _backgroundColor;
     switch (status) {
-      case TransactionStatus.pending:
+      case TransactionStatus.waiting:
         _primary = Theme.of(context).colorScheme.onPrimaryContainer;
         _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
         break;

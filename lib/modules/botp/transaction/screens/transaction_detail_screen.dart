@@ -63,7 +63,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
           state.otpSessionInfo?.transactionStatus;
       if (!state.isOutdated) {
         switch (transactionStatus) {
-          case TransactionStatus.pending:
+          case TransactionStatus.waiting:
             _returnActionButtons = Row(children: [
               Expanded(
                   child: ButtonNormalWidget(
@@ -181,7 +181,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
                       const SizedBox(height: kAppPaddingVerticalSize),
                       // Show OTP only in the pending state
                       otpSessionInfo.transactionStatus ==
-                              TransactionStatus.pending
+                              TransactionStatus.waiting
                           ? _transactionOTP()
                           : Container(),
                       _transactionDetail(),
@@ -190,7 +190,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
                     ])
                   : Column(mainAxisSize: MainAxisSize.min, children: [
                       const SizedBox(height: kAppPaddingVerticalSize),
-                      transactionStatus == TransactionStatus.pending
+                      transactionStatus == TransactionStatus.waiting
                           ? _transactionOTP(true)
                           : Container(),
                       Container(

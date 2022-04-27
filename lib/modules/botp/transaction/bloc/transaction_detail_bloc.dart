@@ -58,7 +58,7 @@ class TransactionDetailBloc
             getTransactionDetailResult.transactionDetail.otpSessionSecretInfo;
 
         // Add/remove secret message
-        if (newOtpSessionInfo.transactionStatus == TransactionStatus.pending) {
+        if (newOtpSessionInfo.transactionStatus == TransactionStatus.waiting) {
           await _syncSecretMessage(otpSessionSecretInfo.secretId);
         } else {
           _removeSecretMessage(otpSessionSecretInfo.secretId);
@@ -72,7 +72,7 @@ class TransactionDetailBloc
         }
         // - Setup timers: get transaction detail + generate otp
         else if (newOtpSessionInfo.transactionStatus ==
-            TransactionStatus.pending) {
+            TransactionStatus.waiting) {
           add(TransactionDetailEventSetupGetTransactionDetailTimer());
           add(TransactionDetailEventGenerateOTPAndSetupTimer());
         }
@@ -170,7 +170,7 @@ class TransactionDetailBloc
         emit(state.copyWith(
           userRequestStatus: RequestStatusSuccess(),
           otpSessionInfo: state.otpSessionInfo
-              ?.copyWith(transactionStatus: TransactionStatus.pending),
+              ?.copyWith(transactionStatus: TransactionStatus.waiting),
           isOutdated: true,
         ));
         _isUserRequestSubmitting = false;
