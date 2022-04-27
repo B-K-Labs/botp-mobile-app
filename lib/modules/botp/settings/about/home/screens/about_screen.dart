@@ -9,9 +9,7 @@ class AboutHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBarWidget.generate(context, title: "About"),
-        body: const SafeArea(child: AboutHomeBody()));
+    return const ScreenWidget(appBarTitle: "About", body: AboutHomeBody());
   }
 }
 

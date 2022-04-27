@@ -1,18 +1,19 @@
+import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/constants/settings.dart';
 import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SecurityHomeScreen extends StatelessWidget {
   const SecurityHomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBarWidget.generate(context, title: "Security"),
-        body: const SafeArea(child: SecurityHomeBody()));
+    return const ScreenWidget(
+        appBarTitle: "Security", body: SecurityHomeBody());
   }
 }
 
@@ -53,37 +54,20 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
   }
 
   Widget _session() {
+    _onSignOut() async {
+      print("Sign out");
+      await context.read<SessionCubit>().signOut();
+      // Navigate to Session Screen itself instead
+      Application.router.navigateTo(context, "/");
+    }
+
     return SettingsSectionWidget(title: "Session", children: [
       SettingsOptionWidget(
         label: "Sign out",
         type: SettingsOptionType.buttonTextOneSide,
         buttonSideColorType: ColorType.error,
-        onNavigate: signOut,
+        onTap: _onSignOut,
       ),
     ]);
-  }
-
-  signOut() {
-    showModalBottomSheet<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
-            height: 200,
-            color: Colors.amber,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const Text('Modal BottomSheet'),
-                  ElevatedButton(
-                    child: const Text('Close BottomSheet'),
-                    onPressed: () => Navigator.pop(context),
-                  )
-                ],
-              ),
-            ),
-          );
-        });
   }
 }

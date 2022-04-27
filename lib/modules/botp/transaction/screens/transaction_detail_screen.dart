@@ -23,9 +23,8 @@ class TransactionDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar:
-            AppBarWidget.generate(context, title: "Authenticate Transaction"),
+    return ScreenWidget(
+        appBarTitle: "Authenticate Transaction",
         body: TransactionDetailBody(transactionDetail));
   }
 }

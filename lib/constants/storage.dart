@@ -13,7 +13,6 @@ class UserDataType {
 
 // Session
 enum UserDataSession {
-  firstTime,
   unauthenticated,
   expired,
   authenticated,

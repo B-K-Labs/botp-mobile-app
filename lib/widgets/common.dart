@@ -1,67 +1,105 @@
 import 'package:botp_auth/constants/common.dart';
 import "package:flutter/material.dart";
 
-class AppBarWidget {
-  static AppBar generate(BuildContext context,
-      {AppBarType? type,
-      bool implyLeading = true,
-      String? title,
-      String? avatarUrl,
-      VoidCallback? onPressedAvatar}) {
-    final Color _appbarBackgroundColor = Theme.of(context).colorScheme.surface;
-    switch (type) {
-      case AppBarType.blank:
-        return AppBar(
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          elevation: 1,
-          backgroundColor: _appbarBackgroundColor,
-        );
-      case AppBarType.authenticator:
-        return AppBar(
-          automaticallyImplyLeading: false,
-          title: const Text("BOTP Authenticator"),
-          titleTextStyle: Theme.of(context)
-              .textTheme
-              .headline6
-              ?.copyWith(color: Theme.of(context).colorScheme.primary),
-          elevation: 1,
-          backgroundColor: _appbarBackgroundColor,
-          actions: [
-            AvatarWidget(avatarUrl: avatarUrl, onPressed: onPressedAvatar),
-            const SizedBox(width: 10.0),
-          ],
-          actionsIconTheme:
-              IconThemeData(color: Theme.of(context).colorScheme.onSurface),
-        );
-      case AppBarType.history:
-        return AppBar(
-          automaticallyImplyLeading: false,
-          title: const Text("History"),
-          titleTextStyle: Theme.of(context)
-              .textTheme
-              .headline6
-              ?.copyWith(color: Theme.of(context).colorScheme.primary),
-          // centerTitle: true,
-          elevation: 1,
-          // backgroundColor: Colors.transparent,
-          backgroundColor: _appbarBackgroundColor,
-        );
-      case AppBarType.normal:
-      default:
-        return AppBar(
-          automaticallyImplyLeading: implyLeading,
-          title: title != null ? Text(title) : null,
-          titleTextStyle: Theme.of(context).textTheme.headline6,
-          centerTitle: true,
-          elevation: 1,
-          // backgroundColor: Colors.transparent,
-          backgroundColor: _appbarBackgroundColor,
-          iconTheme: IconThemeData(
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-        );
+class ScreenWidget extends StatelessWidget {
+  final bool hasAppBar;
+  final AppBarType? appBarType;
+  final bool appBarImplyLeading;
+  final String? appBarTitle;
+  final String? appBarAvatarUrl;
+  final VoidCallback? appBarOnPressedAvatar;
+  final double appBarElevation;
+  final BottomNavigationBar? bottomNavigationBar;
+  final Widget body;
+
+  /// Scaffold with colored SafeArea
+  const ScreenWidget(
+      {Key? key,
+      this.hasAppBar = true,
+      this.bottomNavigationBar,
+      this.appBarType,
+      this.appBarImplyLeading = true,
+      this.appBarTitle,
+      this.appBarAvatarUrl,
+      this.appBarOnPressedAvatar,
+      this.appBarElevation = 1,
+      required this.body})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // AppBar theme
+    final AppBar? _appBar;
+    final Color _appbarBackgroundColor =
+        Theme.of(context).scaffoldBackgroundColor;
+    if (hasAppBar) {
+      switch (appBarType) {
+        case AppBarType.blank:
+          _appBar = AppBar(
+            automaticallyImplyLeading: false,
+            centerTitle: true,
+            elevation: appBarElevation,
+            backgroundColor: _appbarBackgroundColor,
+          );
+          break;
+        case AppBarType.authenticator:
+          _appBar = AppBar(
+            automaticallyImplyLeading: false,
+            title: const Text("BOTP Authenticator"),
+            titleTextStyle: Theme.of(context)
+                .textTheme
+                .headline6
+                ?.copyWith(color: Theme.of(context).colorScheme.primary),
+            elevation: appBarElevation,
+            backgroundColor: _appbarBackgroundColor,
+            actions: [
+              AvatarWidget(
+                  avatarUrl: appBarAvatarUrl, onPressed: appBarOnPressedAvatar),
+              const SizedBox(width: 10.0),
+            ],
+            actionsIconTheme:
+                IconThemeData(color: Theme.of(context).colorScheme.onSurface),
+          );
+          break;
+        case AppBarType.history:
+          _appBar = AppBar(
+            automaticallyImplyLeading: false,
+            title: const Text("History"),
+            titleTextStyle: Theme.of(context)
+                .textTheme
+                .headline6
+                ?.copyWith(color: Theme.of(context).colorScheme.primary),
+            // centerTitle: true,
+            elevation: appBarElevation,
+            // backgroundColor: Colors.transparent,
+            backgroundColor: _appbarBackgroundColor,
+          );
+          break;
+        case AppBarType.normal:
+        default:
+          _appBar = AppBar(
+            automaticallyImplyLeading: appBarImplyLeading,
+            title: appBarTitle != null ? Text(appBarTitle!) : null,
+            titleTextStyle: Theme.of(context).textTheme.headline6,
+            centerTitle: true,
+            elevation: appBarElevation,
+            // backgroundColor: Colors.transparent,
+            backgroundColor: _appbarBackgroundColor,
+            iconTheme: IconThemeData(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+          );
+      }
+    } else {
+      _appBar = null;
     }
+    // Wrap the Scaffold inside a Colored Container would fill the status bar
+    return Container(
+        color: _appbarBackgroundColor,
+        child: Scaffold(
+            appBar: _appBar,
+            bottomNavigationBar: bottomNavigationBar,
+            body: SafeArea(child: body)));
   }
 }
 

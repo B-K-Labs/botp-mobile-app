@@ -6,6 +6,7 @@ import 'package:botp_auth/modules/authentication/signin/bloc/signin_event.dart';
 import 'package:botp_auth/modules/authentication/signin/bloc/signin_state.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
+import 'package:botp_auth/widgets/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:botp_auth/constants/common.dart';
@@ -17,9 +18,7 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(child: SignInBody()),
-    );
+    return const ScreenWidget(hasAppBar: false, body: SignInBody());
   }
 }
 

@@ -16,9 +16,7 @@ class AccountHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBarWidget.generate(context, title: "Account"),
-        body: const AccountHomeBody());
+    return const ScreenWidget(appBarTitle: "Account", body: AccountHomeBody());
   }
 }
 
@@ -58,9 +56,15 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
                       title: "You're almost done!",
                       description:
                           "BOTP Auth need to know you. Enter your information here to use the authenticator!",
-                      onTap: () {
-                        Application.router.navigateTo(
-                            context, "/botp/settings/account/setupKyc");
+                      onTap: () async {
+                        final setUpKycResult = await Application.router
+                                .navigateTo(
+                                    context, "/botp/settings/account/setupKyc")
+                            as bool?;
+                        if (setUpKycResult == true) {
+                          showSnackBar(context, "Update profile successfully",
+                              SnackBarType.success);
+                        }
                       },
                     ))
                 : Container());

@@ -1,6 +1,7 @@
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/widgets/button.dart';
+import 'package:botp_auth/widgets/common.dart';
 import 'package:flutter/material.dart';
 
 class InitScreen extends StatelessWidget {
@@ -8,7 +9,7 @@ class InitScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: SafeArea(child: InitBody()));
+    return const ScreenWidget(hasAppBar: false, body: InitBody());
   }
 }
 

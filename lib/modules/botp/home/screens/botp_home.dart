@@ -33,28 +33,27 @@ class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _selectedIndex == 0
-          ? AppBarWidget.generate(context,
-              type: AppBarType.authenticator,
-              // TODO: read user avatar
-              // avatarUrl:,
-              onPressedAvatar: () {})
-          : _selectedIndex == 1
-              ? AppBarWidget.generate(context, type: AppBarType.history)
-              : null,
-      body: SafeArea(child: _getSelectedWidget()),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "History"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account")
-        ],
-        currentIndex: _selectedIndex,
-        selectedIconTheme:
-            IconThemeData(color: Theme.of(context).colorScheme.primary),
-        onTap: _onItemTapped,
-      ),
-    );
+    return ScreenWidget(
+        // Appbar
+        hasAppBar: _selectedIndex == 2 ? false : true,
+        appBarType:
+            _selectedIndex == 0 ? AppBarType.authenticator : AppBarType.history,
+        // TODO: read user avatar
+        appBarAvatarUrl: _selectedIndex == 0 ? null : null,
+        appBarOnPressedAvatar: _selectedIndex == 0 ? null : null,
+        // Body
+        body: _getSelectedWidget(),
+        // Bottom bar
+        bottomNavigationBar: BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: "History"),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account")
+          ],
+          currentIndex: _selectedIndex,
+          selectedIconTheme:
+              IconThemeData(color: Theme.of(context).colorScheme.primary),
+          onTap: _onItemTapped,
+        ));
   }
 }

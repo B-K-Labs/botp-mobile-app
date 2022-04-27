@@ -24,11 +24,10 @@ class AccountSetupKYCScreen extends StatelessWidget {
     return BlocProvider<AccountSetupKYCBloc>(
         create: (context) => AccountSetupKYCBloc(
             settingsRepository: context.read<SettingsRepository>()),
-        child: Scaffold(
-            appBar: from == FromScreen.authReminderKYCSetup
-                ? null
-                : AppBarWidget.generate(context, title: "Setup KYC"),
-            body: SafeArea(child: AccountSetupKYCBody(from: from))));
+        child: ScreenWidget(
+            hasAppBar: from == FromScreen.authReminderKYCSetup ? false : true,
+            appBarTitle: "Setup KYC",
+            body: AccountSetupKYCBody(from: from)));
   }
 }
 
@@ -62,10 +61,12 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
           } else if (formStatus is RequestStatusFailed) {
             showSnackBar(context, formStatus.exception.toString());
           } else if (formStatus is RequestStatusSuccess) {
-            if (widget.from != FromScreen.authReminderKYCSetup) {
-              showSnackBar(context, "Update profile successfully");
-            }
-            Application.router.pop(context);
+            // Not show success here, but the parent screen
+            // if (widget.from != FromScreen.authReminderKYCSetup) {
+            //   showSnackBar(
+            //       context, "Update profile successfully", SnackBarType.success);
+            // }
+            Application.router.pop(context, true);
           }
         },
         child: Form(

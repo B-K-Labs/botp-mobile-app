@@ -18,9 +18,7 @@ class ImportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBarWidget.generate(context),
-        body: const SafeArea(child: ImportBody()));
+    return const ScreenWidget(appBarElevation: 0, body: ImportBody());
   }
 }
 
