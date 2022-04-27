@@ -95,7 +95,8 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
                       child: GestureDetector(
                           onTap: () {
                             Application.router.navigateTo(
-                                context, "/botp/settings/security/transfer");
+                                context, "/botp/settings/security/transfer",
+                                replace: true);
                           },
                           child: Text(
                             "If you haven't yet, click here to export your account",
