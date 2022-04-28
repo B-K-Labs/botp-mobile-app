@@ -5,4 +5,6 @@ class ProductionConfig extends BaseConfig {
   String get baseApiUri =>
       // Wait for Hien <3
       "https://botp-backend-logic-api.herokuapp.com/api/v1";
+  @override
+  bool get freshAppData => false;
 }

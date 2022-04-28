@@ -42,4 +42,5 @@ class Environment {
 
 abstract class BaseConfig {
   String get baseApiUri;
+  bool get freshAppData;
 }
