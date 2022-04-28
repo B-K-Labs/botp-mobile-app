@@ -105,7 +105,7 @@ class _ImportBodyState extends State<ImportBody> {
           hintText: "123xxxxxx",
           validator: _privateKeyValidator,
           onChanged: _privateKeyOnChanged,
-          suffixIconData: Icons.qr_code,
+          suffixIconData: Icons.qr_code_scanner,
           onTapSuffixIcon: _onNavigateQrCode);
     });
   }

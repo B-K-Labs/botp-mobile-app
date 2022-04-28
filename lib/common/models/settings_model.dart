@@ -51,3 +51,11 @@ class SetupAgentResponseModel {
             avatarUrl: json["agentInfo"]["avatar"],
             isVerified: true);
 }
+
+class GetAgentsListResponseModel {
+  List<String> agentBcAddressesList;
+
+  GetAgentsListResponseModel(this.agentBcAddressesList);
+  GetAgentsListResponseModel.fromJSON(Map<String, dynamic> json)
+      : agentBcAddressesList = json["agentList"];
+}

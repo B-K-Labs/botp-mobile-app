@@ -1,6 +1,6 @@
 import 'package:botp_auth/constants/storage.dart';
 import 'package:botp_auth/core/storage/user_data_model.dart';
-import 'package:botp_auth/utils/services/local_storage_service.dart';
+// import 'package:botp_auth/utils/services/local_storage_service.dart';
 import 'package:botp_auth/utils/services/secure_storage_service.dart';
 
 // Note: all data is credential
@@ -154,9 +154,9 @@ class UserData {
       await SecureStorage.removeSecureValue(
           UserDataType.credentialTransactionsSecret);
 
-  // Wipe out everything, in case of e.g signing out
+  // Wipe out everything
   static clearData() async {
-    await LocalStorage.removeAllValues();
+    // await LocalStorage.removeAllValues(); // Not use anymore
     await SecureStorage.removeAllSecureValues();
   }
 }

@@ -9,11 +9,11 @@ class ProfileViewState {
   int? age;
   String? gender;
   String? debitor;
+  bool? didKyc;
   // Account
   String? bcAddress;
   String? publicKey;
   SetClipboardStatus copyBcAddressStatus;
-  bool get didKyc => fullName != null;
 
   ProfileViewState(
       {this.fullName,
@@ -21,6 +21,7 @@ class ProfileViewState {
       this.age,
       this.gender,
       this.debitor,
+      this.didKyc,
       this.bcAddress,
       this.publicKey,
       this.copyBcAddressStatus = const SetClipboardStatusInitial(),
@@ -32,6 +33,7 @@ class ProfileViewState {
           int? age,
           String? gender,
           String? debitor,
+          bool? didKyc,
           String? bcAddress,
           String? publicKey,
           SetClipboardStatus? copyBcAddressStatus}) =>
@@ -42,6 +44,7 @@ class ProfileViewState {
           age: age ?? this.age,
           gender: gender ?? this.gender,
           debitor: debitor ?? this.debitor,
+          didKyc: didKyc ?? this.didKyc,
           bcAddress: bcAddress ?? this.bcAddress,
           publicKey: publicKey ?? this.publicKey,
           copyBcAddressStatus: copyBcAddressStatus ?? this.copyBcAddressStatus);

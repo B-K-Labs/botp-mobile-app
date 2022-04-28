@@ -28,18 +28,15 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
             (await UserData.getCredentialAccountData())!.privateKey;
         final signInResult =
             await authRepository.signIn(privateKey, state.password);
-        // Store account data
-        UserData.setCredentialSessionData(UserDataSession.authenticated);
-        UserData.setCredentialAccountData(signInResult.bcAddress,
-            signInResult.publicKey, privateKey, state.password);
-        final userKyc = signInResult.userKyc;
-        final didKyc = userKyc != null;
-        if (userKyc != null) {
-          UserData.setCredentialKYCData(userKyc.fullName, userKyc.address,
-              userKyc.age, userKyc.gender, userKyc.debitor);
-        }
-        UserData.setCredentialProfileData(didKyc, signInResult.avatarUrl);
-        sessionCubit.launchSession(skipSetupKyc: didKyc);
+        // Launch session
+        sessionCubit.launchSessionFromSignIn(
+            signInResult.bcAddress,
+            signInResult.publicKey,
+            privateKey,
+            state.password,
+            signInResult.avatarUrl,
+            signInResult.userKyc);
+        UserData.setCredentialSessionData(UserDataSession.expired);
         emit(state.copyWith(formStatus: RequestStatusSuccess()));
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));

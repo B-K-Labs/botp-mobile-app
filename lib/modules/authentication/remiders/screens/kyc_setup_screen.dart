@@ -59,7 +59,7 @@ class ReminderKYCSetupBody extends StatelessWidget {
                     Application.router.navigateTo(context, "/botp");
                     context
                         .read<SessionCubit>()
-                        .launchSession(skipSetupKyc: true);
+                        .remindSettingUpAndLaunchSession(skipSetupKyc: true);
                   },
                 )),
                 const SizedBox(
@@ -76,7 +76,8 @@ class ReminderKYCSetupBody extends StatelessWidget {
                                   arguments: FromScreen.authReminderKYCSetup));
                           context
                               .read<SessionCubit>()
-                              .launchSession(skipSetupKyc: true);
+                              .remindSettingUpAndLaunchSession(
+                                  skipSetupKyc: true);
                         })),
               ]),
               const SizedBox(height: kAppPaddingVerticalSize)

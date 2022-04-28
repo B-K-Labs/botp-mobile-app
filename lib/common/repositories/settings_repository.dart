@@ -29,15 +29,25 @@ class SettingsRepository {
   // Update Avatar
   // TODO
 
-  // Send Agent
+  // Send Agent from QR
   Future<SetupAgentResponseModel> setUpAgent(
       String setupAgentUrl, String userBcAddress) async {
     final data = SetupAgentRequestModel(setupAgentUrl, userBcAddress).toJSON();
     http.Response result =
         await post(makeApiUrlString(path: "/QRcode/processQRInfo"), data);
-    print(result.body);
     if (result.statusCode == HttpStatus.ok) {
       return SetupAgentResponseModel.fromJSON(json.decode(result.body));
+    }
+    throw Exception(result.body);
+  }
+
+  // Get Agents list
+  Future<GetAgentsListResponseModel> getAgentsList(String bcAddress) async {
+    final queryParameters = {"userAddr": bcAddress};
+    http.Response result = await get(makeApiUrlString(
+        path: '/QRcode/getAgentList', queryParameters: queryParameters));
+    if (result.statusCode == HttpStatus.ok) {
+      return GetAgentsListResponseModel.fromJSON(json.decode(result.body)[0]);
     }
     throw Exception(result.body);
   }

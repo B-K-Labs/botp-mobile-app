@@ -34,41 +34,58 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
     return BlocProvider(
         create: (context) => ProfileViewCubit(
             settingsRepository: context.read<SettingsRepository>()),
-        child: Column(children: [
+        child: SingleChildScrollView(
+            child: Column(children: [
           reminder(),
           _account(),
-          const DividerWidget(
-              padding:
-                  EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize)),
           _profile(),
-        ]));
+        ])));
   }
 
   Widget reminder() {
     return BlocBuilder<ProfileViewCubit, ProfileViewState>(
         builder: (context, state) =>
-            state.loadUserData is LoadUserDataStatusSuccess && !state.didKyc
-                ? Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: kAppPaddingHorizontalSize,
-                        vertical: kAppPaddingVerticalSize),
-                    child: ReminderWidget(
-                      iconData: Icons.verified_outlined,
-                      colorType: ColorType.primary,
-                      title: "You're almost done!",
-                      description:
-                          "BOTP Auth need to know you. Enter your information here to use the authenticator!",
-                      onTap: () async {
-                        final setUpKycResult = await Application.router
-                                .navigateTo(
-                                    context, "/botp/settings/account/setupKyc")
-                            as bool?;
-                        if (setUpKycResult == true) {
-                          showSnackBar(context, "Update profile successfully",
-                              SnackBarType.success);
-                        }
-                      },
-                    ))
+            state.loadUserData is LoadUserDataStatusSuccess
+                ? (!state.didKyc!
+                    ? Column(children: [
+                        Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: kAppPaddingHorizontalSize,
+                                vertical: kAppPaddingVerticalSize),
+                            child: ReminderWidget(
+                              iconData: Icons.verified,
+                              colorType: ColorType.primary,
+                              title: "You're almost done",
+                              description:
+                                  "BOTP Auth need to know you. Enter your information here to use the authenticator!",
+                              onTap: () async {
+                                final setUpKycResult = await Application.router
+                                        .navigateTo(context,
+                                            "/botp/settings/account/setupKyc")
+                                    as bool?;
+                                if (setUpKycResult == true) {
+                                  showSnackBar(
+                                      context,
+                                      "Update profile successfully",
+                                      SnackBarType.success);
+                                }
+                              },
+                            )),
+                      ])
+                    : Column(children: [
+                        Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: kAppPaddingHorizontalSize,
+                                vertical: kAppPaddingVerticalSize),
+                            child: ReminderWidget(
+                              iconData: Icons.add_circle,
+                              colorType: ColorType.secondary,
+                              title: "Add your first agent!",
+                              description:
+                                  "You currently have no registered agent. Start adding a new one now!",
+                              onTap: () async {},
+                            )),
+                      ]))
                 : Container());
   }
 
@@ -84,78 +101,81 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
         showSnackBar(context, copyBcAddressStatus.exception.toString());
       }
     }, builder: (context, state) {
-      if (state.loadUserData is! LoadUserDataStatusSuccess) {
-        return const CircularProgressIndicator();
-      } else {
-        return SettingsSectionWidget(title: "Account info", children: [
-          SettingsOptionWidget(
-              type: SettingsOptionType.labelAndCustomWidget,
-              label: "Blockchain address",
-              customWidget: BcAddressWidget(
-                  bcAddress: state.bcAddress!,
-                  onTap: () {
-                    context.read<ProfileViewCubit>().copyBcAddress();
-                  })),
-          SettingsOptionWidget(
-            type: SettingsOptionType.buttonTextOneSide,
-            buttonSide: OptionButtonOneSide.left,
-            label: "Add new agent by scanning QR",
-            onTap: () async {
-              final data = await Application.router
-                  .navigateTo(context, "/utils/qrScanner") as String?;
-              if (data != null) {
-                final result =
-                    await context.read<ProfileViewCubit>().setupAgent(data);
-                if (result == null) {
-                  showSnackBar(context, "Failed to add new agent.");
-                } else {
-                  // showSnackBar(context, "Added new agent successfully.",
-                  //     SnackBarType.success);
-                  Application.router.navigateTo(
-                      context, "/botp/settings/account/agentInfo",
-                      routeSettings:
-                          RouteSettings(arguments: result.agentInfo));
-                }
-              }
-            },
-          ),
-        ]);
-      }
+      return state.loadUserData is LoadUserDataStatusSuccess
+          ? SettingsSectionWidget(title: "Account info", children: [
+              SettingsOptionWidget(
+                  type: SettingsOptionType.labelAndCustomWidget,
+                  label: "Blockchain address",
+                  customWidget: BcAddressWidget(
+                      bcAddress: state.bcAddress!,
+                      onTap: () {
+                        context.read<ProfileViewCubit>().copyBcAddress();
+                      })),
+              state.didKyc!
+                  ? SettingsOptionWidget(
+                      type: SettingsOptionType.buttonTextOneSide,
+                      buttonSide: OptionButtonOneSide.left,
+                      label: "Add new agent by scanning QR",
+                      onTap: () async {
+                        final data = await Application.router
+                            .navigateTo(context, "/utils/qrScanner") as String?;
+                        if (data != null) {
+                          final result = await context
+                              .read<ProfileViewCubit>()
+                              .setupAgent(data);
+                          if (result == null) {
+                            showSnackBar(context, "Failed to add new agent.");
+                          } else {
+                            // showSnackBar(context, "Added new agent successfully.",
+                            //     SnackBarType.success);
+                            Application.router.navigateTo(
+                                context, "/botp/settings/account/agentInfo",
+                                routeSettings:
+                                    RouteSettings(arguments: result.agentInfo));
+                          }
+                        }
+                      },
+                    )
+                  : Container(),
+            ])
+          : Container();
     });
   }
 
   Widget _profile() {
     return BlocBuilder<ProfileViewCubit, ProfileViewState>(
         builder: (context, state) {
-      if (state.loadUserData is! LoadUserDataStatusSuccess) {
-        return const CircularProgressIndicator();
-      } else if (state.didKyc) {
-        return SettingsSectionWidget(title: "KYC Info", children: [
-          SettingsOptionWidget(
-              type: SettingsOptionType.labelAndValue,
-              label: "Name",
-              value: state.fullName!),
-          SettingsOptionWidget(
-              type: SettingsOptionType.labelAndValue,
-              label: "Address",
-              value: state.address!),
-          SettingsOptionWidget(
-              type: SettingsOptionType.labelAndValue,
-              label: "Age",
-              value: state.age!.toString()),
-          SettingsOptionWidget(
-              type: SettingsOptionType.labelAndValue,
-              label: "Gender",
-              value: state.gender!),
-          SettingsOptionWidget(
-              type: SettingsOptionType.labelAndValue,
-              label: "Phone number",
-              value: state.debitor!),
-        ]);
-      } else {
-        // Return nothing
-        return Container();
-      }
+      return state.loadUserData is LoadUserDataStatusSuccess
+          ? (state.didKyc!
+              ? Column(children: [
+                  const DividerWidget(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: kAppPaddingHorizontalSize)),
+                  SettingsSectionWidget(title: "KYC Info", children: [
+                    SettingsOptionWidget(
+                        type: SettingsOptionType.labelAndValue,
+                        label: "Name",
+                        value: state.fullName!),
+                    SettingsOptionWidget(
+                        type: SettingsOptionType.labelAndValue,
+                        label: "Address",
+                        value: state.address!),
+                    SettingsOptionWidget(
+                        type: SettingsOptionType.labelAndValue,
+                        label: "Age",
+                        value: state.age!.toString()),
+                    SettingsOptionWidget(
+                        type: SettingsOptionType.labelAndValue,
+                        label: "Gender",
+                        value: state.gender!),
+                    SettingsOptionWidget(
+                        type: SettingsOptionType.labelAndValue,
+                        label: "Phone number",
+                        value: state.debitor!),
+                  ])
+                ])
+              : Container())
+          : Container();
     });
   }
 }

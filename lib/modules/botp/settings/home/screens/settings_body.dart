@@ -1,4 +1,5 @@
 import 'package:botp_auth/common/states/clipboard_status.dart';
+import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_cubit.dart';
@@ -44,14 +45,12 @@ class _SettingsBodyState extends State<SettingsBody> {
       }
     }, child: BlocBuilder<SettingsHomeCubit, SettingsHomeState>(
             builder: (context, state) {
-      final fullName =
-          state.fullName != null ? state.fullName! : state.guestName;
       return Column(children: [
         const SizedBox(height: kAppPaddingVerticalSize),
-        state.bcAddress != null && state.fullName != null
+        state.loadUserDataStatus is LoadUserDataStatusSuccess
             ? SettingsHomeInfo(
                 avatarUrl: state.avatarUrl,
-                fullName: state.fullName!,
+                fullName: state.fullName ?? "Guest",
                 bcAddress: state.bcAddress!,
                 onTapBcAddress: () {
                   context.read<SettingsHomeCubit>().copyBcAddress();
@@ -90,11 +89,17 @@ class _SettingsBodyState extends State<SettingsBody> {
   }
 
   Widget _categoriesList() {
-    return Expanded(
-        child: Stack(children: [
-      // Positioned.fill(child: _generateSettingsShadowCategoriesList()),
-      _generateSettingsCategoriesList()
-    ]));
+    return BlocBuilder<SettingsHomeCubit, SettingsHomeState>(
+        builder: (context, state) {
+      return state.loadUserDataStatus is LoadUserDataStatusSuccess
+          ? Expanded(
+              child: Stack(children: [
+              // Positioned.fill(child: _generateSettingsShadowCategoriesList()),
+              _generateSettingsCategoriesList()
+            ]))
+          : Container();
+    });
+    ;
   }
 
   // Widget _generateSettingsShadowCategoriesList() {
@@ -148,12 +153,13 @@ class _SettingsBodyState extends State<SettingsBody> {
 
   Widget _generateSettingsCategoryItem(IconData iconData, String title,
       String description, Function() onTap, ColorType colorType) {
-    return InkWell(
-        onTap: onTap,
-        child: SettingsCategoryWidget(
-            iconData: iconData,
-            title: title,
-            description: description,
-            colorType: colorType));
+    return Material(
+        child: InkWell(
+            onTap: onTap,
+            child: SettingsCategoryWidget(
+                iconData: iconData,
+                title: title,
+                description: description,
+                colorType: colorType)));
   }
 }

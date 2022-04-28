@@ -1,16 +1,14 @@
-import 'dart:io';
-
+import 'package:botp_auth/common/states/request_status.dart';
+import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
+import 'package:botp_auth/modules/botp/settings/security/export_account/cubit/export_account_cubit.dart';
+import 'package:botp_auth/modules/botp/settings/security/export_account/cubit/export_account_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/common.dart';
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:gallery_saver/gallery_saver.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class SecurityExportAccountScreen extends StatelessWidget {
@@ -36,31 +34,35 @@ class _SecurityExportAccountBodyState extends State<SecurityExportAccountBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _reminder(),
-        _privateKeyQr(),
-        _actionButtons(),
-      ],
-    );
+    return BlocProvider<SecurityExportAccountCubit>(
+        create: (context) => SecurityExportAccountCubit(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _privateKeyQr(),
+            Column(children: [
+              _reminder(),
+              _actionButtons(),
+            ])
+          ],
+        ));
   }
 
   Widget _reminder() {
     final _reminderTextStyle = Theme.of(context)
         .textTheme
-        .bodyText2
+        .caption
         ?.copyWith(color: Theme.of(context).colorScheme.onErrorContainer);
 
     return Container(
       padding: const EdgeInsets.symmetric(
-          horizontal: kAppPaddingHorizontalSize,
-          vertical: kAppPaddingVerticalSize),
+        horizontal: kAppPaddingHorizontalSize,
+      ),
       child: ReminderWidget(
           iconData: Icons.warning_rounded,
           colorType: ColorType.error,
           title: "Caution!",
-          description: "Please follow these recommended rules:",
+          description: "Please follow these recommended rules to keep you safe",
           child: Column(
             children: [
               Row(
@@ -69,7 +71,7 @@ class _SecurityExportAccountBodyState extends State<SecurityExportAccountBody> {
                   Text("1. ", style: _reminderTextStyle),
                   Expanded(
                     child: Text(
-                        "Be careful to display the QR code if you’re in a public place.",
+                        "If you’re in a public place, be careful to display the QR code.",
                         style: _reminderTextStyle),
                   ),
                 ],
@@ -91,85 +93,109 @@ class _SecurityExportAccountBodyState extends State<SecurityExportAccountBody> {
   }
 
   Widget _privateKeyQr() {
-    return Container(
-        decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            boxShadow: [
-              BoxShadow(
-                  offset: const Offset(boxShadowOffsetX, boxShadowOffsetY),
-                  blurRadius: boxShadowBlurRadius,
-                  color: Theme.of(context)
-                      .shadowColor
-                      .withOpacity(boxShadowOpacity))
-            ]),
-        child: RepaintBoundary(
-            key: qrKey,
-            child: QrImage(
-                backgroundColor: Colors.white,
-                version: QrVersions.auto,
-                errorCorrectionLevel: QrErrorCorrectLevel.M,
-                data:
-                    "fd1f00d03005178763d675ee510d398c4037f85f70c9411254996934b5a1db85",
-                size: 240.0,
-                gapless: false,
-                embeddedImage: const AssetImage(
-                    "assets/images/logo/botp_logo_embedded_qr.png"),
-                embeddedImageStyle: QrEmbeddedImageStyle(
-                  size: const Size(60, 60),
-                ))));
+    const double _qrSize = 240.0;
+
+    return BlocBuilder<SecurityExportAccountCubit, SecurityExportAccountState>(
+        builder: (context, state) {
+      return state.loadUserDataStatus is LoadUserDataStatusSuccess
+          ? Expanded(
+              child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Your BOTP QR Account",
+                          style: Theme.of(context).textTheme.bodyText1),
+                      const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+                      Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.surface,
+                              boxShadow: [
+                                BoxShadow(
+                                    offset: const Offset(
+                                        boxShadowOffsetX, boxShadowOffsetY),
+                                    blurRadius: boxShadowBlurRadius,
+                                    color: Theme.of(context)
+                                        .shadowColor
+                                        .withOpacity(boxShadowOpacity))
+                              ]),
+                          child: Stack(children: [
+                            RepaintBoundary(
+                                key: qrKey,
+                                child: QrImage(
+                                    backgroundColor: Colors.white,
+                                    version: QrVersions.auto,
+                                    errorCorrectionLevel: QrErrorCorrectLevel.M,
+                                    data: state.privateKey!,
+                                    size: _qrSize,
+                                    gapless: false,
+                                    embeddedImage: const AssetImage(
+                                        "assets/images/logo/botp_logo_embedded_qr.png"),
+                                    embeddedImageStyle: QrEmbeddedImageStyle(
+                                      size: const Size(60, 60),
+                                    ))),
+                            Container(
+                                color: Colors.white.withOpacity(
+                                    state.isHiddenQrImage ? 1.0 : 0.0),
+                                width: _qrSize,
+                                height: _qrSize),
+                          ])),
+                      const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+                      ButtonTextWidget(
+                          text: state.isHiddenQrImage
+                              ? "Show QR image"
+                              : "Hide QR image",
+                          onPressed: () {
+                            context
+                                .read<SecurityExportAccountCubit>()
+                                .flipQrImage();
+                          })
+                    ],
+                  )
+                ]))
+          : Container();
+    });
   }
 
   Widget _actionButtons() {
-    return Container(
-        padding: const EdgeInsets.symmetric(
-            horizontal: kAppPaddingHorizontalSize,
-            vertical: kAppPaddingVerticalSize),
-        child: Row(children: [
-          Expanded(
-              flex: 1,
-              child: ButtonNormalWidget(
-                text: 'Download image',
-                onPressed: () async {
-                  // TODO: Save image
-                  await saveQrCodeToGallery();
-                },
-                type: ButtonNormalType.secondaryOutlined,
-              )),
-          const SizedBox(width: kAppPaddingBetweenItemSmallSize),
-          Expanded(
-              flex: 1,
-              child: ButtonNormalWidget(
-                  text: 'Go back',
-                  onPressed: () {
-                    Application.router.pop(context);
-                  }))
-        ]));
-  }
-
-  saveQrCodeToGallery() async {
-    // PermissionStatus res;
-    // res = await Permission.storage.request();
-    // if (res.isGranted) {
-    final boundary =
-        qrKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-    // Increase the QR image size
-    final image = await boundary.toImage(pixelRatio: 5.0);
-    final byteData = await (image.toByteData(format: ui.ImageByteFormat.png));
-    if (byteData != null) {
-      final pngBytes = byteData.buffer.asUint8List();
-      // Get app document directory
-      final directory = (await getApplicationDocumentsDirectory()).path;
-      final imgFile = File('$directory/${DateTime.now()}.${"qr"}.png');
-      imgFile.writeAsBytes(pngBytes);
-      // Save image
-      GallerySaver.saveImage(imgFile.path).then((success) async {
+    return BlocConsumer<SecurityExportAccountCubit, SecurityExportAccountState>(
+        listener: (context, state) {
+      final saveQrImageStatus = state.saveQrImageStatus;
+      if (saveQrImageStatus is RequestStatusFailed) {
+        showSnackBar(context, saveQrImageStatus.exception.toString());
+      } else if (saveQrImageStatus is RequestStatusSuccess) {
         showSnackBar(
-            context, "Saved QR image successfully.", SnackBarType.success);
-      }).catchError((e) {
-        showSnackBar(context, "Failed to save the QR image.");
-      });
-      return;
-    }
-    showSnackBar(context, "Failed to save the QR image.");
+            context, "Saved your QR image successfully.", SnackBarType.success);
+      }
+    }, builder: (context, state) {
+      return Container(
+          padding: const EdgeInsets.symmetric(
+              horizontal: kAppPaddingHorizontalSize,
+              vertical: kAppPaddingVerticalSize),
+          child: Row(children: [
+            Expanded(
+                flex: 1,
+                child: ButtonNormalWidget(
+                  text: 'Save image',
+                  onPressed: () async {
+                    await context
+                        .read<SecurityExportAccountCubit>()
+                        .saveQrImage(qrKey);
+                  },
+                  type: ButtonNormalType.secondaryOutlined,
+                )),
+            const SizedBox(width: kAppPaddingBetweenItemSmallSize),
+            Expanded(
+                flex: 1,
+                child: ButtonNormalWidget(
+                    text: 'Go back',
+                    onPressed: () {
+                      Application.router.pop(context);
+                    }))
+          ]));
+    });
   }
 }

@@ -249,74 +249,81 @@ class ReminderWidget extends StatelessWidget {
     // - Text
     final _titleStyle = Theme.of(context)
         .textTheme
-        .bodyText1
+        .bodyText2
         ?.copyWith(color: _onContainer, fontWeight: FontWeight.bold);
     final _descriptionStyle =
-        Theme.of(context).textTheme.bodyText2?.copyWith(color: _onContainer);
-
-    return GestureDetector(
-        onTap: onTap,
-        child: Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
-            decoration: BoxDecoration(
-                color: _container,
-                boxShadow: [
-                  BoxShadow(
-                      offset: const Offset(boxShadowOffsetX, boxShadowOffsetY),
-                      blurRadius: boxShadowBlurRadius,
-                      color: Theme.of(context)
-                          .shadowColor
-                          .withOpacity(boxShadowOpacity))
-                ],
-                borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                      child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                        Row(
-                          children: [
-                            Icon(iconData, color: _onContainer),
-                            const SizedBox(width: 8.0),
-                            Text(title, style: _titleStyle),
-                          ],
-                        ),
-                        description != null
-                            ? Column(children: [
-                                const SizedBox(height: 12.0),
-                                Row(children: [
-                                  Expanded(
-                                      child: Text(
-                                    description!,
-                                    style: _descriptionStyle,
-                                  ))
-                                ])
-                              ])
-                            : Container(),
-                        child != null
-                            ? Column(children: [
-                                const SizedBox(height: 12.0),
-                                Row(children: [Expanded(child: child!)])
-                              ])
-                            : Container()
-                      ])),
-                  const SizedBox(width: 12.0),
-                  onTap != null
-                      ? Container(
-                          width: 36.0,
-                          height: 36.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: Theme.of(context).colorScheme.surface,
-                          ),
-                          child: Icon(Icons.navigate_next_outlined,
-                              color: _primary))
-                      : Container()
-                ])));
+        Theme.of(context).textTheme.caption?.copyWith(color: _onContainer);
+    // - Border
+    final _borderRadius = BorderRadius.circular(BorderRadiusSize.normal);
+    return Container(
+        decoration: BoxDecoration(
+            color: _container,
+            boxShadow: [
+              BoxShadow(
+                  offset: const Offset(boxShadowOffsetX, boxShadowOffsetY),
+                  blurRadius: boxShadowBlurRadius,
+                  color: Theme.of(context)
+                      .shadowColor
+                      .withOpacity(boxShadowOpacity))
+            ],
+            borderRadius: _borderRadius),
+        child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+                borderRadius: _borderRadius,
+                onTap: onTap,
+                child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24.0, vertical: 24.0),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                              child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                Row(
+                                  children: [
+                                    Icon(iconData, color: _onContainer),
+                                    const SizedBox(width: 8.0),
+                                    Text(title, style: _titleStyle),
+                                  ],
+                                ),
+                                description != null
+                                    ? Column(children: [
+                                        const SizedBox(height: 12.0),
+                                        Row(children: [
+                                          Expanded(
+                                              child: Text(
+                                            description!,
+                                            style: _descriptionStyle,
+                                          ))
+                                        ])
+                                      ])
+                                    : Container(),
+                                child != null
+                                    ? Column(children: [
+                                        const SizedBox(height: 12.0),
+                                        Row(children: [Expanded(child: child!)])
+                                      ])
+                                    : Container()
+                              ])),
+                          const SizedBox(
+                              width: kAppPaddingBetweenItemNormalSize),
+                          onTap != null
+                              ? Container(
+                                  width: 36.0,
+                                  height: 36.0,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                  ),
+                                  child: Icon(Icons.navigate_next_outlined,
+                                      color: _primary))
+                              : Container()
+                        ])))));
   }
 }

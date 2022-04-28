@@ -24,27 +24,34 @@ class BcAddressWidget extends StatelessWidget {
     // - Text
     final _textStyle =
         Theme.of(context).textTheme.bodyText2?.copyWith(color: _primary);
+    // - Border
+    final _borderRadius = BorderRadius.circular(BorderRadiusSize.small);
     // - Padding
     const _padding = EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0);
     // - Decoration
-    final _decoration = BoxDecoration(
-        color: _backgroundColor,
-        borderRadius: BorderRadius.circular(BorderRadiusSize.small));
+    final _decoration =
+        BoxDecoration(color: _backgroundColor, borderRadius: _borderRadius);
 
     return Tooltip(
         message: bcAddress,
-        child: GestureDetector(
-            onTap: onTap,
-            child: Container(
-              decoration: _decoration,
-              padding: _padding,
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Text(shortenBcAddress(bcAddress), style: _textStyle),
-                const SizedBox(width: 8.0),
-                Icon(Icons.copy, size: 16.0, color: _primary)
-              ]),
-            )));
+        child: Container(
+            decoration: _decoration,
+            child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: _borderRadius,
+                  onTap: onTap,
+                  child: Container(
+                      padding: _padding,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(shortenBcAddress(bcAddress),
+                                style: _textStyle),
+                            const SizedBox(width: 8.0),
+                            Icon(Icons.copy, size: 16.0, color: _primary)
+                          ])),
+                ))));
   }
 }
 
@@ -77,13 +84,13 @@ class SettingsHomeInfo extends StatelessWidget {
                     blurRadius: boxShadowBlurRadius,
                     color: Theme.of(context)
                         .shadowColor
-                        .withOpacity(boxShadowOpacity))
+                        .withOpacity(boxShadowOpacity / 2))
               ]),
           child: ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(100)),
             child: avatarUrl != null
                 ? Image.network(avatarUrl!)
-                : Image.asset("assets/images/temp/botp_temp.png",
+                : Image.asset("assets/images/logo/botp_logo_embedded_qr.png",
                     scale: 1, fit: BoxFit.fitWidth),
           )),
       const SizedBox(height: 24.0),
@@ -131,7 +138,9 @@ class SettingsCategoryWidget extends StatelessWidget {
         ?.copyWith(fontWeight: FontWeight.bold);
     final _descriptionStyle = Theme.of(context).textTheme.bodyText2;
     // - Padding
-    const _padding = EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0);
+    const _padding = EdgeInsets.symmetric(
+        vertical: kAppPaddingBetweenItemSmallSize,
+        horizontal: kAppPaddingHorizontalSize);
 
     return Container(
         // decoration: BoxDecoration(
@@ -330,17 +339,19 @@ class SettingsOptionWidget extends StatelessWidget {
 
   Widget _wrapSettingsOptionWidget(Widget child, VoidCallback? onTap,
           {EdgeInsets? padding, bool hasPadding = true}) =>
-      InkWell(
-          onTap: onTap ?? () {},
-          child: Container(
-              padding: padding ??
-                  (hasPadding
-                      ? const EdgeInsets.symmetric(
-                          horizontal: kAppPaddingHorizontalSize,
-                          vertical: kAppPaddingBetweenItemSmallSize)
-                      : const EdgeInsets.symmetric(
-                          horizontal: kAppPaddingHorizontalSize)),
-              child: child));
+      Material(
+          color: Colors.transparent,
+          child: InkWell(
+              onTap: onTap ?? () {},
+              child: Container(
+                  padding: padding ??
+                      (hasPadding
+                          ? const EdgeInsets.symmetric(
+                              horizontal: kAppPaddingHorizontalSize,
+                              vertical: kAppPaddingBetweenItemSmallSize)
+                          : const EdgeInsets.symmetric(
+                              horizontal: kAppPaddingHorizontalSize)),
+                  child: child)));
 }
 
 class SettingsTransferWidget extends StatelessWidget {
@@ -367,28 +378,33 @@ class SettingsTransferWidget extends StatelessWidget {
         ?.copyWith(fontWeight: FontWeight.bold);
     final _descriptionStyle = Theme.of(context).textTheme.bodyText2;
 
-    return InkWell(
-        borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
-        onTap: onTap,
-        child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
-                border: Border.all(
-                    color: Theme.of(context).colorScheme.outline, width: 1.0)),
-            padding: const EdgeInsets.symmetric(
-                horizontal: kAppPaddingBetweenItemNormalSize,
-                vertical: kAppPaddingBetweenItemNormalSize),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              DecoratedIconWidget(
-                  colorType: transferColorType,
-                  size: DecoratedIconSize.normal,
-                  iconData: iconData),
-              const SizedBox(height: kAppPaddingBetweenItemNormalSize),
-              Text(title, style: _titleStyle),
-              const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-              Text(description, style: _descriptionStyle),
-            ])));
+    return Material(
+        color: Colors.transparent,
+        child: InkWell(
+            borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
+            onTap: onTap,
+            child: Container(
+                decoration: BoxDecoration(
+                    borderRadius:
+                        BorderRadius.circular(BorderRadiusSize.normal),
+                    border: Border.all(
+                        color: Theme.of(context).colorScheme.outline,
+                        width: 1.0)),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: kAppPaddingBetweenItemNormalSize,
+                    vertical: kAppPaddingBetweenItemNormalSize),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      DecoratedIconWidget(
+                          colorType: transferColorType,
+                          size: DecoratedIconSize.normal,
+                          iconData: iconData),
+                      const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+                      Text(title, style: _titleStyle),
+                      const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+                      Text(description, style: _descriptionStyle),
+                    ]))));
   }
 }
 

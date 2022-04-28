@@ -26,11 +26,13 @@ class ProfileViewCubit extends Cubit<ProfileViewState> {
             age: kycData.age,
             gender: kycData.gender,
             debitor: kycData.debitor,
+            didKyc: true,
             bcAddress: accountData!.bcAddress,
             publicKey: accountData.publicKey,
             loadUserData: LoadUserDataStatusSuccess()));
       } else {
         emit(state.copyWith(
+            didKyc: false,
             bcAddress: accountData!.bcAddress,
             publicKey: accountData.publicKey,
             loadUserData: LoadUserDataStatusSuccess()));

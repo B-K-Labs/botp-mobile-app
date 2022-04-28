@@ -203,22 +203,24 @@ class ButtonIconWidget extends StatelessWidget {
     // - Padding
     const _padding = EdgeInsets.all(6.0);
 
-    return Ink(
+    return Container(
         decoration: BoxDecoration(
             border: _borderColor != null
                 ? Border.all(color: _borderColor, width: 1.0)
                 : null,
-            color: _backgroundColor,
-            borderRadius: _borderRadius),
-        child: InkWell(
             borderRadius: _borderRadius,
-            onTap: onTap,
-            child: Padding(
-                padding: _padding,
-                child: Icon(
-                  iconData,
-                  size: _size,
-                  color: _primary,
-                ))));
+            color: _backgroundColor),
+        child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+                borderRadius: _borderRadius,
+                onTap: onTap,
+                child: Padding(
+                    padding: _padding,
+                    child: Icon(
+                      iconData,
+                      size: _size,
+                      color: _primary,
+                    )))));
   }
 }

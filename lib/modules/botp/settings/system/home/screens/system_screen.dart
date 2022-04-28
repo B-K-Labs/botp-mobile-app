@@ -38,9 +38,9 @@ class _SystemHomeBodyState extends State<SystemHomeBody> {
         type: SettingsOptionType.labelSwitchable,
       ),
       SettingsOptionWidget(
-        label: "Transfer account",
+        label: "Language",
         type: SettingsOptionType.labelNavigable,
-        navigateDescription: "Engrish",
+        navigateDescription: "English",
       )
     ]);
   }

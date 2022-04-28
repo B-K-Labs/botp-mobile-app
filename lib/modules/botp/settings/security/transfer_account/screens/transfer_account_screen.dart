@@ -44,8 +44,8 @@ class SecurityTransferAccountBody extends StatelessWidget {
             Expanded(
                 flex: 1,
                 child: SettingsTransferWidget(
-                    iconData: Icons.outbond_rounded,
-                    transferColorType: ColorType.tertiary,
+                    iconData: Icons.output_outlined,
+                    transferColorType: ColorType.secondary,
                     title: "Export account",
                     description: "Display/save your QR code",
                     onTap: () {
@@ -58,11 +58,13 @@ class SecurityTransferAccountBody extends StatelessWidget {
             Expanded(
                 flex: 1,
                 child: SettingsTransferWidget(
-                    iconData: FontAwesomeIcons.person,
+                    iconData: Icons.qr_code_scanner,
                     transferColorType: ColorType.primary,
                     title: "Import account",
                     description: "Scan QR code/Enter private key",
-                    onTap: () {}))
+                    onTap: () {
+                      Application.router.navigateTo(context, "/auth/import");
+                    }))
           ]),
         ]));
   }
