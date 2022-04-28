@@ -2,6 +2,7 @@ import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/constants/common.dart';
+import 'package:botp_auth/constants/routing_param.dart';
 import 'package:botp_auth/modules/authentication/import/bloc/import_bloc.dart';
 import 'package:botp_auth/modules/authentication/import/bloc/import_state.dart';
 import 'package:botp_auth/modules/authentication/import/bloc/import_event.dart';
@@ -14,16 +15,25 @@ import 'package:botp_auth/widgets/button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ImportScreen extends StatelessWidget {
-  const ImportScreen({Key? key}) : super(key: key);
+  final FromScreen? fromScreen;
+
+  const ImportScreen({Key? key, this.fromScreen}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const ScreenWidget(appBarElevation: 0, body: ImportBody());
+    return ScreenWidget(
+        appBarTitle: fromScreen == FromScreen.botpSettingsAccountTransfer
+            ? "Import account"
+            : "",
+        appBarElevation:
+            fromScreen == FromScreen.botpSettingsAccountTransfer ? 1 : 0,
+        body: ImportBody(fromScreen ?? FromScreen.auth));
   }
 }
 
 class ImportBody extends StatefulWidget {
-  const ImportBody({Key? key}) : super(key: key);
+  final FromScreen fromScreen;
+  const ImportBody(this.fromScreen, {Key? key}) : super(key: key);
 
   @override
   _ImportBodyState createState() => _ImportBodyState();
@@ -54,6 +64,11 @@ class _ImportBodyState extends State<ImportBody> {
           // final scanQrStatus = state.scanQrStatus;
           if (formStatus is RequestStatusFailed) {
             showSnackBar(context, formStatus.exception.toString());
+          } else if (formStatus is RequestStatusSuccess) {
+            if (widget.fromScreen == FromScreen.botpSettingsAccountTransfer) {
+              // Navigate to Session Screen
+              Application.router.navigateTo(context, "/", clearStack: true);
+            }
           }
           // Hide QR Scan error
           // if (scanQrStatus is RequestStatusFailed) {
@@ -67,10 +82,18 @@ class _ImportBodyState extends State<ImportBody> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const SizedBox(height: kAppPaddingVerticalSize),
-                Text("Import existing account",
-                    style: Theme.of(context).textTheme.headline4?.copyWith(
-                        color: Theme.of(context).colorScheme.primary)),
-                const SizedBox(height: 24.0),
+                widget.fromScreen != FromScreen.botpSettingsAccountTransfer
+                    ? Column(children: [
+                        Text("Import existing account",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline4
+                                ?.copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.primary)),
+                        const SizedBox(height: 24.0)
+                      ])
+                    : Container(),
                 Text("Private key",
                     style: Theme.of(context).textTheme.bodyText2),
                 const SizedBox(height: 12.0),
@@ -80,6 +103,10 @@ class _ImportBodyState extends State<ImportBody> {
                 const SizedBox(height: 12.0),
                 _passwordField(),
                 const SizedBox(height: 24.0),
+                widget.fromScreen == FromScreen.botpSettingsAccountTransfer
+                    ? Column(
+                        children: [_reminder(), const SizedBox(height: 24.0)])
+                    : Container(),
                 _signInOtherButton(),
               ],
             )));
@@ -124,11 +151,35 @@ class _ImportBodyState extends State<ImportBody> {
     });
   }
 
+  Widget _reminder() {
+    final _descriptionStyle = Theme.of(context)
+        .textTheme
+        .caption
+        ?.copyWith(color: Theme.of(context).colorScheme.primary);
+    return ReminderWidget(
+      iconData: Icons.warning_rounded,
+      colorType: ColorType.error,
+      title: "Caution!",
+      description:
+          "After this operation, your current account would be removed out of this device, and waiting transactions would be dead. Remember that you've saved this account.",
+      child: GestureDetector(
+          onTap: () {
+            Application.router.navigateTo(
+                context, "/botp/settings/security/transfer",
+                replace: true);
+          },
+          child: Text(
+            "If you haven't yet, click here to export your account",
+            style: _descriptionStyle,
+          )),
+    );
+  }
+
   Widget _signInOtherButton() {
     return BlocBuilder<ImportBloc, ImportState>(builder: (context, state) {
       final onSignInOther = state.formStatus is RequestStatusSubmitting
           ? null
-          : () {
+          : () async {
               if (_formKey.currentState!.validate()) {
                 context.read<ImportBloc>().add(ImportEventSubmitted());
               }

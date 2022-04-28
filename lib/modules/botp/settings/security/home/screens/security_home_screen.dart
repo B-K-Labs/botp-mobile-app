@@ -90,7 +90,7 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
                   colorType: ColorType.error,
                   title: "Caution!",
                   description:
-                      "You won't be able to sign in if you forgot your password. Remember that you've saved your account.",
+                      "You won't be able to sign in if you forgot your password. Remember that you've saved this account.",
                   child: GestureDetector(
                       onTap: () {
                         Application.router.navigateTo(

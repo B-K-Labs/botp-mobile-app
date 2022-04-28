@@ -15,9 +15,9 @@ import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AccountSetupKYCScreen extends StatelessWidget {
-  final FromScreen? from;
+  final FromScreen? fromScreen;
 
-  const AccountSetupKYCScreen({Key? key, this.from}) : super(key: key);
+  const AccountSetupKYCScreen({Key? key, this.fromScreen}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,16 +25,15 @@ class AccountSetupKYCScreen extends StatelessWidget {
         create: (context) => AccountSetupKYCBloc(
             settingsRepository: context.read<SettingsRepository>()),
         child: ScreenWidget(
-            hasAppBar: from == FromScreen.authReminderKYCSetup ? false : true,
+            hasAppBar:
+                fromScreen == FromScreen.authReminderKYCSetup ? false : true,
             appBarTitle: "Setup KYC",
-            body: AccountSetupKYCBody(from: from)));
+            body: AccountSetupKYCBody()));
   }
 }
 
 class AccountSetupKYCBody extends StatefulWidget {
-  const AccountSetupKYCBody({Key? key, this.from}) : super(key: key);
-
-  final FromScreen? from;
+  const AccountSetupKYCBody({Key? key}) : super(key: key);
 
   @override
   State<AccountSetupKYCBody> createState() => _AccountSetupKYCBodyState();

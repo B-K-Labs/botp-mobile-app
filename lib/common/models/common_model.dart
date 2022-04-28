@@ -62,7 +62,7 @@ class OTPSessionInfo {
       this.transactionStatus = transactionStatus;
 
   OTPSessionInfo.fromJSON(Map<String, dynamic> json)
-      : agentName = json["agentInfo"]["info"]["fullName"],
+      : agentName = json["agentInfo"]["info"]["name"],
         agentAvatarUrl = json["agentInfo"]["avatar"] ?? "",
         agentBcAddress = json["agentAddr"],
         agentIsVerified = true,

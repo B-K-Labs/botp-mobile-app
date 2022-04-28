@@ -30,6 +30,7 @@ class SecurityExportAccountCubit extends Cubit<SecurityExportAccountState> {
   saveQrImage(GlobalKey qrImageKey) async {
     if (_isSavingQrImage) return;
     _isSavingQrImage = true;
+    emit(state.copyWith(saveQrImageStatus: RequestStatusSubmitting()));
     // PermissionStatus res;
     // res = await Permission.storage.request();
     // if (res.isGranted) {

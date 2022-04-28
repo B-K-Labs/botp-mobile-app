@@ -4,8 +4,8 @@ enum FromScreen {
   authReminderKYCSetup,
   botpSettingsAccount,
   // Agent add
-  authImport,
-  botpSettingsAccountAgentManagement,
+  auth,
+  botpSettingsAccountTransfer,
   // Fingerprint
   // TODO
 }

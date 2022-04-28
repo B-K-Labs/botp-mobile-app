@@ -1,5 +1,6 @@
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
+import 'package:botp_auth/constants/routing_param.dart';
 import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/setting.dart';
 import "package:flutter/material.dart";
@@ -63,7 +64,10 @@ class SecurityTransferAccountBody extends StatelessWidget {
                     title: "Import account",
                     description: "Scan QR code/Enter private key",
                     onTap: () {
-                      Application.router.navigateTo(context, "/auth/import");
+                      Application.router.navigateTo(context, "/auth/import",
+                          routeSettings: const RouteSettings(
+                              arguments:
+                                  FromScreen.botpSettingsAccountTransfer));
                     }))
           ]),
         ]));

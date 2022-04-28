@@ -180,11 +180,13 @@ class _SecurityExportAccountBodyState extends State<SecurityExportAccountBody> {
                 flex: 1,
                 child: ButtonNormalWidget(
                   text: 'Save image',
-                  onPressed: () async {
-                    await context
-                        .read<SecurityExportAccountCubit>()
-                        .saveQrImage(qrKey);
-                  },
+                  onPressed: state.saveQrImageStatus is RequestStatusSubmitting
+                      ? null
+                      : () async {
+                          await context
+                              .read<SecurityExportAccountCubit>()
+                              .saveQrImage(qrKey);
+                        },
                   type: ButtonNormalType.secondaryOutlined,
                 )),
             const SizedBox(width: kAppPaddingBetweenItemSmallSize),
