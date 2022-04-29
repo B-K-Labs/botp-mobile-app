@@ -34,39 +34,40 @@ class SecurityExportAccountCubit extends Cubit<SecurityExportAccountState> {
     _isSavingQrImage = true;
     emit(state.copyWith(saveQrImageStatus: RequestStatusSubmitting()));
     // Ask for storage permission -_-
-    // PermissionStatus res;
-    // res = await Permission.storage.request();
-    // if (res.isGranted) {
-    try {
-      final boundary = qrImageKey.currentContext!.findRenderObject()
-          as RenderRepaintBoundary;
-      // Increase the QR image size (padding with white space ?)
-      final image = await boundary.toImage(pixelRatio: 5.0);
-      final byteData = await (image.toByteData(format: ui.ImageByteFormat.png));
-      if (byteData != null) {
-        final pngBytes = byteData.buffer.asUint8List();
-        // Save temporarily the image
-        final directory = (await getTemporaryDirectory()).path;
-        final imgFile =
-            File('$directory/${DateTime.now()}_${"qr"}.png'); // From dart:io
-        imgFile.writeAsBytes(pngBytes);
-        // Save image to user gallery
-        bool? saveImageResult = await GallerySaver.saveImage(imgFile.path,
-            albumName: "BOTP Authenticator");
-        if (saveImageResult == true) {
-          emit(state.copyWith(saveQrImageStatus: RequestStatusSuccess()));
-        } else {
-          emit(state.copyWith(saveQrImageStatus: RequestStatusSuccess()));
+    PermissionStatus res;
+    res = await Permission.storage.request();
+    if (res.isGranted) {
+      try {
+        final boundary = qrImageKey.currentContext!.findRenderObject()
+            as RenderRepaintBoundary;
+        // Increase the QR image size (padding with white space ?)
+        final image = await boundary.toImage(pixelRatio: 5.0);
+        final byteData =
+            await (image.toByteData(format: ui.ImageByteFormat.png));
+        if (byteData != null) {
+          final pngBytes = byteData.buffer.asUint8List();
+          // Save temporarily the image
+          final directory = (await getTemporaryDirectory()).path;
+          final imgFile =
+              File('$directory/${DateTime.now()}_${"qr"}.png'); // From dart:io
+          imgFile.writeAsBytes(pngBytes);
+          // Save image to user gallery
+          bool? saveImageResult = await GallerySaver.saveImage(imgFile.path,
+              albumName: "BOTP Authenticator");
+          if (saveImageResult == true) {
+            emit(state.copyWith(saveQrImageStatus: RequestStatusSuccess()));
+          } else {
+            emit(state.copyWith(saveQrImageStatus: RequestStatusSuccess()));
+          }
         }
+      } on Exception catch (e) {
+        emit(state.copyWith(saveQrImageStatus: RequestStatusFailed(e)));
       }
-    } on Exception catch (e) {
-      emit(state.copyWith(saveQrImageStatus: RequestStatusFailed(e)));
+    } else {
+      emit(state.copyWith(
+          saveQrImageStatus:
+              RequestStatusFailed(Exception("Cannot save your QR image."))));
     }
-    // } else {
-    //   emit(state.copyWith(
-    //       saveQrImageStatus:
-    //           RequestStatusFailed(Exception("Cannot save your QR image."))));
-    // }
 
     _isSavingQrImage = false;
     emit(state.copyWith(saveQrImageStatus: const RequestStatusInitial()));
