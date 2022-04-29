@@ -4,6 +4,7 @@ import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
 import 'package:botp_auth/constants/routing_param.dart';
 import 'package:botp_auth/constants/common.dart';
+import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/account/kyc_setup/bloc/kyc_setup_bloc.dart';
 import 'package:botp_auth/modules/botp/settings/account/kyc_setup/bloc/kyc_setup_event.dart';
 import 'package:botp_auth/modules/botp/settings/account/kyc_setup/bloc/kyc_setup_state.dart';
@@ -15,9 +16,10 @@ import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AccountSetupKYCScreen extends StatelessWidget {
-  final FromScreen? fromScreen;
+  final FromScreen fromScreen;
 
-  const AccountSetupKYCScreen({Key? key, this.fromScreen}) : super(key: key);
+  const AccountSetupKYCScreen({Key? key, required this.fromScreen})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +30,15 @@ class AccountSetupKYCScreen extends StatelessWidget {
             hasAppBar:
                 fromScreen == FromScreen.authReminderKYCSetup ? false : true,
             appBarTitle: "Setup KYC",
-            body: AccountSetupKYCBody()));
+            body: AccountSetupKYCBody(fromScreen: fromScreen)));
   }
 }
 
 class AccountSetupKYCBody extends StatefulWidget {
-  const AccountSetupKYCBody({Key? key}) : super(key: key);
+  final FromScreen fromScreen;
+
+  const AccountSetupKYCBody({Key? key, required this.fromScreen})
+      : super(key: key);
 
   @override
   State<AccountSetupKYCBody> createState() => _AccountSetupKYCBodyState();
@@ -65,7 +70,14 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
             //   showSnackBar(
             //       context, "Update profile successfully", SnackBarType.success);
             // }
-            Application.router.pop(context, true);
+            if (widget.fromScreen == FromScreen.botpSettingsAccount) {
+              Application.router.pop(context, true);
+            } else {
+              context
+                  .read<SessionCubit>()
+                  .remindSettingUpAndLaunchSession(skipSetupKyc: true);
+              Application.router.navigateTo(context, "/", clearStack: true);
+            }
           }
         },
         child: Form(
@@ -218,7 +230,14 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
       final onCancelEdit = state.formStatus is RequestStatusSubmitting
           ? null
           : () {
-              Application.router.pop(context, false);
+              if (widget.fromScreen == FromScreen.botpSettingsAccount) {
+                Application.router.pop(context, false);
+              } else {
+                context
+                    .read<SessionCubit>()
+                    .remindSettingUpAndLaunchSession(skipSetupKyc: true);
+                Application.router.navigateTo(context, "/", clearStack: true);
+              }
             };
       return ButtonNormalWidget(
         text: "I'll do later",

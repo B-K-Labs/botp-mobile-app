@@ -59,7 +59,7 @@ class Routes {
         handler: botpSettingsAccountHandler,
         transitionType: TransitionType.inFromRight);
     router.define(settingsAccountSetupKYC,
-        handler: botpSettingsAccountUpdateKYCHandler,
+        handler: botpSettingsAccountSetupKYCHandler,
         transitionType: TransitionType.inFromRight);
     router.define(settingsAccountAgentInfo,
         handler: botpSettingsAccountAgentInfoHandler,

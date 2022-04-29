@@ -55,7 +55,7 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
                             child: ReminderWidget(
                               iconData: Icons.verified,
                               colorType: ColorType.primary,
-                              title: "You're almost done",
+                              title: "You're almost done!",
                               description:
                                   "BOTP Auth need to know you. Enter your information here to use the authenticator!",
                               onTap: () async {

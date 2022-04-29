@@ -1,5 +1,6 @@
 import 'package:botp_auth/constants/common.dart';
 import "package:flutter/material.dart";
+import 'package:flutter/services.dart';
 
 class ScreenWidget extends StatelessWidget {
   final bool hasAppBar;
@@ -28,14 +29,28 @@ class ScreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // AppBar theme
     final AppBar? _appBar;
+    // AppBar theme
+    // - Colors
     final Color _appbarBackgroundColor =
         Theme.of(context).scaffoldBackgroundColor;
+    // - Status bar
+    final _systemOverlayStyle = SystemUiOverlayStyle(
+        statusBarColor: _appbarBackgroundColor,
+        statusBarIconBrightness: Theme.of(context)
+            .appBarTheme
+            .systemOverlayStyle
+            ?.statusBarIconBrightness,
+        statusBarBrightness: Theme.of(context)
+            .appBarTheme
+            .systemOverlayStyle
+            ?.statusBarBrightness);
+
     if (hasAppBar) {
       switch (appBarType) {
         case AppBarType.blank:
           _appBar = AppBar(
+            systemOverlayStyle: _systemOverlayStyle,
             automaticallyImplyLeading: false,
             centerTitle: true,
             elevation: appBarElevation,
@@ -44,6 +59,7 @@ class ScreenWidget extends StatelessWidget {
           break;
         case AppBarType.authenticator:
           _appBar = AppBar(
+            systemOverlayStyle: _systemOverlayStyle,
             automaticallyImplyLeading: false,
             title: const Text("BOTP Authenticator"),
             titleTextStyle: Theme.of(context)
@@ -63,6 +79,7 @@ class ScreenWidget extends StatelessWidget {
           break;
         case AppBarType.history:
           _appBar = AppBar(
+            systemOverlayStyle: _systemOverlayStyle,
             automaticallyImplyLeading: false,
             title: const Text("History"),
             titleTextStyle: Theme.of(context)
@@ -78,6 +95,7 @@ class ScreenWidget extends StatelessWidget {
         case AppBarType.normal:
         default:
           _appBar = AppBar(
+            systemOverlayStyle: _systemOverlayStyle,
             automaticallyImplyLeading: appBarImplyLeading,
             title: appBarTitle != null ? Text(appBarTitle!) : null,
             titleTextStyle: Theme.of(context).textTheme.headline6,

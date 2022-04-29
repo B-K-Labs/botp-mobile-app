@@ -1,3 +1,6 @@
+import 'package:botp_auth/configs/routes/application.dart';
+import 'package:botp_auth/constants/common.dart';
+import 'package:botp_auth/widgets/button.dart';
 import "package:flutter/material.dart";
 
 class WalkThroughScreen extends StatefulWidget {
@@ -24,7 +27,33 @@ class WalkThroughBody extends StatefulWidget {
 class _WalkThroughBodyState extends State<WalkThroughBody> {
   @override
   Widget build(BuildContext context) {
+    return Column(children: [_walkThroughs(), _actionButton()]);
+  }
+
+  Widget _walkThroughs() {
     return Container();
+  }
+
+  Widget _actionButton() {
+    return Container(
+        padding: const EdgeInsets.symmetric(
+            horizontal: kAppPaddingHorizontalSize,
+            vertical: kAppPaddingVerticalSize),
+        child: Row(children: [
+          Expanded(
+              child: ButtonNormalWidget(
+                  text: "SKip",
+                  onPressed: () {
+                    Application.router.navigateTo(context, "/auth/init");
+                  })),
+          const SizedBox(width: kAppPaddingBetweenItemSmallSize),
+          Expanded(
+              child: ButtonNormalWidget(
+                  text: "Next",
+                  onPressed: () {
+                    Application.router.navigateTo(context, "/auth/init");
+                  }))
+        ]));
   }
 }
 

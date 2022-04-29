@@ -5,5 +5,5 @@ class StagingConfig extends BaseConfig {
   @override
   String get baseApiUri => dotenv.env["API_URL"]!;
   @override
-  bool get freshAppData => true;
+  bool get freshAppData => false;
 }

@@ -55,7 +55,8 @@ var authSignInHandler =
 // - Import
 var authImportHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-  final fromScreen = context?.settings?.arguments as FromScreen?;
+  final fromScreen =
+      context?.settings?.arguments as FromScreen? ?? FromScreen.auth;
   return ImportScreen(fromScreen: fromScreen);
 });
 
@@ -89,9 +90,10 @@ var botpSettingsAccountHandler =
   return const AccountHomeScreen();
 });
 
-var botpSettingsAccountUpdateKYCHandler =
+var botpSettingsAccountSetupKYCHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-  final fromScreen = context?.settings?.arguments as FromScreen?;
+  final fromScreen = context?.settings?.arguments as FromScreen? ??
+      FromScreen.botpSettingsAccount;
   return AccountSetupKYCScreen(fromScreen: fromScreen);
 });
 

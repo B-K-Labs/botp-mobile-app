@@ -15,9 +15,9 @@ import 'package:botp_auth/widgets/button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ImportScreen extends StatelessWidget {
-  final FromScreen? fromScreen;
+  final FromScreen fromScreen;
 
-  const ImportScreen({Key? key, this.fromScreen}) : super(key: key);
+  const ImportScreen({Key? key, required this.fromScreen}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +27,13 @@ class ImportScreen extends StatelessWidget {
             : "",
         appBarElevation:
             fromScreen == FromScreen.botpSettingsAccountTransfer ? 1 : 0,
-        body: ImportBody(fromScreen ?? FromScreen.auth));
+        body: ImportBody(fromScreen: fromScreen));
   }
 }
 
 class ImportBody extends StatefulWidget {
   final FromScreen fromScreen;
-  const ImportBody(this.fromScreen, {Key? key}) : super(key: key);
+  const ImportBody({Key? key, required this.fromScreen}) : super(key: key);
 
   @override
   _ImportBodyState createState() => _ImportBodyState();

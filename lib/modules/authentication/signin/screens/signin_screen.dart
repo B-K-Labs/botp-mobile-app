@@ -53,9 +53,7 @@ class _SignInBodyState extends State<SignInBody> {
         listener: (context, state) {
           final formStatus = state.formStatus;
           if (formStatus is RequestStatusFailed) {
-            {
-              showSnackBar(context, formStatus.exception.toString());
-            }
+            showSnackBar(context, formStatus.exception.toString());
           }
         },
         child: Form(
