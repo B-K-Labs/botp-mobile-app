@@ -6,8 +6,6 @@ enum TransactionStatus {
   all,
 }
 
-enum TransactionStatusSize { normal, small }
-
 extension ToType on TransactionStatus {
   String toCapitalizedString() {
     final rawTypeString = toString().split('.').last;

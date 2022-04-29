@@ -10,10 +10,10 @@ import 'dart:math' as math;
 
 class _TransactionStatusWidget extends StatelessWidget {
   final TransactionStatus status;
-  final TransactionStatusSize size;
+  final bool hasBorder;
 
   const _TransactionStatusWidget(
-      {Key? key, required this.status, this.size = TransactionStatusSize.small})
+      {Key? key, required this.status, this.hasBorder = false})
       : super(key: key);
 
   @override
@@ -42,13 +42,12 @@ class _TransactionStatusWidget extends StatelessWidget {
         break;
     }
     // - Text
-    final _textStyle = size == TransactionStatusSize.small
-        ? Theme.of(context).textTheme.caption?.copyWith(color: _primary)
-        : Theme.of(context).textTheme.bodyText2?.copyWith(color: _primary);
+    final _textStyle =
+        Theme.of(context).textTheme.caption?.copyWith(color: _primary);
     // - Padding
     const _padding = EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0);
     // - Decoration
-    final _decoration = size == TransactionStatusSize.normal
+    final _decoration = hasBorder
         ? BoxDecoration(
             color: _backgroundColor,
             borderRadius: BorderRadius.circular(BorderRadiusSize.small))
@@ -449,8 +448,7 @@ class TransactionDetailWidget extends StatelessWidget {
             _transactionDetailTextLineWidget(
                 Text("Status", style: _labelStyle),
                 _TransactionStatusWidget(
-                    status: transactionStatus,
-                    size: TransactionStatusSize.normal)),
+                    status: transactionStatus, hasBorder: true)),
           ],
         ));
   }
@@ -504,7 +502,7 @@ class TransactionDetailSkeletonWidget extends StatelessWidget {
                 Text("Status", style: _labelStyle),
                 const SkeletonLine(
                     style: SkeletonLineStyle(
-                        height: 24.0,
+                        height: 22.0,
                         minLength: 50,
                         maxLength: 100,
                         randomLength: true))),

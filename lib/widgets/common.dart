@@ -34,23 +34,11 @@ class ScreenWidget extends StatelessWidget {
     // - Colors
     final Color _appbarBackgroundColor =
         Theme.of(context).scaffoldBackgroundColor;
-    // - Status bar
-    final _systemOverlayStyle = SystemUiOverlayStyle(
-        statusBarColor: _appbarBackgroundColor,
-        statusBarIconBrightness: Theme.of(context)
-            .appBarTheme
-            .systemOverlayStyle
-            ?.statusBarIconBrightness,
-        statusBarBrightness: Theme.of(context)
-            .appBarTheme
-            .systemOverlayStyle
-            ?.statusBarBrightness);
 
     if (hasAppBar) {
       switch (appBarType) {
         case AppBarType.blank:
           _appBar = AppBar(
-            systemOverlayStyle: _systemOverlayStyle,
             automaticallyImplyLeading: false,
             centerTitle: true,
             elevation: appBarElevation,
@@ -59,7 +47,6 @@ class ScreenWidget extends StatelessWidget {
           break;
         case AppBarType.authenticator:
           _appBar = AppBar(
-            systemOverlayStyle: _systemOverlayStyle,
             automaticallyImplyLeading: false,
             title: const Text("BOTP Authenticator"),
             titleTextStyle: Theme.of(context)
@@ -79,7 +66,6 @@ class ScreenWidget extends StatelessWidget {
           break;
         case AppBarType.history:
           _appBar = AppBar(
-            systemOverlayStyle: _systemOverlayStyle,
             automaticallyImplyLeading: false,
             title: const Text("History"),
             titleTextStyle: Theme.of(context)
@@ -95,7 +81,6 @@ class ScreenWidget extends StatelessWidget {
         case AppBarType.normal:
         default:
           _appBar = AppBar(
-            systemOverlayStyle: _systemOverlayStyle,
             automaticallyImplyLeading: appBarImplyLeading,
             title: appBarTitle != null ? Text(appBarTitle!) : null,
             titleTextStyle: Theme.of(context).textTheme.headline6,
@@ -111,12 +96,25 @@ class ScreenWidget extends StatelessWidget {
     } else {
       _appBar = null;
     }
-    // Wrap the Scaffold inside a Colored Container would fill the status bar
-    return Scaffold(
-        appBar: _appBar,
-        bottomNavigationBar: bottomNavigationBar,
-        body: Container(
-            color: _appbarBackgroundColor, child: SafeArea(child: body)));
+    // Status bar: Use SystemChrome/Annotated region
+    // Safe area: inside scaffold
+    return AnnotatedRegion(
+        value: SystemUiOverlayStyle(
+          // Background color
+          statusBarColor: Theme.of(context).scaffoldBackgroundColor,
+          // Icon color - each below is applied for Android and iOS, respectively
+          statusBarBrightness: Theme.of(context).brightness == Brightness.light
+              ? Brightness.dark
+              : Brightness.light,
+          statusBarIconBrightness:
+              Theme.of(context).brightness == Brightness.light
+                  ? Brightness.dark
+                  : Brightness.light,
+        ),
+        child: Scaffold(
+            appBar: _appBar,
+            bottomNavigationBar: bottomNavigationBar,
+            body: SafeArea(child: body)));
   }
 }
 
@@ -212,7 +210,11 @@ class DividerWidget extends StatelessWidget {
         ? Container(
             padding: padding,
             child: Divider(height: height, color: _color, thickness: thickness))
-        : Divider(height: height, color: _color, thickness: thickness);
+        : Divider(
+            height: height,
+            color: _color,
+            thickness: thickness,
+          );
   }
 }
 
