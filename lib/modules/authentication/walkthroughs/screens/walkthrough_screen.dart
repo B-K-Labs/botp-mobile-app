@@ -1,6 +1,7 @@
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/widgets/button.dart';
+import 'package:botp_auth/widgets/common.dart';
 import "package:flutter/material.dart";
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +16,7 @@ class WalkThroughScreen extends StatefulWidget {
 class _WalkThroughScreenState extends State<WalkThroughScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: SafeArea(child: WalkThroughBody()));
+    return const ScreenWidget(hasAppBar: false, body: WalkThroughBody());
   }
 }
 

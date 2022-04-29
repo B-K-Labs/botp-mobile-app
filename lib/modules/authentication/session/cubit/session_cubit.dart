@@ -59,7 +59,6 @@ class SessionCubit extends Cubit<SessionState> {
     // Not clear other data - just override old data.
     // await UserData.clearData();
     await UserData.setCredentialSessionData(UserDataSession.expired);
-
     await UserData.setCredentialAccountData(
         bcAddress, publicKey, privateKey, password);
     final didKyc = userKyc != null;

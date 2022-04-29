@@ -167,7 +167,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
   Widget _addressField() {
     return BlocBuilder<AccountSetupKYCBloc, AccountSetupKYCState>(
         builder: (context, state) {
-      _addressValidator(value) => state.validateFullName;
+      _addressValidator(value) => state.validateAddress;
       _addressOnChanged(value) => context
           .read<AccountSetupKYCBloc>()
           .add(AccountSetupKYCEventAddressChanged(value));
@@ -197,7 +197,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
   Widget _genderField() {
     return BlocBuilder<AccountSetupKYCBloc, AccountSetupKYCState>(
         builder: (context, state) {
-      _genderValidator(value) => state.validateAge;
+      _genderValidator(value) => state.validateGender;
       _genderOnChanged(value) => context
           .read<AccountSetupKYCBloc>()
           .add(AccountSetupKYCEventGenderChanged(value));
@@ -212,7 +212,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
   Widget _debitorField() {
     return BlocBuilder<AccountSetupKYCBloc, AccountSetupKYCState>(
         builder: (context, state) {
-      _debitorValidator(value) => state.validateAge;
+      _debitorValidator(value) => state.validateDebitor;
       _debitorOnChanged(value) => context
           .read<AccountSetupKYCBloc>()
           .add(AccountSetupKYCEventDebitorChanged(value));

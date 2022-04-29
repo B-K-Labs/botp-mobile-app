@@ -69,7 +69,7 @@ class ShadowTransactionItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 84,
+      height: 80,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
         boxShadow: [
