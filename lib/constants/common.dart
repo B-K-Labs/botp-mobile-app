@@ -59,3 +59,6 @@ enum DecoratedIconSize {
   normal,
   small,
 }
+
+// Time filter
+enum CommonTimeRange { all, lastDay, lastWeek, lastMonth, customRange }

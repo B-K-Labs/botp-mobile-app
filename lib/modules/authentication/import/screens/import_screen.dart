@@ -162,7 +162,7 @@ class _ImportBodyState extends State<ImportBody> {
       colorType: ColorType.error,
       title: "Caution!",
       description:
-          "After this operation, your current account would be removed out of this device, and waiting transactions would be dead. Also remember that you've saved this account.",
+          "After this operation, your current account would be removed from this device, and waiting transactions would be dead. Also, remember that you've saved this account.",
     );
   }
 

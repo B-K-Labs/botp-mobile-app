@@ -3,10 +3,14 @@ import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
+import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_bloc.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_event.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
+import 'package:botp_auth/widgets/common.dart';
+import 'package:botp_auth/widgets/field.dart';
+import 'package:botp_auth/widgets/filter.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,7 +35,8 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _reminder(),
-              _filter(),
+              _searchSection(),
+              // _searchResult(),
               _transactionItemsList(),
             ]));
   }
@@ -47,14 +52,50 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
     });
   }
 
-  // 2. Transaction filter
-  Widget _filter() {
+  // 2. Search section
+  Widget _searchSection() {
     return Container(
         padding: const EdgeInsets.symmetric(
-            vertical: kAppPaddingBetweenItemSmallSize));
+            horizontal: kAppPaddingHorizontalSize,
+            vertical: kAppPaddingBetweenItemSmallSize),
+        child: Column(children: [
+          FieldNormalWidget(
+              prefixIconData: Icons.search,
+              hintText: "Agent name, agent address, notify message",
+              validator: (_) {},
+              onChanged: (_) {},
+              textInputAction: TextInputAction.search),
+          const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              FilterTransactionStatusWidget(
+                  onChanged: (value) {},
+                  selectedValue: TransactionStatus.requesting),
+              const SizedBox(width: kAppPaddingBetweenItemSmallSize),
+              FilterTimeWidget(
+                onChanged: (value) {},
+                selectedValue: CommonTimeRange.lastDay,
+              )
+            ],
+          )
+        ]));
   }
 
-  // 3. Transaction list
+  // 3. Search result
+  Widget _searchResult() {
+    return Container(
+        padding:
+            const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
+        child: Column(children: [
+          Row(children: [
+            const Text("You have 123 transactions to authenticate")
+          ]),
+          const SizedBox(height: kAppPaddingBetweenItemSmallSize)
+        ]));
+  }
+
+  // 4. Transaction list
   // Two scrollable: https://www.youtube.com/watch?v=8T7hetwuwY4
   Widget _transactionItemsList() {
     return BlocConsumer<AuthenticatorBloc, AuthenticatorState>(

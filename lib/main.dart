@@ -28,9 +28,9 @@ void main() async {
   // Splash screens initialization
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   // (dev) Clear user data
-  if (Environment().config.freshAppData) {
-    await UserData.clearData();
-  }
+  // if (Environment().config.freshAppData) {
+  //   await UserData.clearData();
+  // }
   // Run app
   runApp(const MyApp());
 }
