@@ -9,6 +9,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SecurityExportAccountCubit extends Cubit<SecurityExportAccountState> {
   bool _isSavingQrImage = false;
@@ -27,10 +28,12 @@ class SecurityExportAccountCubit extends Cubit<SecurityExportAccountState> {
 
   flipQrImage() =>
       emit(state.copyWith(isHiddenQrImage: !state.isHiddenQrImage));
+
   saveQrImage(GlobalKey qrImageKey) async {
     if (_isSavingQrImage) return;
     _isSavingQrImage = true;
     emit(state.copyWith(saveQrImageStatus: RequestStatusSubmitting()));
+    // Ask for storage permission -_-
     // PermissionStatus res;
     // res = await Permission.storage.request();
     // if (res.isGranted) {
@@ -48,13 +51,23 @@ class SecurityExportAccountCubit extends Cubit<SecurityExportAccountState> {
             File('$directory/${DateTime.now()}_${"qr"}.png'); // From dart:io
         imgFile.writeAsBytes(pngBytes);
         // Save image to user gallery
-        await GallerySaver.saveImage(imgFile.path,
+        bool? saveImageResult = await GallerySaver.saveImage(imgFile.path,
             albumName: "BOTP Authenticator");
-        emit(state.copyWith(saveQrImageStatus: RequestStatusSuccess()));
+        if (saveImageResult == true) {
+          emit(state.copyWith(saveQrImageStatus: RequestStatusSuccess()));
+        } else {
+          emit(state.copyWith(saveQrImageStatus: RequestStatusSuccess()));
+        }
       }
     } on Exception catch (e) {
       emit(state.copyWith(saveQrImageStatus: RequestStatusFailed(e)));
     }
+    // } else {
+    //   emit(state.copyWith(
+    //       saveQrImageStatus:
+    //           RequestStatusFailed(Exception("Cannot save your QR image."))));
+    // }
+
     _isSavingQrImage = false;
     emit(state.copyWith(saveQrImageStatus: const RequestStatusInitial()));
   }

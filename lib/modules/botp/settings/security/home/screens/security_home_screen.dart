@@ -83,9 +83,12 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
                     Text("Are you sure you want to sign out?",
                         style: _titleStyle),
                     const SizedBox(height: kAppPaddingBetweenItemNormalSize),
-                    const Text(
-                      "You have to enter password to access this account. Your current data would be kept.",
-                      textAlign: TextAlign.center,
+                    SizedBox(
+                      child: const Text(
+                        "You have to enter password to access this account. Your current data would be kept.",
+                        textAlign: TextAlign.center,
+                      ),
+                      width: MediaQuery.of(context).size.width * 0.8,
                     ),
                     const SizedBox(height: kAppPaddingBetweenItemNormalSize),
                     ReminderWidget(

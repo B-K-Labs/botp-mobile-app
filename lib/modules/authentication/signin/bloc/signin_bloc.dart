@@ -29,14 +29,15 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         final signInResult =
             await authRepository.signIn(privateKey, state.password);
         // Launch session
-        sessionCubit.launchSessionFromSignIn(
+        await sessionCubit.saveSessionFromSignIn(
             signInResult.bcAddress,
             signInResult.publicKey,
             privateKey,
             state.password,
             signInResult.avatarUrl,
             signInResult.userKyc);
-        UserData.setCredentialSessionData(UserDataSession.expired);
+        // Launch session
+        await sessionCubit.remindSettingUpAndLaunchSession();
         emit(state.copyWith(formStatus: RequestStatusSuccess()));
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));

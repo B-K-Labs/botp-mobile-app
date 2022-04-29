@@ -14,6 +14,14 @@ class SessionCubit extends Cubit<SessionState> {
     initUserSession();
   }
 
+  reloadSessionState() {
+    if (state is! UnknownSessionState) {
+      final oldState = state;
+      emit(UnknownSessionState());
+      emit(oldState);
+    }
+  }
+
   void initUserSession() async {
     // Note: just run only one time
     // Get session data
@@ -35,8 +43,9 @@ class SessionCubit extends Cubit<SessionState> {
   }
 
   // Authentication process is success
-  void remindSettingUpAndLaunchSession({required bool skipSetupKyc}) {
-    if (!skipSetupKyc) {
+  remindSettingUpAndLaunchSession({bool? skipSetupKyc}) async {
+    final profileData = await UserData.getCredentialProfileData();
+    if (skipSetupKyc != true && !profileData!.didKyc) {
       emit(RemindSetupKYCSessionState());
     }
     // TODO: Fingerprint
@@ -45,13 +54,8 @@ class SessionCubit extends Cubit<SessionState> {
     }
   }
 
-  void launchSessionFromSignIn(
-      String bcAddress,
-      String publicKey,
-      String privateKey,
-      String password,
-      String? avatarUrl,
-      UserKYC? userKyc) async {
+  saveSessionFromSignIn(String bcAddress, String publicKey, String privateKey,
+      String password, String? avatarUrl, UserKYC? userKyc) async {
     // Not clear other data - just override old data.
     // await UserData.clearData();
     await UserData.setCredentialSessionData(UserDataSession.expired);
@@ -64,26 +68,21 @@ class SessionCubit extends Cubit<SessionState> {
           userKyc.age, userKyc.gender, userKyc.debitor);
     }
     await UserData.setCredentialProfileData(didKyc, avatarUrl);
-    remindSettingUpAndLaunchSession(skipSetupKyc: didKyc);
+    // remindSettingUpAndLaunchSession(skipSetupKyc: didKyc);
   }
 
-  void launchSessionFromSignUp(String bcAddress, String publicKey,
-      String privateKey, String password) async {
+  saveSessionFromSignUp(String bcAddress, String publicKey, String privateKey,
+      String password) async {
     await UserData.clearData();
     await UserData.setCredentialSessionData(UserDataSession.expired);
     await UserData.setCredentialAccountData(
         bcAddress, publicKey, privateKey, password);
     await UserData.setCredentialProfileData(false, null);
-    remindSettingUpAndLaunchSession(skipSetupKyc: false);
+    // remindSettingUpAndLaunchSession(skipSetupKyc: false);
   }
 
-  void launchSessionFromImport(
-      String bcAddress,
-      String publicKey,
-      String privateKey,
-      String newPassword,
-      String? avatarUrl,
-      UserKYC? userKyc) async {
+  saveSessionFromImport(String bcAddress, String publicKey, String privateKey,
+      String newPassword, String? avatarUrl, UserKYC? userKyc) async {
     await UserData.clearData();
     await UserData.setCredentialSessionData(UserDataSession.expired);
     await UserData.setCredentialAccountData(
@@ -94,7 +93,7 @@ class SessionCubit extends Cubit<SessionState> {
           userKyc.age, userKyc.gender, userKyc.debitor);
     }
     await UserData.setCredentialProfileData(didKyc, avatarUrl);
-    remindSettingUpAndLaunchSession(skipSetupKyc: didKyc);
+    // remindSettingUpAndLaunchSession(skipSetupKyc: didKyc);
   }
 
   Future<void> signOut() async {

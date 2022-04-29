@@ -1,4 +1,3 @@
-import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/widgets/button.dart';
@@ -65,7 +64,7 @@ class _WalkThroughBodyState extends State<WalkThroughBody> {
         child: Center(
             child: Column(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
           Column(children: [
             SizedBox(
@@ -89,21 +88,24 @@ class _WalkThroughBodyState extends State<WalkThroughBody> {
                   },
                 ))
           ]),
-          SmoothPageIndicator(
-            controller: _pageController, // PageController
-            count: 3,
-            effect: WormEffect(
-              dotColor: Theme.of(context).colorScheme.primaryContainer,
-              dotHeight: 8.0,
-              dotWidth: 8.0,
-              activeDotColor: Theme.of(context).colorScheme.primary,
-            ), // your preferred effect
-            onDotClicked: (index) {
-              _pageController.animateToPage(index,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeInOutCubicEmphasized);
-            },
-          ),
+          Container(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: kAppPaddingHorizontalSize),
+              child: SmoothPageIndicator(
+                controller: _pageController, // PageController
+                count: 3,
+                effect: WormEffect(
+                  dotColor: Theme.of(context).colorScheme.primaryContainer,
+                  dotHeight: 8.0,
+                  dotWidth: 8.0,
+                  activeDotColor: Theme.of(context).colorScheme.primary,
+                ), // your preferred effect
+                onDotClicked: (index) {
+                  _pageController.animateToPage(index,
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.easeInOutCubicEmphasized);
+                },
+              )),
         ])));
   }
 
@@ -178,7 +180,7 @@ class WalkThroughItemWidget extends StatelessWidget {
                       child: Image.asset("assets/images/temp/botp_temp.png",
                           scale: 1, fit: BoxFit.contain),
                     ),
-              const SizedBox(height: kAppPaddingBetweenItemVeryLargeSize),
+              const SizedBox(height: 60.0),
               Text(title, style: _titleStyle),
               const SizedBox(height: kAppPaddingBetweenItemSmallSize),
               Text(description, style: _descriptionStyle),

@@ -99,7 +99,8 @@ class _ImportBodyState extends State<ImportBody> {
                 const SizedBox(height: 12.0),
                 _privateKeyField(),
                 const SizedBox(height: 24.0),
-                Text("Password", style: Theme.of(context).textTheme.bodyText2),
+                Text("New password",
+                    style: Theme.of(context).textTheme.bodyText2),
                 const SizedBox(height: 12.0),
                 _passwordField(),
                 const SizedBox(height: 24.0),
@@ -156,22 +157,12 @@ class _ImportBodyState extends State<ImportBody> {
         .textTheme
         .caption
         ?.copyWith(color: Theme.of(context).colorScheme.primary);
-    return ReminderWidget(
+    return const ReminderWidget(
       iconData: Icons.warning_rounded,
       colorType: ColorType.error,
       title: "Caution!",
       description:
-          "After this operation, your current account would be removed out of this device, and waiting transactions would be dead. Remember that you've saved this account.",
-      child: GestureDetector(
-          onTap: () {
-            Application.router.navigateTo(
-                context, "/botp/settings/security/transfer",
-                replace: true);
-          },
-          child: Text(
-            "If you haven't yet, click here to export your account",
-            style: _descriptionStyle,
-          )),
+          "After this operation, your current account would be removed out of this device, and waiting transactions would be dead. Also remember that you've saved this account.",
     );
   }
 

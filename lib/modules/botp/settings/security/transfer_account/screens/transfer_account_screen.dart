@@ -36,9 +36,12 @@ class SecurityTransferAccountBody extends StatelessWidget {
           Text("Transfer your account",
               style: _titleStyle, textAlign: TextAlign.center),
           const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-          const Text(
-            "Easily switch your accounts between any devices that have BOTP Authenticator",
-            textAlign: TextAlign.center,
+          SizedBox(
+            child: const Text(
+              "Easily switch your accounts between any devices that have BOTP Authenticator",
+              textAlign: TextAlign.center,
+            ),
+            width: MediaQuery.of(context).size.width * 0.8,
           ),
           const SizedBox(height: 96.0),
           Row(children: [

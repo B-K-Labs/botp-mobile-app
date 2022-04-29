@@ -107,7 +107,7 @@ class _SecurityExportAccountBodyState extends State<SecurityExportAccountBody> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Your BOTP QR Account",
+                      Text("Your BOTP Account",
                           style: Theme.of(context).textTheme.bodyText1),
                       const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                       Container(

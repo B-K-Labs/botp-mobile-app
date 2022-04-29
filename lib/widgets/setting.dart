@@ -23,7 +23,7 @@ class BcAddressWidget extends StatelessWidget {
     final Color _backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
     // - Text
     final _textStyle =
-        Theme.of(context).textTheme.bodyText2?.copyWith(color: _primary);
+        Theme.of(context).textTheme.caption?.copyWith(color: _primary);
     // - Border
     final _borderRadius = BorderRadius.circular(BorderRadiusSize.small);
     // - Padding
@@ -140,7 +140,7 @@ class SettingsCategoryWidget extends StatelessWidget {
     // - Padding
     const _padding = EdgeInsets.symmetric(
         vertical: kAppPaddingBetweenItemSmallSize,
-        horizontal: kAppPaddingHorizontalSize);
+        horizontal: kAppPaddingBetweenItemNormalSize);
 
     return Container(
         // decoration: BoxDecoration(
@@ -153,7 +153,7 @@ class SettingsCategoryWidget extends StatelessWidget {
               colorType: colorType,
               size: DecoratedIconSize.normal,
               iconData: iconData),
-          const SizedBox(width: 24.0),
+          const SizedBox(width: kAppPaddingBetweenItemNormalSize),
           Expanded(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -374,9 +374,9 @@ class SettingsTransferWidget extends StatelessWidget {
     // Text style
     final _titleStyle = Theme.of(context)
         .textTheme
-        .bodyText1
+        .bodyText2
         ?.copyWith(fontWeight: FontWeight.bold);
-    final _descriptionStyle = Theme.of(context).textTheme.bodyText2;
+    final _descriptionStyle = Theme.of(context).textTheme.caption;
 
     return Material(
         color: Colors.transparent,

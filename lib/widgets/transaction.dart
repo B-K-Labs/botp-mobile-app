@@ -238,6 +238,7 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
     }
     // - Border
     final _border = Border.all(color: _primary, width: 3.0);
+    final _borderRadius = BorderRadius.circular(BorderRadiusSize.normal);
     // - Text
     final _titleStyle = Theme.of(context)
         .textTheme
@@ -273,99 +274,105 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
         ),
         height: 266,
       ),
-      InkWell(
-        onTap: widget.onTap,
-        child: Container(
-          decoration: BoxDecoration(
-              border: _border,
-              borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
-          padding: _padding,
-          height: 266,
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(children: [
-                  Text("OTP", style: _titleStyle),
-                  const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-                  const DividerWidget(),
-                  const SizedBox(height: kAppPaddingBetweenItemLargeSize),
-                  [OTPValueStatus.valid, OTPValueStatus.nearlyExpired]
-                          .contains(otpValueInfo.status)
-                      ? Text(otpValueInfo.value, style: _otpStyle)
-                      : [OTPValueStatus.initial, OTPValueStatus.expired]
+      Material(
+          borderRadius: _borderRadius,
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: widget.onTap,
+            child: Container(
+              decoration:
+                  BoxDecoration(border: _border, borderRadius: _borderRadius),
+              padding: _padding,
+              height: 266,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(children: [
+                      Text("OTP", style: _titleStyle),
+                      const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+                      const DividerWidget(),
+                      const SizedBox(height: kAppPaddingBetweenItemLargeSize),
+                      [OTPValueStatus.valid, OTPValueStatus.nearlyExpired]
                               .contains(otpValueInfo.status)
-                          ? SkeletonLine(
-                              style: SkeletonLineStyle(
-                              width: 150,
-                              alignment: AlignmentDirectional.center,
-                              randomLength: false,
-                              height: 40,
-                              borderRadius: BorderRadius.circular(
-                                  BorderRadiusSize.normal),
-                            ))
-                          : Text("Not available", style: _otpStyle),
-                  const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-                  [OTPValueStatus.valid, OTPValueStatus.nearlyExpired]
-                          .contains(otpValueInfo.status)
-                      ? Text("Tap to copy OTP", style: _captionStyle)
-                      : otpValueInfo.status == OTPValueStatus.notAvailable
-                          ? Text("Cannot generate OTP in this device",
-                              style: _captionStyle)
-                          : SkeletonLine(
-                              style: SkeletonLineStyle(
-                              width: 100,
-                              alignment: AlignmentDirectional.center,
-                              randomLength: false,
-                              height: 14,
-                              borderRadius:
-                                  BorderRadius.circular(BorderRadiusSize.small),
-                            ))
-                ]),
-                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  // If no error
-                  [OTPValueStatus.valid, OTPValueStatus.nearlyExpired]
-                          .contains(otpValueInfo.status)
-                      ? Row(children: [
-                          Text(
-                              otpValueInfo.remainingSecond.toString() +
-                                  "s left",
-                              style: _captionStyle?.copyWith(color: _primary)),
-                          const SizedBox(
-                              width: kAppPaddingBetweenItemSmallSize),
-                          Center(
-                              child: Container(
-                                  padding: const EdgeInsets.only(right: 6.0),
-                                  child: SizedBox(
-                                      width: 12,
-                                      height: 12,
-                                      child:
-                                          // Flip the circular
-                                          Transform(
-                                              alignment: Alignment.center,
-                                              transform:
-                                                  Matrix4.rotationY(math.pi),
-                                              child: CircularProgressIndicator(
-                                                value: otpValueInfo
-                                                        .remainingSecond /
-                                                    otpValueInfo.totalSeconds,
-                                                strokeWidth: 12,
-                                                backgroundColor:
-                                                    _backgroundColor,
-                                                color: _primary,
-                                              )))))
-                        ])
-                      : Text(
-                          otpValueInfo.status == OTPValueStatus.expired
-                              ? "Syncing data"
-                              : otpValueInfo.status ==
-                                      OTPValueStatus.notAvailable
-                                  ? "Failed to generate OTP"
-                                  : "Requesting",
-                          style: _captionStyle?.copyWith(color: _primary))
-                ]),
-              ]),
-        ),
-      )
+                          ? Text(otpValueInfo.value, style: _otpStyle)
+                          : [OTPValueStatus.initial, OTPValueStatus.expired]
+                                  .contains(otpValueInfo.status)
+                              ? SkeletonLine(
+                                  style: SkeletonLineStyle(
+                                  width: 150,
+                                  alignment: AlignmentDirectional.center,
+                                  randomLength: false,
+                                  height: 40,
+                                  borderRadius: BorderRadius.circular(
+                                      BorderRadiusSize.normal),
+                                ))
+                              : Text("Not available", style: _otpStyle),
+                      const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+                      [OTPValueStatus.valid, OTPValueStatus.nearlyExpired]
+                              .contains(otpValueInfo.status)
+                          ? Text("Tap to copy OTP", style: _captionStyle)
+                          : otpValueInfo.status == OTPValueStatus.notAvailable
+                              ? Text("Cannot generate OTP in this device",
+                                  style: _captionStyle)
+                              : SkeletonLine(
+                                  style: SkeletonLineStyle(
+                                  width: 100,
+                                  alignment: AlignmentDirectional.center,
+                                  randomLength: false,
+                                  height: 14,
+                                  borderRadius: BorderRadius.circular(
+                                      BorderRadiusSize.small),
+                                ))
+                    ]),
+                    Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                      // If no error
+                      [OTPValueStatus.valid, OTPValueStatus.nearlyExpired]
+                              .contains(otpValueInfo.status)
+                          ? Row(children: [
+                              Text(
+                                  otpValueInfo.remainingSecond.toString() +
+                                      "s left",
+                                  style:
+                                      _captionStyle?.copyWith(color: _primary)),
+                              const SizedBox(
+                                  width: kAppPaddingBetweenItemSmallSize),
+                              Center(
+                                  child: Container(
+                                      padding:
+                                          const EdgeInsets.only(right: 6.0),
+                                      child: SizedBox(
+                                          width: 12,
+                                          height: 12,
+                                          child:
+                                              // Flip the circular
+                                              Transform(
+                                                  alignment: Alignment.center,
+                                                  transform: Matrix4.rotationY(
+                                                      math.pi),
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    value: otpValueInfo
+                                                            .remainingSecond /
+                                                        otpValueInfo
+                                                            .totalSeconds,
+                                                    strokeWidth: 12,
+                                                    backgroundColor:
+                                                        _backgroundColor,
+                                                    color: _primary,
+                                                  )))))
+                            ])
+                          : Text(
+                              otpValueInfo.status == OTPValueStatus.expired
+                                  ? "Syncing data"
+                                  : otpValueInfo.status ==
+                                          OTPValueStatus.notAvailable
+                                      ? "Failed to generate OTP"
+                                      : "Requesting",
+                              style: _captionStyle?.copyWith(color: _primary))
+                    ]),
+                  ]),
+            ),
+          ))
     ]);
   }
 }
