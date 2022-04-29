@@ -256,9 +256,9 @@ class SettingsOptionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Option Theme
     // - Style
-    final _labelStyle = Theme.of(context).textTheme.bodyText1;
-    final _valueStyle = Theme.of(context).textTheme.bodyText2;
-    final _descriptionStyle = Theme.of(context).textTheme.bodyText2;
+    final _labelStyle = Theme.of(context).textTheme.bodyText2;
+    final _valueStyle = Theme.of(context).textTheme.caption;
+    final _descriptionStyle = Theme.of(context).textTheme.caption;
     // Child widget
     final Widget _optionWidget;
     switch (type) {
@@ -374,9 +374,9 @@ class SettingsTransferWidget extends StatelessWidget {
     // Text style
     final _titleStyle = Theme.of(context)
         .textTheme
-        .bodyText2
+        .bodyText1
         ?.copyWith(fontWeight: FontWeight.bold);
-    final _descriptionStyle = Theme.of(context).textTheme.caption;
+    final _descriptionStyle = Theme.of(context).textTheme.bodyText2;
 
     return Material(
         color: Colors.transparent,
