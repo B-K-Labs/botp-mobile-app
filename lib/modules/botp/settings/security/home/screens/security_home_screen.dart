@@ -76,56 +76,59 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
               padding: const EdgeInsets.symmetric(
                   horizontal: kAppPaddingHorizontalSize,
                   vertical: kAppPaddingVerticalSize),
-              child:
-                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-                Text("Are you sure you want to sign out?", style: _titleStyle),
-                const SizedBox(height: kAppPaddingBetweenItemNormalSize),
-                const Text(
-                  "You have to enter password to access this account. Your current data would be kept.",
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: kAppPaddingBetweenItemNormalSize),
-                ReminderWidget(
-                  iconData: Icons.warning_rounded,
-                  colorType: ColorType.error,
-                  title: "Caution!",
-                  description:
-                      "You won't be able to sign in if you forgot your password. Remember that you've saved this account.",
-                  child: GestureDetector(
-                      onTap: () {
-                        Application.router.navigateTo(
-                            context, "/botp/settings/security/transfer",
-                            replace: true);
-                      },
-                      child: Text(
-                        "If you haven't yet, click here to export your account",
-                        style: _descriptionStyle,
-                      )),
-                ),
-                const SizedBox(height: kAppPaddingBetweenItemNormalSize),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Expanded(
-                        flex: 1,
-                        child: ButtonNormalWidget(
-                            text: "Cancel",
-                            onPressed: () {
-                              Application.router.pop(context, false);
-                            },
-                            type: ButtonNormalType.secondaryOutlined)),
-                    const SizedBox(width: kAppPaddingBetweenItemSmallSize),
-                    Expanded(
-                        flex: 1,
-                        child: ButtonNormalWidget(
-                            text: "Sign out",
-                            onPressed: () {
-                              Application.router.pop(context, true);
-                            },
-                            type: ButtonNormalType.error))
-                  ],
-                ),
-              ]));
+                    Text("Are you sure you want to sign out?",
+                        style: _titleStyle),
+                    const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+                    const Text(
+                      "You have to enter password to access this account. Your current data would be kept.",
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+                    ReminderWidget(
+                      iconData: Icons.warning_rounded,
+                      colorType: ColorType.error,
+                      title: "Caution!",
+                      description:
+                          "You won't be able to sign in if you forgot your password. Remember that you've saved this account.",
+                      child: GestureDetector(
+                          onTap: () {
+                            Application.router.navigateTo(
+                                context, "/botp/settings/security/transfer",
+                                replace: true);
+                          },
+                          child: Text(
+                            "If you haven't yet, click here to export your account",
+                            style: _descriptionStyle,
+                          )),
+                    ),
+                    const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: ButtonNormalWidget(
+                                text: "Cancel",
+                                onPressed: () {
+                                  Application.router.pop(context, false);
+                                },
+                                type: ButtonNormalType.secondaryOutlined)),
+                        const SizedBox(width: kAppPaddingBetweenItemSmallSize),
+                        Expanded(
+                            flex: 1,
+                            child: ButtonNormalWidget(
+                                text: "Sign out",
+                                onPressed: () {
+                                  Application.router.pop(context, true);
+                                },
+                                type: ButtonNormalType.error))
+                      ],
+                    ),
+                  ]));
         });
 
     _onSignOut() async {

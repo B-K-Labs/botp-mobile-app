@@ -136,7 +136,7 @@ class AvatarWidget extends StatelessWidget {
           child: avatarUrl != null
               ? Image.network(avatarUrl!)
               : Image.asset("assets/images/temp/botp_temp.png",
-                  scale: 1, fit: BoxFit.fitWidth)),
+                  scale: 1, fit: BoxFit.contain)),
       onPressed: onPressed,
     );
   }
@@ -328,19 +328,22 @@ class ReminderWidget extends StatelessWidget {
                                       ])
                                     : Container()
                               ])),
-                          const SizedBox(
-                              width: kAppPaddingBetweenItemNormalSize),
                           onTap != null
-                              ? Container(
-                                  width: 36.0,
-                                  height: 36.0,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                  ),
-                                  child: Icon(Icons.navigate_next_outlined,
-                                      color: _primary))
+                              ? Row(children: [
+                                  const SizedBox(
+                                      width: kAppPaddingBetweenItemNormalSize),
+                                  Container(
+                                      width: 36.0,
+                                      height: 36.0,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        color: Theme.of(context)
+                                            .scaffoldBackgroundColor,
+                                      ),
+                                      child: Icon(Icons.navigate_next_outlined,
+                                          color: _primary))
+                                ])
                               : Container()
                         ])))));
   }

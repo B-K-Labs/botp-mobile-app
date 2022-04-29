@@ -91,7 +91,7 @@ class SettingsHomeInfo extends StatelessWidget {
             child: avatarUrl != null
                 ? Image.network(avatarUrl!)
                 : Image.asset("assets/images/logo/botp_logo_embedded_qr.png",
-                    scale: 1, fit: BoxFit.fitWidth),
+                    scale: 1, fit: BoxFit.contain),
           )),
       const SizedBox(height: 24.0),
       // FullName
@@ -211,9 +211,9 @@ class SettingsSectionWidget extends StatelessWidget {
             ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: kAppPaddingHorizontalSize),
+                        horizontal: kAppPaddingHorizontalSize,
+                        vertical: kAppPaddingBetweenItemSmallSize),
                     child: Text(title!, style: _titleStyle)),
-                const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                 ...children,
               ])
             : Column(

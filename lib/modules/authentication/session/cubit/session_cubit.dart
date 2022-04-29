@@ -30,6 +30,10 @@ class SessionCubit extends Cubit<SessionState> {
     }
   }
 
+  void completedWalkThrough() {
+    emit(UnauthenticatedSessionState());
+  }
+
   // Authentication process is success
   void remindSettingUpAndLaunchSession({required bool skipSetupKyc}) {
     if (!skipSetupKyc) {

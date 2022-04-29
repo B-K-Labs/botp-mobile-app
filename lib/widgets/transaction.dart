@@ -590,6 +590,6 @@ class AgentAvatar extends StatelessWidget {
     return SizedBox(
         height: 48.0,
         width: 48.0,
-        child: Image.network(avatarUrl, scale: 1, fit: BoxFit.fitWidth));
+        child: Image.network(avatarUrl, scale: 1, fit: BoxFit.contain));
   }
 }

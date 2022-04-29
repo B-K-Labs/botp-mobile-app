@@ -38,7 +38,7 @@ class InitBody extends StatelessWidget {
                 height: 120.0,
                 width: 120.0,
                 child: Image.asset("assets/images/temp/botp_temp.png",
-                    scale: 1, fit: BoxFit.fitWidth),
+                    scale: 1, fit: BoxFit.contain),
               )
             ]),
             Column(children: [
