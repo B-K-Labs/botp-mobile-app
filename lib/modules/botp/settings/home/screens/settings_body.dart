@@ -22,7 +22,8 @@ class _SettingsBodyState extends State<SettingsBody> {
   Widget build(BuildContext context) {
     return BlocProvider<SettingsHomeCubit>(
         create: (context) => SettingsHomeCubit(),
-        child: Column(
+        child: SingleChildScrollView(
+            child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -30,7 +31,7 @@ class _SettingsBodyState extends State<SettingsBody> {
             const SizedBox(height: kAppPaddingBetweenItemNormalSize),
             _categoriesList()
           ],
-        ));
+        )));
   }
 
   Widget _info() {
@@ -92,12 +93,13 @@ class _SettingsBodyState extends State<SettingsBody> {
     return BlocBuilder<SettingsHomeCubit, SettingsHomeState>(
         builder: (context, state) {
       return state.loadUserDataStatus is LoadUserDataStatusSuccess
-          ? Expanded(
-              child: Stack(children: [
-              // Positioned.fill(child: _generateSettingsShadowCategoriesList()),
-              _generateSettingsCategoriesList()
-            ]))
+          ? _generateSettingsCategoriesList()
           : Container();
+      // Expanded(
+      //     child: Stack(children: [
+      //       // Positioned.fill(child: _generateSettingsShadowCategoriesList()),
+      //       _generateSettingsCategoriesList()
+      //     ]))
     });
     ;
   }
@@ -142,6 +144,7 @@ class _SettingsBodyState extends State<SettingsBody> {
       }, ColorType.tertiary),
     ];
     return ListView.separated(
+        shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.symmetric(
             vertical: kAppPaddingBetweenItemSmallSize),
