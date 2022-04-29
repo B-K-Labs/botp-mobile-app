@@ -69,12 +69,12 @@ class ColorPalette {
   // static const black = Color(0xff000000);
   // Neutral (darker)
   static const white = Color(0xffffffff);
-  static const gray10 = Color(0xfff8f8f8);
-  static const gray50 = Color(0xfff3f3f3);
-  static const gray100 = Color(0xffe8e8e8);
-  static const gray200 = Color(0xffe0e0e0);
-  static const gray300 = Color(0xffc6c6c6);
-  static const gray400 = Color(0xffafafaf);
+  static const gray10 = Color(0xfff5f5f5);
+  static const gray50 = Color(0xffeeeeee);
+  static const gray100 = Color(0xffe2e2e2);
+  static const gray200 = Color(0xffd9d9d9);
+  static const gray300 = Color(0xffbfbfbf);
+  static const gray400 = Color(0xffa1a1a1);
   static const gray500 = Color(0xff878787);
   static const gray600 = Color(0xff6a6a6a);
   static const gray700 = Color(0xff505050);

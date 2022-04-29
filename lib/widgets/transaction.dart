@@ -69,7 +69,7 @@ class ShadowTransactionItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 96,
+      height: 84,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
         boxShadow: [
@@ -112,7 +112,6 @@ class TransactionItemWidget extends StatelessWidget {
     final _border = isNewest
         ? Border.all(color: Theme.of(context).colorScheme.primary, width: 2.0)
         : null;
-    final _smallTextColor = Theme.of(context).colorScheme.onSurfaceVariant;
     // - Border
     final _borderRadius = BorderRadius.circular(BorderRadiusSize.normal);
     // - Text
@@ -120,15 +119,14 @@ class TransactionItemWidget extends StatelessWidget {
         .textTheme
         .bodyText2
         ?.copyWith(fontWeight: FontWeight.bold);
-    final TextStyle? _smallTextStyle =
-        Theme.of(context).textTheme.caption?.copyWith(color: _smallTextColor);
+    final TextStyle? _smallTextStyle = Theme.of(context).textTheme.caption;
     return Container(
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
           borderRadius: _borderRadius,
           border: _border,
         ),
-        height: 96,
+        height: 80,
         child: Material(
             borderRadius: _borderRadius,
             child: InkWell(
@@ -141,7 +139,7 @@ class TransactionItemWidget extends StatelessWidget {
                           children: [
                         Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 24.0, vertical: 24.0),
+                                horizontal: 16.0, vertical: 16.0),
                             child: AgentAvatar(avatarUrl: agentAvatarUrl)),
                         Expanded(
                             flex: 1,
@@ -162,7 +160,7 @@ class TransactionItemWidget extends StatelessWidget {
                                                 agentName,
                                                 style: _textStyle,
                                               ),
-                                              const SizedBox(width: 8.0),
+                                              const SizedBox(width: 6.0),
                                               Icon(Icons.verified,
                                                   size: 18,
                                                   color: Theme.of(context)
@@ -178,9 +176,10 @@ class TransactionItemWidget extends StatelessWidget {
                                         date,
                                         style: _smallTextStyle,
                                       ),
-                                      const SizedBox(height: 6.0),
+                                      const SizedBox(height: 4.0),
                                       Text(
-                                        shortenNotifyMessage(notifyMessage),
+                                        shortenNotifyMessage(
+                                            'Message: $notifyMessage'),
                                         style: _smallTextStyle,
                                       ),
                                     ],
@@ -188,7 +187,7 @@ class TransactionItemWidget extends StatelessWidget {
                                 ]))),
                       ])),
                   Container(
-                      padding: const EdgeInsets.only(top: 16.0),
+                      padding: const EdgeInsets.only(top: 10.0),
                       child: _TransactionStatusWidget(
                         status: transactionStatus,
                       ))
@@ -251,7 +250,7 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
         .caption
         ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
     // - Padding
-    const _padding = EdgeInsets.symmetric(vertical: 30.0, horizontal: 24.0);
+    const _padding = EdgeInsets.symmetric(vertical: 24.0, horizontal: 18.0);
 
     // Otp
     final otpValueInfo = widget.otpValueInfo;
@@ -404,30 +403,29 @@ class TransactionDetailWidget extends StatelessWidget {
             border: Border.all(
                 color: Theme.of(context).colorScheme.outline, width: 1.0),
             borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
-        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 24.0),
+        padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 18.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Transaction details", style: _headlineStyle),
             const SizedBox(height: 18.0),
             _transactionDetailTextLineWidget(
-              agentIsVerified
-                  ? Row(children: [
-                      Text(agentName,
-                          style: _labelStyle?.copyWith(
-                              fontWeight: FontWeight.bold)),
-                      const SizedBox(width: 8.0),
-                      Tooltip(
-                          child: Icon(Icons.verified,
-                              size: 18,
-                              color: Theme.of(context).colorScheme.secondary),
-                          message: '$agentName is verified')
-                    ])
-                  : Text(agentName,
-                      style:
-                          _labelStyle?.copyWith(fontWeight: FontWeight.bold)),
-              AgentAvatar(avatarUrl: agentAvatarUrl),
-            ),
+                agentIsVerified
+                    ? Row(children: [
+                        Text(agentName,
+                            style: _textStyle?.copyWith(
+                                fontWeight: FontWeight.bold)),
+                        const SizedBox(width: 8.0),
+                        Tooltip(
+                            child: Icon(Icons.verified,
+                                size: 18,
+                                color: Theme.of(context).colorScheme.secondary),
+                            message: '$agentName is verified')
+                      ])
+                    : Text(agentName,
+                        style:
+                            _textStyle?.copyWith(fontWeight: FontWeight.bold)),
+                AgentAvatar(avatarUrl: agentAvatarUrl)),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             _transactionDetailTextLineWidget(
                 Text("Address", style: _labelStyle),
@@ -466,7 +464,7 @@ class TransactionDetailSkeletonWidget extends StatelessWidget {
             border: Border.all(
                 color: Theme.of(context).colorScheme.outline, width: 1.0),
             borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
-        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 24.0),
+        padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 18.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -528,7 +526,7 @@ class TransactionNotifyMessageWidget extends StatelessWidget {
             border: Border.all(
                 color: Theme.of(context).colorScheme.outline, width: 1.0),
             borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
-        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 24.0),
+        padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 18.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -555,7 +553,7 @@ class TransactionNotifyMessageSkeletonWidget extends StatelessWidget {
             border: Border.all(
                 color: Theme.of(context).colorScheme.outline, width: 1.0),
             borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
-        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 24.0),
+        padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 18.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

@@ -374,9 +374,9 @@ class SettingsTransferWidget extends StatelessWidget {
     // Text style
     final _titleStyle = Theme.of(context)
         .textTheme
-        .bodyText1
+        .bodyText2
         ?.copyWith(fontWeight: FontWeight.bold);
-    final _descriptionStyle = Theme.of(context).textTheme.bodyText2;
+    final _descriptionStyle = Theme.of(context).textTheme.caption;
 
     return Material(
         color: Colors.transparent,
@@ -391,8 +391,8 @@ class SettingsTransferWidget extends StatelessWidget {
                         color: Theme.of(context).colorScheme.outline,
                         width: 1.0)),
                 padding: const EdgeInsets.symmetric(
-                    horizontal: kAppPaddingBetweenItemNormalSize,
-                    vertical: kAppPaddingBetweenItemNormalSize),
+                    horizontal: kAppPaddingBetweenItemSmallSize,
+                    vertical: kAppPaddingBetweenItemSmallSize),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
