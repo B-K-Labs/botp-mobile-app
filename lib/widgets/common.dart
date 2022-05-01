@@ -132,7 +132,7 @@ class AvatarWidget extends StatelessWidget {
       icon: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(100)),
           child: avatarUrl != null
-              ? Image.network(avatarUrl!)
+              ? Image.network(avatarUrl!, scale: 1, fit: BoxFit.contain)
               : Image.asset("assets/images/temp/botp_temp.png",
                   scale: 1, fit: BoxFit.contain)),
       onPressed: onPressed,

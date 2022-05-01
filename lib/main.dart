@@ -75,8 +75,8 @@ class _MyAppState extends State<MyApp> {
                 authenticationRepository:
                     context.read<AuthenticationRepository>()),
             child: BlocProvider<BOTPHomeCubit>(
-                create: (context) =>
-                    BOTPHomeCubit(sessionCubit: context.read<SessionCubit>()),
+                create: (context) => BOTPHomeCubit(
+                    settingsRepository: context.read<SettingsRepository>()),
                 child: MaterialApp(
                   debugShowCheckedModeBanner: false,
                   // Themes

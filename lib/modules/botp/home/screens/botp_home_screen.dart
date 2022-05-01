@@ -3,6 +3,7 @@ import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dar
 import 'package:botp_auth/modules/botp/authenticator/screens/authenticator_body.dart';
 import 'package:botp_auth/modules/botp/history/screens/history_body.dart';
 import 'package:botp_auth/modules/botp/home/cubit/botp_home_cubit.dart';
+import 'package:botp_auth/modules/botp/home/cubit/botp_home_state.dart';
 import 'package:botp_auth/modules/botp/settings/home/screens/settings_body.dart';
 import 'package:botp_auth/widgets/common.dart';
 import "package:flutter/material.dart";
@@ -35,11 +36,15 @@ class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
           : _settingsMainBody;
 
   @override
+  void initState() {
+    super.initState();
+    context.read<BOTPHomeCubit>().loadCommonUserData();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider<BOTPHomeCubit>(
-        create: (context) =>
-            BOTPHomeCubit(sessionCubit: context.read<SessionCubit>()),
-        child: ScreenWidget(
+    return BlocBuilder<BOTPHomeCubit, BOTPHomeState>(
+        builder: (context, state) => ScreenWidget(
             // Appbar
             appBarElevation: 0,
             hasAppBar: _selectedIndex == 2 ? false : true,
@@ -47,8 +52,12 @@ class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
                 ? AppBarType.authenticator
                 : AppBarType.history,
             // TODO: read user avatar
-            appBarAvatarUrl: _selectedIndex == 0 ? null : null,
-            appBarOnPressedAvatar: _selectedIndex == 0 ? null : null,
+            appBarAvatarUrl: _selectedIndex == 0 ? state.avatarUrl : null,
+            appBarOnPressedAvatar: _selectedIndex == 0
+                ? () {
+                    _onItemTapped(2);
+                  }
+                : null,
             // Body
             body: _getSelectedWidget(),
             // Bottom bar

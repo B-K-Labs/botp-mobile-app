@@ -1,20 +1,43 @@
-class BOTPHomeState {
-  // Store globally public data
-  bool? didKyc;
-  String? bcAddress;
-  String? avatarUrl;
-  String? fullName;
+import 'package:botp_auth/common/models/common_model.dart';
+import 'package:botp_auth/common/states/request_status.dart';
+import 'package:botp_auth/common/states/user_data_status.dart';
 
-  BOTPHomeState({this.didKyc, this.bcAddress, this.avatarUrl, this.fullName});
+class BOTPHomeState {
+  // Common user data
+  String? avatarUrl;
+  String? bcAddress;
+  UserKYC? userKyc;
+  // Reminder
+  bool? didKyc;
+  bool? needRegisterAgent;
+  // Load data from storage status + server
+  LoadUserDataStatus? loadUserDataStatus;
+  RequestStatus? getAgentsListStatus;
+
+  BOTPHomeState(
+      {this.avatarUrl,
+      this.bcAddress,
+      this.userKyc,
+      this.didKyc,
+      this.needRegisterAgent,
+      this.loadUserDataStatus = const LoadUserDataStatusInitial(),
+      this.getAgentsListStatus = const RequestStatusInitial()});
 
   BOTPHomeState copyWith(
-          {bool? didKyc,
+          {String? avatarUrl,
           String? bcAddress,
-          String? avatarUrl,
-          String? fullName}) =>
+          UserKYC? userKyc,
+          bool? didKyc,
+          bool? needRegisterAgent,
+          LoadUserDataStatus? loadUserDataStatus,
+          RequestStatus? getAgentsListStatus}) =>
       BOTPHomeState(
-          didKyc: didKyc ?? this.didKyc,
-          bcAddress: bcAddress ?? this.bcAddress,
-          avatarUrl: avatarUrl ?? this.avatarUrl,
-          fullName: fullName ?? this.fullName);
+        avatarUrl: avatarUrl ?? this.avatarUrl,
+        bcAddress: bcAddress ?? this.bcAddress,
+        userKyc: userKyc ?? this.userKyc,
+        didKyc: didKyc ?? this.didKyc,
+        needRegisterAgent: needRegisterAgent ?? this.needRegisterAgent,
+        loadUserDataStatus: loadUserDataStatus ?? this.loadUserDataStatus,
+        getAgentsListStatus: getAgentsListStatus ?? this.getAgentsListStatus,
+      );
 }
