@@ -19,6 +19,8 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
   // Lock
   bool _isGettingTransactionsListSubmitting = false;
   bool _isGettingTransactionsListTimerRunning = false;
+  // Postponed request
+  TransactionStatus? _pendingTransactionStatus;
 
   AuthenticatorBloc(
       {required this.authenticatorRepository,
@@ -37,13 +39,17 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
     on<AuthenticatorEventGetTransactionsListAndSetupTimer>((event, emit) async {
       if (_isGettingTransactionsListSubmitting) return;
       _isGettingTransactionsListSubmitting = true;
-      final accountData = await UserData.getCredentialAccountData();
-      emit(state.copyWith(getTransactionListStatus: RequestStatusSubmitting()));
       try {
-        final getTransactionListResult =
-            await authenticatorRepository.getTransactionsList(
-                accountData!.bcAddress, state.transactionStatus);
+        final accountData = await UserData.getCredentialAccountData();
         emit(state.copyWith(
+            getTransactionListStatus: RequestStatusSubmitting()));
+        final newTransactionStatus =
+            event.transactionStatus ?? state.transactionStatus;
+        emit(state.copyWith(transactionStatus: newTransactionStatus));
+        final getTransactionListResult = await authenticatorRepository
+            .getTransactionsList(accountData!.bcAddress, newTransactionStatus);
+        emit(state.copyWith(
+            transactionStatus: newTransactionStatus,
             paginationInfo: getTransactionListResult.paginationInfo,
             transactionsList: getTransactionListResult.transactionsList,
             getTransactionListStatus: RequestStatusSuccess()));

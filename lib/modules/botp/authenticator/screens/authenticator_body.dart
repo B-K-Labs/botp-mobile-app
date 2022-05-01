@@ -23,15 +23,6 @@ class AuthenticatorBody extends StatefulWidget {
 }
 
 class _AuthenticatorBodyState extends State<AuthenticatorBody> {
-  // Different transaction status page
-  final PageController _pageController =
-      PageController(initialPage: 0, keepPage: true);
-  int _selectedPage = 0;
-
-  _onPageChanged(int page) {
-    setState(() => _selectedPage = page);
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AuthenticatorBloc>(
@@ -40,6 +31,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
           // https://stackoverflow.com/questions/62648103/triggering-initial-event-in-bloc
           ..add(AuthenticatorEventGetTransactionsListAndSetupTimer()),
         child: Column(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -93,35 +85,79 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
 
   // 2. Search section
   Widget _searchSection() {
-    return Container(
-        padding: const EdgeInsets.symmetric(
-            horizontal: kAppPaddingHorizontalSize,
-            vertical: kAppPaddingBetweenItemSmallSize),
-        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-          FilterTransactionStatusWidget(
-              transactionStatus: TransactionStatus.requesting,
-              colorType: ColorType.error,
-              isSelected: true,
-              onSelected: () {})
-        ]));
+    return BlocBuilder<AuthenticatorBloc, AuthenticatorState>(
+        builder: (context, state) {
+      final _itemList = [
+        {
+          "type": ColorType.normal,
+          "status": TransactionStatus.all,
+          "onSelected": () {
+            print("All");
+            context.read<AuthenticatorBloc>().add(
+                AuthenticatorEventGetTransactionsListAndSetupTimer(
+                    transactionStatus: TransactionStatus.all));
+          }
+        },
+        {
+          "type": ColorType.tertiary,
+          "status": TransactionStatus.requesting,
+          "onSelected": () {
+            print("Requesting");
+            context.read<AuthenticatorBloc>().add(
+                AuthenticatorEventGetTransactionsListAndSetupTimer(
+                    transactionStatus: TransactionStatus.requesting));
+          }
+        },
+        {
+          "type": ColorType.primary,
+          "status": TransactionStatus.waiting,
+          "onSelected": () {
+            print("Waiting");
+            context.read<AuthenticatorBloc>().add(
+                AuthenticatorEventGetTransactionsListAndSetupTimer(
+                    transactionStatus: TransactionStatus.waiting));
+          }
+        }
+      ];
+      return Container(
+          padding: const EdgeInsets.symmetric(
+              horizontal: kAppPaddingHorizontalSize,
+              vertical: kAppPaddingBetweenItemSmallSize),
+          child: Wrap(
+              direction: Axis.horizontal,
+              children: List.generate(
+                  _itemList.length,
+                  (index) => Container(
+                      margin: const EdgeInsets.only(right: 6.0),
+                      child: FilterTransactionStatusWidget(
+                          transactionStatus:
+                              _itemList[index]["status"] as TransactionStatus,
+                          colorType: _itemList[index]["type"] as ColorType,
+                          isSelected:
+                              _itemList[index]["status"] as TransactionStatus ==
+                                  state.transactionStatus,
+                          onSelected: _itemList[index]["onSelected"]
+                              as VoidCallback?)))));
+    });
   }
 
-  // 3. Search result
-  Widget _searchResult() {
-    return Container(
-        padding:
-            const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
-        child: Column(children: [
-          Row(children: [
-            const Text("You have 123 transactions to authenticate")
-          ]),
-          const SizedBox(height: kAppPaddingBetweenItemSmallSize)
-        ]));
-  }
+  // // 3. Search result
+  // Widget _searchResult() {
+  //   return Container(
+  //       padding:
+  //           const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
+  //       child: Column(children: [
+  //         Row(children: [
+  //           const Text("You have 123 transactions to authenticate")
+  //         ]),
+  //         const SizedBox(height: kAppPaddingBetweenItemSmallSize)
+  //       ]));
+  // }
 
   // 4. Transaction list
   // Two scrollable: https://www.youtube.com/watch?v=8T7hetwuwY4
   Widget _transactionItemsList() {
+    // return Container();
     return BlocConsumer<AuthenticatorBloc, AuthenticatorState>(
         builder: (context, state) {
       final transactionsList = state.transactionsList;

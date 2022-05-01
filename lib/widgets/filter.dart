@@ -139,7 +139,7 @@ class FilterTransactionStatusWidget extends StatelessWidget {
           break;
       }
     } else {
-      _primary = Theme.of(context).colorScheme.outline;
+      _primary = Theme.of(context).colorScheme.onSurface;
       _backgroundColor = null;
     }
 
@@ -154,17 +154,19 @@ class FilterTransactionStatusWidget extends StatelessWidget {
     final _decoration =
         BoxDecoration(color: _backgroundColor, borderRadius: _borderRadius);
 
-    return Container(
-        decoration: _decoration,
-        child: Material(
-            color: Colors.transparent,
-            borderRadius: _borderRadius,
-            child: InkWell(
-                onTap: onSelected,
+    return FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Container(
+            decoration: _decoration,
+            child: Material(
+                color: Colors.transparent,
                 borderRadius: _borderRadius,
-                child: Container(
-                    padding: _padding,
-                    child: Text(transactionStatus.toCapitalizedString(),
-                        style: _textStyle)))));
+                child: InkWell(
+                    onTap: onSelected,
+                    borderRadius: _borderRadius,
+                    child: Container(
+                        padding: _padding,
+                        child: Text(transactionStatus.toCapitalizedString(),
+                            style: _textStyle))))));
   }
 }

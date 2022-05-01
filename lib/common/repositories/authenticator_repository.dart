@@ -10,7 +10,7 @@ import 'package:universal_html/html.dart';
 class AuthenticatorRepository {
   // Get OTP sessions list
   Future<GetTransactionsListResponseModel> getTransactionsList(
-      String bcAddress, TransactionStatus? transactionStatus,
+      String bcAddress, TransactionStatus transactionStatus,
       [int currentPage = 1]) async {
     // Set search parameters
     final Map<String, dynamic> queryParameters = {
@@ -18,8 +18,7 @@ class AuthenticatorRepository {
       "page": currentPage.toString(),
       "size": kTransactionItemsPagSize.toString()
     };
-    if (transactionStatus != null &&
-        transactionStatus != TransactionStatus.all) {
+    if (transactionStatus != TransactionStatus.all) {
       queryParameters["status"] = transactionStatus.name.toUpperCase();
     }
     http.Response result = await get(makeApiUrlString(
