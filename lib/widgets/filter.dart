@@ -144,7 +144,7 @@ class FilterTransactionStatusWidget extends StatelessWidget {
     }
 
     // - Font
-    TextStyle? _textStyle = Theme.of(context).textTheme.caption?.copyWith(
+    TextStyle? _textStyle = Theme.of(context).textTheme.bodyText2?.copyWith(
         color: _primary,
         fontWeight: isSelected ? FontWeight.bold : FontWeight.normal);
     // - Padding
