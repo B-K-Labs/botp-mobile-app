@@ -2,8 +2,8 @@ import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
-import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_cubit.dart';
-import 'package:botp_auth/modules/botp/settings/home/cubit/settings_main_state.dart';
+import 'package:botp_auth/modules/botp/home/cubit/botp_home_cubit.dart';
+import 'package:botp_auth/modules/botp/home/cubit/botp_home_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/setting.dart';
 import 'package:flutter/material.dart';
@@ -20,23 +20,21 @@ class SettingsBody extends StatefulWidget {
 class _SettingsBodyState extends State<SettingsBody> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SettingsHomeCubit>(
-        create: (context) => SettingsHomeCubit(),
-        child: SingleChildScrollView(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _info(),
-            const SizedBox(height: kAppPaddingBetweenItemNormalSize),
-            _categoriesList()
-          ],
-        )));
+    return SingleChildScrollView(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        _info(),
+        const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+        _categoriesList()
+      ],
+    ));
   }
 
   Widget _info() {
-    return BlocListener<SettingsHomeCubit, SettingsHomeState>(
-        listener: (context, state) {
+    return BlocListener<BOTPHomeCubit, BOTPHomeState>(listener:
+        (context, state) {
       final copyBcAddressStatus = state.copyBcAddressStatus;
       if (copyBcAddressStatus is SetClipboardStatusSuccess) {
         showSnackBar(
@@ -44,17 +42,17 @@ class _SettingsBodyState extends State<SettingsBody> {
       } else if (copyBcAddressStatus is SetClipboardStatusFailed) {
         showSnackBar(context, copyBcAddressStatus.exception.toString());
       }
-    }, child: BlocBuilder<SettingsHomeCubit, SettingsHomeState>(
-            builder: (context, state) {
+    }, child:
+        BlocBuilder<BOTPHomeCubit, BOTPHomeState>(builder: (context, state) {
       return Column(children: [
         const SizedBox(height: kAppPaddingVerticalSize),
         state.loadUserDataStatus is LoadUserDataStatusSuccess
             ? SettingsHomeInfo(
                 avatarUrl: state.avatarUrl,
-                fullName: state.fullName ?? "Guest",
+                fullName: state.userKyc?.fullName ?? "Guest",
                 bcAddress: state.bcAddress!,
                 onTapBcAddress: () {
-                  context.read<SettingsHomeCubit>().copyBcAddress();
+                  context.read<BOTPHomeCubit>().copyBcAddress();
                 },
               )
             : SkeletonItem(
@@ -90,8 +88,7 @@ class _SettingsBodyState extends State<SettingsBody> {
   }
 
   Widget _categoriesList() {
-    return BlocBuilder<SettingsHomeCubit, SettingsHomeState>(
-        builder: (context, state) {
+    return BlocBuilder<BOTPHomeCubit, BOTPHomeState>(builder: (context, state) {
       return state.loadUserDataStatus is LoadUserDataStatusSuccess
           ? _generateSettingsCategoriesList()
           : Container();
@@ -101,7 +98,6 @@ class _SettingsBodyState extends State<SettingsBody> {
       //       _generateSettingsCategoriesList()
       //     ]))
     });
-    ;
   }
 
   // Widget _generateSettingsShadowCategoriesList() {

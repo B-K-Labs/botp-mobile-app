@@ -61,7 +61,7 @@ class _SignUpBodyState extends State<SignUpBody> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const SizedBox(height: kAppPaddingVerticalSize),
-                Text("Create new account",
+                Text("Create account",
                     style: Theme.of(context).textTheme.headline4?.copyWith(
                         color: Theme.of(context).colorScheme.primary)),
                 const SizedBox(height: 24.0),

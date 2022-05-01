@@ -54,23 +54,15 @@ class ProfileViewCubit extends Cubit<ProfileViewState> {
   }
 
   Future<void> copyBcAddress() async {
+    emit(state.copyWith(copyBcAddressStatus: SetClipboardStatusSubmitting()));
     try {
       await setClipboardData(state.bcAddress);
-      if (state.copyBcAddressStatus is SetClipboardStatusInitial) {
-        emit(state.copyWith(copyBcAddressStatus: SetClipboardStatusSuccess()));
-      }
+      emit(state.copyWith(copyBcAddressStatus: SetClipboardStatusSuccess()));
     } on Exception catch (e) {
-      if (state.copyBcAddressStatus is SetClipboardStatusFailed) return;
       emit(state.copyWith(copyBcAddressStatus: SetClipboardStatusFailed(e)));
     } finally {
-      // Reset to initial state
-      _resetCopyBcState();
+      emit(state.copyWith(
+          copyBcAddressStatus: const SetClipboardStatusInitial()));
     }
-  }
-
-  Future<void> _resetCopyBcState() async {
-    await Future.delayed(const Duration(seconds: 5));
-    emit(
-        state.copyWith(copyBcAddressStatus: const SetClipboardStatusInitial()));
   }
 }

@@ -4,6 +4,8 @@ import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/constants/settings.dart';
+import 'package:botp_auth/modules/botp/home/cubit/botp_home_cubit.dart';
+import 'package:botp_auth/modules/botp/home/cubit/botp_home_state.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/cubit/account_home_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/cubit/account_home_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
@@ -43,21 +45,21 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
   }
 
   Widget reminder() {
-    return BlocBuilder<ProfileViewCubit, ProfileViewState>(
+    return BlocBuilder<BOTPHomeCubit, BOTPHomeState>(
         builder: (context, state) =>
-            state.loadUserData is LoadUserDataStatusSuccess
+            state.loadUserDataStatus is LoadUserDataStatusSuccess
                 ? (!state.didKyc!
                     ? Column(children: [
+                        const SizedBox(height: kAppPaddingVerticalSize),
                         Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: kAppPaddingHorizontalSize,
-                                vertical: kAppPaddingVerticalSize),
+                                horizontal: kAppPaddingHorizontalSize),
                             child: ReminderWidget(
                               iconData: Icons.verified,
                               colorType: ColorType.primary,
                               title: "You're almost done!",
                               description:
-                                  "BOTP Auth need to know you. Enter your information here to use the authenticator!",
+                                  "BOTP Authenticator need to know you. Enter your information here to use the authenticator.",
                               onTap: () async {
                                 final setUpKycResult = await Application.router
                                         .navigateTo(context,
@@ -66,17 +68,17 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
                                 if (setUpKycResult == true) {
                                   showSnackBar(
                                       context,
-                                      "Update profile successfully",
+                                      "Update profile successfully.",
                                       SnackBarType.success);
                                 }
                               },
                             )),
                       ])
                     : Column(children: [
+                        const SizedBox(height: kAppPaddingVerticalSize),
                         Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: kAppPaddingHorizontalSize,
-                                vertical: kAppPaddingVerticalSize),
+                                horizontal: kAppPaddingHorizontalSize),
                             child: ReminderWidget(
                               iconData: Icons.add_circle,
                               colorType: ColorType.secondary,
@@ -90,7 +92,7 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
   }
 
   Widget _account() {
-    return BlocConsumer<ProfileViewCubit, ProfileViewState>(
+    return BlocConsumer<BOTPHomeCubit, BOTPHomeState>(
         listener: (context, state) {
       // Copy bcAddress
       final copyBcAddressStatus = state.copyBcAddressStatus;
@@ -101,7 +103,7 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
         showSnackBar(context, copyBcAddressStatus.exception.toString());
       }
     }, builder: (context, state) {
-      return state.loadUserData is LoadUserDataStatusSuccess
+      return state.loadUserDataStatus is LoadUserDataStatusSuccess
           ? SettingsSectionWidget(title: "Account info", children: [
               SettingsOptionWidget(
                   type: SettingsOptionType.labelAndCustomWidget,
@@ -111,7 +113,7 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
                       onTap: () {
                         context.read<ProfileViewCubit>().copyBcAddress();
                       })),
-              state.didKyc!
+              state.needRegisterAgent!
                   ? SettingsOptionWidget(
                       type: SettingsOptionType.buttonTextOneSide,
                       buttonSide: OptionButtonOneSide.left,
@@ -143,9 +145,8 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
   }
 
   Widget _profile() {
-    return BlocBuilder<ProfileViewCubit, ProfileViewState>(
-        builder: (context, state) {
-      return state.loadUserData is LoadUserDataStatusSuccess
+    return BlocBuilder<BOTPHomeCubit, BOTPHomeState>(builder: (context, state) {
+      return state.loadUserDataStatus is LoadUserDataStatusSuccess
           ? (state.didKyc!
               ? Column(children: [
                   const DividerWidget(
@@ -155,23 +156,23 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
                     SettingsOptionWidget(
                         type: SettingsOptionType.labelAndValue,
                         label: "Name",
-                        value: state.fullName!),
+                        value: state.userKyc!.fullName),
                     SettingsOptionWidget(
                         type: SettingsOptionType.labelAndValue,
                         label: "Address",
-                        value: state.address!),
+                        value: state.userKyc!.address),
                     SettingsOptionWidget(
                         type: SettingsOptionType.labelAndValue,
                         label: "Age",
-                        value: state.age!.toString()),
+                        value: state.userKyc!.age.toString()),
                     SettingsOptionWidget(
                         type: SettingsOptionType.labelAndValue,
                         label: "Gender",
-                        value: state.gender!),
+                        value: state.userKyc!.gender),
                     SettingsOptionWidget(
                         type: SettingsOptionType.labelAndValue,
                         label: "Phone number",
-                        value: state.debitor!),
+                        value: state.userKyc!.debitor),
                   ])
                 ])
               : Container())

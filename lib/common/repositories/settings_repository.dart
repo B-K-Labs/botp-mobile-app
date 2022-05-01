@@ -21,7 +21,11 @@ class SettingsRepository {
     http.Response result =
         await post(makeApiUrlString(path: "/author/KYC"), data);
     if (result.statusCode == HttpStatus.ok) {
-      return KYCResponseModel.fromJSON(json.decode(result.body));
+      try {
+        return KYCResponseModel.fromJSON(json.decode(result.body));
+      } on Exception catch (_) {
+        throw Exception(json.decode(result.body));
+      }
     }
     throw Exception(result.body);
   }
@@ -47,7 +51,11 @@ class SettingsRepository {
     http.Response result = await get(makeApiUrlString(
         path: '/QRcode/getAgentList', queryParameters: queryParameters));
     if (result.statusCode == HttpStatus.ok) {
-      return GetAgentsListResponseModel.fromJSON(json.decode(result.body)[0]);
+      final agentsList = json.decode(result.body) as List<dynamic>;
+      return agentsList.isEmpty
+          ? GetAgentsListResponseModel([])
+          : GetAgentsListResponseModel.fromJSON(
+              agentsList[0] as Map<String, dynamic>);
     }
     throw Exception(result.body);
   }

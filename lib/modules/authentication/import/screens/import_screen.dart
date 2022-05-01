@@ -84,7 +84,7 @@ class _ImportBodyState extends State<ImportBody> {
                 const SizedBox(height: kAppPaddingVerticalSize),
                 widget.fromScreen != FromScreen.botpSettingsAccountTransfer
                     ? Column(children: [
-                        Text("Import existing account",
+                        Text("Import account",
                             style: Theme.of(context)
                                 .textTheme
                                 .headline4
@@ -153,16 +153,12 @@ class _ImportBodyState extends State<ImportBody> {
   }
 
   Widget _reminder() {
-    final _descriptionStyle = Theme.of(context)
-        .textTheme
-        .caption
-        ?.copyWith(color: Theme.of(context).colorScheme.primary);
     return const ReminderWidget(
       iconData: Icons.warning_rounded,
       colorType: ColorType.error,
       title: "Caution!",
       description:
-          "After this operation, your current account would be removed from this device, and waiting transactions would be dead. Also, remember that you've saved this account.",
+          "After this operation, your current account data in this device would be REMOVED. If you want to proceed, remember that you've saved this account.",
     );
   }
 

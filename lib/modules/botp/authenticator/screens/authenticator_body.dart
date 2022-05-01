@@ -1,13 +1,18 @@
 import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/common/states/request_status.dart';
+import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
+import 'package:botp_auth/constants/routing_param.dart';
 import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_bloc.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_event.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_state.dart';
+import 'package:botp_auth/modules/botp/home/cubit/botp_home_cubit.dart';
+import 'package:botp_auth/modules/botp/home/cubit/botp_home_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
+import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/filter.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
@@ -47,12 +52,47 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
 
   // 1. Reminder
   Widget _reminder() {
-    return BlocBuilder<AuthenticatorBloc, AuthenticatorState>(
-        builder: (context, state) {
-      return Container(
-        padding:
-            const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
-      );
+    return BlocBuilder<BOTPHomeCubit, BOTPHomeState>(builder: (context, state) {
+      return state.loadUserDataStatus is LoadUserDataStatusSuccess
+          ? (!state.didKyc!
+              ? Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: kAppPaddingHorizontalSize,
+                      vertical: kAppPaddingBetweenItemSmallSize),
+                  child: ReminderWidget(
+                    iconData: Icons.verified,
+                    colorType: ColorType.primary,
+                    title: "You're almost done!",
+                    description:
+                        "BOTP Authenticator need to know you. Enter your information here to use the authenticator.",
+                    onTap: () async {
+                      final setUpKycResult = await Application.router
+                              .navigateTo(
+                                  context, "/botp/settings/account/setupKyc",
+                                  routeSettings: const RouteSettings(
+                                      arguments: FromScreen.botpAuthenticator))
+                          as bool?;
+                      if (setUpKycResult == true) {
+                        showSnackBar(context, "Update profile successfully.",
+                            SnackBarType.success);
+                      }
+                    },
+                  ))
+              : state.needRegisterAgent!
+                  ? Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: kAppPaddingHorizontalSize,
+                          vertical: kAppPaddingBetweenItemSmallSize),
+                      child: ReminderWidget(
+                        iconData: Icons.add_circle,
+                        colorType: ColorType.secondary,
+                        title: "Add your first agent!",
+                        description:
+                            "You currently have no registered agent. Start adding a new one now!",
+                        onTap: () async {},
+                      ))
+                  : Container())
+          : Container();
     });
   }
 

@@ -5,6 +5,7 @@ import 'package:botp_auth/common/repositories/settings_repository.dart';
 import 'package:botp_auth/constants/routing_param.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
+import 'package:botp_auth/modules/botp/home/cubit/botp_home_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/account/kyc_setup/bloc/kyc_setup_bloc.dart';
 import 'package:botp_auth/modules/botp/settings/account/kyc_setup/bloc/kyc_setup_event.dart';
 import 'package:botp_auth/modules/botp/settings/account/kyc_setup/bloc/kyc_setup_state.dart';
@@ -70,7 +71,11 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
             //   showSnackBar(
             //       context, "Update profile successfully", SnackBarType.success);
             // }
-            if (widget.fromScreen == FromScreen.botpSettingsAccount) {
+            if (widget.fromScreen == FromScreen.botpSettingsAccount ||
+                widget.fromScreen == FromScreen.botpAuthenticator) {
+              context
+                  .read<BOTPHomeCubit>()
+                  .loadCommonUserData(); // Update new data;
               Application.router.pop(context, true);
             } else {
               context

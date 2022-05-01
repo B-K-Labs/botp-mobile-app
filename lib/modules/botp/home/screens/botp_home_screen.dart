@@ -1,5 +1,4 @@
 import 'package:botp_auth/constants/common.dart';
-import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/botp/authenticator/screens/authenticator_body.dart';
 import 'package:botp_auth/modules/botp/history/screens/history_body.dart';
 import 'package:botp_auth/modules/botp/home/cubit/botp_home_cubit.dart';
@@ -36,13 +35,8 @@ class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
           : _settingsMainBody;
 
   @override
-  void initState() {
-    super.initState();
-    context.read<BOTPHomeCubit>().loadCommonUserData();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    context.read<BOTPHomeCubit>().loadCommonUserData();
     return BlocBuilder<BOTPHomeCubit, BOTPHomeState>(
         builder: (context, state) => ScreenWidget(
             // Appbar

@@ -60,7 +60,7 @@ class CredentialAgentsDataModel {
 
   CredentialAgentsDataModel({required this.listBcAddresses});
   CredentialAgentsDataModel.fromJSON(Map<String, dynamic> json)
-      : listBcAddresses = json["listBcAddresses"];
+      : listBcAddresses = List<String>.from(json["listBcAddresses"]);
   Map<String, dynamic> toJSON() => {
         "listBcAddresses": listBcAddresses,
       };
