@@ -6,11 +6,13 @@ import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_event.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_state.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:async';
 
 class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
   AuthenticatorRepository authenticatorRepository;
+  ScrollController transactionsListScrollController = ScrollController();
   // Pagination
   int page;
   int size;
@@ -55,6 +57,12 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
         final getTransactionListResult =
             await authenticatorRepository.getTransactionsList(
                 accountData!.bcAddress, newTransactionStatus, page, size);
+        // Scroll if found data
+        if (oldTransactionStatus != newTransactionStatus) {
+          transactionsListScrollController.animateTo(0.0,
+              duration: const Duration(milliseconds: 1000),
+              curve: Curves.easeInOutCubic);
+        }
         emit(state.copyWith(
             transactionStatus: newTransactionStatus,
             paginationInfo: getTransactionListResult.paginationInfo,

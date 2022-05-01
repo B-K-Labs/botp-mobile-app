@@ -22,6 +22,11 @@ class AuthenticatorBody extends StatefulWidget {
 
 class _AuthenticatorBodyState extends State<AuthenticatorBody> {
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider<AuthenticatorBloc>(
         create: (context) => AuthenticatorBloc(
@@ -158,37 +163,40 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
       final transactionsList = state.transactionsList;
       return transactionsList != null
           ? Expanded(
-              child: RefreshIndicator(
-                  // Scroll double list view
-                  // 1. Use it as a parent
-                  // 2. Disable physical scrollable for all list views
-                  child: NotificationListener<ScrollEndNotification>(
-                      onNotification: (scrollEnd) {
-                        final metrics = scrollEnd.metrics;
-                        if (metrics.atEdge) {
-                          bool isTop = metrics.pixels == 0;
-                          if (!isTop) {
-                            context
-                                .read<AuthenticatorBloc>()
-                                .refreshTransactionsList(needMorePage: true);
-                            print('At the bottom');
-                          }
-                        }
+              child: NotificationListener<ScrollEndNotification>(
+                  onNotification: (scrollEnd) {
+                    final metrics = scrollEnd.metrics;
+                    if (metrics.atEdge) {
+                      bool isTop = metrics.pixels == 0;
+                      if (!isTop) {
+                        context
+                            .read<AuthenticatorBloc>()
+                            .refreshTransactionsList(needMorePage: true);
                         return true;
-                      },
+                      }
+                    }
+                    return true;
+                  },
+                  child: RefreshIndicator(
+                      // Scroll double list view
+                      // 1. Use it as a parent
+                      // 2. Disable physical scrollable for all list views
                       child: SingleChildScrollView(
+                          controller: context
+                              .read<AuthenticatorBloc>()
+                              .transactionsListScrollController,
                           child: Column(children: [
-                        Stack(children: [
-                          _generateShadowTransactionItemsList(
-                              transactionsList.length),
-                          _generateTransactionItemsList(transactionsList)
-                        ])
-                      ]))),
-                  onRefresh: () async {
-                    await context
-                        .read<AuthenticatorBloc>()
-                        .refreshTransactionsList();
-                  }))
+                            Stack(children: [
+                              _generateShadowTransactionItemsList(
+                                  transactionsList.length),
+                              _generateTransactionItemsList(transactionsList)
+                            ])
+                          ])),
+                      onRefresh: () async {
+                        await context
+                            .read<AuthenticatorBloc>()
+                            .refreshTransactionsList();
+                      })))
           : Container();
     }, listener: (context, state) {
       final getTransactionsListStatus = state.getTransactionListStatus;
