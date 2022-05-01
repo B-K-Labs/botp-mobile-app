@@ -19,8 +19,6 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
   // Lock
   bool _isGettingTransactionsListSubmitting = false;
   bool _isGettingTransactionsListTimerRunning = false;
-  // Postponed request
-  TransactionStatus? _pendingTransactionStatus;
 
   AuthenticatorBloc(
       {required this.authenticatorRepository,
