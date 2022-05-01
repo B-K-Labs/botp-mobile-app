@@ -41,11 +41,20 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
         final accountData = await UserData.getCredentialAccountData();
         emit(state.copyWith(
             getTransactionListStatus: RequestStatusSubmitting()));
+        // Track event detail
+        final oldTransactionStatus = state.transactionStatus;
         final newTransactionStatus =
             event.transactionStatus ?? state.transactionStatus;
+        if (oldTransactionStatus != newTransactionStatus) {
+          size = kTransactionItemsPagSize;
+        } else if (event.needMorePage != null) {
+          size += kTransactionItemsPagSize;
+        }
         emit(state.copyWith(transactionStatus: newTransactionStatus));
-        final getTransactionListResult = await authenticatorRepository
-            .getTransactionsList(accountData!.bcAddress, newTransactionStatus);
+        // Call request
+        final getTransactionListResult =
+            await authenticatorRepository.getTransactionsList(
+                accountData!.bcAddress, newTransactionStatus, page, size);
         emit(state.copyWith(
             transactionStatus: newTransactionStatus,
             paginationInfo: getTransactionListResult.paginationInfo,
@@ -87,10 +96,11 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
     _isGettingTransactionsListTimerRunning = false;
   }
 
-  refreshTransactionsList() async {
+  refreshTransactionsList({bool? needMorePage}) async {
     _cancelGetTransactionsListTimer();
     if (!isClosed) {
-      add(AuthenticatorEventGetTransactionsListAndSetupTimer());
+      add(AuthenticatorEventGetTransactionsListAndSetupTimer(
+          needMorePage: needMorePage));
       await stream.first; // Submitting
       await stream.first; // Success
     }

@@ -12,8 +12,6 @@ import 'package:botp_auth/widgets/filter.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class AuthenticatorBody extends StatefulWidget {
   const AuthenticatorBody({Key? key}) : super(key: key);
@@ -23,6 +21,10 @@ class AuthenticatorBody extends StatefulWidget {
 }
 
 class _AuthenticatorBodyState extends State<AuthenticatorBody> {
+  // Create a variable
+  final _controller = ScrollController();
+  bool _isRefreshingPage = false;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AuthenticatorBloc>(
@@ -92,7 +94,6 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
           "type": ColorType.normal,
           "status": TransactionStatus.all,
           "onSelected": () {
-            print("All");
             context.read<AuthenticatorBloc>().add(
                 AuthenticatorEventGetTransactionsListAndSetupTimer(
                     transactionStatus: TransactionStatus.all));
@@ -102,7 +103,6 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
           "type": ColorType.tertiary,
           "status": TransactionStatus.requesting,
           "onSelected": () {
-            print("Requesting");
             context.read<AuthenticatorBloc>().add(
                 AuthenticatorEventGetTransactionsListAndSetupTimer(
                     transactionStatus: TransactionStatus.requesting));
@@ -112,7 +112,6 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
           "type": ColorType.primary,
           "status": TransactionStatus.waiting,
           "onSelected": () {
-            print("Waiting");
             context.read<AuthenticatorBloc>().add(
                 AuthenticatorEventGetTransactionsListAndSetupTimer(
                     transactionStatus: TransactionStatus.waiting));
@@ -167,18 +166,35 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                   // Scroll double list view
                   // 1. Use it as a parent
                   // 2. Disable physical scrollable for all list views
-                  child: SingleChildScrollView(
-                      child: Column(children: [
-                    Stack(children: [
-                      _generateShadowTransactionItemsList(
-                          transactionsList.length),
-                      _generateTransactionItemsList(transactionsList)
-                    ])
-                  ])),
+                  child: NotificationListener<ScrollEndNotification>(
+                      onNotification: (scrollEnd) {
+                        final metrics = scrollEnd.metrics;
+                        if (metrics.atEdge) {
+                          bool isTop = metrics.pixels == 0;
+                          if (!isTop) {
+                            context
+                                .read<AuthenticatorBloc>()
+                                .refreshTransactionsList(needMorePage: true);
+                            print('At the bottom');
+                          }
+                        }
+                        return true;
+                      },
+                      child: SingleChildScrollView(
+                          child: Column(children: [
+                        Stack(children: [
+                          _generateShadowTransactionItemsList(
+                              transactionsList.length),
+                          _generateTransactionItemsList(transactionsList)
+                        ])
+                      ]))),
                   onRefresh: () async {
+                    if (_isRefreshingPage) return;
+                    _isRefreshingPage = true;
                     await context
                         .read<AuthenticatorBloc>()
                         .refreshTransactionsList();
+                    _isRefreshingPage = false;
                   }))
           : Container();
     }, listener: (context, state) {
@@ -197,7 +213,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
         .toList();
     return ListView.separated(
         padding: const EdgeInsets.symmetric(
-            vertical: kAppPaddingBetweenItemSmallSize),
+            vertical: kAppPaddingBetweenItemNormalSize),
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
@@ -231,8 +247,8 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
     final shadowTransactionWidgetsList = List<Widget>.generate(
         transactionsListLength, (_) => _generateShadowTransactionItem());
     return ListView.separated(
-      padding:
-          const EdgeInsets.symmetric(vertical: kAppPaddingBetweenItemSmallSize),
+      padding: const EdgeInsets.symmetric(
+          vertical: kAppPaddingBetweenItemNormalSize),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),

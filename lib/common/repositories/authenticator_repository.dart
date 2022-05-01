@@ -11,12 +11,12 @@ class AuthenticatorRepository {
   // Get OTP sessions list
   Future<GetTransactionsListResponseModel> getTransactionsList(
       String bcAddress, TransactionStatus transactionStatus,
-      [int currentPage = 1]) async {
+      [int currentPage = 1, int pageSize = kTransactionItemsPagSize]) async {
     // Set search parameters
     final Map<String, dynamic> queryParameters = {
       "userAddress": bcAddress,
       "page": currentPage.toString(),
-      "size": kTransactionItemsPagSize.toString()
+      "size": pageSize.toString()
     };
     if (transactionStatus != TransactionStatus.all) {
       queryParameters["status"] = transactionStatus.name.toUpperCase();

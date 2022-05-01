@@ -19,8 +19,10 @@ class AuthenticatorEventPaginationChanged extends AuthenticatorEvent {
 class AuthenticatorEventGetTransactionsListAndSetupTimer
     extends AuthenticatorEvent {
   final TransactionStatus? transactionStatus;
+  final bool? needMorePage;
 
-  AuthenticatorEventGetTransactionsListAndSetupTimer({this.transactionStatus});
+  AuthenticatorEventGetTransactionsListAndSetupTimer(
+      {this.transactionStatus, this.needMorePage});
 }
 
 class AuthenticatorEventSetupGetTransactionsListTimer
