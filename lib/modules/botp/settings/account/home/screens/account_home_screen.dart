@@ -113,7 +113,7 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
                   customWidget: BcAddressWidget(
                       bcAddress: state.bcAddress!,
                       onTap: () {
-                        context.read<ProfileViewCubit>().copyBcAddress();
+                        context.read<BOTPHomeCubit>().copyBcAddress();
                       })),
               !state.needRegisterAgent!
                   ? SettingsOptionWidget(
