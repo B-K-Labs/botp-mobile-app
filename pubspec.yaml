@@ -65,6 +65,7 @@ dependencies:
   gallery_saver: ^2.3.2
   path_provider: ^2.0.9
   smooth_page_indicator: ^1.0.0+2
+  infinite_scroll_pagination: ^3.1.0
 
 dev_dependencies:
   flutter_test:
