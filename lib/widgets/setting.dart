@@ -328,7 +328,7 @@ class SettingsOptionWidget extends StatelessWidget {
               flex: 1,
               child: Text(
                 value,
-                style: _valueStyle,
+                style: _labelStyle,
                 textAlign: TextAlign.right,
               ))
         ]);
