@@ -198,6 +198,69 @@ class TransactionItemWidget extends StatelessWidget {
   }
 }
 
+class TransactionItemSkeletonWidget extends StatelessWidget {
+  const TransactionItemSkeletonWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        height: 80,
+        child: Stack(alignment: AlignmentDirectional.topEnd, children: [
+          Positioned.fill(
+              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+            Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0, vertical: 16.0),
+                child: const SkeletonAvatar(
+                    style: SkeletonAvatarStyle(width: 48.0, height: 48.0))),
+            Expanded(
+                flex: 1,
+                child: Center(
+                    child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const <Widget>[
+                          SkeletonLine(
+                              style: SkeletonLineStyle(
+                                  height: 18.0,
+                                  randomLength: true,
+                                  minLength: 80,
+                                  maxLength: 120)),
+                          SizedBox(height: 6.0),
+                          SkeletonLine(
+                              style: SkeletonLineStyle(
+                                  height: 14.0,
+                                  randomLength: true,
+                                  minLength: 50,
+                                  maxLength: 80)),
+                          SizedBox(height: 4.0),
+                          SkeletonLine(
+                              style: SkeletonLineStyle(
+                                  height: 14.0,
+                                  randomLength: true,
+                                  minLength: 100,
+                                  maxLength: 200)),
+                        ],
+                      )
+                    ]))),
+          ])),
+          Container(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: const SkeletonLine(
+                  style: SkeletonLineStyle(
+                      alignment: AlignmentDirectional.topEnd,
+                      height: 22.0,
+                      randomLength: true,
+                      minLength: 50,
+                      maxLength: 80)))
+        ]));
+  }
+}
+
 class TransactionOTPWidget extends StatefulWidget {
   final OTPValueInfo otpValueInfo;
   final VoidCallback? onTap;

@@ -222,22 +222,26 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                       // 1. Use it as a parent
                       // 2. Disable physical scrollable for all list views
                       child: SingleChildScrollView(
-                          controller: context
-                              .read<AuthenticatorBloc>()
-                              .transactionsListScrollController,
                           child: Column(children: [
-                            Stack(children: [
-                              _generateShadowTransactionItemsList(
-                                  transactionsList.length),
-                              _generateTransactionItemsList(transactionsList)
-                            ])
-                          ])),
+                        Stack(children: [
+                          _generateShadowTransactionItemsList(
+                              transactionsList.length),
+                          _generateTransactionItemsList(transactionsList)
+                        ])
+                      ])),
                       onRefresh: () async {
                         await context
                             .read<AuthenticatorBloc>()
                             .refreshTransactionsList();
                       })))
-          : Container();
+          : Container(
+              padding: const EdgeInsets.symmetric(
+                  vertical: kAppPaddingBetweenItemNormalSize,
+                  horizontal: kAppPaddingHorizontalSize),
+              child: Column(children: const [
+                TransactionItemSkeletonWidget(),
+                TransactionItemSkeletonWidget()
+              ]));
     }, listener: (context, state) {
       final getTransactionsListStatus = state.getTransactionListStatus;
       if (getTransactionsListStatus is RequestStatusFailed) {

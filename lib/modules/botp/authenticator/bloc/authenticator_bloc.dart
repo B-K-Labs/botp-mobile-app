@@ -12,7 +12,6 @@ import 'dart:async';
 
 class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
   AuthenticatorRepository authenticatorRepository;
-  ScrollController transactionsListScrollController = ScrollController();
   // Pagination
   int page;
   int size;
@@ -48,21 +47,20 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
         final newTransactionStatus =
             event.transactionStatus ?? state.transactionStatus;
         if (oldTransactionStatus != newTransactionStatus) {
+          emit(AuthenticatorState(
+              transactionStatus: newTransactionStatus,
+              paginationInfo: state.paginationInfo,
+              transactionsList: null,
+              getTransactionListStatus: state.getTransactionListStatus));
           size = kTransactionItemsPagSize;
         } else if (event.needMorePage != null) {
           size += kTransactionItemsPagSize;
+          emit(state.copyWith(transactionStatus: newTransactionStatus));
         }
-        emit(state.copyWith(transactionStatus: newTransactionStatus));
         // Call request
         final getTransactionListResult =
             await authenticatorRepository.getTransactionsList(
                 accountData!.bcAddress, newTransactionStatus, page, size);
-        // Scroll if found data
-        if (oldTransactionStatus != newTransactionStatus) {
-          transactionsListScrollController.animateTo(0.0,
-              duration: const Duration(milliseconds: 1000),
-              curve: Curves.easeInOutCubic);
-        }
         emit(state.copyWith(
             transactionStatus: newTransactionStatus,
             paginationInfo: getTransactionListResult.paginationInfo,
