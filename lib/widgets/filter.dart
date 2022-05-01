@@ -2,11 +2,11 @@ import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/constants/transaction.dart';
 import "package:flutter/material.dart";
 
-class FilterTransactionStatusWidget extends StatelessWidget {
+class FilterTransactionStatus2Widget extends StatelessWidget {
   final TransactionStatus selectedValue;
   final ValueChanged<TransactionStatus?>? onChanged;
 
-  const FilterTransactionStatusWidget(
+  const FilterTransactionStatus2Widget(
       {Key? key, required this.selectedValue, this.onChanged})
       : super(key: key);
 
@@ -42,11 +42,11 @@ class FilterTransactionStatusWidget extends StatelessWidget {
   }
 }
 
-class FilterTimeWidget extends StatelessWidget {
+class FilterTime2Widget extends StatelessWidget {
   final CommonTimeRange selectedValue;
   final ValueChanged<CommonTimeRange?>? onChanged;
 
-  const FilterTimeWidget(
+  const FilterTime2Widget(
       {Key? key, required this.selectedValue, this.onChanged})
       : super(key: key);
 
@@ -91,5 +91,80 @@ class FilterTimeWidget extends StatelessWidget {
                 value: CommonTimeRange.customRange)
           ],
         ));
+  }
+}
+
+class FilterTransactionStatusWidget extends StatelessWidget {
+  final TransactionStatus transactionStatus;
+  final ColorType colorType;
+  final bool isSelected;
+  final VoidCallback? onSelected;
+
+  const FilterTransactionStatusWidget(
+      {Key? key,
+      required this.transactionStatus,
+      required this.colorType,
+      required this.isSelected,
+      required this.onSelected})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // Transaction Status Filter Theme
+    // - Colors
+    final Color _primary;
+    final Color? _backgroundColor;
+    if (isSelected) {
+      switch (colorType) {
+        case ColorType.secondary:
+          _primary = Theme.of(context).colorScheme.onSecondaryContainer;
+          _backgroundColor = Theme.of(context).colorScheme.secondaryContainer;
+          break;
+        case ColorType.tertiary:
+          _primary = Theme.of(context).colorScheme.onTertiaryContainer;
+          _backgroundColor = Theme.of(context).colorScheme.tertiaryContainer;
+          break;
+        case ColorType.error:
+          _primary = Theme.of(context).colorScheme.onErrorContainer;
+          _backgroundColor = Theme.of(context).colorScheme.errorContainer;
+          break;
+        case ColorType.normal:
+          _primary = Theme.of(context).colorScheme.onSurfaceVariant;
+          _backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
+          break;
+        case ColorType.primary:
+        default:
+          _primary = Theme.of(context).colorScheme.onPrimaryContainer;
+          _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
+          break;
+      }
+    } else {
+      _primary = Theme.of(context).colorScheme.outline;
+      _backgroundColor = null;
+    }
+
+    // - Font
+    TextStyle? _textStyle = Theme.of(context).textTheme.caption?.copyWith(
+        color: _primary,
+        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal);
+    // - Padding
+    const _padding = EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0);
+    // - Decoration
+    final _borderRadius = BorderRadius.circular(100);
+    final _decoration =
+        BoxDecoration(color: _backgroundColor, borderRadius: _borderRadius);
+
+    return Container(
+        decoration: _decoration,
+        child: Material(
+            color: Colors.transparent,
+            borderRadius: _borderRadius,
+            child: InkWell(
+                onTap: onSelected,
+                borderRadius: _borderRadius,
+                child: Container(
+                    padding: _padding,
+                    child: Text(transactionStatus.toCapitalizedString(),
+                        style: _textStyle)))));
   }
 }

@@ -8,11 +8,12 @@ import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_bloc.dar
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_event.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
-import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/filter.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class AuthenticatorBody extends StatefulWidget {
   const AuthenticatorBody({Key? key}) : super(key: key);
@@ -22,6 +23,15 @@ class AuthenticatorBody extends StatefulWidget {
 }
 
 class _AuthenticatorBodyState extends State<AuthenticatorBody> {
+  // Different transaction status page
+  final PageController _pageController =
+      PageController(initialPage: 0, keepPage: true);
+  int _selectedPage = 0;
+
+  _onPageChanged(int page) {
+    setState(() => _selectedPage = page);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AuthenticatorBloc>(
@@ -89,13 +99,10 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
             vertical: kAppPaddingBetweenItemSmallSize),
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           FilterTransactionStatusWidget(
-              onChanged: (value) {},
-              selectedValue: TransactionStatus.requesting),
-          const SizedBox(width: kAppPaddingBetweenItemSmallSize),
-          FilterTimeWidget(
-            onChanged: (value) {},
-            selectedValue: CommonTimeRange.lastDay,
-          )
+              transactionStatus: TransactionStatus.requesting,
+              colorType: ColorType.error,
+              isSelected: true,
+              onSelected: () {})
         ]));
   }
 

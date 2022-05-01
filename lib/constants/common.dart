@@ -53,6 +53,7 @@ enum ColorType {
   secondary,
   error,
   tertiary,
+  normal,
 }
 
 enum DecoratedIconSize {
