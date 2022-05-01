@@ -7,6 +7,7 @@ import 'package:botp_auth/widgets/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletons/skeletons.dart';
 import 'dart:math' as math;
+import 'package:intl/intl.dart';
 
 class _TransactionStatusWidget extends StatelessWidget {
   final TransactionStatus status;
@@ -88,7 +89,7 @@ class TransactionItemWidget extends StatelessWidget {
   final String agentName;
   final String agentAvatarUrl;
   final bool agentIsVerified;
-  final String date;
+  final int timestamp;
   final String notifyMessage;
   final TransactionStatus transactionStatus;
   final VoidCallback? onTap;
@@ -98,7 +99,7 @@ class TransactionItemWidget extends StatelessWidget {
       required this.agentName,
       required this.agentAvatarUrl,
       this.agentIsVerified = true,
-      required this.date,
+      required this.timestamp,
       required this.notifyMessage,
       required this.transactionStatus,
       this.onTap})
@@ -172,7 +173,10 @@ class TransactionItemWidget extends StatelessWidget {
                                             ),
                                       const SizedBox(height: 6.0),
                                       Text(
-                                        date,
+                                        DateFormat('yyyy-MM-dd – kk:mm:ss')
+                                            .format(DateTime
+                                                .fromMillisecondsSinceEpoch(
+                                                    timestamp)),
                                         style: _smallTextStyle,
                                       ),
                                       const SizedBox(height: 4.0),
@@ -442,7 +446,9 @@ class TransactionDetailWidget extends StatelessWidget {
             const SizedBox(height: kAppPaddingBetweenItemNormalSize),
             _transactionDetailTextLineWidget(
                 Text("Date", style: _labelStyle),
-                Text(DateTime.fromMillisecondsSinceEpoch(timestamp).toString(),
+                Text(
+                    DateFormat('yyyy-MM-dd – kk:mm:ss')
+                        .format(DateTime.fromMillisecondsSinceEpoch(timestamp)),
                     style: _textStyle)),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             _transactionDetailTextLineWidget(
@@ -593,6 +599,9 @@ class AgentAvatar extends StatelessWidget {
     return SizedBox(
         height: 48.0,
         width: 48.0,
-        child: Image.network(avatarUrl, scale: 1, fit: BoxFit.contain));
+        child: avatarUrl.isNotEmpty
+            ? Image.network(avatarUrl, scale: 1, fit: BoxFit.contain)
+            : Image.asset("assets/images/temp/botp_temp.png",
+                scale: 1, fit: BoxFit.contain));
   }
 }

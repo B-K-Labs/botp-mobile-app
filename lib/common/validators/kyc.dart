@@ -5,6 +5,9 @@ String? fullNameValidator(String? fullName) =>
 String? addressValidator(String? address) =>
     address == null || address.isEmpty ? "Missing address" : null;
 
+String? genderValidator(String? gender) =>
+    gender == null || gender.isEmpty ? "Missing gender" : null;
+
 String? ageValidator(String? age) {
   if (age == null) return "Missing age";
   try {
@@ -14,9 +17,6 @@ String? ageValidator(String? age) {
     return e.toString();
   }
 }
-
-String? genderValidator(String? gender) =>
-    gender == null || gender.isEmpty ? "Missing gender" : null;
 
 String? debitorValidator(String? debitor) => debitor == null || debitor.isEmpty
     ? "Missing phone number"

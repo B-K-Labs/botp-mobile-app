@@ -8,7 +8,6 @@ import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_bloc.dar
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_event.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
-import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/filter.dart';
 import 'package:botp_auth/widgets/transaction.dart';
@@ -157,8 +156,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
           agentName: otpSessionInfo.agentName,
           agentAvatarUrl: otpSessionInfo.agentAvatarUrl,
           agentIsVerified: otpSessionInfo.agentIsVerified,
-          date: DateTime.fromMillisecondsSinceEpoch(otpSessionInfo.timestamp)
-              .toString(),
+          timestamp: otpSessionInfo.timestamp,
           notifyMessage: otpSessionInfo.notifyMessage,
           transactionStatus: otpSessionInfo.transactionStatus,
           onTap: () {
