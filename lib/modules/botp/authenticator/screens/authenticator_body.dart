@@ -202,38 +202,45 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
         builder: (context, state) {
       final transactionsList = state.transactionsList;
       return transactionsList != null
-          ? Expanded(
-              child: NotificationListener<ScrollEndNotification>(
-                  onNotification: (scrollEnd) {
-                    final metrics = scrollEnd.metrics;
-                    if (metrics.atEdge) {
-                      bool isTop = metrics.pixels == 0;
-                      if (!isTop) {
-                        context
-                            .read<AuthenticatorBloc>()
-                            .refreshTransactionsList(needMorePage: true);
+          ? (transactionsList.isEmpty
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: kAppPaddingBetweenItemLargeSize),
+                  child: Center(
+                      child: Text("You don't have any transactions.",
+                          style: Theme.of(context).textTheme.caption)))
+              : Expanded(
+                  child: NotificationListener<ScrollEndNotification>(
+                      onNotification: (scrollEnd) {
+                        final metrics = scrollEnd.metrics;
+                        if (metrics.atEdge) {
+                          bool isTop = metrics.pixels == 0;
+                          if (!isTop) {
+                            context
+                                .read<AuthenticatorBloc>()
+                                .refreshTransactionsList(needMorePage: true);
+                            return true;
+                          }
+                        }
                         return true;
-                      }
-                    }
-                    return true;
-                  },
-                  child: RefreshIndicator(
-                      // Scroll double list view
-                      // 1. Use it as a parent
-                      // 2. Disable physical scrollable for all list views
-                      child: SingleChildScrollView(
-                          child: Column(children: [
-                        Stack(children: [
-                          _generateShadowTransactionItemsList(
-                              transactionsList.length),
-                          _generateTransactionItemsList(transactionsList)
-                        ])
-                      ])),
-                      onRefresh: () async {
-                        await context
-                            .read<AuthenticatorBloc>()
-                            .refreshTransactionsList();
-                      })))
+                      },
+                      child: RefreshIndicator(
+                          // Scroll double list view
+                          // 1. Use it as a parent
+                          // 2. Disable physical scrollable for all list views
+                          child: SingleChildScrollView(
+                              child: Column(children: [
+                            Stack(children: [
+                              _generateShadowTransactionItemsList(
+                                  transactionsList.length),
+                              _generateTransactionItemsList(transactionsList)
+                            ])
+                          ])),
+                          onRefresh: () async {
+                            await context
+                                .read<AuthenticatorBloc>()
+                                .refreshTransactionsList();
+                          }))))
           : Container(
               padding: const EdgeInsets.symmetric(
                   vertical: kAppPaddingBetweenItemNormalSize,
