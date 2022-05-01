@@ -62,7 +62,7 @@ class _SecurityExportAccountBodyState extends State<SecurityExportAccountBody> {
           iconData: Icons.warning_rounded,
           colorType: ColorType.error,
           title: "Caution!",
-          description: "Please follow these recommended rules to keep you safe",
+          description: "To keep you safe",
           child: Column(
             children: [
               Row(

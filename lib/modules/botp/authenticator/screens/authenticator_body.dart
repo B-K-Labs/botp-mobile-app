@@ -21,10 +21,6 @@ class AuthenticatorBody extends StatefulWidget {
 }
 
 class _AuthenticatorBodyState extends State<AuthenticatorBody> {
-  // Create a variable
-  final _controller = ScrollController();
-  bool _isRefreshingPage = false;
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AuthenticatorBloc>(
@@ -189,12 +185,9 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                         ])
                       ]))),
                   onRefresh: () async {
-                    if (_isRefreshingPage) return;
-                    _isRefreshingPage = true;
                     await context
                         .read<AuthenticatorBloc>()
                         .refreshTransactionsList();
-                    _isRefreshingPage = false;
                   }))
           : Container();
     }, listener: (context, state) {
