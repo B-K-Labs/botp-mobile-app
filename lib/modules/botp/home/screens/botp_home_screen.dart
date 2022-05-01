@@ -41,6 +41,7 @@ class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
             BOTPHomeCubit(sessionCubit: context.read<SessionCubit>()),
         child: ScreenWidget(
             // Appbar
+            appBarElevation: 0,
             hasAppBar: _selectedIndex == 2 ? false : true,
             appBarType: _selectedIndex == 0
                 ? AppBarType.authenticator

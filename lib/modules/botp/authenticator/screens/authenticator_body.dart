@@ -51,32 +51,50 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
     });
   }
 
+  // // (History) 2. Search section
+  // Widget _searchSection() {
+  //   return Container(
+  //       padding: const EdgeInsets.symmetric(
+  //           horizontal: kAppPaddingHorizontalSize,
+  //           vertical: kAppPaddingBetweenItemSmallSize),
+  //       child: Column(children: [
+  //         FieldNormalWidget(
+  //             prefixIconData: Icons.search,
+  //             hintText: "Agent name, agent address, notify message",
+  //             validator: (_) {},
+  //             onChanged: (_) {},
+  //             textInputAction: TextInputAction.search),
+  //         const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.start,
+  //           children: [
+  //             FilterTransactionStatusWidget(
+  //                 onChanged: (value) {},
+  //                 selectedValue: TransactionStatus.requesting),
+  //             const SizedBox(width: kAppPaddingBetweenItemSmallSize),
+  //             FilterTimeWidget(
+  //               onChanged: (value) {},
+  //               selectedValue: CommonTimeRange.lastDay,
+  //             )
+  //           ],
+  //         )
+  //       ]));
+  // }
+
   // 2. Search section
   Widget _searchSection() {
     return Container(
         padding: const EdgeInsets.symmetric(
             horizontal: kAppPaddingHorizontalSize,
             vertical: kAppPaddingBetweenItemSmallSize),
-        child: Column(children: [
-          FieldNormalWidget(
-              prefixIconData: Icons.search,
-              hintText: "Agent name, agent address, notify message",
-              validator: (_) {},
-              onChanged: (_) {},
-              textInputAction: TextInputAction.search),
-          const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              FilterTransactionStatusWidget(
-                  onChanged: (value) {},
-                  selectedValue: TransactionStatus.requesting),
-              const SizedBox(width: kAppPaddingBetweenItemSmallSize),
-              FilterTimeWidget(
-                onChanged: (value) {},
-                selectedValue: CommonTimeRange.lastDay,
-              )
-            ],
+        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+          FilterTransactionStatusWidget(
+              onChanged: (value) {},
+              selectedValue: TransactionStatus.requesting),
+          const SizedBox(width: kAppPaddingBetweenItemSmallSize),
+          FilterTimeWidget(
+            onChanged: (value) {},
+            selectedValue: CommonTimeRange.lastDay,
           )
         ]));
   }

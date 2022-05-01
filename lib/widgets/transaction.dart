@@ -502,7 +502,7 @@ class TransactionDetailSkeletonWidget extends StatelessWidget {
             _transactionDetailTextLineWidget(
                 Text("Date", style: _labelStyle),
                 const SkeletonLine(
-                    style: SkeletonLineStyle(height: 16.0, width: 162))),
+                    style: SkeletonLineStyle(height: 16.0, width: 146))),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             _transactionDetailTextLineWidget(
                 Text("Status", style: _labelStyle),

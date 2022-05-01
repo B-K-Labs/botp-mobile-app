@@ -68,13 +68,17 @@ class TransactionDetailBloc
         // - Setup timer: get transaction detail
         if (newOtpSessionInfo.transactionStatus ==
             TransactionStatus.requesting) {
-          add(TransactionDetailEventSetupGetTransactionDetailTimer());
+          if (!isClosed) {
+            add(TransactionDetailEventSetupGetTransactionDetailTimer());
+          }
         }
         // - Setup timers: get transaction detail + generate otp
         else if (newOtpSessionInfo.transactionStatus ==
             TransactionStatus.waiting) {
-          add(TransactionDetailEventSetupGetTransactionDetailTimer());
-          add(TransactionDetailEventGenerateOTPAndSetupTimer());
+          if (!isClosed) {
+            add(TransactionDetailEventSetupGetTransactionDetailTimer());
+            add(TransactionDetailEventGenerateOTPAndSetupTimer());
+          }
         }
         // - Cancel all timers
         else {
@@ -133,7 +137,9 @@ class TransactionDetailBloc
               ((otpGeneratedTime ~/ Duration.millisecondsPerSecond + period) %
                   period);
           // Setup timer: Generate OTP
-          add(TransactionDetailEventSetupGenerateOTPTimer());
+          if (!isClosed) {
+            add(TransactionDetailEventSetupGenerateOTPTimer());
+          }
           // Update OTP value
           emit(state.copyWith(
               generateOtpStatus: RequestStatusSuccess(),
@@ -175,7 +181,9 @@ class TransactionDetailBloc
         ));
         _isUserRequestSubmitting = false;
         emit(state.copyWith(userRequestStatus: const RequestStatusInitial()));
-        add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers());
+        if (!isClosed) {
+          add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers());
+        }
       } on Exception catch (e) {
         emit(state.copyWith(userRequestStatus: RequestStatusFailed(e)));
         _isUserRequestSubmitting = false;
@@ -203,7 +211,9 @@ class TransactionDetailBloc
         ));
         _isUserRequestSubmitting = false;
         emit(state.copyWith(userRequestStatus: const RequestStatusInitial()));
-        add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers());
+        if (!isClosed) {
+          add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers());
+        }
       } on Exception catch (e) {
         emit(state.copyWith(userRequestStatus: RequestStatusFailed(e)));
         _isUserRequestSubmitting = false;
@@ -231,7 +241,9 @@ class TransactionDetailBloc
         ));
         _isUserRequestSubmitting = false;
         emit(state.copyWith(userRequestStatus: const RequestStatusInitial()));
-        add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers());
+        if (!isClosed) {
+          add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers());
+        }
       } on Exception catch (e) {
         emit(state.copyWith(userRequestStatus: RequestStatusFailed(e)));
         _isUserRequestSubmitting = false;
@@ -251,7 +263,9 @@ class TransactionDetailBloc
         if (isClosed || (!_isGetTransactionDetailTimerRunning)) {
           _cancelGetTransactionDetailTimer();
         } else {
-          add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers());
+          if (!isClosed) {
+            add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers());
+          }
         }
       });
     });
@@ -263,7 +277,9 @@ class TransactionDetailBloc
         if (isClosed || !_isGenerateOtpTimerRunning) {
           _cancelGenerateOtpTimer();
         } else {
-          add(TransactionDetailEventGenerateOTPAndSetupTimer());
+          if (!isClosed) {
+            add(TransactionDetailEventGenerateOTPAndSetupTimer());
+          }
         }
       });
     });

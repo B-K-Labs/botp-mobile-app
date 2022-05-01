@@ -49,7 +49,9 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
             getTransactionListStatus: RequestStatusSuccess()));
 
         // Setup timer
-        add(AuthenticatorEventSetupGetTransactionsListTimer());
+        if (!isClosed) {
+          add(AuthenticatorEventSetupGetTransactionsListTimer());
+        }
       } on Exception catch (e) {
         emit(state.copyWith(getTransactionListStatus: RequestStatusFailed(e)));
       }
@@ -67,7 +69,9 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
           // Cancel timer
           _cancelGetTransactionsListTimer();
         } else {
-          add(AuthenticatorEventGetTransactionsListAndSetupTimer());
+          if (!isClosed) {
+            add(AuthenticatorEventGetTransactionsListAndSetupTimer());
+          }
         }
       });
     });
@@ -81,8 +85,10 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
 
   refreshTransactionsList() async {
     _cancelGetTransactionsListTimer();
-    add(AuthenticatorEventGetTransactionsListAndSetupTimer());
-    await stream.first; // Submitting
-    await stream.first; // Success
+    if (!isClosed) {
+      add(AuthenticatorEventGetTransactionsListAndSetupTimer());
+      await stream.first; // Submitting
+      await stream.first; // Success
+    }
   }
 }
