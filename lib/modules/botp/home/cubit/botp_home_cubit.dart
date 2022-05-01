@@ -37,7 +37,7 @@ class BOTPHomeCubit extends Cubit<BOTPHomeState> {
               debitor: kycData.debitor),
           didKyc: true,
           needRegisterAgent:
-              agentsData == null || agentsData.listBcAddresses.isEmpty
+              agentsData != null && agentsData.listBcAddresses.isEmpty
                   ? true
                   : false,
           loadUserDataStatus: LoadUserDataStatusSuccess()));
@@ -47,7 +47,7 @@ class BOTPHomeCubit extends Cubit<BOTPHomeState> {
         bcAddress: accountData!.bcAddress,
         didKyc: false,
         needRegisterAgent:
-            agentsData == null || agentsData.listBcAddresses.isEmpty
+            agentsData != null && agentsData.listBcAddresses.isEmpty
                 ? true
                 : false,
         loadUserDataStatus: LoadUserDataStatusSuccess(),

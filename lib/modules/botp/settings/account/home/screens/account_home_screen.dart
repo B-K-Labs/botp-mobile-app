@@ -74,20 +74,22 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
                               },
                             )),
                       ])
-                    : Column(children: [
-                        const SizedBox(height: kAppPaddingVerticalSize),
-                        Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: kAppPaddingHorizontalSize),
-                            child: ReminderWidget(
-                              iconData: Icons.add_circle,
-                              colorType: ColorType.secondary,
-                              title: "Add your first agent!",
-                              description:
-                                  "You currently have no registered agent. Start adding a new one now!",
-                              onTap: () async {},
-                            )),
-                      ]))
+                    : state.needRegisterAgent!
+                        ? Column(children: [
+                            const SizedBox(height: kAppPaddingVerticalSize),
+                            Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: kAppPaddingHorizontalSize),
+                                child: ReminderWidget(
+                                  iconData: Icons.add_circle,
+                                  colorType: ColorType.secondary,
+                                  title: "Add your first agent!",
+                                  description:
+                                      "You currently have no registered agent. Start adding a new one now!",
+                                  onTap: () async {},
+                                )),
+                          ])
+                        : Container())
                 : Container());
   }
 
@@ -113,7 +115,7 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
                       onTap: () {
                         context.read<ProfileViewCubit>().copyBcAddress();
                       })),
-              state.needRegisterAgent!
+              !state.needRegisterAgent!
                   ? SettingsOptionWidget(
                       type: SettingsOptionType.buttonTextOneSide,
                       buttonSide: OptionButtonOneSide.left,
