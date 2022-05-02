@@ -217,7 +217,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                         scale: 1,
                         fit: BoxFit.contain),
                   ),
-                  const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+                  const SizedBox(height: kAppPaddingBetweenItemNormalSize),
                   Text("You don't have any transactions.",
                       style: Theme.of(context).textTheme.caption)
                 ])))
