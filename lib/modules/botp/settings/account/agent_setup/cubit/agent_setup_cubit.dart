@@ -20,6 +20,7 @@ class AccountAgentSetupCubit extends Cubit<AccountAgentSetupState> {
     emit(state.copyWith(setupAgentStatus: RequestStatusSubmitting()));
     final accountData = await UserData.getCredentialAccountData();
     try {
+      print("Nooo");
       // Validate scanned url
       if (setupAgentUrlValidator(setupAgentUrl) != null) {
         throw (Exception("Your Agent QR image is invalid. Please try again."));

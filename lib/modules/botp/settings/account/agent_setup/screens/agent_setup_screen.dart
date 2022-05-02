@@ -44,7 +44,7 @@ class _AccountAgentSetupBodyState extends State<AccountAgentSetupBody> {
             child: Column(
               children: [
                 Expanded(child: _agentSetupContent()),
-                _actionButton(),
+                _actionButton(context),
               ],
             )));
   }
@@ -129,15 +129,7 @@ class _AccountAgentSetupBodyState extends State<AccountAgentSetupBody> {
     });
   }
 
-  Widget _actionButton() {
-    _scanAgentUrl() async {
-      final scannedSetupAgentUrl = await Application.router
-          .navigateTo(context, "/utils/qrScanner") as String?;
-      if (scannedSetupAgentUrl != null) {
-        context.read<AccountAgentSetupCubit>().setupAgent(scannedSetupAgentUrl);
-      }
-    }
-
+  Widget _actionButton(BuildContext context) {
     return BlocBuilder<AccountAgentSetupCubit, AccountAgentSetupState>(
         builder: (context, state) {
       if (state.setupAgentStatus is RequestStatusInitial) {
@@ -159,7 +151,14 @@ class _AccountAgentSetupBodyState extends State<AccountAgentSetupBody> {
                     child: ButtonNormalWidget(
                         text: "Scan QR",
                         onPressed: () async {
-                          await _scanAgentUrl();
+                          final scannedSetupAgentUrl = await Application.router
+                                  .navigateTo(context, "/utils/qrScanner")
+                              as String?;
+                          if (scannedSetupAgentUrl != null) {
+                            context
+                                .read<AccountAgentSetupCubit>()
+                                .setupAgent(scannedSetupAgentUrl);
+                          }
                         })),
               ],
             ));
@@ -182,7 +181,14 @@ class _AccountAgentSetupBodyState extends State<AccountAgentSetupBody> {
                     child: ButtonNormalWidget(
                         text: "Try again",
                         onPressed: () async {
-                          await _scanAgentUrl();
+                          final scannedSetupAgentUrl = await Application.router
+                                  .navigateTo(context, "/utils/qrScanner")
+                              as String?;
+                          if (scannedSetupAgentUrl != null) {
+                            context
+                                .read<AccountAgentSetupCubit>()
+                                .setupAgent(scannedSetupAgentUrl);
+                          }
                         })),
               ],
             ));
