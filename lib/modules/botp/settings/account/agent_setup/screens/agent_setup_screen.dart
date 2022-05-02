@@ -104,7 +104,7 @@ class _AccountAgentSetupBodyState extends State<AccountAgentSetupBody> {
                     style: Theme.of(context).textTheme.bodyText2,
                     textAlign: TextAlign.center),
                 const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-                Text("Setting up your agent...",
+                Text("Setting up your agent.",
                     style: Theme.of(context).textTheme.headline5?.copyWith(
                         color: Theme.of(context).colorScheme.primary),
                     textAlign: TextAlign.center),
@@ -119,7 +119,7 @@ class _AccountAgentSetupBodyState extends State<AccountAgentSetupBody> {
                 horizontal: kAppPaddingHorizontalSize),
             child: Column(children: [
               const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
-              Text("Cannot setup your agent.",
+              Text("Couldn't add your agent.",
                   style: Theme.of(context).textTheme.bodyText2),
               const SizedBox(height: kAppPaddingBetweenItemSmallSize),
               Text("Somethings went wrong.",
