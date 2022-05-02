@@ -45,7 +45,6 @@ class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
             appBarType: _selectedIndex == 0
                 ? AppBarType.authenticator
                 : AppBarType.history,
-            // TODO: read user avatar
             appBarAvatarUrl: _selectedIndex == 0 ? state.avatarUrl : null,
             appBarOnPressedAvatar: _selectedIndex == 0
                 ? () {
@@ -59,7 +58,7 @@ class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
               items: const [
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.search), label: "History"),
+                    icon: Icon(Icons.search), label: "Provenance"),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.person), label: "Account")
               ],

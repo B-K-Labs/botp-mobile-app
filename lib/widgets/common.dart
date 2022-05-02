@@ -67,7 +67,7 @@ class ScreenWidget extends StatelessWidget {
         case AppBarType.history:
           _appBar = AppBar(
             automaticallyImplyLeading: false,
-            title: const Text("History"),
+            title: const Text("Provenance"),
             titleTextStyle: Theme.of(context)
                 .textTheme
                 .headline6

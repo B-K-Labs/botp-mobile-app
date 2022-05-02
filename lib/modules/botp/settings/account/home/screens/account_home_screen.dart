@@ -115,7 +115,7 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
                       onTap: () {
                         context.read<BOTPHomeCubit>().copyBcAddress();
                       })),
-              !state.needRegisterAgent!
+              state.didKyc!
                   ? SettingsOptionWidget(
                       type: SettingsOptionType.buttonTextOneSide,
                       buttonSide: OptionButtonOneSide.left,

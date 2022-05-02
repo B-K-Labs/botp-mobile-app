@@ -85,7 +85,7 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
                     const SizedBox(height: kAppPaddingBetweenItemNormalSize),
                     SizedBox(
                       child: const Text(
-                        "You have to enter password to access this account. Your current data would be kept.",
+                        "Your current account data would be kept.",
                         textAlign: TextAlign.center,
                       ),
                       width: MediaQuery.of(context).size.width * 0.8,
