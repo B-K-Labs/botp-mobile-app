@@ -23,9 +23,10 @@ class AboutHomeBody extends StatefulWidget {
 class _AboutHomeBodyState extends State<AboutHomeBody> {
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
+    return SingleChildScrollView(
+        child: Column(children: [
       _appInfo(),
-    ]);
+    ]));
   }
 
   Widget _appInfo() {

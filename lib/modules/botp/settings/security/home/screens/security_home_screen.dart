@@ -28,12 +28,13 @@ class SecurityHomeBody extends StatefulWidget {
 class _SecurityHomeBodyState extends State<SecurityHomeBody> {
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
+    return SingleChildScrollView(
+        child: Column(children: [
       _account(),
       const DividerWidget(
           padding: EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize)),
       _session(),
-    ]);
+    ]));
   }
 
   Widget _account() {

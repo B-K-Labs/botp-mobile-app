@@ -62,7 +62,7 @@ class _SecurityExportAccountBodyState extends State<SecurityExportAccountBody> {
           iconData: Icons.warning_rounded,
           colorType: ColorType.error,
           title: "Caution!",
-          description: "To keep you safe",
+          // description: "To keep you safe",
           child: Column(
             children: [
               Row(
@@ -99,63 +99,57 @@ class _SecurityExportAccountBodyState extends State<SecurityExportAccountBody> {
         builder: (context, state) {
       return state.loadUserDataStatus is LoadUserDataStatusSuccess
           ? Expanded(
-              child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Your BOTP Account",
-                          style: Theme.of(context).textTheme.bodyText1),
-                      const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+              child: Center(
+                  child: SingleChildScrollView(
+                      child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Your BOTP Account",
+                    style: Theme.of(context).textTheme.bodyText1),
+                const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+                Container(
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surface,
+                        boxShadow: [
+                          BoxShadow(
+                              offset: const Offset(
+                                  boxShadowOffsetX, boxShadowOffsetY),
+                              blurRadius: boxShadowBlurRadius,
+                              color: Theme.of(context)
+                                  .shadowColor
+                                  .withOpacity(boxShadowOpacity))
+                        ]),
+                    child: Stack(children: [
+                      RepaintBoundary(
+                          key: qrKey,
+                          child: QrImage(
+                              backgroundColor: Colors.white,
+                              version: QrVersions.auto,
+                              errorCorrectionLevel: QrErrorCorrectLevel.M,
+                              data: state.privateKey!,
+                              size: _qrSize,
+                              gapless: false,
+                              embeddedImage: const AssetImage(
+                                  "assets/images/logo/botp_logo_embedded_qr.png"),
+                              embeddedImageStyle: QrEmbeddedImageStyle(
+                                size: const Size(60, 60),
+                              ))),
                       Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.surface,
-                              boxShadow: [
-                                BoxShadow(
-                                    offset: const Offset(
-                                        boxShadowOffsetX, boxShadowOffsetY),
-                                    blurRadius: boxShadowBlurRadius,
-                                    color: Theme.of(context)
-                                        .shadowColor
-                                        .withOpacity(boxShadowOpacity))
-                              ]),
-                          child: Stack(children: [
-                            RepaintBoundary(
-                                key: qrKey,
-                                child: QrImage(
-                                    backgroundColor: Colors.white,
-                                    version: QrVersions.auto,
-                                    errorCorrectionLevel: QrErrorCorrectLevel.M,
-                                    data: state.privateKey!,
-                                    size: _qrSize,
-                                    gapless: false,
-                                    embeddedImage: const AssetImage(
-                                        "assets/images/logo/botp_logo_embedded_qr.png"),
-                                    embeddedImageStyle: QrEmbeddedImageStyle(
-                                      size: const Size(60, 60),
-                                    ))),
-                            Container(
-                                color: Colors.white.withOpacity(
-                                    state.isHiddenQrImage ? 1.0 : 0.0),
-                                width: _qrSize,
-                                height: _qrSize),
-                          ])),
-                      const SizedBox(height: kAppPaddingBetweenItemNormalSize),
-                      ButtonTextWidget(
-                          text: state.isHiddenQrImage
-                              ? "Show QR image"
-                              : "Hide QR image",
-                          onPressed: () {
-                            context
-                                .read<SecurityExportAccountCubit>()
-                                .flipQrImage();
-                          })
-                    ],
-                  )
-                ]))
+                          color: Colors.white
+                              .withOpacity(state.isHiddenQrImage ? 1.0 : 0.0),
+                          width: _qrSize,
+                          height: _qrSize),
+                    ])),
+                const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+                ButtonTextWidget(
+                    text: state.isHiddenQrImage
+                        ? "Show QR image"
+                        : "Hide QR image",
+                    onPressed: () {
+                      context.read<SecurityExportAccountCubit>().flipQrImage();
+                    })
+              ],
+            ))))
           : Container();
     });
   }
