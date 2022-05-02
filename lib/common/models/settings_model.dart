@@ -45,7 +45,7 @@ class SetupAgentResponseModel {
   SetupAgentResponseModel(this.agentInfo);
   SetupAgentResponseModel.fromJSON(Map<String, dynamic> json)
       : agentInfo = AgentInfo(
-            name: json["agentInfo"]["info"]["fullName"],
+            name: json["agentInfo"]["info"]["name"],
             description: json["agentInfo"]["info"]["description"],
             bcAddress: json["agentInfo"]["bcAddress"],
             avatarUrl: json["agentInfo"]["avatar"],

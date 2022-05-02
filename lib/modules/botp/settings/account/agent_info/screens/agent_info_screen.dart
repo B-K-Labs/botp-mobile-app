@@ -8,6 +8,7 @@ import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/setting.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AccountAgentInfoScreen extends StatelessWidget {
   final AgentInfo agentInfo;
@@ -33,7 +34,7 @@ class AccountAgentInfoBody extends StatelessWidget {
     ]);
   }
 
-  Widget _agentInfo(context, AgentInfo agentInfo) {
+  Widget _agentInfo(BuildContext context, AgentInfo agentInfo) {
     // Imp: update agents list
     context.read<BOTPHomeCubit>().loadCommonUserData();
     return Container(
@@ -41,10 +42,10 @@ class AccountAgentInfoBody extends StatelessWidget {
             const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
         child: Column(children: [
           const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
-          Text("Here is your agent detail",
+          Text("Here is the agent detail",
               style: Theme.of(context).textTheme.bodyText2),
           const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-          Text("Done!",
+          Text("Your agent was added!",
               style: Theme.of(context)
                   .textTheme
                   .headline5

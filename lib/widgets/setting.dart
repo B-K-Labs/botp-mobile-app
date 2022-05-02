@@ -433,7 +433,7 @@ class AgentInfoWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Transaction details", style: _headlineStyle),
+            Text("Agent details", style: _headlineStyle),
             const SizedBox(height: 18.0),
             _agentInfoTextLineWidget(
               agentInfo.isVerified

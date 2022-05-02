@@ -44,7 +44,7 @@ class _AccountAgentSetupBodyState extends State<AccountAgentSetupBody> {
             child: Column(
               children: [
                 Expanded(child: _agentSetupContent()),
-                _actionButton(context),
+                _actionButton(),
               ],
             )));
   }
@@ -86,17 +86,19 @@ class _AccountAgentSetupBodyState extends State<AccountAgentSetupBody> {
         return Padding(
             padding: const EdgeInsets.symmetric(
                 horizontal: kAppPaddingHorizontalSize),
-            child: Column(children: [
-              const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
-              Text("It would take a bit!",
-                  style: Theme.of(context).textTheme.bodyText2),
-              const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-              Text("Setting up your agent...",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5
-                      ?.copyWith(color: Theme.of(context).colorScheme.primary)),
-              Expanded(
+            child: Stack(children: [
+              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
+                Text("It would take a bit!",
+                    style: Theme.of(context).textTheme.bodyText2,
+                    textAlign: TextAlign.center),
+                const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+                Text("Setting up your agent...",
+                    style: Theme.of(context).textTheme.headline5?.copyWith(
+                        color: Theme.of(context).colorScheme.primary),
+                    textAlign: TextAlign.center),
+              ]),
+              const Expanded(
                   child: Center(
                       child: Center(child: CircularProgressIndicator()))),
             ]));
@@ -129,7 +131,7 @@ class _AccountAgentSetupBodyState extends State<AccountAgentSetupBody> {
     });
   }
 
-  Widget _actionButton(BuildContext context) {
+  Widget _actionButton() {
     return BlocBuilder<AccountAgentSetupCubit, AccountAgentSetupState>(
         builder: (context, state) {
       if (state.setupAgentStatus is RequestStatusInitial) {
