@@ -206,12 +206,21 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
       final transactionsList = state.transactionsList;
       return transactionsList != null
           ? (transactionsList.isEmpty
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: kAppPaddingBetweenItemLargeSize),
+              ? Expanded(
                   child: Center(
-                      child: Text("You don't have any transactions.",
-                          style: Theme.of(context).textTheme.bodyText2)))
+                      child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  SizedBox(
+                    height: 120.0,
+                    width: 120.0,
+                    child: Image.asset(
+                        "assets/images/logo/botp_logo_disabled.png",
+                        scale: 1,
+                        fit: BoxFit.contain),
+                  ),
+                  const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+                  Text("You don't have any transactions.",
+                      style: Theme.of(context).textTheme.caption)
+                ])))
               : Expanded(
                   child: NotificationListener<ScrollEndNotification>(
                       onNotification: (scrollEnd) {
