@@ -208,7 +208,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                       vertical: kAppPaddingBetweenItemLargeSize),
                   child: Center(
                       child: Text("You don't have any transactions.",
-                          style: Theme.of(context).textTheme.caption)))
+                          style: Theme.of(context).textTheme.bodyText2)))
               : Expanded(
                   child: NotificationListener<ScrollEndNotification>(
                       onNotification: (scrollEnd) {
@@ -247,6 +247,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                   horizontal: kAppPaddingHorizontalSize),
               child: Column(children: const [
                 TransactionItemSkeletonWidget(),
+                SizedBox(height: kAppPaddingBetweenItemSmallSize),
                 TransactionItemSkeletonWidget()
               ]));
     }, listener: (context, state) {
