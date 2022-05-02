@@ -1,10 +1,12 @@
 import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/common/models/settings_model.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
+import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/common/validators/agent.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:botp_auth/modules/botp/settings/account/agent_setup/cubit/agent_setup_state.dart';
+import 'package:botp_auth/utils/services/clipboard_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AccountAgentSetupCubit extends Cubit<AccountAgentSetupState> {
@@ -33,5 +35,17 @@ class AccountAgentSetupCubit extends Cubit<AccountAgentSetupState> {
       emit(state.copyWith(setupAgentStatus: RequestStatusFailed(e)));
     }
     _isSettingUpAgent = false;
+  }
+
+  copyBcAddress() async {
+    emit(state.copyWith(copyBcAddressStatus: SetClipboardStatusSubmitting()));
+    try {
+      await setClipboardData(state.agentInfo!.bcAddress);
+      emit(state.copyWith(copyBcAddressStatus: SetClipboardStatusSuccess()));
+    } on Exception catch (e) {
+      emit(state.copyWith(copyBcAddressStatus: SetClipboardStatusFailed(e)));
+    }
+    emit(
+        state.copyWith(copyBcAddressStatus: const SetClipboardStatusInitial()));
   }
 }

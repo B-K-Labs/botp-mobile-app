@@ -1,11 +1,15 @@
 import 'package:botp_auth/common/repositories/settings_repository.dart';
+import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
+import 'package:botp_auth/modules/botp/home/cubit/botp_home_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/account/agent_setup/cubit/agent_setup_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/account/agent_setup/cubit/agent_setup_state.dart';
+import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/common.dart';
+import 'package:botp_auth/widgets/setting.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,12 +37,19 @@ class _AccountAgentSetupBodyState extends State<AccountAgentSetupBody> {
             settingsRepository: context.read<SettingsRepository>()),
         child: BlocListener<AccountAgentSetupCubit, AccountAgentSetupState>(
             listener: (context, state) {
+              // Update user info
               final setupAgentStatus = state.setupAgentStatus;
               if (setupAgentStatus is RequestStatusSuccess) {
-                Application.router.navigateTo(
-                    context, "/botp/settings/account/agentInfo",
-                    routeSettings: RouteSettings(arguments: state.agentInfo!),
-                    replace: true);
+                context.read<BOTPHomeCubit>().loadCommonUserData();
+              }
+              // Copy address
+              final copyBcAddressStatus = state.copyBcAddressStatus;
+              if (copyBcAddressStatus is SetClipboardStatusSuccess) {
+                showSnackBar(context, "Blockchain address copied.",
+                    SnackBarType.success);
+              } else if (state.copyBcAddressStatus
+                  is SetClipboardStatusFailed) {
+                showSnackBar(context, "Failed to copy blockchain address.");
               }
             },
             child: Column(
@@ -126,7 +137,26 @@ class _AccountAgentSetupBodyState extends State<AccountAgentSetupBody> {
               ))),
             ]));
       } else {
-        return Container();
+        return Container(
+            padding: const EdgeInsets.symmetric(
+                horizontal: kAppPaddingHorizontalSize),
+            child: Column(children: [
+              const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
+              Text("Here is the agent detail",
+                  style: Theme.of(context).textTheme.bodyText2),
+              const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+              Text("Your agent was added!",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline5
+                      ?.copyWith(color: Theme.of(context).colorScheme.primary)),
+              const SizedBox(height: kAppPaddingBetweenItemVeryLargeSize),
+              AgentInfoWidget(
+                  agentInfo: state.agentInfo!,
+                  opTapBcAddress: () async {
+                    context.read<AccountAgentSetupCubit>().copyBcAddress();
+                  })
+            ]));
       }
     });
   }
@@ -164,7 +194,19 @@ class _AccountAgentSetupBodyState extends State<AccountAgentSetupBody> {
                         })),
               ],
             ));
-      } else if (state.setupAgentStatus is RequestStatusFailed) {
+      } else if (state.setupAgentStatus is RequestStatusSubmitting) {
+        return Container();
+      } else if (state.setupAgentStatus is RequestStatusSuccess) {
+        return Container(
+            padding: const EdgeInsets.symmetric(
+                horizontal: kAppPaddingHorizontalSize,
+                vertical: kAppPaddingVerticalSize),
+            child: ButtonNormalWidget(
+                text: "Go back",
+                onPressed: () {
+                  Application.router.pop(context);
+                }));
+      } else {
         return Container(
             padding: const EdgeInsets.symmetric(
                 horizontal: kAppPaddingHorizontalSize,
@@ -194,8 +236,6 @@ class _AccountAgentSetupBodyState extends State<AccountAgentSetupBody> {
                         })),
               ],
             ));
-      } else {
-        return Container();
       }
     });
   }
