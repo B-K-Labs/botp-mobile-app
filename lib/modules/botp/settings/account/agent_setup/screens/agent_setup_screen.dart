@@ -210,7 +210,7 @@ class _AccountAgentSetupBodyState extends State<AccountAgentSetupBody> {
                 Text("Here is the agent detail.",
                     style: Theme.of(context).textTheme.bodyText2),
                 const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-                Text("Added agent successfully!",
+                Text("Your agent was added!",
                     style: Theme.of(context).textTheme.headline5?.copyWith(
                         color: Theme.of(context).colorScheme.primary)),
                 const SizedBox(height: kAppPaddingBetweenItemVeryLargeSize),
