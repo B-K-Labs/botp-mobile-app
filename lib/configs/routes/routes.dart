@@ -17,6 +17,7 @@ class Routes {
   static String transaction = "/botp/transaction";
   static String settingsAccount = "/botp/settings/account";
   static String settingsAccountSetupKYC = "/botp/settings/account/setupKyc";
+  static String settingsAccountAgentSetup = "/botp/settings/account/agentSetup";
   static String settingsAccountAgentInfo = "/botp/settings/account/agentInfo";
   static String settingsSecurity = "/botp/settings/security";
   static String settingsSecurityTransferAccount =
@@ -60,6 +61,9 @@ class Routes {
         transitionType: TransitionType.inFromRight);
     router.define(settingsAccountSetupKYC,
         handler: botpSettingsAccountSetupKYCHandler,
+        transitionType: TransitionType.inFromRight);
+    router.define(settingsAccountAgentSetup,
+        handler: botpSettingsAccountAgentSetupHandler,
         transitionType: TransitionType.inFromRight);
     router.define(settingsAccountAgentInfo,
         handler: botpSettingsAccountAgentInfoHandler,

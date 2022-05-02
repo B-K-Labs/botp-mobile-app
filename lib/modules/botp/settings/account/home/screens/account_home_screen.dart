@@ -6,8 +6,6 @@ import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/constants/settings.dart';
 import 'package:botp_auth/modules/botp/home/cubit/botp_home_cubit.dart';
 import 'package:botp_auth/modules/botp/home/cubit/botp_home_state.dart';
-import 'package:botp_auth/modules/botp/settings/account/home/cubit/account_home_cubit.dart';
-import 'package:botp_auth/modules/botp/settings/account/home/cubit/account_home_state.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/setting.dart';
@@ -33,15 +31,12 @@ class AccountHomeBody extends StatefulWidget {
 class _AccountHomeBodyState extends State<AccountHomeBody> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (context) => ProfileViewCubit(
-            settingsRepository: context.read<SettingsRepository>()),
-        child: SingleChildScrollView(
-            child: Column(children: [
-          reminder(),
-          _account(),
-          _profile(),
-        ])));
+    return SingleChildScrollView(
+        child: Column(children: [
+      reminder(),
+      _account(),
+      _profile(),
+    ]));
   }
 
   Widget reminder() {
@@ -86,7 +81,10 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
                                   title: "Add your first agent!",
                                   description:
                                       "You currently have no registered agent. Start adding a new one now!",
-                                  onTap: () async {},
+                                  onTap: () {
+                                    Application.router.navigateTo(context,
+                                        "/botp/settings/account/agentSetup");
+                                  },
                                 )),
                           ])
                         : Container())
@@ -120,24 +118,9 @@ class _AccountHomeBodyState extends State<AccountHomeBody> {
                       type: SettingsOptionType.buttonTextOneSide,
                       buttonSide: OptionButtonOneSide.left,
                       label: "Add new agent by scanning QR",
-                      onTap: () async {
-                        final data = await Application.router
-                            .navigateTo(context, "/utils/qrScanner") as String?;
-                        if (data != null) {
-                          final result = await context
-                              .read<ProfileViewCubit>()
-                              .setupAgent(data);
-                          if (result == null) {
-                            showSnackBar(context, "Failed to add new agent.");
-                          } else {
-                            // showSnackBar(context, "Added new agent successfully.",
-                            //     SnackBarType.success);
-                            Application.router.navigateTo(
-                                context, "/botp/settings/account/agentInfo",
-                                routeSettings:
-                                    RouteSettings(arguments: result.agentInfo));
-                          }
-                        }
+                      onTap: () {
+                        Application.router.navigateTo(
+                            context, "/botp/settings/account/agentSetup");
                       },
                     )
                   : Container(),

@@ -98,6 +98,7 @@ flutter:
     - .env
     - assets/images/temp/botp_temp.png
     - assets/images/logo/botp_logo_embedded_qr.png
+    - assets/images/logo/botp_logo_disabled.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -89,7 +89,10 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                         title: "Add your first agent!",
                         description:
                             "You currently have no registered agent. Start adding a new one now!",
-                        onTap: () async {},
+                        onTap: () {
+                          Application.router.navigateTo(
+                              context, "/botp/settings/account/agentSetup");
+                        },
                       ))
                   : Container())
           : Container();

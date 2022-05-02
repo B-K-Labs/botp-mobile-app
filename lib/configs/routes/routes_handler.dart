@@ -10,6 +10,7 @@ import 'package:botp_auth/modules/authentication/init/screens/init_screen.dart';
 import 'package:botp_auth/modules/botp/home/screens/botp_home_screen.dart';
 import 'package:botp_auth/modules/botp/settings/about/home/screens/about_home_screen.dart';
 import 'package:botp_auth/modules/botp/settings/account/agent_info/screens/agent_info_screen.dart';
+import 'package:botp_auth/modules/botp/settings/account/agent_setup/screens/agent_setup_screen.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/screens/account_home_screen.dart';
 import 'package:botp_auth/modules/botp/settings/security/export_account/screens/export_account_screen.dart';
 import 'package:botp_auth/modules/botp/settings/security/home/screens/security_home_screen.dart';
@@ -103,6 +104,10 @@ var botpSettingsAccountAgentInfoHandler =
   return AccountAgentInfoScreen(agentInfo: agentInfo);
 });
 
+var botpSettingsAccountAgentSetupHandler =
+    Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  return const AccountAgentSetupScreen();
+});
 // - 2. Security
 var botpSettingsSecurityHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
