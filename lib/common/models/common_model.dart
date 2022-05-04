@@ -110,6 +110,17 @@ class OTPValueInfo {
           notAvailable: notAvailable ?? this.notAvailable);
 }
 
+class CategorizedTransactionsList {
+  final String categoryName;
+  final bool newest;
+  final List<TransactionDetail> categorizedTransactionsList;
+
+  CategorizedTransactionsList(
+      {required this.categoryName,
+      required this.categorizedTransactionsList,
+      this.newest = false});
+}
+
 class TransactionDetail {
   OTPSessionInfo otpSessionInfo;
   OTPSessionSecretInfo otpSessionSecretInfo;

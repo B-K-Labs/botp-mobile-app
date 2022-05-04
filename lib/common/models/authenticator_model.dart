@@ -62,7 +62,7 @@ class DenyTransactionResponseModel extends RequestTransactionResponseModel {
 }
 
 class CancelTransactionResponseModel extends RequestTransactionResponseModel {
-  final Object otpSession; // TODO: Just declaration, no need to use that?
+  final Object otpSession; // Just declaration, no need to use that
   CancelTransactionResponseModel({required this.otpSession});
   CancelTransactionResponseModel.fromJSON(Map<String, dynamic> json)
       : otpSession = json["OTPsession"];
