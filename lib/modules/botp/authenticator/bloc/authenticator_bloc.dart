@@ -6,7 +6,6 @@ import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_event.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_state.dart';
-import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:async';
 
