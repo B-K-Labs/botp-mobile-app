@@ -49,7 +49,7 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
           emit(AuthenticatorState(
               transactionStatus: newTransactionStatus,
               paginationInfo: state.paginationInfo,
-              transactionsList: null,
+              categorizedTransactionsList: null,
               getTransactionListStatus: state.getTransactionListStatus));
           size = kTransactionItemsPagSize;
         } else if (event.needMorePage != null) {
@@ -60,10 +60,23 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
         final getTransactionListResult =
             await authenticatorRepository.getTransactionsList(
                 accountData!.bcAddress, newTransactionStatus, page, size);
+
+        //  (imp) Categorize the transactions list
+        final categorizedTransactions1 = CategorizedTransactions(
+            categoryName: "New transactions",
+            transactionsList: getTransactionListResult.transactionsList,
+            isNewest: true);
+        final categorizedTransactions2 = CategorizedTransactions(
+            categoryName: "Older",
+            transactionsList: getTransactionListResult.transactionsList);
+        // Update new state
         emit(state.copyWith(
             transactionStatus: newTransactionStatus,
             paginationInfo: getTransactionListResult.paginationInfo,
-            transactionsList: getTransactionListResult.transactionsList,
+            categorizedTransactionsList: [
+              categorizedTransactions1,
+              categorizedTransactions2
+            ],
             getTransactionListStatus: RequestStatusSuccess()));
 
         // Setup timer

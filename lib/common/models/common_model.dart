@@ -110,15 +110,15 @@ class OTPValueInfo {
           notAvailable: notAvailable ?? this.notAvailable);
 }
 
-class CategorizedTransactionsList {
+class CategorizedTransactions {
   final String categoryName;
-  final bool newest;
-  final List<TransactionDetail> categorizedTransactionsList;
+  final bool isNewest;
+  final List<TransactionDetail> transactionsList;
 
-  CategorizedTransactionsList(
+  CategorizedTransactions(
       {required this.categoryName,
-      required this.categorizedTransactionsList,
-      this.newest = false});
+      required this.transactionsList,
+      this.isNewest = false});
 }
 
 class TransactionDetail {

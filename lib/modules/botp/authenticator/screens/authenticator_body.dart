@@ -46,7 +46,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
               _reminder(),
               _searchSection(),
               // _searchResult(),
-              _transactionItemsList(),
+              _categorizedTransactionItemsList(),
             ]));
   }
 
@@ -197,15 +197,12 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
   //       ]));
   // }
 
-  // 4. Transaction list
-  // Two scrollable: https://www.youtube.com/watch?v=8T7hetwuwY4
-  Widget _transactionItemsList() {
-    // return Container();
+  Widget _categorizedTransactionItemsList() {
     return BlocConsumer<AuthenticatorBloc, AuthenticatorState>(
         builder: (context, state) {
-      final transactionsList = state.transactionsList;
-      return transactionsList != null
-          ? (transactionsList.isEmpty
+      final categorizedTransactionsList = state.categorizedTransactionsList;
+      return categorizedTransactionsList != null
+          ? (categorizedTransactionsList.isEmpty
               ? Expanded(
                   child: Center(
                       child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -242,11 +239,8 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                           // 2. Disable physical scrollable for all list views
                           child: SingleChildScrollView(
                               child: Column(children: [
-                            Stack(children: [
-                              _generateShadowTransactionItemsList(
-                                  transactionsList.length),
-                              _generateTransactionItemsList(transactionsList)
-                            ])
+                            _generateCategorizedTransactionItemsList(
+                                categorizedTransactionsList),
                           ])),
                           onRefresh: () async {
                             await context
@@ -270,6 +264,65 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
     });
   }
 
+  Widget _generateCategorizedTransactionItemsList(
+      List<CategorizedTransactions> categorizedTransactionsItemsList) {
+    final categorizedTransactionWidgetsList = categorizedTransactionsItemsList
+        .map<Widget>((categorizedTransactions) =>
+            _generateCategorizedTransactionItems(categorizedTransactions))
+        .toList();
+    return ListView.separated(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (_, index) => categorizedTransactionWidgetsList[index],
+        separatorBuilder: (BuildContext context, int index) =>
+            const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+        itemCount: categorizedTransactionWidgetsList.length);
+  }
+
+  Widget _generateCategorizedTransactionItems(
+      CategorizedTransactions categorizedTransactions) {
+    // Categorized theme
+    // - Color
+    final Color primary = categorizedTransactions.isNewest
+        ? Theme.of(context).colorScheme.error
+        : Theme.of(context).colorScheme.onSurface;
+
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      Padding(
+          padding: const EdgeInsets.symmetric(
+              horizontal: kAppPaddingHorizontalSize,
+              vertical: kAppPaddingBetweenItemSmallSize),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              // Icon(Icons.date_range, color: primary),
+              const SizedBox(width: 16.0),
+              Text(
+                  categorizedTransactions.categoryName +
+                      " (${categorizedTransactions.transactionsList.length})",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      ?.copyWith(color: primary, fontWeight: FontWeight.bold))
+            ],
+          )),
+      // const SizedBox(height: 12.0),
+      _transactionItemsList(categorizedTransactions.transactionsList)
+    ]);
+  }
+
+  Widget _transactionItemsList(List<TransactionDetail> transactionsList) {
+    return SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Column(children: [
+          Stack(children: [
+            _generateShadowTransactionItemsList(transactionsList.length),
+            _generateTransactionItemsList(transactionsList)
+          ])
+        ]));
+  }
+
   Widget _generateTransactionItemsList(
       List<TransactionDetail> transactionsList) {
     final transactionWidgetsList = transactionsList
@@ -278,7 +331,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
         .toList();
     return ListView.separated(
         padding: const EdgeInsets.symmetric(
-            vertical: kAppPaddingBetweenItemNormalSize),
+            vertical: kAppPaddingBetweenItemSmallSize),
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
@@ -312,8 +365,8 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
     final shadowTransactionWidgetsList = List<Widget>.generate(
         transactionsListLength, (_) => _generateShadowTransactionItem());
     return ListView.separated(
-      padding: const EdgeInsets.symmetric(
-          vertical: kAppPaddingBetweenItemNormalSize),
+      padding:
+          const EdgeInsets.symmetric(vertical: kAppPaddingBetweenItemSmallSize),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
