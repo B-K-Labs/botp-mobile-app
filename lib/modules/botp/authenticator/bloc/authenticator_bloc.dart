@@ -45,9 +45,6 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
         emit(state.copyWith(
             getTransactionListStatus: RequestStatusSubmitting()));
         // Track event detail
-        final oldTransactionStatus = state.transactionStatus;
-        final newTransactionStatus =
-            event.transactionStatus ?? state.transactionStatus;
         if (event.needMorePage != null) {
           size += kTransactionItemsPagSize;
         }
@@ -61,6 +58,7 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
                 accountData!.bcAddress, TransactionStatus.waiting,
                 currentPage: page, pageSize: size);
 
+        // Get lists
         final List<GetTransactionsListResponseModel>
             getTransactionsListResults = await Future.wait([
           _getRequestingTransactionsListAsync(),
@@ -77,14 +75,31 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
             .toList()[0];
 
         //  (imp) Categorize the transactions list
-        final List<String> oldRequestingTransactionSecretIdsList = [];
-        final List<String> oldWaitingTransactionSecretIdsList = [];
+        final List<String> currentRequestingTransactionSecretIdsList = state
+                .categorizedRequestingTransactionsInfo
+                ?.allTransactionSecretIdsList! ??
+            [];
+        final List<String> currentWaitingTransactionSecretIdsList = state
+                .categorizedWaitingTransactionsInfo
+                ?.allTransactionSecretIdsList! ??
+            [];
+        // - Get history from storage
+        final List<String> historyRequestingTransactionSecretIdsList = [];
+        final List<String> historyWaitingTransactionSecretIdsList = [];
+        // - Categorize
         final _categorizedRequestingTransactionsInfo = categorizeTransactions(
-            _requestingTransactionList.transactionsList,
-            oldRequestingTransactionSecretIdsList);
+            newTransactionsList: _requestingTransactionList.transactionsList,
+            currentTransactionSecretIdsList:
+                currentRequestingTransactionSecretIdsList,
+            historyTransactionSecretIdsList:
+                historyRequestingTransactionSecretIdsList);
         final _categorizedWaitingTransactionsInfo = categorizeTransactions(
-            _waitingTransactionList.transactionsList,
-            oldWaitingTransactionSecretIdsList);
+            newTransactionsList: _waitingTransactionList.transactionsList,
+            currentTransactionSecretIdsList:
+                currentWaitingTransactionSecretIdsList,
+            historyTransactionSecretIdsList:
+                historyWaitingTransactionSecretIdsList);
+        // - Update new history
         // Update new state
         emit(state.copyWith(
             categorizedRequestingTransactionsInfo:

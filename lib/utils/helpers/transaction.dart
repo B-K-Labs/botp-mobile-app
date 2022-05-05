@@ -19,35 +19,50 @@ String shortenNotifyMessage(String notifyMessage) {
 
 // Helper function
 CategorizedTransactionsInfo categorizeTransactions(
-    List<TransactionDetail> newTransactionsList,
-    List<String> oldTransactionSecretIdsList) {
+    {required List<TransactionDetail> newTransactionsList,
+    List<String>? historyTransactionSecretIdsList,
+    List<String>? currentTransactionSecretIdsList}) {
+  // Note: transactions list is always pre-sorted by time
+  final bool isFilteringNewest = currentTransactionSecretIdsList != null &&
+      historyTransactionSecretIdsList != null;
+  // 1. Categorized list
   List<CategorizedTransactions> _categorizedTransactions = [];
-  // Note: both old and new transactions list are pre-sorted by time
-  final List<TransactionDetail> _newestTransactionsList = [];
-  List<TransactionDetail> _olderTransactionsList = [];
+  List<TransactionDetail> _olderTransactionsList =
+      isFilteringNewest ? [] : newTransactionsList;
+  // 2. History secret ids
+  List<String> _newHistoryTransactionSecretIdsList = [];
+  // 3. All secret ids
+  List<String> _allTransactionSecretIdsList =
+      newTransactionsList.map((e) => e.otpSessionSecretInfo.secretId).toList();
 
   // Split newest transactions list and make new old transaction ids list
-  for (var trans in newTransactionsList) {
-    if (oldTransactionSecretIdsList
-        .contains(trans.otpSessionSecretInfo.secretId)) {
-      _olderTransactionsList.add(trans);
-    } else {
-      _newestTransactionsList.add(trans);
+  if (isFilteringNewest) {
+    final List<TransactionDetail> _newestTransactionsList = [];
+    for (var trans in newTransactionsList) {
+      final transId = trans.otpSessionSecretInfo.secretId;
+      if (currentTransactionSecretIdsList.contains(transId) &&
+          !historyTransactionSecretIdsList.contains(transId)) {
+        _olderTransactionsList.add(trans);
+      } else {
+        _newestTransactionsList.add(trans);
+      }
+    }
+
+    _newHistoryTransactionSecretIdsList = [
+      ..._newestTransactionsList.map((e) => e.otpSessionSecretInfo.secretId)
+    ];
+
+    // Append to categorized list
+    // - Newest
+    if (_newestTransactionsList.isNotEmpty) {
+      _categorizedTransactions.add(CategorizedTransactions(
+          categoryType: TimeFilters.newest,
+          transactionsList: _newestTransactionsList));
     }
   }
-  final _newOldTransactionSecretIdsList = [
-    ..._olderTransactionsList.map((e) => e.otpSessionSecretInfo.secretId)
-  ];
 
-  // Append the new categorized transaction into the list
-  // 1. Newest
-  if (_newestTransactionsList.isNotEmpty) {
-    _categorizedTransactions.add(CategorizedTransactions(
-        categoryType: TimeFilters.newest,
-        transactionsList: _newestTransactionsList));
-  }
-
-  // 2. Time ranges
+  // Categorized the rest
+  // - Time ranges
   List<TimeFilters> timeFiltersList = [...TimeFilters.values];
   timeFiltersList.removeWhere(
       (element) => [TimeFilters.newest, TimeFilters.older].contains(element));
@@ -74,14 +89,18 @@ CategorizedTransactionsInfo categorizeTransactions(
           transactionsList: _timestampFilteredTransactionsList));
     }
   }
-  // 3. The very old transactions
+  // - The very old transactions
   if (_olderTransactionsList.isNotEmpty) {
     _categorizedTransactions.add(CategorizedTransactions(
         categoryType: TimeFilters.older,
         transactionsList: _olderTransactionsList));
   }
 
-  return CategorizedTransactionsInfo(
-      categorizedTransactions: _categorizedTransactions,
-      transactionSecretIdsList: _newOldTransactionSecretIdsList);
+  return isFilteringNewest
+      ? CategorizedTransactionsInfo(
+          categorizedTransactions: _categorizedTransactions,
+          allTransactionSecretIdsList: _allTransactionSecretIdsList,
+          historyTransactionSecretIdsList: _newHistoryTransactionSecretIdsList)
+      : CategorizedTransactionsInfo(
+          categorizedTransactions: _categorizedTransactions);
 }
