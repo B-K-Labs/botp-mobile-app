@@ -1,32 +1,35 @@
 import 'package:botp_auth/common/models/authenticator_model.dart';
-import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/constants/transaction.dart';
 
 class AuthenticatorState {
   // Filter
   TransactionStatus transactionStatus;
-  // Pagination
-  PaginationInfo? paginationInfo;
+  // // Pagination
+  // PaginationInfo? paginationInfo;
   // Transactions list
-  CategorizedTransactionsInfo? categorizedTransactionsInfo;
+  CategorizedTransactionsInfo? categorizedRequestingTransactionsInfo;
+  CategorizedTransactionsInfo? categorizedWaitingTransactionsInfo;
   RequestStatus getTransactionListStatus;
 
   AuthenticatorState(
       {this.transactionStatus = TransactionStatus.requesting,
-      this.paginationInfo,
-      this.categorizedTransactionsInfo,
+      this.categorizedRequestingTransactionsInfo,
+      this.categorizedWaitingTransactionsInfo,
       this.getTransactionListStatus = const RequestStatusInitial()});
 
   AuthenticatorState copyWith(
           {TransactionStatus? transactionStatus,
-          PaginationInfo? paginationInfo,
-          CategorizedTransactionsInfo? categorizedTransactionsInfo,
+          CategorizedTransactionsInfo? categorizedRequestingTransactionsInfo,
+          CategorizedTransactionsInfo? categorizedWaitingTransactionsInfo,
           RequestStatus? getTransactionListStatus}) =>
       AuthenticatorState(
-          paginationInfo: paginationInfo ?? this.paginationInfo,
-          categorizedTransactionsInfo:
-              categorizedTransactionsInfo ?? this.categorizedTransactionsInfo,
+          categorizedRequestingTransactionsInfo:
+              categorizedRequestingTransactionsInfo ??
+                  this.categorizedRequestingTransactionsInfo,
+          categorizedWaitingTransactionsInfo:
+              categorizedWaitingTransactionsInfo ??
+                  this.categorizedWaitingTransactionsInfo,
           transactionStatus: transactionStatus ?? this.transactionStatus,
           getTransactionListStatus:
               getTransactionListStatus ?? this.getTransactionListStatus);

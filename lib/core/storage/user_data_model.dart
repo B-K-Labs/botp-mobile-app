@@ -1,4 +1,5 @@
 import 'package:botp_auth/constants/storage.dart';
+import 'package:botp_auth/constants/transaction.dart';
 
 // Public Data
 class CredentialSessionDataModel {
@@ -66,13 +67,19 @@ class CredentialAgentsDataModel {
       };
 }
 
-class CredentialTransactionsDataModel {
-  final Map<String, dynamic> objReceivedTransactions;
-  CredentialTransactionsDataModel({required this.objReceivedTransactions});
-  CredentialTransactionsDataModel.fromJSON(Map<String, dynamic> json)
-      : objReceivedTransactions = json["objReceivedTransactions"];
-  Map<String, dynamic> toJSON() =>
-      {"objReceivedTransactions": objReceivedTransactions};
+class CredentialTransactionsHistoryDataModel {
+  List<String> requestingTransactionsList;
+  List<String> waitingTransactionsList;
+  CredentialTransactionsHistoryDataModel(
+      {required this.requestingTransactionsList,
+      required this.waitingTransactionsList});
+  CredentialTransactionsHistoryDataModel.fromJSON(Map<String, dynamic> json)
+      : requestingTransactionsList = json[TransactionStatus.requesting.name],
+        waitingTransactionsList = json[TransactionStatus.waiting.name];
+  Map<String, dynamic> toJSON() => {
+        TransactionStatus.requesting.name: requestingTransactionsList,
+        TransactionStatus.waiting.name: waitingTransactionsList
+      };
 }
 
 class CredentialTransactionsSecretDataModel {

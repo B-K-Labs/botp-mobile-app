@@ -149,7 +149,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
           "status": TransactionStatus.requesting,
           "onSelected": () {
             context.read<AuthenticatorBloc>().add(
-                AuthenticatorEventGetTransactionsListAndSetupTimer(
+                AuthenticatorEventTransactionStatusChanged(
                     transactionStatus: TransactionStatus.requesting));
           }
         },
@@ -158,7 +158,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
           "status": TransactionStatus.waiting,
           "onSelected": () {
             context.read<AuthenticatorBloc>().add(
-                AuthenticatorEventGetTransactionsListAndSetupTimer(
+                AuthenticatorEventTransactionStatusChanged(
                     transactionStatus: TransactionStatus.waiting));
           }
         }
@@ -202,7 +202,10 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
   Widget _categorizedTransactionItemsList() {
     return BlocConsumer<AuthenticatorBloc, AuthenticatorState>(
         builder: (context, state) {
-      final categorizedTransactionsInfo = state.categorizedTransactionsInfo;
+      final categorizedTransactionsInfo =
+          state.transactionStatus == TransactionStatus.requesting
+              ? state.categorizedRequestingTransactionsInfo
+              : state.categorizedWaitingTransactionsInfo;
       return categorizedTransactionsInfo != null
           ? (categorizedTransactionsInfo.isEmpty
               ? Expanded(

@@ -5,9 +5,9 @@ abstract class AuthenticatorEvent {
 }
 
 class AuthenticatorEventTransactionStatusChanged extends AuthenticatorEvent {
-  TransactionStatus? transactionStatus;
+  TransactionStatus transactionStatus;
 
-  AuthenticatorEventTransactionStatusChanged({this.transactionStatus});
+  AuthenticatorEventTransactionStatusChanged({required this.transactionStatus});
 }
 
 class AuthenticatorEventPaginationChanged extends AuthenticatorEvent {

@@ -112,25 +112,29 @@ class UserData {
   static clearCredentialAgentsData() async =>
       await SecureStorage.removeSecureValue(UserDataType.credentialAgents);
 
-  // Credential Transaction: general transaction info object
-  static Future<CredentialTransactionsDataModel?>
-      getCredentialTransactionsData() async {
-    final data =
-        await SecureStorage.getSecureValue(UserDataType.credentialTransactions);
-    return data != null ? CredentialTransactionsDataModel.fromJSON(data) : null;
+  // Credential Transaction History: transactions history
+  static Future<CredentialTransactionsHistoryDataModel?>
+      getCredentialTransactionsHistoryData() async {
+    final data = await SecureStorage.getSecureValue(
+        UserDataType.credentialTransactionsHistory);
+    return data != null
+        ? CredentialTransactionsHistoryDataModel.fromJSON(data)
+        : null;
   }
 
-  static setCredentialTransactionsData(
-          Map<String, dynamic> objReceivedTransactions) async =>
+  static setCredentialTransactionsHistoryData(
+          List<String> requestingTransactionsList,
+          List<String> waitingTransactionsList) async =>
       await SecureStorage.setSecureValue(
-          UserDataType.credentialTransactions,
-          CredentialTransactionsDataModel(
-                  objReceivedTransactions: objReceivedTransactions)
+          UserDataType.credentialTransactionsHistory,
+          CredentialTransactionsHistoryDataModel(
+                  requestingTransactionsList: requestingTransactionsList,
+                  waitingTransactionsList: waitingTransactionsList)
               .toJSON());
 
-  static clearCredentialTransactionData() async =>
+  static clearCredentialTransactionHistoryData() async =>
       await SecureStorage.removeSecureValue(
-          UserDataType.credentialTransactions);
+          UserDataType.credentialTransactionsHistory);
 
   // Credential Transaction Secret: transaction secret messages object
   static Future<CredentialTransactionsSecretDataModel?>

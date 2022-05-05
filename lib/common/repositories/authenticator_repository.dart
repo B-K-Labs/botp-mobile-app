@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:botp_auth/common/models/authenticator_model.dart';
-import 'package:botp_auth/constants/pagination.dart';
 import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/core/api_url/api_url.dart';
 import 'package:botp_auth/utils/services/rest_api_service.dart';
@@ -8,24 +7,27 @@ import 'package:http/http.dart' as http;
 import 'package:universal_html/html.dart';
 
 class AuthenticatorRepository {
-  // Get OTP sessions list
+  // Get OTP sessions list (with no filter in response)
   Future<GetTransactionsListResponseModel> getTransactionsList(
       String bcAddress, TransactionStatus transactionStatus,
-      [int currentPage = 1, int pageSize = kTransactionItemsPagSize]) async {
+      {int? currentPage, int? pageSize}) async {
     // Set search parameters
     final Map<String, dynamic> queryParameters = {
       "userAddress": bcAddress,
-      "page": currentPage.toString(),
-      "size": pageSize.toString()
+      ...(currentPage != null ? {"page": currentPage.toString()} : {}),
+      ...(pageSize != null ? {"size": pageSize.toString()} : {}),
+      ...(transactionStatus != TransactionStatus.all
+          ? {"status": transactionStatus.name.toUpperCase()}
+          : {})
     };
-    if (transactionStatus != TransactionStatus.all) {
-      queryParameters["status"] = transactionStatus.name.toUpperCase();
-    }
     http.Response result = await get(makeApiUrlString(
         path: "/message/OTPsessions", queryParameters: queryParameters));
     if (result.statusCode == HttpStatus.ok) {
-      return GetTransactionsListResponseModel.fromJSON(
-          json.decode(result.body));
+      // Mark result - for calling multiple asynchronous requests in parallel
+      final returnObj =
+          GetTransactionsListResponseModel.fromJSON(json.decode(result.body));
+      returnObj.markedResult(transactionStatus);
+      return returnObj;
     }
     throw Exception(result.body);
   }

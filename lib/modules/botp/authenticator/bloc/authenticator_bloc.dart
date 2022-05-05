@@ -27,14 +27,15 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
       this.page = 1,
       this.size = kTransactionItemsPagSize})
       : super(AuthenticatorState()) {
-    on<AuthenticatorEventTransactionStatusChanged>((event, emit) =>
-        emit(state.copyWith(transactionStatus: event.transactionStatus)));
+    on<AuthenticatorEventTransactionStatusChanged>((event, emit) {
+      emit(state.copyWith(transactionStatus: event.transactionStatus));
+    });
 
-    on<AuthenticatorEventPaginationChanged>((event, emit) => emit(
-        state.copyWith(
-            paginationInfo: PaginationInfo(
-                currentPage: event.currentPage,
-                totalPage: state.paginationInfo!.totalPage))));
+    // on<AuthenticatorEventPaginationChanged>((event, emit) => emit(
+    //     state.copyWith(
+    //         paginationInfo: PaginationInfo(
+    //             currentPage: event.currentPage,
+    //             totalPage: state.paginationInfo!.totalPage))));
 
     on<AuthenticatorEventGetTransactionsListAndSetupTimer>((event, emit) async {
       if (_isGettingTransactionsListSubmitting) return;
@@ -47,32 +48,49 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
         final oldTransactionStatus = state.transactionStatus;
         final newTransactionStatus =
             event.transactionStatus ?? state.transactionStatus;
-        if (oldTransactionStatus != newTransactionStatus) {
-          emit(AuthenticatorState(
-              transactionStatus: newTransactionStatus,
-              paginationInfo: state.paginationInfo,
-              categorizedTransactionsInfo: null,
-              getTransactionListStatus: state.getTransactionListStatus));
-          size = kTransactionItemsPagSize;
-        } else if (event.needMorePage != null) {
+        if (event.needMorePage != null) {
           size += kTransactionItemsPagSize;
-          emit(state.copyWith(transactionStatus: newTransactionStatus));
         }
         // Call request
-        final getTransactionListResult =
+        _getRequestingTransactionsListAsync() async =>
             await authenticatorRepository.getTransactionsList(
-                accountData!.bcAddress, newTransactionStatus, page, size);
+                accountData!.bcAddress, TransactionStatus.requesting,
+                currentPage: page, pageSize: size);
+        _getWaitingTransactionsListAsync() async =>
+            await authenticatorRepository.getTransactionsList(
+                accountData!.bcAddress, TransactionStatus.waiting,
+                currentPage: page, pageSize: size);
+
+        final List<GetTransactionsListResponseModel>
+            getTransactionsListResults = await Future.wait([
+          _getRequestingTransactionsListAsync(),
+          _getWaitingTransactionsListAsync()
+        ]);
+
+        final _requestingTransactionList = getTransactionsListResults
+            .where((result) =>
+                result.transactionStatus == TransactionStatus.requesting)
+            .toList()[0];
+        final _waitingTransactionList = getTransactionsListResults
+            .where((result) =>
+                result.transactionStatus == TransactionStatus.waiting)
+            .toList()[0];
 
         //  (imp) Categorize the transactions list
-        final List<String> oldTransactionSecretIdsList = [];
-        final _categorizedTransactionsInfo = categorizeTransactions(
-            getTransactionListResult.transactionsList,
-            oldTransactionSecretIdsList);
+        final List<String> oldRequestingTransactionSecretIdsList = [];
+        final List<String> oldWaitingTransactionSecretIdsList = [];
+        final _categorizedRequestingTransactionsInfo = categorizeTransactions(
+            _requestingTransactionList.transactionsList,
+            oldRequestingTransactionSecretIdsList);
+        final _categorizedWaitingTransactionsInfo = categorizeTransactions(
+            _waitingTransactionList.transactionsList,
+            oldWaitingTransactionSecretIdsList);
         // Update new state
         emit(state.copyWith(
-            transactionStatus: newTransactionStatus,
-            paginationInfo: getTransactionListResult.paginationInfo,
-            categorizedTransactionsInfo: _categorizedTransactionsInfo,
+            categorizedRequestingTransactionsInfo:
+                _categorizedRequestingTransactionsInfo,
+            categorizedWaitingTransactionsInfo:
+                _categorizedWaitingTransactionsInfo,
             getTransactionListStatus: RequestStatusSuccess()));
 
         // Setup timer

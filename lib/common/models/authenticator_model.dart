@@ -4,6 +4,10 @@ import 'package:botp_auth/constants/transaction.dart';
 class GetTransactionsListResponseModel {
   PaginationInfo paginationInfo;
   List<TransactionDetail> transactionsList;
+  TransactionStatus? transactionStatus;
+
+  void markedResult(TransactionStatus transactionStatus) =>
+      this.transactionStatus = transactionStatus;
 
   GetTransactionsListResponseModel.fromJSON(Map<String, dynamic> json)
       : paginationInfo =
