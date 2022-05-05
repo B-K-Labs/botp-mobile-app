@@ -5,13 +5,21 @@ abstract class AuthenticatorEvent {
 }
 
 class AuthenticatorEventTransactionStatusChanged extends AuthenticatorEvent {
-  TransactionStatus transactionStatus;
+  final TransactionStatus transactionStatus;
 
   AuthenticatorEventTransactionStatusChanged({required this.transactionStatus});
 }
 
+class AuthenticatorEventRemoveTransactionHistory extends AuthenticatorEvent {
+  final String transactionSecretId;
+  final TransactionStatus transactionStatus;
+
+  AuthenticatorEventRemoveTransactionHistory(
+      {required this.transactionSecretId, required this.transactionStatus});
+}
+
 class AuthenticatorEventPaginationChanged extends AuthenticatorEvent {
-  int currentPage;
+  final int currentPage;
 
   AuthenticatorEventPaginationChanged({this.currentPage = 1});
 }

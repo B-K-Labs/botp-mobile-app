@@ -5,6 +5,7 @@ import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/constants/pagination.dart';
 import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
+import 'package:botp_auth/core/storage/user_data_model.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_event.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_state.dart';
 import 'package:botp_auth/utils/helpers/transaction.dart';
@@ -36,6 +37,30 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
     //         paginationInfo: PaginationInfo(
     //             currentPage: event.currentPage,
     //             totalPage: state.paginationInfo!.totalPage))));
+
+    on<AuthenticatorEventRemoveTransactionHistory>((event, emit) async {
+      final transactionHistoryData =
+          await UserData.getCredentialTransactionsHistoryData();
+      if (transactionHistoryData != null) {
+        if (event.transactionStatus == TransactionStatus.requesting) {
+          List<String> newRequestingTransactionList =
+              transactionHistoryData.requestingTransactionsList;
+          newRequestingTransactionList
+              .removeWhere((secretId) => secretId == event.transactionSecretId);
+          await UserData.setCredentialTransactionsHistoryData(
+              newRequestingTransactionList,
+              transactionHistoryData.waitingTransactionsList);
+        } else {
+          List<String> newWaitingTransactionsList =
+              transactionHistoryData.waitingTransactionsList;
+          newWaitingTransactionsList
+              .removeWhere((secretId) => secretId == event.transactionSecretId);
+          await UserData.setCredentialTransactionsHistoryData(
+              transactionHistoryData.requestingTransactionsList,
+              newWaitingTransactionsList);
+        }
+      }
+    });
 
     on<AuthenticatorEventGetTransactionsListAndSetupTimer>((event, emit) async {
       if (_isGettingTransactionsListSubmitting) return;
@@ -84,8 +109,15 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
                 ?.allTransactionSecretIdsList! ??
             [];
         // - Get history from storage
-        final List<String> historyRequestingTransactionSecretIdsList = [];
-        final List<String> historyWaitingTransactionSecretIdsList = [];
+        final historyTransactionData =
+            (await UserData.getCredentialTransactionsHistoryData()) ??
+                CredentialTransactionsHistoryDataModel(
+                    requestingTransactionsList: [],
+                    waitingTransactionsList: []);
+        final List<String> historyRequestingTransactionSecretIdsList =
+            historyTransactionData.requestingTransactionsList;
+        final List<String> historyWaitingTransactionSecretIdsList =
+            historyTransactionData.waitingTransactionsList;
         // - Categorize
         final _categorizedRequestingTransactionsInfo = categorizeTransactions(
             newTransactionsList: _requestingTransactionList.transactionsList,
@@ -100,6 +132,12 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
             historyTransactionSecretIdsList:
                 historyWaitingTransactionSecretIdsList);
         // - Update new history
+        await UserData.setCredentialTransactionsHistoryData(
+            _categorizedRequestingTransactionsInfo
+                .historyTransactionSecretIdsList!,
+            _categorizedWaitingTransactionsInfo
+                .historyTransactionSecretIdsList!);
+
         // Update new state
         emit(state.copyWith(
             categorizedRequestingTransactionsInfo:

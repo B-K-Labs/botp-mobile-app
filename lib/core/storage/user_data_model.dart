@@ -61,7 +61,8 @@ class CredentialAgentsDataModel {
 
   CredentialAgentsDataModel({required this.listBcAddresses});
   CredentialAgentsDataModel.fromJSON(Map<String, dynamic> json)
-      : listBcAddresses = List<String>.from(json["listBcAddresses"]);
+      : listBcAddresses = List<String>.from(
+            json["listBcAddresses"]); // Cast list of dynamic to lsit of string
   Map<String, dynamic> toJSON() => {
         "listBcAddresses": listBcAddresses,
       };
@@ -74,8 +75,10 @@ class CredentialTransactionsHistoryDataModel {
       {required this.requestingTransactionsList,
       required this.waitingTransactionsList});
   CredentialTransactionsHistoryDataModel.fromJSON(Map<String, dynamic> json)
-      : requestingTransactionsList = json[TransactionStatus.requesting.name],
-        waitingTransactionsList = json[TransactionStatus.waiting.name];
+      : requestingTransactionsList =
+            List<String>.from(json[TransactionStatus.requesting.name]),
+        waitingTransactionsList =
+            List<String>.from(json[TransactionStatus.waiting.name]);
   Map<String, dynamic> toJSON() => {
         TransactionStatus.requesting.name: requestingTransactionsList,
         TransactionStatus.waiting.name: waitingTransactionsList

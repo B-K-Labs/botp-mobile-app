@@ -40,11 +40,11 @@ CategorizedTransactionsInfo categorizeTransactions(
     final List<TransactionDetail> _newestTransactionsList = [];
     for (var trans in newTransactionsList) {
       final transId = trans.otpSessionSecretInfo.secretId;
-      if (currentTransactionSecretIdsList.contains(transId) &&
-          !historyTransactionSecretIdsList.contains(transId)) {
-        _olderTransactionsList.add(trans);
-      } else {
+      if (historyTransactionSecretIdsList.contains(transId) ||
+          !currentTransactionSecretIdsList.contains(transId)) {
         _newestTransactionsList.add(trans);
+      } else {
+        _olderTransactionsList.add(trans);
       }
     }
 

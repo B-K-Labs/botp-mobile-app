@@ -245,6 +245,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                           child: SingleChildScrollView(
                               child: Column(children: [
                             _generateCategorizedTransactionItemsList(
+                                context,
                                 categorizedTransactionsInfo
                                     .categorizedTransactions),
                           ])),
@@ -270,11 +271,12 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
     });
   }
 
-  Widget _generateCategorizedTransactionItemsList(
+  Widget _generateCategorizedTransactionItemsList(BuildContext context,
       List<CategorizedTransactions> categorizedTransactionsItemsList) {
     final categorizedTransactionWidgetsList = categorizedTransactionsItemsList
         .map<Widget>((categorizedTransactions) =>
-            _generateCategorizedTransactionItems(categorizedTransactions))
+            _generateCategorizedTransactionItems(
+                context, categorizedTransactions))
         .toList();
     return ListView.separated(
         scrollDirection: Axis.vertical,
@@ -287,7 +289,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
   }
 
   Widget _generateCategorizedTransactionItems(
-      CategorizedTransactions categorizedTransactions) {
+      BuildContext context, CategorizedTransactions categorizedTransactions) {
     // Categorized theme
     // - Color
     final Color primary =
@@ -315,26 +317,27 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
             ],
           )),
       // const SizedBox(height: 12.0),
-      _transactionItemsList(categorizedTransactions.transactionsList)
+      _transactionItemsList(context, categorizedTransactions.transactionsList)
     ]);
   }
 
-  Widget _transactionItemsList(List<TransactionDetail> transactionsList) {
+  Widget _transactionItemsList(
+      BuildContext context, List<TransactionDetail> transactionsList) {
     return SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Column(children: [
           Stack(children: [
             _generateShadowTransactionItemsList(transactionsList.length),
-            _generateTransactionItemsList(transactionsList)
+            _generateTransactionItemsList(context, transactionsList)
           ])
         ]));
   }
 
   Widget _generateTransactionItemsList(
-      List<TransactionDetail> transactionsList) {
+      BuildContext context, List<TransactionDetail> transactionsList) {
     final transactionWidgetsList = transactionsList
-        .map<Widget>(
-            (transactionDetail) => _generateTransactionItem(transactionDetail))
+        .map<Widget>((transactionDetail) =>
+            _generateTransactionItem(context, transactionDetail))
         .toList();
     return ListView.separated(
         padding: const EdgeInsets.symmetric(
@@ -348,7 +351,8 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
         itemCount: transactionWidgetsList.length);
   }
 
-  Widget _generateTransactionItem(TransactionDetail transactionDetail) {
+  Widget _generateTransactionItem(
+      BuildContext context, TransactionDetail transactionDetail) {
     final otpSessionInfo = transactionDetail.otpSessionInfo;
     return Container(
         padding:
@@ -362,6 +366,13 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
           notifyMessage: otpSessionInfo.notifyMessage,
           transactionStatus: otpSessionInfo.transactionStatus,
           onTap: () {
+            // Clear history for that transaction
+            context.read<AuthenticatorBloc>().add(
+                AuthenticatorEventRemoveTransactionHistory(
+                    transactionSecretId:
+                        transactionDetail.otpSessionSecretInfo.secretId,
+                    transactionStatus:
+                        transactionDetail.otpSessionInfo.transactionStatus));
             Application.router.navigateTo(context, "/botp/transaction",
                 routeSettings: RouteSettings(arguments: transactionDetail));
           },
