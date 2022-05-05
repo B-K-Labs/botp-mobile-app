@@ -1,3 +1,4 @@
+import 'package:botp_auth/common/models/authenticator_model.dart';
 import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/common/states/request_status.dart';
@@ -6,6 +7,7 @@ import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_event.dart';
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_state.dart';
+import 'package:botp_auth/utils/helpers/transaction.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:async';
 
@@ -49,7 +51,7 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
           emit(AuthenticatorState(
               transactionStatus: newTransactionStatus,
               paginationInfo: state.paginationInfo,
-              categorizedTransactionsList: null,
+              categorizedTransactionsInfo: null,
               getTransactionListStatus: state.getTransactionListStatus));
           size = kTransactionItemsPagSize;
         } else if (event.needMorePage != null) {
@@ -62,21 +64,15 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
                 accountData!.bcAddress, newTransactionStatus, page, size);
 
         //  (imp) Categorize the transactions list
-        final categorizedTransactions1 = CategorizedTransactions(
-            categoryName: "New transactions",
-            transactionsList: getTransactionListResult.transactionsList,
-            isNewest: true);
-        final categorizedTransactions2 = CategorizedTransactions(
-            categoryName: "Older",
-            transactionsList: getTransactionListResult.transactionsList);
+        final List<String> oldTransactionSecretIdsList = [];
+        final _categorizedTransactionsInfo = categorizeTransactions(
+            getTransactionListResult.transactionsList,
+            oldTransactionSecretIdsList);
         // Update new state
         emit(state.copyWith(
             transactionStatus: newTransactionStatus,
             paginationInfo: getTransactionListResult.paginationInfo,
-            categorizedTransactionsList: [
-              categorizedTransactions1,
-              categorizedTransactions2
-            ],
+            categorizedTransactionsInfo: _categorizedTransactionsInfo,
             getTransactionListStatus: RequestStatusSuccess()));
 
         // Setup timer

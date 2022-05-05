@@ -67,3 +67,25 @@ class CancelTransactionResponseModel extends RequestTransactionResponseModel {
   CancelTransactionResponseModel.fromJSON(Map<String, dynamic> json)
       : otpSession = json["OTPsession"];
 }
+
+class CategorizedTransactions {
+  final TimeFilters categoryType;
+  String get categoryName => timeFiltersNameMap[categoryType]!;
+  bool get isEmpty => transactionsList.isEmpty;
+  final List<TransactionDetail> transactionsList;
+
+  CategorizedTransactions(
+      {required this.categoryType, required this.transactionsList});
+}
+
+class CategorizedTransactionsInfo {
+  final List<CategorizedTransactions> categorizedTransactions;
+  final List<String> transactionSecretIdsList;
+  bool get isEmpty =>
+      categorizedTransactions.isEmpty ||
+      categorizedTransactions.every((e) => e.isEmpty);
+
+  CategorizedTransactionsInfo(
+      {required this.categorizedTransactions,
+      required this.transactionSecretIdsList});
+}

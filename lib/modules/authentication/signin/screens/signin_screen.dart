@@ -74,7 +74,7 @@ class _SignInBodyState extends State<SignInBody> {
                 Row(children: <Widget>[
                   Expanded(child: _signInCurrentButton()),
                   const SizedBox(
-                    width: kAppPaddingBetweenItemNormalSize,
+                    width: kAppPaddingBetweenItemSmallSize,
                   ),
                   _signInFingerprint(),
                 ]),

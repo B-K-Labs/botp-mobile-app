@@ -1,3 +1,4 @@
+import 'package:botp_auth/common/models/authenticator_model.dart';
 import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/common/states/request_status.dart';
@@ -134,15 +135,15 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
     return BlocBuilder<AuthenticatorBloc, AuthenticatorState>(
         builder: (context, state) {
       final _itemList = [
-        {
-          "type": ColorType.normal,
-          "status": TransactionStatus.all,
-          "onSelected": () {
-            context.read<AuthenticatorBloc>().add(
-                AuthenticatorEventGetTransactionsListAndSetupTimer(
-                    transactionStatus: TransactionStatus.all));
-          }
-        },
+        // {
+        //   "type": ColorType.normal,
+        //   "status": TransactionStatus.all,
+        //   "onSelected": () {
+        //     context.read<AuthenticatorBloc>().add(
+        //         AuthenticatorEventGetTransactionsListAndSetupTimer(
+        //             transactionStatus: TransactionStatus.all));
+        //   }
+        // },
         {
           "type": ColorType.tertiary,
           "status": TransactionStatus.requesting,
@@ -166,21 +167,22 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
           padding: const EdgeInsets.symmetric(
               horizontal: kAppPaddingHorizontalSize,
               vertical: kAppPaddingBetweenItemSmallSize),
-          child: Wrap(
-              direction: Axis.horizontal,
-              children: List.generate(
-                  _itemList.length,
-                  (index) => Container(
-                      margin: const EdgeInsets.only(right: 6.0),
-                      child: FilterTransactionStatusWidget(
-                          transactionStatus:
-                              _itemList[index]["status"] as TransactionStatus,
-                          colorType: _itemList[index]["type"] as ColorType,
-                          isSelected:
-                              _itemList[index]["status"] as TransactionStatus ==
+          child: Center(
+              child: Wrap(
+                  direction: Axis.horizontal,
+                  children: List.generate(
+                      _itemList.length,
+                      (index) => Container(
+                          margin: const EdgeInsets.only(right: 6.0),
+                          child: FilterTransactionStatusWidget(
+                              transactionStatus: _itemList[index]["status"]
+                                  as TransactionStatus,
+                              colorType: _itemList[index]["type"] as ColorType,
+                              isSelected: _itemList[index]["status"]
+                                      as TransactionStatus ==
                                   state.transactionStatus,
-                          onSelected: _itemList[index]["onSelected"]
-                              as VoidCallback?)))));
+                              onSelected: _itemList[index]["onSelected"]
+                                  as VoidCallback?))))));
     });
   }
 
@@ -200,9 +202,9 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
   Widget _categorizedTransactionItemsList() {
     return BlocConsumer<AuthenticatorBloc, AuthenticatorState>(
         builder: (context, state) {
-      final categorizedTransactionsList = state.categorizedTransactionsList;
-      return categorizedTransactionsList != null
-          ? (categorizedTransactionsList.isEmpty
+      final categorizedTransactionsInfo = state.categorizedTransactionsInfo;
+      return categorizedTransactionsInfo != null
+          ? (categorizedTransactionsInfo.isEmpty
               ? Expanded(
                   child: Center(
                       child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -240,7 +242,8 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                           child: SingleChildScrollView(
                               child: Column(children: [
                             _generateCategorizedTransactionItemsList(
-                                categorizedTransactionsList),
+                                categorizedTransactionsInfo
+                                    .categorizedTransactions),
                           ])),
                           onRefresh: () async {
                             await context
@@ -284,9 +287,10 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
       CategorizedTransactions categorizedTransactions) {
     // Categorized theme
     // - Color
-    final Color primary = categorizedTransactions.isNewest
-        ? Theme.of(context).colorScheme.error
-        : Theme.of(context).colorScheme.onSurface;
+    final Color primary =
+        categorizedTransactions.categoryType == TimeFilters.newest
+            ? Theme.of(context).colorScheme.error
+            : Theme.of(context).colorScheme.onSurface;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Padding(
