@@ -86,12 +86,14 @@ class CategorizedTransactionsInfo {
   final List<CategorizedTransactions> categorizedTransactions;
   final List<String>? allTransactionSecretIdsList;
   final List<String>? historyTransactionSecretIdsList;
+  final bool hasNewNotification;
   bool get isEmpty =>
       categorizedTransactions.isEmpty ||
       categorizedTransactions.every((e) => e.isEmpty);
 
   CategorizedTransactionsInfo(
       {required this.categorizedTransactions,
+      required this.hasNewNotification,
       this.allTransactionSecretIdsList,
       this.historyTransactionSecretIdsList});
 }

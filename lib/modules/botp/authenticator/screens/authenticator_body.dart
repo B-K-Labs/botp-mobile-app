@@ -151,7 +151,10 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
             context.read<AuthenticatorBloc>().add(
                 AuthenticatorEventTransactionStatusChanged(
                     transactionStatus: TransactionStatus.requesting));
-          }
+          },
+          "hasNoti":
+              state.categorizedRequestingTransactionsInfo?.hasNewNotification ??
+                  false
         },
         {
           "type": ColorType.primary,
@@ -160,7 +163,10 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
             context.read<AuthenticatorBloc>().add(
                 AuthenticatorEventTransactionStatusChanged(
                     transactionStatus: TransactionStatus.waiting));
-          }
+          },
+          "hasNoti":
+              state.categorizedWaitingTransactionsInfo?.hasNewNotification ??
+                  false
         }
       ];
       return Container(
@@ -170,19 +176,21 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
           child: Center(
               child: Wrap(
                   direction: Axis.horizontal,
-                  children: List.generate(
-                      _itemList.length,
-                      (index) => Container(
-                          margin: const EdgeInsets.only(right: 6.0),
-                          child: FilterTransactionStatusWidget(
-                              transactionStatus: _itemList[index]["status"]
-                                  as TransactionStatus,
-                              colorType: _itemList[index]["type"] as ColorType,
-                              isSelected: _itemList[index]["status"]
-                                      as TransactionStatus ==
+                  children: List.generate(_itemList.length, (index) {
+                    final filterItem = _itemList[index];
+                    return Container(
+                        margin: const EdgeInsets.only(right: 6.0),
+                        child: FilterTransactionStatusWidget(
+                          transactionStatus:
+                              filterItem["status"] as TransactionStatus,
+                          colorType: filterItem["type"] as ColorType,
+                          isSelected:
+                              filterItem["status"] as TransactionStatus ==
                                   state.transactionStatus,
-                              onSelected: _itemList[index]["onSelected"]
-                                  as VoidCallback?))))));
+                          onSelected: filterItem["onSelected"] as VoidCallback?,
+                          hasNewNotification: filterItem["hasNoti"] as bool,
+                        ));
+                  }))));
     });
   }
 

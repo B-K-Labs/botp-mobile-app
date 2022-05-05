@@ -34,6 +34,8 @@ CategorizedTransactionsInfo categorizeTransactions(
   // 3. All secret ids
   List<String> _allTransactionSecretIdsList =
       newTransactionsList.map((e) => e.otpSessionSecretInfo.secretId).toList();
+  // 4. Has new notification
+  bool hasNewNotification = false;
 
   // Split newest transactions list and make new old transaction ids list
   if (isFilteringNewest) {
@@ -58,6 +60,7 @@ CategorizedTransactionsInfo categorizeTransactions(
       _categorizedTransactions.add(CategorizedTransactions(
           categoryType: TimeFilters.newest,
           transactionsList: _newestTransactionsList));
+      hasNewNotification = true;
     }
   }
 
@@ -100,7 +103,9 @@ CategorizedTransactionsInfo categorizeTransactions(
       ? CategorizedTransactionsInfo(
           categorizedTransactions: _categorizedTransactions,
           allTransactionSecretIdsList: _allTransactionSecretIdsList,
-          historyTransactionSecretIdsList: _newHistoryTransactionSecretIdsList)
+          historyTransactionSecretIdsList: _newHistoryTransactionSecretIdsList,
+          hasNewNotification: hasNewNotification)
       : CategorizedTransactionsInfo(
-          categorizedTransactions: _categorizedTransactions);
+          categorizedTransactions: _categorizedTransactions,
+          hasNewNotification: hasNewNotification);
 }

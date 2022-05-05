@@ -96,6 +96,7 @@ class FilterTime2Widget extends StatelessWidget {
 
 class FilterTransactionStatusWidget extends StatelessWidget {
   final TransactionStatus transactionStatus;
+  final bool hasNewNotification;
   final ColorType colorType;
   final bool isSelected;
   final VoidCallback? onSelected;
@@ -105,7 +106,8 @@ class FilterTransactionStatusWidget extends StatelessWidget {
       required this.transactionStatus,
       required this.colorType,
       required this.isSelected,
-      required this.onSelected})
+      required this.onSelected,
+      this.hasNewNotification = false})
       : super(key: key);
 
   @override
@@ -154,19 +156,31 @@ class FilterTransactionStatusWidget extends StatelessWidget {
     final _decoration =
         BoxDecoration(color: _backgroundColor, borderRadius: _borderRadius);
 
-    return FittedBox(
-        fit: BoxFit.scaleDown,
-        child: Container(
-            decoration: _decoration,
-            child: Material(
-                color: Colors.transparent,
-                borderRadius: _borderRadius,
-                child: InkWell(
-                    onTap: onSelected,
-                    borderRadius: _borderRadius,
-                    child: Container(
-                        padding: _padding,
-                        child: Text(transactionStatus.toCapitalizedString(),
-                            style: _textStyle))))));
+    return Stack(children: [
+      FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Container(
+              decoration: _decoration,
+              child: Material(
+                  color: Colors.transparent,
+                  borderRadius: _borderRadius,
+                  child: InkWell(
+                      onTap: onSelected,
+                      borderRadius: _borderRadius,
+                      child: Container(
+                          padding: _padding,
+                          child: Text(transactionStatus.toCapitalizedString(),
+                              style: _textStyle)))))),
+      Positioned(
+          top: 0,
+          right: 0,
+          child: hasNewNotification
+              ? Container(
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.error,
+                      borderRadius: BorderRadius.circular(100)),
+                  child: const SizedBox(height: 8.0, width: 8.0))
+              : Container())
+    ]);
   }
 }
