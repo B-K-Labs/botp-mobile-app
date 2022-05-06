@@ -19,8 +19,10 @@ import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/filter.dart';
 import 'package:botp_auth/widgets/transaction.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletons/skeletons.dart';
 
 class AuthenticatorBody extends StatefulWidget {
   const AuthenticatorBody({Key? key}) : super(key: key);
@@ -268,13 +270,27 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                           }))))
           : Container(
               padding: const EdgeInsets.symmetric(
-                  vertical: kAppPaddingBetweenItemNormalSize,
+                  vertical: kAppPaddingBetweenItemSmallSize,
                   horizontal: kAppPaddingHorizontalSize),
-              child: Column(children: const [
-                TransactionItemSkeletonWidget(),
-                SizedBox(height: kAppPaddingBetweenItemSmallSize),
-                TransactionItemSkeletonWidget()
-              ]));
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(children: const [
+                      SizedBox(width: 16.0),
+                      Expanded(
+                          child: SkeletonLine(
+                              style: SkeletonLineStyle(
+                                  randomLength: true,
+                                  minLength: 75,
+                                  maxLength: 150,
+                                  height: 16.0,
+                                  alignment: Alignment.centerLeft)))
+                    ]),
+                    const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+                    const TransactionItemSkeletonWidget(),
+                    const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+                    const TransactionItemSkeletonWidget()
+                  ]));
     }, listener: (context, state) {
       final getTransactionsListStatus = state.getTransactionListStatus;
       if (getTransactionsListStatus is RequestStatusFailed) {
