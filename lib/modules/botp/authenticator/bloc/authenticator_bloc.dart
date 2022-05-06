@@ -174,7 +174,7 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
             historyTransactionSecretIdsList:
                 historyWaitingTransactionSecretIdsList,
             isNotFetchedFirstTime: isNotFetchedFirstTime);
-        // - Update new history
+        // - Update new history to storage
         await UserData.setCredentialTransactionsHistoryData(
             _categorizedRequestingTransactionsInfo
                 .historyTransactionSecretIdsList!,

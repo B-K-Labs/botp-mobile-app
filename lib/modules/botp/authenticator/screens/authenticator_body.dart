@@ -135,7 +135,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
           state.notifiedRequestingTransactionsList;
       final List<String> notifiedWaitingTransactionsList =
           state.notifiedWaitingTransactionsList;
-      if (notifiedWaitingTransactionsList.isNotEmpty ||
+      if (notifiedRequestingTransactionsList.isNotEmpty ||
           notifiedWaitingTransactionsList.isNotEmpty) {
         // Show notification
         const title = "New transactions!";
