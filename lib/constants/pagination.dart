@@ -1,2 +1,2 @@
-const kTransactionItemsPagSize = 25;
+const kTransactionItemsPagSize = 15;
 const kAgentItemsPagSize = 10;

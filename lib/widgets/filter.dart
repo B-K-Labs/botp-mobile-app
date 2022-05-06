@@ -65,7 +65,7 @@ class FilterTime2Widget extends StatelessWidget {
           value: selectedValue,
           onChanged: onChanged,
           dropdownColor: _color,
-          icon: Icon(Icons.arrow_drop_down),
+          icon: const Icon(Icons.arrow_drop_down),
           // iconSize: 24,
           underline: SizedBox(),
           items: [

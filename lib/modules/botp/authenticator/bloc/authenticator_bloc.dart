@@ -15,8 +15,8 @@ import 'dart:async';
 class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
   AuthenticatorRepository authenticatorRepository;
   // Pagination
-  int page;
-  int size;
+  int commonPage;
+  int commonSize;
   // Timer
   Timer? _getTransactionsListTimer;
   // Lock
@@ -27,8 +27,8 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
 
   AuthenticatorBloc(
       {required this.authenticatorRepository,
-      this.page = 1,
-      this.size = kTransactionItemsPagSize,
+      this.commonPage = 1,
+      this.commonSize = kTransactionItemsPagSize,
       this.isNotFetchedFirstTime = true})
       : super(AuthenticatorState()) {
     on<AuthenticatorEventTransactionStatusChanged>((event, emit) {
@@ -112,17 +112,17 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
             getTransactionListStatus: RequestStatusSubmitting()));
         // Track event detail
         if (event.needMorePage != null) {
-          size += kTransactionItemsPagSize;
+          commonSize += kTransactionItemsPagSize;
         }
         // Call request
         _getRequestingTransactionsListAsync() async =>
             await authenticatorRepository.getTransactionsList(
                 accountData!.bcAddress, TransactionStatus.requesting,
-                currentPage: page, pageSize: size);
+                currentPage: commonPage, pageSize: commonSize);
         _getWaitingTransactionsListAsync() async =>
             await authenticatorRepository.getTransactionsList(
                 accountData!.bcAddress, TransactionStatus.waiting,
-                currentPage: page, pageSize: size);
+                currentPage: commonPage, pageSize: commonSize);
 
         // Get lists
         final List<GetTransactionsListResponseModel>

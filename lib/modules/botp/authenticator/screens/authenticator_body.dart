@@ -16,6 +16,7 @@ import 'package:botp_auth/utils/helpers/transaction.dart';
 import 'package:botp_auth/utils/services/noti_api_service.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/common.dart';
+import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/filter.dart';
 import 'package:botp_auth/widgets/transaction.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
             children: [
               _reminder(),
               _searchSection(),
-              // _searchResult(),
+              _filterStatusSection(),
               _categorizedTransactionItemsList(),
             ]));
   }
@@ -102,38 +103,32 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
     });
   }
 
-  // // (History) 2. Search section
-  // Widget _searchSection() {
-  //   return Container(
-  //       padding: const EdgeInsets.symmetric(
-  //           horizontal: kAppPaddingHorizontalSize,
-  //           vertical: kAppPaddingBetweenItemSmallSize),
-  //       child: Column(children: [
-  //         FieldNormalWidget(
-  //             prefixIconData: Icons.search,
-  //             hintText: "Agent name, agent address, notify message",
-  //             validator: (_) {},
-  //             onChanged: (_) {},
-  //             textInputAction: TextInputAction.search),
-  //         const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.start,
-  //           children: [
-  //             FilterTransactionStatusWidget(
-  //                 onChanged: (value) {},
-  //                 selectedValue: TransactionStatus.requesting),
-  //             const SizedBox(width: kAppPaddingBetweenItemSmallSize),
-  //             FilterTimeWidget(
-  //               onChanged: (value) {},
-  //               selectedValue: CommonTimeRange.lastDay,
-  //             )
-  //           ],
-  //         )
-  //       ]));
-  // }
-
   // 2. Search section
   Widget _searchSection() {
+    return Container(
+        padding: const EdgeInsets.symmetric(
+            horizontal: kAppPaddingHorizontalSize,
+            vertical: kAppPaddingBetweenItemSmallSize),
+        child: Column(children: [
+          Row(children: [
+            Expanded(
+                child: FieldNormalWidget(
+                    prefixIconData: Icons.search,
+                    hintText: "Agent name, agent address, notify message",
+                    validator: (_) {},
+                    onChanged: (_) {},
+                    textInputAction: TextInputAction.search)),
+            const SizedBox(width: kAppPaddingBetweenItemSmallSize),
+            FilterTime2Widget(
+              onChanged: (value) {},
+              selectedValue: CommonTimeRange.lastDay,
+            ),
+          ])
+        ]));
+  }
+
+  // 3. Filter status section
+  Widget _filterStatusSection() {
     return BlocConsumer<AuthenticatorBloc, AuthenticatorState>(
         listener: (context, state) {
       final List<String> notifiedRequestingTransactionsList =
@@ -152,15 +147,6 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
       }
     }, builder: (context, state) {
       final _itemList = [
-        // {
-        //   "type": ColorType.normal,
-        //   "status": TransactionStatus.all,
-        //   "onSelected": () {
-        //     context.read<AuthenticatorBloc>().add(
-        //         AuthenticatorEventGetTransactionsListAndSetupTimer(
-        //             transactionStatus: TransactionStatus.all));
-        //   }
-        // },
         {
           "type": ColorType.tertiary,
           "status": TransactionStatus.requesting,
@@ -169,7 +155,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                 AuthenticatorEventTransactionStatusChanged(
                     transactionStatus: TransactionStatus.requesting));
           },
-          "hasNoti": state.categorizedRequestingTransactionsInfo
+          "hasNotification": state.categorizedRequestingTransactionsInfo
                   ?.isHavingNewTransactions ??
               false
         },
@@ -181,7 +167,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                 AuthenticatorEventTransactionStatusChanged(
                     transactionStatus: TransactionStatus.waiting));
           },
-          "hasNoti": state.categorizedWaitingTransactionsInfo
+          "hasNotification": state.categorizedWaitingTransactionsInfo
                   ?.isHavingNewTransactions ??
               false
         }
@@ -205,7 +191,8 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                               filterItem["status"] as TransactionStatus ==
                                   state.transactionStatus,
                           onSelected: filterItem["onSelected"] as VoidCallback?,
-                          hasNewNotification: filterItem["hasNoti"] as bool,
+                          hasNewNotification:
+                              filterItem["hasNotification"] as bool,
                         ));
                   }))));
     });
