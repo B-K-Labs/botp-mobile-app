@@ -123,13 +123,15 @@ class UserData {
   }
 
   static setCredentialTransactionsHistoryData(
-          List<String> requestingTransactionsList,
-          List<String> waitingTransactionsList) async =>
+          List<String> requestingTransactionSecretIdsList,
+          List<String> waitingTransactionSecretIdsList) async =>
       await SecureStorage.setSecureValue(
           UserDataType.credentialTransactionsHistory,
           CredentialTransactionsHistoryDataModel(
-                  requestingTransactionsList: requestingTransactionsList,
-                  waitingTransactionsList: waitingTransactionsList)
+                  requestingTransactionSecretIdsList:
+                      requestingTransactionSecretIdsList,
+                  waitingTransactionSecretIdsList:
+                      waitingTransactionSecretIdsList)
               .toJSON());
 
   static clearCredentialTransactionHistoryData() async =>

@@ -69,19 +69,19 @@ class CredentialAgentsDataModel {
 }
 
 class CredentialTransactionsHistoryDataModel {
-  List<String> requestingTransactionsList;
-  List<String> waitingTransactionsList;
+  List<String> requestingTransactionSecretIdsList;
+  List<String> waitingTransactionSecretIdsList;
   CredentialTransactionsHistoryDataModel(
-      {required this.requestingTransactionsList,
-      required this.waitingTransactionsList});
+      {required this.requestingTransactionSecretIdsList,
+      required this.waitingTransactionSecretIdsList});
   CredentialTransactionsHistoryDataModel.fromJSON(Map<String, dynamic> json)
-      : requestingTransactionsList =
+      : requestingTransactionSecretIdsList =
             List<String>.from(json[TransactionStatus.requesting.name]),
-        waitingTransactionsList =
+        waitingTransactionSecretIdsList =
             List<String>.from(json[TransactionStatus.waiting.name]);
   Map<String, dynamic> toJSON() => {
-        TransactionStatus.requesting.name: requestingTransactionsList,
-        TransactionStatus.waiting.name: waitingTransactionsList
+        TransactionStatus.requesting.name: requestingTransactionSecretIdsList,
+        TransactionStatus.waiting.name: waitingTransactionSecretIdsList
       };
 }
 

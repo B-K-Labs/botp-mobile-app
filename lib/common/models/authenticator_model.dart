@@ -93,10 +93,13 @@ class CategorizedTransactionsInfo {
   bool get isEmpty =>
       categorizedTransactions.isEmpty ||
       categorizedTransactions.every((e) => e.isEmpty);
-
+  // For getting history
   List<String> get currentTransactionSecretIdsList => categorizedTransactions
       .expand((e) => e.currentTransactionSecretIdsList)
       .toList();
+  // For re-categorizing
+  List<TransactionDetail> get currentTransactionsList =>
+      categorizedTransactions.expand((e) => e.transactionsList).toList();
 
   CategorizedTransactionsInfo(
       {required this.categorizedTransactions,

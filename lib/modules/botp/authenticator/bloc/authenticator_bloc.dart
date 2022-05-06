@@ -43,21 +43,59 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
           await UserData.getCredentialTransactionsHistoryData();
       if (transactionHistoryData != null) {
         if (event.transactionStatus == TransactionStatus.requesting) {
-          List<String> newRequestingTransactionList =
-              transactionHistoryData.requestingTransactionsList;
-          newRequestingTransactionList
+          List<String> newRequestingTransactionSecretIdsList =
+              transactionHistoryData.requestingTransactionSecretIdsList;
+          newRequestingTransactionSecretIdsList
               .removeWhere((secretId) => secretId == event.transactionSecretId);
+          // Update storage
           await UserData.setCredentialTransactionsHistoryData(
-              newRequestingTransactionList,
-              transactionHistoryData.waitingTransactionsList);
+              newRequestingTransactionSecretIdsList,
+              transactionHistoryData.waitingTransactionSecretIdsList);
+          // Re-categorize the transactions list
+          final currentTransactionsList = state
+                  .categorizedRequestingTransactionsInfo
+                  ?.currentTransactionsList ??
+              [];
+          final currentTransactionSecretIdsList = currentTransactionsList
+              .map((e) => e.otpSessionSecretInfo.secretId)
+              .toList();
+          final newRequestingCategorizedTransactionsInfo =
+              categorizeTransactions(
+                  newTransactionsList: currentTransactionsList,
+                  currentTransactionSecretIdsList:
+                      currentTransactionSecretIdsList,
+                  historyTransactionSecretIdsList:
+                      newRequestingTransactionSecretIdsList);
+          // Update state
+          emit(state.copyWith(
+              categorizedRequestingTransactionsInfo:
+                  newRequestingCategorizedTransactionsInfo));
         } else {
-          List<String> newWaitingTransactionsList =
-              transactionHistoryData.waitingTransactionsList;
-          newWaitingTransactionsList
+          // Update storage
+          List<String> newWaitingTransactionSecretIdsList =
+              transactionHistoryData.waitingTransactionSecretIdsList;
+          newWaitingTransactionSecretIdsList
               .removeWhere((secretId) => secretId == event.transactionSecretId);
           await UserData.setCredentialTransactionsHistoryData(
-              transactionHistoryData.requestingTransactionsList,
-              newWaitingTransactionsList);
+              transactionHistoryData.requestingTransactionSecretIdsList,
+              newWaitingTransactionSecretIdsList);
+          // Re-categorize the transactions list
+          final currentTransactionsList = state
+                  .categorizedWaitingTransactionsInfo
+                  ?.currentTransactionsList ??
+              [];
+          final currentTransactionSecretIdsList = currentTransactionsList
+              .map((e) => e.otpSessionSecretInfo.secretId)
+              .toList();
+          final newWaitingCategorizedTransactionsInfo = categorizeTransactions(
+              newTransactionsList: currentTransactionsList,
+              currentTransactionSecretIdsList: currentTransactionSecretIdsList,
+              historyTransactionSecretIdsList:
+                  newWaitingTransactionSecretIdsList);
+          // Update state
+          emit(state.copyWith(
+              categorizedRequestingTransactionsInfo:
+                  newWaitingCategorizedTransactionsInfo));
         }
       }
     });
@@ -112,12 +150,12 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
         final historyTransactionData =
             (await UserData.getCredentialTransactionsHistoryData()) ??
                 CredentialTransactionsHistoryDataModel(
-                    requestingTransactionsList: [],
-                    waitingTransactionsList: []);
+                    requestingTransactionSecretIdsList: [],
+                    waitingTransactionSecretIdsList: []);
         final List<String> historyRequestingTransactionSecretIdsList =
-            historyTransactionData.requestingTransactionsList;
+            historyTransactionData.requestingTransactionSecretIdsList;
         final List<String> historyWaitingTransactionSecretIdsList =
-            historyTransactionData.waitingTransactionsList;
+            historyTransactionData.waitingTransactionSecretIdsList;
         // - Categorize
         final _categorizedRequestingTransactionsInfo = categorizeTransactions(
             newTransactionsList: _requestingTransactionList.transactionsList,
