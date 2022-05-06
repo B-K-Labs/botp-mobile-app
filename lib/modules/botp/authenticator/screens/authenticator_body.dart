@@ -135,17 +135,21 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
   Widget _searchSection() {
     return BlocConsumer<AuthenticatorBloc, AuthenticatorState>(
         listener: (context, state) {
-      // final bool hasNewNotificationRequesting =
-      //     state.categorizedRequestingTransactionsInfo?.hasNewNotification ??
-      //         false;
-      // final bool hasNewNotificationWaiting =
-      //     state.categorizedWaitingTransactionsInfo?.hasNewNotification ?? false;
-      // if (hasNewNotificationRequesting || hasNewNotificationWaiting) {
-      //   NotificationApi.showNotification(
-      //       title: "You have new transactions",
-      //       body: "There are some transactions that need your authentication.",
-      //       payload: "Hehe");
-      // }
+      final int numNotifiedRequestingTransaction = state
+              .categorizedRequestingTransactionsInfo?.numNotifiedTransactions ??
+          0;
+      final int numNotifiedWaitingTransaction = state
+              .categorizedRequestingTransactionsInfo?.numNotifiedTransactions ??
+          0;
+      if (numNotifiedRequestingTransaction > 0 ||
+          numNotifiedWaitingTransaction > 0) {
+        // Show notification
+        const title = "You have mentioned transactions!";
+        final String body =
+            "There are ${numNotifiedRequestingTransaction > 0 ? "$numNotifiedRequestingTransaction requesting transaction" : ""}${numNotifiedRequestingTransaction > 0 && numNotifiedWaitingTransaction > 0 ? " and " : ""}${numNotifiedWaitingTransaction > 0 ? "$numNotifiedWaitingTransaction waiting transactions" : ""} that need your confirmation.";
+        NotificationApi.showNotification(
+            title: title, body: body, payload: "sample_payload");
+      }
     }, builder: (context, state) {
       final _itemList = [
         // {
