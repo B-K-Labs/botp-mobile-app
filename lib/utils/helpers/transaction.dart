@@ -21,7 +21,8 @@ String shortenNotifyMessage(String notifyMessage) {
 CategorizedTransactionsInfo categorizeTransactions(
     {required List<TransactionDetail> newTransactionsList,
     List<String>? historyTransactionSecretIdsList,
-    List<String>? currentTransactionSecretIdsList}) {
+    List<String>? currentTransactionSecretIdsList,
+    bool isNotFetchedFirstTime = true}) {
   // Note: transactions list is always pre-sorted by time
   final bool isFilteringNewest = currentTransactionSecretIdsList != null &&
       historyTransactionSecretIdsList != null;
@@ -46,7 +47,8 @@ CategorizedTransactionsInfo categorizeTransactions(
         _newestTransactionsList.add(trans);
       }
       // Incoming transactions
-      else if (!currentTransactionSecretIdsList.contains(transId)) {
+      else if (!currentTransactionSecretIdsList.contains(transId) &&
+          isNotFetchedFirstTime) {
         _newestTransactionsList.add(trans);
         numNotifiedTransactions += 1;
       }
@@ -115,4 +117,18 @@ CategorizedTransactionsInfo categorizeTransactions(
           categorizedTransactions: _categorizedTransactions,
           isHavingNewTransactions: isHavingNewTransactions,
           numNotifiedTransactions: numNotifiedTransactions);
+}
+
+String getBodyPushNotificationMessage(
+    int numNotifiedRequestingTransactions, int numNotifiedWaitingTransactions) {
+  if (numNotifiedRequestingTransactions > 0 &&
+      numNotifiedWaitingTransactions > 0) {
+    return "You have $numNotifiedRequestingTransactions requesting and $numNotifiedWaitingTransactions waiting transactions that need your confirmation. Click to view details.";
+  } else if (numNotifiedRequestingTransactions > 0) {
+    return "You have $numNotifiedRequestingTransactions requesting transaction${numNotifiedRequestingTransactions > 1 ? "s" : ""} that need your confirmation. Click to view details.";
+  } else if (numNotifiedWaitingTransactions > 0) {
+    return "You have $numNotifiedWaitingTransactions waiting transaction${numNotifiedWaitingTransactions > 1 ? "s" : ""} that need your confirmation. Click to view details.";
+  } else {
+    return "We are listening for your upcoming transactions for you.";
+  }
 }

@@ -12,6 +12,7 @@ import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_event.da
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_state.dart';
 import 'package:botp_auth/modules/botp/home/cubit/botp_home_cubit.dart';
 import 'package:botp_auth/modules/botp/home/cubit/botp_home_state.dart';
+import 'package:botp_auth/utils/helpers/transaction.dart';
 import 'package:botp_auth/utils/services/noti_api_service.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/common.dart';
@@ -135,18 +136,17 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
   Widget _searchSection() {
     return BlocConsumer<AuthenticatorBloc, AuthenticatorState>(
         listener: (context, state) {
-      final int numNotifiedRequestingTransaction = state
-              .categorizedRequestingTransactionsInfo?.numNotifiedTransactions ??
-          0;
-      final int numNotifiedWaitingTransaction = state
-              .categorizedRequestingTransactionsInfo?.numNotifiedTransactions ??
-          0;
-      if (numNotifiedRequestingTransaction > 0 ||
-          numNotifiedWaitingTransaction > 0) {
+      final int numNotifiedRequestingTransactions =
+          state.numNotifiedRequestingTransactions;
+      final int numNotifiedWaitingTransactions =
+          state.numNotifiedWaitingTransactions;
+      if (numNotifiedRequestingTransactions > 0 ||
+          numNotifiedWaitingTransactions > 0) {
         // Show notification
-        const title = "You have mentioned transactions!";
-        final String body =
-            "There are ${numNotifiedRequestingTransaction > 0 ? "$numNotifiedRequestingTransaction requesting transaction" : ""}${numNotifiedRequestingTransaction > 0 && numNotifiedWaitingTransaction > 0 ? " and " : ""}${numNotifiedWaitingTransaction > 0 ? "$numNotifiedWaitingTransaction waiting transactions" : ""} that need your confirmation.";
+        const title = "New transactions!";
+        final String body = getBodyPushNotificationMessage(
+            numNotifiedRequestingTransactions, numNotifiedWaitingTransactions);
+        print("Show noti");
         NotificationApi.showNotification(
             title: title, body: body, payload: "sample_payload");
       }

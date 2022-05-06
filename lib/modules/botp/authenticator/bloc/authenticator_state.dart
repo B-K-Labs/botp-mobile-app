@@ -12,11 +12,16 @@ class AuthenticatorState {
   CategorizedTransactionsInfo? categorizedWaitingTransactionsInfo;
   // Status
   RequestStatus getTransactionListStatus;
+  // Notifications
+  int numNotifiedRequestingTransactions;
+  int numNotifiedWaitingTransactions;
 
   AuthenticatorState({
     this.transactionStatus = TransactionStatus.requesting,
     this.categorizedRequestingTransactionsInfo,
     this.categorizedWaitingTransactionsInfo,
+    this.numNotifiedRequestingTransactions = 0,
+    this.numNotifiedWaitingTransactions = 0,
     this.getTransactionListStatus = const RequestStatusInitial(),
   });
 
@@ -24,7 +29,9 @@ class AuthenticatorState {
           {TransactionStatus? transactionStatus,
           CategorizedTransactionsInfo? categorizedRequestingTransactionsInfo,
           CategorizedTransactionsInfo? categorizedWaitingTransactionsInfo,
-          RequestStatus? getTransactionListStatus}) =>
+          RequestStatus? getTransactionListStatus,
+          int? numNotifiedRequestingTransactions,
+          int? numNotifiedWaitingTransactions}) =>
       AuthenticatorState(
           categorizedRequestingTransactionsInfo:
               categorizedRequestingTransactionsInfo ??
@@ -34,5 +41,10 @@ class AuthenticatorState {
                   this.categorizedWaitingTransactionsInfo,
           transactionStatus: transactionStatus ?? this.transactionStatus,
           getTransactionListStatus:
-              getTransactionListStatus ?? this.getTransactionListStatus);
+              getTransactionListStatus ?? this.getTransactionListStatus,
+          numNotifiedRequestingTransactions:
+              numNotifiedRequestingTransactions ??
+                  this.numNotifiedRequestingTransactions,
+          numNotifiedWaitingTransactions: numNotifiedWaitingTransactions ??
+              this.numNotifiedWaitingTransactions);
 }

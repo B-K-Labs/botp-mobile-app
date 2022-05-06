@@ -22,11 +22,14 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
   // Lock
   bool _isGettingTransactionsListSubmitting = false;
   bool _isGettingTransactionsListTimerRunning = false;
+  // For history
+  bool isNotFetchedFirstTime;
 
   AuthenticatorBloc(
       {required this.authenticatorRepository,
       this.page = 1,
-      this.size = kTransactionItemsPagSize})
+      this.size = kTransactionItemsPagSize,
+      this.isNotFetchedFirstTime = false})
       : super(AuthenticatorState()) {
     on<AuthenticatorEventTransactionStatusChanged>((event, emit) {
       emit(state.copyWith(transactionStatus: event.transactionStatus));
@@ -162,19 +165,23 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
             currentTransactionSecretIdsList:
                 currentRequestingTransactionSecretIdsList,
             historyTransactionSecretIdsList:
-                historyRequestingTransactionSecretIdsList);
+                historyRequestingTransactionSecretIdsList,
+            isNotFetchedFirstTime: isNotFetchedFirstTime);
         final _categorizedWaitingTransactionsInfo = categorizeTransactions(
             newTransactionsList: _waitingTransactionList.transactionsList,
             currentTransactionSecretIdsList:
                 currentWaitingTransactionSecretIdsList,
             historyTransactionSecretIdsList:
-                historyWaitingTransactionSecretIdsList);
+                historyWaitingTransactionSecretIdsList,
+            isNotFetchedFirstTime: isNotFetchedFirstTime);
         // - Update new history
         await UserData.setCredentialTransactionsHistoryData(
             _categorizedRequestingTransactionsInfo
                 .historyTransactionSecretIdsList!,
             _categorizedWaitingTransactionsInfo
                 .historyTransactionSecretIdsList!);
+        // Change the flag: to mark new transaction
+        isNotFetchedFirstTime = true;
 
         // Update new state
         emit(state.copyWith(
@@ -182,6 +189,10 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
                 _categorizedRequestingTransactionsInfo,
             categorizedWaitingTransactionsInfo:
                 _categorizedWaitingTransactionsInfo,
+            numNotifiedRequestingTransactions:
+                _categorizedRequestingTransactionsInfo.numNotifiedTransactions,
+            numNotifiedWaitingTransactions:
+                _categorizedWaitingTransactionsInfo.numNotifiedTransactions,
             getTransactionListStatus: RequestStatusSuccess()));
 
         // Setup timer
@@ -191,7 +202,10 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
       } on Exception catch (e) {
         emit(state.copyWith(getTransactionListStatus: RequestStatusFailed(e)));
       }
+      // Change to initial + reset notifications
       emit(state.copyWith(
+          numNotifiedRequestingTransactions: 0,
+          numNotifiedWaitingTransactions: 0,
           getTransactionListStatus: const RequestStatusInitial()));
       _isGettingTransactionsListSubmitting = false;
     });
