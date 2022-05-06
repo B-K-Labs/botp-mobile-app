@@ -43,7 +43,7 @@ const otpPeriodSecond = 120;
 const otpAlgorithm = "SHA-512";
 
 // Socket simulation
-const socketPeriodSecond = 10;
+const socketPeriodSecond = 12;
 
 // Filter
 enum TimeFilters {

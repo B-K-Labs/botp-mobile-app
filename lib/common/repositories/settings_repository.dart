@@ -40,7 +40,11 @@ class SettingsRepository {
     http.Response result =
         await post(makeApiUrlString(path: "/QRcode/processQRInfo"), data);
     if (result.statusCode == HttpStatus.ok) {
-      return SetupAgentResponseModel.fromJSON(json.decode(result.body));
+      try {
+        return SetupAgentResponseModel.fromJSON(json.decode(result.body));
+      } on Exception catch (e) {
+        throw Exception(result.body);
+      }
     }
     throw Exception(result.body);
   }

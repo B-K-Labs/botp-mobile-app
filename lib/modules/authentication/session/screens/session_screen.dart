@@ -34,7 +34,7 @@ class _SessionBodyState extends State<SessionBody> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {// Clear data
     return BlocConsumer<SessionCubit, SessionState>(listener: (context, state) {
       if (state is RemindSetupKYCSessionState) {
         Application.router
