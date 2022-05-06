@@ -13,15 +13,15 @@ class AuthenticatorState {
   // Status
   RequestStatus getTransactionListStatus;
   // Notifications
-  int numNotifiedRequestingTransactions;
-  int numNotifiedWaitingTransactions;
+  List<String> notifiedRequestingTransactionsList;
+  List<String> notifiedWaitingTransactionsList;
 
   AuthenticatorState({
     this.transactionStatus = TransactionStatus.requesting,
     this.categorizedRequestingTransactionsInfo,
     this.categorizedWaitingTransactionsInfo,
-    this.numNotifiedRequestingTransactions = 0,
-    this.numNotifiedWaitingTransactions = 0,
+    this.notifiedRequestingTransactionsList = const [],
+    this.notifiedWaitingTransactionsList = const [],
     this.getTransactionListStatus = const RequestStatusInitial(),
   });
 
@@ -30,8 +30,8 @@ class AuthenticatorState {
           CategorizedTransactionsInfo? categorizedRequestingTransactionsInfo,
           CategorizedTransactionsInfo? categorizedWaitingTransactionsInfo,
           RequestStatus? getTransactionListStatus,
-          int? numNotifiedRequestingTransactions,
-          int? numNotifiedWaitingTransactions}) =>
+          List<String>? notifiedRequestingTransactionsList,
+          List<String>? notifiedWaitingTransactionsList}) =>
       AuthenticatorState(
           categorizedRequestingTransactionsInfo:
               categorizedRequestingTransactionsInfo ??
@@ -42,9 +42,9 @@ class AuthenticatorState {
           transactionStatus: transactionStatus ?? this.transactionStatus,
           getTransactionListStatus:
               getTransactionListStatus ?? this.getTransactionListStatus,
-          numNotifiedRequestingTransactions:
-              numNotifiedRequestingTransactions ??
-                  this.numNotifiedRequestingTransactions,
-          numNotifiedWaitingTransactions: numNotifiedWaitingTransactions ??
-              this.numNotifiedWaitingTransactions);
+          notifiedRequestingTransactionsList:
+              notifiedRequestingTransactionsList ??
+                  this.notifiedRequestingTransactionsList,
+          notifiedWaitingTransactionsList: notifiedWaitingTransactionsList ??
+              this.notifiedWaitingTransactionsList);
 }

@@ -136,17 +136,17 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
   Widget _searchSection() {
     return BlocConsumer<AuthenticatorBloc, AuthenticatorState>(
         listener: (context, state) {
-      final int numNotifiedRequestingTransactions =
-          state.numNotifiedRequestingTransactions;
-      final int numNotifiedWaitingTransactions =
-          state.numNotifiedWaitingTransactions;
-      if (numNotifiedRequestingTransactions > 0 ||
-          numNotifiedWaitingTransactions > 0) {
+      final List<String> notifiedRequestingTransactionsList =
+          state.notifiedRequestingTransactionsList;
+      final List<String> notifiedWaitingTransactionsList =
+          state.notifiedWaitingTransactionsList;
+      if (notifiedWaitingTransactionsList.isNotEmpty ||
+          notifiedWaitingTransactionsList.isNotEmpty) {
         // Show notification
         const title = "New transactions!";
         final String body = getBodyPushNotificationMessage(
-            numNotifiedRequestingTransactions, numNotifiedWaitingTransactions);
-        print("Show noti");
+            notifiedRequestingTransactionsList,
+            notifiedWaitingTransactionsList);
         NotificationApi.showNotification(
             title: title, body: body, payload: "sample_payload");
       }

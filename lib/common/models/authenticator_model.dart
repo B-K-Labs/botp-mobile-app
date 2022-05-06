@@ -88,7 +88,7 @@ class CategorizedTransactions {
 class CategorizedTransactionsInfo {
   final List<CategorizedTransactions> categorizedTransactions;
   final List<String>? historyTransactionSecretIdsList;
-  final int numNotifiedTransactions;
+  final List<String> notifiedTransactionsList;
   final bool isHavingNewTransactions;
   bool get isEmpty =>
       categorizedTransactions.isEmpty ||
@@ -103,7 +103,7 @@ class CategorizedTransactionsInfo {
 
   CategorizedTransactionsInfo(
       {required this.categorizedTransactions,
-      required this.numNotifiedTransactions,
+      required this.notifiedTransactionsList,
       required this.isHavingNewTransactions,
       this.historyTransactionSecretIdsList});
 }

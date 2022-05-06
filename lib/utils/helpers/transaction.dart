@@ -35,7 +35,7 @@ CategorizedTransactionsInfo categorizeTransactions(
   // 4. Flag: Is Having new transaction flag
   bool isHavingNewTransactions = false;
   // 5. Number of incoming transactions to be notified
-  int numNotifiedTransactions = 0;
+  List<String> notifiedTransactionsList = [];
 
   // Split newest transactions list and make new old transaction ids list
   if (isFilteringNewest) {
@@ -50,7 +50,7 @@ CategorizedTransactionsInfo categorizeTransactions(
       else if (!currentTransactionSecretIdsList.contains(transId) &&
           isNotFetchedFirstTime) {
         _newestTransactionsList.add(trans);
-        numNotifiedTransactions += 1;
+        notifiedTransactionsList.add(trans.otpSessionInfo.agentName);
       }
       // Old transactions
       else {
@@ -112,23 +112,54 @@ CategorizedTransactionsInfo categorizeTransactions(
           categorizedTransactions: _categorizedTransactions,
           historyTransactionSecretIdsList: _newHistoryTransactionSecretIdsList,
           isHavingNewTransactions: isHavingNewTransactions,
-          numNotifiedTransactions: numNotifiedTransactions)
+          notifiedTransactionsList: notifiedTransactionsList)
       : CategorizedTransactionsInfo(
           categorizedTransactions: _categorizedTransactions,
           isHavingNewTransactions: isHavingNewTransactions,
-          numNotifiedTransactions: numNotifiedTransactions);
+          notifiedTransactionsList: notifiedTransactionsList);
 }
 
 String getBodyPushNotificationMessage(
-    int numNotifiedRequestingTransactions, int numNotifiedWaitingTransactions) {
-  if (numNotifiedRequestingTransactions > 0 &&
-      numNotifiedWaitingTransactions > 0) {
-    return "You have $numNotifiedRequestingTransactions requesting and $numNotifiedWaitingTransactions waiting transactions that need your confirmation. Click to view details.";
-  } else if (numNotifiedRequestingTransactions > 0) {
-    return "You have $numNotifiedRequestingTransactions requesting transaction${numNotifiedRequestingTransactions > 1 ? "s" : ""} that need your confirmation. Click to view details.";
-  } else if (numNotifiedWaitingTransactions > 0) {
-    return "You have $numNotifiedWaitingTransactions waiting transaction${numNotifiedWaitingTransactions > 1 ? "s" : ""} that need your confirmation. Click to view details.";
+    List<String> notifiedRequestingTransactionsList,
+    List<String> notifiedWaitingTransactionsList) {
+  // From agent(s)
+  final List<String> agentsList = [
+    notifiedRequestingTransactionsList,
+    notifiedWaitingTransactionsList
+  ]
+      .expand((element) => element)
+      .toList()
+      .toSet()
+      .toList(); // Combine agents lists and remove duplicated agents
+  // Message concatenation
+  final String leadingMessage;
+  final String trailingMessage;
+  // - Leading part
+  if (notifiedRequestingTransactionsList.isNotEmpty &&
+      notifiedWaitingTransactionsList.isNotEmpty) {
+    leadingMessage =
+        "You have ${notifiedRequestingTransactionsList.length} requesting and ${notifiedWaitingTransactionsList.length} waiting transactions";
+  } else if (notifiedRequestingTransactionsList.isNotEmpty) {
+    leadingMessage =
+        "You have ${notifiedRequestingTransactionsList.length} requesting transaction${notifiedRequestingTransactionsList.length > 1 ? "s" : ""}";
+  } else if (notifiedWaitingTransactionsList.isNotEmpty) {
+    leadingMessage =
+        "You have ${notifiedWaitingTransactionsList.length} waiting transaction${notifiedWaitingTransactionsList.length > 1 ? "s" : ""}";
   } else {
-    return "We are listening for your upcoming transactions for you.";
+    leadingMessage = "We are listening for your upcoming transactions for you.";
   }
+  // - Trailing part
+  if (agentsList.length > 2) {
+    trailingMessage =
+        " from ${agentsList[0]}, ${agentsList[1]} and more. Click to view detail.";
+  } else if (agentsList.length > 1) {
+    trailingMessage =
+        " from ${agentsList[0]} and ${agentsList[1]}. Click to view detail.";
+  } else if (agentsList.length == 1) {
+    trailingMessage = " from ${agentsList[0]}. Click to view detail.";
+  } else {
+    trailingMessage = "";
+  }
+
+  return leadingMessage + trailingMessage;
 }
