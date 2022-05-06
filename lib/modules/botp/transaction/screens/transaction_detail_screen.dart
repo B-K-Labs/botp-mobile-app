@@ -24,7 +24,10 @@ class TransactionDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenWidget(
-        appBarTitle: "Authenticate Transaction",
+        appBarTitle: [TransactionStatus.requesting, TransactionStatus.waiting]
+                .contains(transactionDetail.otpSessionInfo.transactionStatus)
+            ? "Authenticate Transaction"
+            : "Transaction Details",
         body: TransactionDetailBody(transactionDetail));
   }
 }
