@@ -140,7 +140,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
       if (notifiedRequestingTransactionsList.isNotEmpty ||
           notifiedWaitingTransactionsList.isNotEmpty) {
         // Show notification
-        const title = "New transactions to authenticate";
+        const title = "New transactions to authenticate.";
         final String body = getBodyPushNotificationMessage(
             notifiedRequestingTransactionsList,
             notifiedWaitingTransactionsList);

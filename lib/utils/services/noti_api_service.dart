@@ -5,9 +5,15 @@ class NotificationApi {
 
   static Future _notificationDetails() async {
     return const NotificationDetails(
-      android: AndroidNotificationDetails("channel id", "channel name",
-          channelDescription: "channel description",
-          importance: Importance.max),
+      android: AndroidNotificationDetails(
+        "botp channel id",
+        "botp channel name",
+        channelDescription: "botp channel description",
+        importance: Importance.max,
+        priority: Priority.high,
+        enableLights: true,
+        visibility: NotificationVisibility.public,
+      ),
       iOS: IOSNotificationDetails(),
     );
   }
