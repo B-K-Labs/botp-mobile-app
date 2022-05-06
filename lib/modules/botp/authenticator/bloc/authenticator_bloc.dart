@@ -94,7 +94,7 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
                   newWaitingTransactionSecretIdsList);
           // Update state
           emit(state.copyWith(
-              categorizedRequestingTransactionsInfo:
+              categorizedWaitingTransactionsInfo:
                   newWaitingCategorizedTransactionsInfo));
         }
       }
