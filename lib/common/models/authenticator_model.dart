@@ -74,9 +74,12 @@ class CancelTransactionResponseModel extends RequestTransactionResponseModel {
 
 class CategorizedTransactions {
   final TimeFilters categoryType;
+  final List<TransactionDetail> transactionsList;
+
   String get categoryName => timeFiltersNameMap[categoryType]!;
   bool get isEmpty => transactionsList.isEmpty;
-  final List<TransactionDetail> transactionsList;
+  List<String> get currentTransactionSecretIdsList =>
+      transactionsList.map((e) => e.otpSessionSecretInfo.secretId).toList();
 
   CategorizedTransactions(
       {required this.categoryType, required this.transactionsList});
@@ -84,16 +87,20 @@ class CategorizedTransactions {
 
 class CategorizedTransactionsInfo {
   final List<CategorizedTransactions> categorizedTransactions;
-  final List<String>? allTransactionSecretIdsList;
   final List<String>? historyTransactionSecretIdsList;
-  final bool hasNewNotification;
+  final int numNotifiedTransactions;
+  final bool isHavingNewTransactions;
   bool get isEmpty =>
       categorizedTransactions.isEmpty ||
       categorizedTransactions.every((e) => e.isEmpty);
 
+  List<String> get currentTransactionSecretIdsList => categorizedTransactions
+      .expand((e) => e.currentTransactionSecretIdsList)
+      .toList();
+
   CategorizedTransactionsInfo(
       {required this.categorizedTransactions,
-      required this.hasNewNotification,
-      this.allTransactionSecretIdsList,
+      required this.numNotifiedTransactions,
+      required this.isHavingNewTransactions,
       this.historyTransactionSecretIdsList});
 }

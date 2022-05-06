@@ -10,13 +10,15 @@ class AuthenticatorState {
   // Transactions list
   CategorizedTransactionsInfo? categorizedRequestingTransactionsInfo;
   CategorizedTransactionsInfo? categorizedWaitingTransactionsInfo;
+  // Status
   RequestStatus getTransactionListStatus;
 
-  AuthenticatorState(
-      {this.transactionStatus = TransactionStatus.requesting,
-      this.categorizedRequestingTransactionsInfo,
-      this.categorizedWaitingTransactionsInfo,
-      this.getTransactionListStatus = const RequestStatusInitial()});
+  AuthenticatorState({
+    this.transactionStatus = TransactionStatus.requesting,
+    this.categorizedRequestingTransactionsInfo,
+    this.categorizedWaitingTransactionsInfo,
+    this.getTransactionListStatus = const RequestStatusInitial(),
+  });
 
   AuthenticatorState copyWith(
           {TransactionStatus? transactionStatus,

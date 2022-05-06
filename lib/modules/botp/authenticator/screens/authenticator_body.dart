@@ -12,6 +12,7 @@ import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_event.da
 import 'package:botp_auth/modules/botp/authenticator/bloc/authenticator_state.dart';
 import 'package:botp_auth/modules/botp/home/cubit/botp_home_cubit.dart';
 import 'package:botp_auth/modules/botp/home/cubit/botp_home_state.dart';
+import 'package:botp_auth/utils/services/noti_api_service.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/filter.dart';
@@ -132,8 +133,20 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
 
   // 2. Search section
   Widget _searchSection() {
-    return BlocBuilder<AuthenticatorBloc, AuthenticatorState>(
-        builder: (context, state) {
+    return BlocConsumer<AuthenticatorBloc, AuthenticatorState>(
+        listener: (context, state) {
+      // final bool hasNewNotificationRequesting =
+      //     state.categorizedRequestingTransactionsInfo?.hasNewNotification ??
+      //         false;
+      // final bool hasNewNotificationWaiting =
+      //     state.categorizedWaitingTransactionsInfo?.hasNewNotification ?? false;
+      // if (hasNewNotificationRequesting || hasNewNotificationWaiting) {
+      //   NotificationApi.showNotification(
+      //       title: "You have new transactions",
+      //       body: "There are some transactions that need your authentication.",
+      //       payload: "Hehe");
+      // }
+    }, builder: (context, state) {
       final _itemList = [
         // {
         //   "type": ColorType.normal,
@@ -152,9 +165,9 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                 AuthenticatorEventTransactionStatusChanged(
                     transactionStatus: TransactionStatus.requesting));
           },
-          "hasNoti":
-              state.categorizedRequestingTransactionsInfo?.hasNewNotification ??
-                  false
+          "hasNoti": state.categorizedRequestingTransactionsInfo
+                  ?.isHavingNewTransactions ??
+              false
         },
         {
           "type": ColorType.primary,
@@ -164,9 +177,9 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                 AuthenticatorEventTransactionStatusChanged(
                     transactionStatus: TransactionStatus.waiting));
           },
-          "hasNoti":
-              state.categorizedWaitingTransactionsInfo?.hasNewNotification ??
-                  false
+          "hasNoti": state.categorizedWaitingTransactionsInfo
+                  ?.isHavingNewTransactions ??
+              false
         }
       ];
       return Container(

@@ -102,11 +102,11 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
         //  (imp) Categorize the transactions list
         final List<String> currentRequestingTransactionSecretIdsList = state
                 .categorizedRequestingTransactionsInfo
-                ?.allTransactionSecretIdsList! ??
+                ?.currentTransactionSecretIdsList ??
             [];
         final List<String> currentWaitingTransactionSecretIdsList = state
                 .categorizedWaitingTransactionsInfo
-                ?.allTransactionSecretIdsList! ??
+                ?.currentTransactionSecretIdsList ??
             [];
         // - Get history from storage
         final historyTransactionData =

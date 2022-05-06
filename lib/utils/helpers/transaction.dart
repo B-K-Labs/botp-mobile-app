@@ -31,21 +31,27 @@ CategorizedTransactionsInfo categorizeTransactions(
       isFilteringNewest ? [] : newTransactionsList;
   // 2. History secret ids
   List<String> _newHistoryTransactionSecretIdsList = [];
-  // 3. All secret ids
-  List<String> _allTransactionSecretIdsList =
-      newTransactionsList.map((e) => e.otpSessionSecretInfo.secretId).toList();
-  // 4. Has new notification
-  bool hasNewNotification = false;
+  // 4. Flag: Is Having new transaction flag
+  bool isHavingNewTransactions = false;
+  // 5. Number of incoming transactions to be notified
+  int numNotifiedTransactions = 0;
 
   // Split newest transactions list and make new old transaction ids list
   if (isFilteringNewest) {
     final List<TransactionDetail> _newestTransactionsList = [];
     for (var trans in newTransactionsList) {
       final transId = trans.otpSessionSecretInfo.secretId;
-      if (historyTransactionSecretIdsList.contains(transId) ||
-          !currentTransactionSecretIdsList.contains(transId)) {
+      // Old transactions but are marked as new
+      if (historyTransactionSecretIdsList.contains(transId)) {
         _newestTransactionsList.add(trans);
-      } else {
+      }
+      // Incoming transactions
+      else if (!currentTransactionSecretIdsList.contains(transId)) {
+        _newestTransactionsList.add(trans);
+        numNotifiedTransactions += 1;
+      }
+      // Old transactions
+      else {
         _olderTransactionsList.add(trans);
       }
     }
@@ -60,7 +66,7 @@ CategorizedTransactionsInfo categorizeTransactions(
       _categorizedTransactions.add(CategorizedTransactions(
           categoryType: TimeFilters.newest,
           transactionsList: _newestTransactionsList));
-      hasNewNotification = true;
+      isHavingNewTransactions = true;
     }
   }
 
@@ -102,10 +108,11 @@ CategorizedTransactionsInfo categorizeTransactions(
   return isFilteringNewest
       ? CategorizedTransactionsInfo(
           categorizedTransactions: _categorizedTransactions,
-          allTransactionSecretIdsList: _allTransactionSecretIdsList,
           historyTransactionSecretIdsList: _newHistoryTransactionSecretIdsList,
-          hasNewNotification: hasNewNotification)
+          isHavingNewTransactions: isHavingNewTransactions,
+          numNotifiedTransactions: numNotifiedTransactions)
       : CategorizedTransactionsInfo(
           categorizedTransactions: _categorizedTransactions,
-          hasNewNotification: hasNewNotification);
+          isHavingNewTransactions: isHavingNewTransactions,
+          numNotifiedTransactions: numNotifiedTransactions);
 }
