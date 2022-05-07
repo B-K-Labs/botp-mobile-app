@@ -144,8 +144,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
         final String body = getBodyPushNotificationMessage(
             notifiedRequestingTransactionsList,
             notifiedWaitingTransactionsList);
-        NotificationApi.showNotification(
-            title: title, body: body, payload: "sample_payload");
+        NotificationApi.showBigTextNotification(title: title, bigText: body);
       }
     }, builder: (context, state) {
       final _itemList = [
