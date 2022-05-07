@@ -70,7 +70,7 @@ class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
               items: const [
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.search), label: "Provenance"),
+                    icon: Icon(Icons.search), label: "History"),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.person), label: "Account"),
               ],

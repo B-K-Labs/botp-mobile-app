@@ -67,7 +67,7 @@ class ScreenWidget extends StatelessWidget {
         case AppBarType.history:
           _appBar = AppBar(
             automaticallyImplyLeading: false,
-            title: const Text("BOTP Provenance"),
+            title: const Text("BOTP History"),
             titleTextStyle: Theme.of(context)
                 .textTheme
                 .headline6
