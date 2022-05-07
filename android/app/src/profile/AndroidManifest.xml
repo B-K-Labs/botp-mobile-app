@@ -1,10 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.botp.app">
+    package="com.botp.auth">
     <!-- Flutter needs it to communicate with the running application
          to allow setting breakpoints, to provide hot reload, etc.
     -->
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <activity
-        android:showWhenLocked="true"
-        android:turnScreenOn="true">
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
 </manifest>
