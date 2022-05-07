@@ -157,7 +157,9 @@ class _HistoryBodyState extends State<HistoryBody> {
           ? (categorizedTransactionsInfo.isEmpty
               ? Expanded(
                   child: Center(
-                      child: Column(mainAxisSize: MainAxisSize.min, children: [
+                      child: SingleChildScrollView(
+                          child:
+                              Column(mainAxisSize: MainAxisSize.min, children: [
                   SizedBox(
                     height: 80.0,
                     width: 80.0,
@@ -169,7 +171,7 @@ class _HistoryBodyState extends State<HistoryBody> {
                   const SizedBox(height: kAppPaddingBetweenItemNormalSize),
                   Text("You don't have any transactions.",
                       style: Theme.of(context).textTheme.caption)
-                ])))
+                ]))))
               : Expanded(
                   child: NotificationListener<ScrollEndNotification>(
                       onNotification: (scrollEnd) {
@@ -201,29 +203,33 @@ class _HistoryBodyState extends State<HistoryBody> {
                                 .read<HistoryBloc>()
                                 .refreshTransactionsList();
                           }))))
-          : Container(
-              padding: const EdgeInsets.symmetric(
-                  vertical: kAppPaddingBetweenItemSmallSize,
-                  horizontal: kAppPaddingHorizontalSize),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(children: const [
-                      SizedBox(width: 16.0),
-                      Expanded(
-                          child: SkeletonLine(
-                              style: SkeletonLineStyle(
-                                  randomLength: true,
-                                  minLength: 75,
-                                  maxLength: 150,
-                                  height: 16.0,
-                                  alignment: Alignment.centerLeft)))
-                    ]),
-                    const SizedBox(height: kAppPaddingBetweenItemNormalSize),
-                    const TransactionItemSkeletonWidget(),
-                    const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-                    const TransactionItemSkeletonWidget()
-                  ]));
+          : Expanded(
+              child: SingleChildScrollView(
+                  child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: kAppPaddingBetweenItemSmallSize,
+                          horizontal: kAppPaddingHorizontalSize),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Row(children: const [
+                              SizedBox(width: 16.0),
+                              Expanded(
+                                  child: SkeletonLine(
+                                      style: SkeletonLineStyle(
+                                          randomLength: true,
+                                          minLength: 75,
+                                          maxLength: 150,
+                                          height: 16.0,
+                                          alignment: Alignment.centerLeft)))
+                            ]),
+                            const SizedBox(
+                                height: kAppPaddingBetweenItemNormalSize),
+                            const TransactionItemSkeletonWidget(),
+                            const SizedBox(
+                                height: kAppPaddingBetweenItemSmallSize),
+                            const TransactionItemSkeletonWidget()
+                          ]))));
     }, listener: (context, state) {
       final getTransactionsListStatus = state.getTransactionListStatus;
       if (getTransactionsListStatus is RequestStatusFailed) {
