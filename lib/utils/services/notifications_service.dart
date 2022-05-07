@@ -33,7 +33,6 @@ class NotificationApi {
       enableLights: true,
       ledColor: Colors.white,
       visibility: NotificationVisibility.public,
-      sound: const RawResourceAndroidNotificationSound("arrive"),
     );
 
     // Notification details
