@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:botp_auth/common/models/settings_model.dart';
 import 'package:botp_auth/core/api_url/api_url.dart';
-import 'package:botp_auth/utils/services/rest_api_service.dart';
+import 'package:botp_auth/utils/services/rest_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:universal_html/html.dart';
 

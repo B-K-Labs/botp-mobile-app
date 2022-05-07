@@ -13,7 +13,7 @@ import 'package:botp_auth/modules/botp/history/bloc/history_state.dart';
 import 'package:botp_auth/modules/botp/home/cubit/botp_home_cubit.dart';
 import 'package:botp_auth/modules/botp/home/cubit/botp_home_state.dart';
 import 'package:botp_auth/utils/helpers/transaction.dart';
-import 'package:botp_auth/utils/services/noti_api_service.dart';
+import 'package:botp_auth/utils/services/notifications_service.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/field.dart';
