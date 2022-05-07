@@ -32,6 +32,8 @@ class NotificationApi {
       priority: Priority.high,
       enableLights: true,
       ledColor: Colors.white,
+      ledOnMs: 1000,
+      ledOffMs: 500,
       visibility: NotificationVisibility.public,
     );
 
