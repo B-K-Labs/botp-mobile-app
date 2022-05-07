@@ -5,6 +5,7 @@ import 'package:botp_auth/modules/botp/history/screens/history_body.dart';
 import 'package:botp_auth/modules/botp/home/cubit/botp_home_cubit.dart';
 import 'package:botp_auth/modules/botp/home/cubit/botp_home_state.dart';
 import 'package:botp_auth/modules/botp/settings/home/screens/settings_body.dart';
+import 'package:botp_auth/modules/test/noti/screens/noti_screen.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/common.dart';
 import "package:flutter/material.dart";
@@ -23,6 +24,7 @@ class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
   final Widget _authenticatorMainBody = const AuthenticatorBody();
   final Widget _historyMainBody = const HistoryBody();
   final Widget _settingsMainBody = const SettingsBody();
+  final Widget _notificationsScreen = const NotiScreen();
 
   void _onItemTapped(int index) {
     setState(() {
@@ -34,7 +36,9 @@ class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
       ? _authenticatorMainBody
       : _selectedIndex == 1
           ? _historyMainBody
-          : _settingsMainBody;
+          : _selectedIndex == 2
+              ? _settingsMainBody
+              : _notificationsScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +76,9 @@ class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
                 BottomNavigationBarItem(
                     icon: Icon(Icons.search), label: "Provenance"),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.person), label: "Account")
+                    icon: Icon(Icons.person), label: "Account"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.notifications), label: "Notifications"),
               ],
               currentIndex: _selectedIndex,
               selectedIconTheme:
