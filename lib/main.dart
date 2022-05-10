@@ -43,12 +43,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  ThemeMode? themeMode;
+
   _MyAppState() {
-    // Routes setting up
+    // Setting up
+    // - Routes
     final router = FluroRouter();
     Routes.configureRoutes(router);
     Application.router = router;
-    // Push Notification setting up
+    // - Push notification
     NotificationApi.init();
   }
 
@@ -84,7 +87,7 @@ class _MyAppState extends State<MyApp> {
                   // Themes
                   theme: lightThemeData,
                   darkTheme: darkThemeData,
-                  themeMode: ThemeMode.light,
+                  themeMode: themeMode ?? ThemeMode.system,
                   title: 'BOTP Authenticator',
                   // Fluro routes generation
                   onGenerateRoute: Application.router
