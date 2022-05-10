@@ -45,6 +45,7 @@ flutter_native_splash:
   color_dark: "#393939"
   #background_image_dark: "assets/dark-background.png"
   #image_dark: assets/splash-invert.png
+  image_dark: ./assets/images/logo/botp_logo_splash_dark.png
 
   # The android, ios and web parameters can be used to disable generating a splash screens on a given
   # platform.
