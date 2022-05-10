@@ -3,6 +3,7 @@ import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
+import 'package:botp_auth/constants/routing_param.dart';
 import 'package:botp_auth/modules/botp/home/cubit/botp_home_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/account/agent_setup/cubit/agent_setup_cubit.dart';
 import 'package:botp_auth/modules/botp/settings/account/agent_setup/cubit/agent_setup_state.dart';
@@ -14,7 +15,9 @@ import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SecurityBiometricSetupScreen extends StatelessWidget {
-  const SecurityBiometricSetupScreen({Key? key}) : super(key: key);
+  final FromScreen fromScreen;
+  const SecurityBiometricSetupScreen({Key? key, required this.fromScreen})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

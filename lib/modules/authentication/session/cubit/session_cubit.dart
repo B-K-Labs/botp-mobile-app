@@ -8,13 +8,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class SessionCubit extends Cubit<SessionState> {
   final AuthenticationRepository authenticationRepository;
 
+  // Mark that user has skipped
+  bool didSkipKyc = false;
+  bool didSkipBiometric = false;
+
   SessionCubit({required this.authenticationRepository})
       : super(UnknownSessionState()) {
-    // Get user's session from storage
-    initUserSession();
+    initUserSession(); // Get user's session from storage
   }
 
   reloadSessionState() {
+    // Note: Run only after when the widget is built
     if (state is! UnknownSessionState) {
       final oldState = state;
       emit(UnknownSessionState());
@@ -23,14 +27,13 @@ class SessionCubit extends Cubit<SessionState> {
   }
 
   void initUserSession() async {
-    // Note: just run only one time
-    // Get session data
-    final sessionData = await UserData.getCredentialSessionData();
-    // First time
-    if (sessionData == null) {
-      UserData.setCredentialSessionData(UserDataSession.unauthenticated);
+    // Just run once, after the app is launched
+    final sessionData =
+        await UserData.getCredentialSessionData(); // Get session data
+    if (sessionData == null ||
+        sessionData.sessionType == UserDataSession.firstTime) {
+      UserData.setCredentialSessionData(UserDataSession.firstTime);
       emit(FirstTimeSessionState());
-      // emit(UnauthenticatedSessionState());
     } else if (sessionData.sessionType == UserDataSession.unauthenticated) {
       emit(UnauthenticatedSessionState());
     } else {
@@ -43,12 +46,32 @@ class SessionCubit extends Cubit<SessionState> {
   }
 
   // Authentication process is success
-  remindSettingUpAndLaunchSession({bool? skipSetupKyc}) async {
+  remindSettingUpAndLaunchSession(
+      {bool? skipSetupKyc, bool? skipSetupBiometric}) async {
+    // Check saved data
     final profileData = await UserData.getCredentialProfileData();
-    if (skipSetupKyc != true && !profileData!.didKyc) {
+    final biometricData = await UserData.getCredentialBiometricData();
+    final needSetupKyc = !(profileData?.didKyc == true);
+    final needSetupBiometric = !(biometricData?.isActivated == true);
+
+    // Mark if user skipped
+    if (skipSetupKyc == true) {
+      didSkipKyc = true;
+    }
+    if (skipSetupBiometric == true) {
+      didSkipBiometric = true;
+    }
+
+    // Reminding
+    // 1. setup KYC
+    if (!didSkipKyc && needSetupKyc) {
       emit(RemindSetupKYCSessionState());
     }
-    // TODO: Fingerprint
+    // 2. setup fingerprint
+    else if (!didSkipBiometric && needSetupBiometric) {
+      emit(RemindSetupBiometricSessionState());
+    }
+    // Reminding finished
     else {
       emit(AuthenticatedSessionState()); // Only in this
     }

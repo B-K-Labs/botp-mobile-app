@@ -161,12 +161,11 @@ class UserData {
           UserDataType.credentialTransactionsSecret);
 
   // Biometric: local auth status
-  static getCredentialBiometricData() async {
+  static Future<CredentialBiometricDataModel?>
+      getCredentialBiometricData() async {
     final data =
         await SecureStorage.getSecureValue(UserDataType.credentialBiometric);
-    return data != null
-        ? CredentialTransactionsSecretDataModel.fromJSON(data)
-        : null;
+    return data != null ? CredentialBiometricDataModel.fromJSON(data) : null;
   }
 
   static setCredentialBiometricData(bool isActivated) async =>

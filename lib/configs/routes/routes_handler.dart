@@ -1,5 +1,6 @@
 import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/constants/routing_param.dart';
+import 'package:botp_auth/modules/authentication/remiders/screens/biometric_setup_screen.dart';
 import 'package:botp_auth/modules/authentication/remiders/screens/kyc_setup_screen.dart';
 import 'package:botp_auth/modules/authentication/session/screens/session_screen.dart';
 import 'package:botp_auth/modules/authentication/signin/screens/signin_screen.dart';
@@ -11,6 +12,7 @@ import 'package:botp_auth/modules/botp/home/screens/botp_home_screen.dart';
 import 'package:botp_auth/modules/botp/settings/about/home/screens/about_home_screen.dart';
 import 'package:botp_auth/modules/botp/settings/account/agent_setup/screens/agent_setup_screen.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/screens/account_home_screen.dart';
+import 'package:botp_auth/modules/botp/settings/security/biometric_setup/screens/biometric_setup_screen.dart';
 import 'package:botp_auth/modules/botp/settings/security/export_account/screens/export_account_screen.dart';
 import 'package:botp_auth/modules/botp/settings/security/home/screens/security_home_screen.dart';
 import 'package:botp_auth/modules/botp/settings/security/transfer_account/screens/transfer_account_screen.dart';
@@ -67,7 +69,10 @@ var reminderKYCSetupHandler =
 });
 
 // - Reminder Fingerprint
-// TODO
+var reminderBiometricSetupHandler =
+    Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  return const ReminderBiometricSetupScreen();
+});
 
 // 2. BOTP modules
 // - BOTP Home
@@ -115,6 +120,13 @@ var botpSettingsSecurityTransferAccountHandler =
 var botpSettingsSecurityExportAccountHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
   return const SecurityExportAccountScreen();
+});
+
+var botpSettingsSecuritySetupBiometricHandler =
+    Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  final fromScreen = context?.settings?.arguments as FromScreen? ??
+      FromScreen.botpSettingsSecurity;
+  return SecurityBiometricSetupScreen(fromScreen: fromScreen);
 });
 
 // - 3. System

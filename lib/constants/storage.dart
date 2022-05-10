@@ -15,6 +15,7 @@ class UserDataType {
 
 // Session
 enum UserDataSession {
+  firstTime,
   unauthenticated,
   expired,
   // authenticated, (sign in is always required)

@@ -11,7 +11,7 @@ class Routes {
   static String signUp = "/auth/signUp";
   static String signOut = "/auth/signOut";
   static String reminderKYC = "/auth/reminder/kyc";
-  // static String reminderFingerprint = "/auth/reminder/fingerprint"; // TODO
+  static String reminderBiometric = "/auth/reminder/biometric";
   // 2. BOTP modules
   static String home = "/botp";
   static String transaction = "/botp/transaction";
@@ -48,6 +48,9 @@ class Routes {
         handler: authImportHandler, transitionType: TransitionType.inFromRight);
     router.define(reminderKYC,
         handler: reminderKYCSetupHandler,
+        transitionType: TransitionType.inFromRight);
+    router.define(reminderBiometric,
+        handler: reminderBiometricSetupHandler,
         transitionType: TransitionType.inFromRight);
     // 2. BOTP modules
     router.define(home,
