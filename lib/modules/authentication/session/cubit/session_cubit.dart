@@ -12,6 +12,11 @@ class SessionCubit extends Cubit<SessionState> {
   bool didSkipKyc = false;
   bool didSkipBiometric = false;
 
+  resetDidSkipReminder() {
+    didSkipKyc = false;
+    didSkipBiometric = false;
+  }
+
   SessionCubit({required this.authenticationRepository})
       : super(UnknownSessionState()) {
     initUserSession(); // Get user's session from storage
@@ -77,8 +82,13 @@ class SessionCubit extends Cubit<SessionState> {
     }
   }
 
-  saveSessionFromSignIn(String bcAddress, String publicKey, String privateKey,
-      String password, String? avatarUrl, UserKYC? userKyc) async {
+  saveNewSessionFromSignIn(
+      String bcAddress,
+      String publicKey,
+      String privateKey,
+      String password,
+      String? avatarUrl,
+      UserKYC? userKyc) async {
     // Not clear other data - just override old data.
     // await UserData.clearData();
     await UserData.setCredentialSessionData(UserDataSession.expired);
@@ -91,20 +101,27 @@ class SessionCubit extends Cubit<SessionState> {
     }
     await UserData.setCredentialProfileData(didKyc, avatarUrl);
     // remindSettingUpAndLaunchSession(skipSetupKyc: didKyc);
+    resetDidSkipReminder();
   }
 
-  saveSessionFromSignUp(String bcAddress, String publicKey, String privateKey,
-      String password) async {
+  saveNewSessionFromSignUp(String bcAddress, String publicKey,
+      String privateKey, String password) async {
     await UserData.clearData();
     await UserData.setCredentialSessionData(UserDataSession.expired);
     await UserData.setCredentialAccountData(
         bcAddress, publicKey, privateKey, password);
     await UserData.setCredentialProfileData(false, null);
     // remindSettingUpAndLaunchSession(skipSetupKyc: false);
+    resetDidSkipReminder();
   }
 
-  saveSessionFromImport(String bcAddress, String publicKey, String privateKey,
-      String newPassword, String? avatarUrl, UserKYC? userKyc) async {
+  saveNewSessionFromImport(
+      String bcAddress,
+      String publicKey,
+      String privateKey,
+      String newPassword,
+      String? avatarUrl,
+      UserKYC? userKyc) async {
     await UserData.clearData();
     await UserData.setCredentialSessionData(UserDataSession.expired);
     await UserData.setCredentialAccountData(
@@ -116,6 +133,7 @@ class SessionCubit extends Cubit<SessionState> {
     }
     await UserData.setCredentialProfileData(didKyc, avatarUrl);
     // remindSettingUpAndLaunchSession(skipSetupKyc: didKyc);
+    resetDidSkipReminder();
   }
 
   Future<void> signOut() async {

@@ -28,8 +28,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
             (await UserData.getCredentialAccountData())!.privateKey;
         final signInResult =
             await authRepository.signIn(privateKey, state.password);
-        // Launch session
-        await sessionCubit.saveSessionFromSignIn(
+        // Save session
+        await sessionCubit.saveNewSessionFromSignIn(
             signInResult.bcAddress,
             signInResult.publicKey,
             privateKey,

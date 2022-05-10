@@ -26,7 +26,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       try {
         final signUpResult = await authRepo.signUp(state.password);
         // Store account data
-        await sessionCubit.saveSessionFromSignUp(signUpResult.bcAddress,
+        await sessionCubit.saveNewSessionFromSignUp(signUpResult.bcAddress,
             signUpResult.publicKey, signUpResult.privateKey, state.password);
         emit(state.copyWith(formStatus: RequestStatusSuccess()));
         // Launch session

@@ -30,7 +30,7 @@ class ImportBloc extends Bloc<ImportEvent, ImportState> {
         final importResult =
             await authRepository.import(state.privateKey, state.newPassword);
         // Launch session
-        await sessionCubit.saveSessionFromImport(
+        await sessionCubit.saveNewSessionFromImport(
             importResult.bcAddress,
             importResult.publicKey,
             state.privateKey,

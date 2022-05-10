@@ -59,7 +59,8 @@ class ReminderBiometricSetupBody extends StatelessWidget {
                     Application.router.navigateTo(context, "/");
                     context
                         .read<SessionCubit>()
-                        .remindSettingUpAndLaunchSession(skipSetupKyc: true);
+                        .remindSettingUpAndLaunchSession(
+                            skipSetupBiometric: true);
                   },
                 )),
                 const SizedBox(
