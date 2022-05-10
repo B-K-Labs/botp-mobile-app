@@ -5,7 +5,8 @@ class NotificationApi {
   static final _notifications = FlutterLocalNotificationsPlugin();
 
   static Future init() async {
-    const android = AndroidInitializationSettings("@mipmap/ic_launcher");
+    // (Android) Custom notification icon: https://stackoverflow.com/questions/55820299/flutter-local-notifications-platformexception-platformexceptioninvalid-icon
+    const android = AndroidInitializationSettings("botp_notification_icon");
     const iOS = IOSInitializationSettings();
     const settings = InitializationSettings(android: android, iOS: iOS);
     _notifications.initialize(settings, onSelectNotification: (payload) {});
