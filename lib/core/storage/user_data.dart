@@ -160,6 +160,22 @@ class UserData {
       await SecureStorage.removeSecureValue(
           UserDataType.credentialTransactionsSecret);
 
+  // Biometric: local auth status
+  static getCredentialBiometricData() async {
+    final data =
+        await SecureStorage.getSecureValue(UserDataType.credentialBiometric);
+    return data != null
+        ? CredentialTransactionsSecretDataModel.fromJSON(data)
+        : null;
+  }
+
+  static setCredentialBiometricData(bool isActivated) async =>
+      await SecureStorage.setSecureValue(UserDataType.credentialBiometric,
+          CredentialBiometricDataModel(isActivated: isActivated).toJSON());
+
+  static clearCredentialBiometricData() async =>
+      await SecureStorage.removeSecureValue(UserDataType.credentialBiometric);
+
   // Wipe out everything
   static clearData() async {
     // await LocalStorage.removeAllValues(); // Not use anymore

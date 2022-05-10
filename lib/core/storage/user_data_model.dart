@@ -136,3 +136,12 @@ class CredentialKYCDataModel {
         "debitor": debitor,
       };
 }
+
+class CredentialBiometricDataModel {
+  final bool isActivated;
+
+  CredentialBiometricDataModel({required this.isActivated});
+  CredentialBiometricDataModel.fromJSON(Map<String, dynamic> json)
+      : isActivated = json["isActivated"];
+  Map<String, dynamic> toJSON() => {"isActivated": isActivated};
+}
