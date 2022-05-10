@@ -71,8 +71,7 @@ class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.search), label: "History"),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.person), label: "Account"),
+                BottomNavigationBarItem(icon: Icon(Icons.person), label: "You"),
               ],
               currentIndex: _selectedIndex,
               selectedIconTheme:
