@@ -149,12 +149,18 @@ class AgentInfo {
 class ProvenanceInfo {
   final String agentBcAddress;
   final String userBcAddress;
-  final String id;
+  final String secretId;
 
   ProvenanceInfo(
       {required this.agentBcAddress,
       required this.userBcAddress,
-      required this.id});
+      required this.secretId});
+
+  Map<String, dynamic> toJSON() => ({
+        "agentAddr": agentBcAddress,
+        "userAddr": userBcAddress,
+        "id": secretId
+      });
 }
 
 class BroadcastEventData {
@@ -162,12 +168,14 @@ class BroadcastEventData {
   final String userBcAddress;
   final String id;
   final String encryptedMessage;
+  final String explorerId;
 
   BroadcastEventData(
       {required this.agentBcAddress,
       required this.userBcAddress,
       required this.id,
-      required this.encryptedMessage});
+      required this.encryptedMessage,
+      required this.explorerId});
 }
 
 class HistoryEventData {
@@ -176,11 +184,26 @@ class HistoryEventData {
   final String id;
   final String encryptedMessage;
   final String signature;
+  final String explorerId;
 
   HistoryEventData(
       {required this.agentBcAddress,
       required this.userBcAddress,
       required this.id,
       required this.encryptedMessage,
-      required this.signature});
+      required this.signature,
+      required this.explorerId});
+}
+
+class ProvenanceMatchingInfo {
+  bool agentBcAddress;
+  bool userBcAddress;
+  bool id;
+  bool encryptedMessage;
+
+  ProvenanceMatchingInfo(
+      {required this.agentBcAddress,
+      required this.userBcAddress,
+      required this.id,
+      required this.encryptedMessage});
 }

@@ -173,6 +173,11 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
       } else if (copyOtpStatus is SetClipboardStatusFailed) {
         showSnackBar(context, copyOtpStatus.exception.toString());
       }
+      // View provenance
+      if (state.provenanceInfo != null) {
+        Application.router.navigateTo(context, "/botp/transaction/provenance",
+            routeSettings: RouteSettings(arguments: state.provenanceInfo));
+      }
     }, builder: (context, state) {
       final otpSessionInfo = state.otpSessionInfo;
       final transactionStatus = state.otpSessionInfo?.transactionStatus ??
@@ -240,6 +245,12 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
             .add(TransactionDetailEventCopyBcAddress());
       }
 
+      _onViewProvenance() {
+        context
+            .read<TransactionDetailBloc>()
+            .add(TransactionDetailEventViewProvenance());
+      }
+
       return otpSessionInfo != null
           ? Column(children: [
               Container(
@@ -253,6 +264,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
                     timestamp: otpSessionInfo.timestamp,
                     transactionStatus: otpSessionInfo.transactionStatus,
                     opTapBcAddress: _onTapBcAddress,
+                    onViewProvenance: _onViewProvenance,
                   )),
               const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             ])

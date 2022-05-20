@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:botp_auth/common/models/authenticator_model.dart';
 import 'package:botp_auth/common/models/common_model.dart';
+import 'package:botp_auth/constants/provenance.dart';
 import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/core/api_url/api_url.dart';
 import 'package:botp_auth/utils/services/rest_service.dart';
@@ -93,46 +94,37 @@ class AuthenticatorRepository {
     throw Exception(result.body);
   }
 
-  // Provenance - Broadcast
-  Future<BroadcastEventResponseModel> getBroadcastEvent(
-      String agentBcAddress, String userBcAddress, String id) async {
-    final data = BroadcastEventRequestModel(
-            agentBcAddress: agentBcAddress,
-            userBcAddress: userBcAddress,
-            id: id)
-        .toJSON();
-    http.Response result =
-        await post(makeApiUrlString(path: "/provenance/eventBroadcast"), data);
-    if (result.statusCode == HttpStatus.ok) {
-      return BroadcastEventResponseModel(
-          data: BroadcastEventData(
-              agentBcAddress: "123",
-              userBcAddress: "123",
-              id: "123",
-              encryptedMessage: "123"));
-    }
-    throw Exception(result.body);
-  }
-
-  // Provenance - History
-  Future<HistoryEventResponseModel> getHistoryEvent(
-      String agentBcAddress, String userBcAddress, String id) async {
-    final data = BroadcastEventRequestModel(
-            agentBcAddress: agentBcAddress,
-            userBcAddress: userBcAddress,
-            id: id)
-        .toJSON();
-    http.Response result =
-        await post(makeApiUrlString(path: "/provenance/eventBroadcast"), data);
-    if (result.statusCode == HttpStatus.ok) {
-      return HistoryEventResponseModel(
-          data: HistoryEventData(
+  // Provenance
+  Future<ProvenanceEventResponseModel> getProvenanceEvent(
+  ProvenanceEventType eventType, ProvenanceInfo provenanceInfo) async {
+    final data = provenanceInfo.toJSON();
+    final path = eventType == ProvenanceEventType.broadcast
+        ? "/provenance/eventBroadcast"
+        : "/provenance/evenHistory";
+    // Especially the provenance case: use try catch
+    try {
+      http.Response result = await post(makeApiUrlString(path: path), data);
+      if (result.statusCode == HttpStatus.ok) {
+        return ProvenanceEventResponseModel(
+          eventType: eventType,
+          broadcastData: BroadcastEventData(
               agentBcAddress: "123",
               userBcAddress: "123",
               id: "123",
               encryptedMessage: "123",
-              signature: "123"));
+              explorerId: "123"),
+          historyData: HistoryEventData(
+              agentBcAddress: "123",
+              userBcAddress: "123",
+              id: "123",
+              encryptedMessage: "123",
+              signature: "123",
+              explorerId: "123"),
+        );
+      }
+      throw Exception(result.body);
+    } on Exception catch (_) {
+      return ProvenanceEventResponseModel(eventType: eventType);
     }
-    throw Exception(result.body);
   }
 }

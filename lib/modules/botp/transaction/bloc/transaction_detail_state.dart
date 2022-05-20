@@ -14,6 +14,8 @@ class TransactionDetailState {
   // Set clip board
   final SetClipboardStatus copyBcAddressStatus;
   final SetClipboardStatus copyOtpStatus;
+  // Provenance
+  final ProvenanceInfo? provenanceInfo;
 
   TransactionDetailState({
     this.otpSessionInfo,
@@ -24,6 +26,7 @@ class TransactionDetailState {
     this.copyBcAddressStatus = const SetClipboardStatusInitial(),
     this.copyOtpStatus = const SetClipboardStatusInitial(),
     this.isOutdated = true,
+    this.provenanceInfo,
   });
   TransactionDetailState copyWith({
     OTPValueInfo? otpValueInfo,
@@ -34,6 +37,7 @@ class TransactionDetailState {
     SetClipboardStatus? copyBcAddressStatus,
     SetClipboardStatus? copyOtpStatus,
     bool? isOutdated,
+    ProvenanceInfo? provenanceInfo,
   }) =>
       TransactionDetailState(
           otpValueInfo: otpValueInfo ?? this.otpValueInfo,
@@ -44,5 +48,6 @@ class TransactionDetailState {
           generateOtpStatus: generateOtpStatus ?? this.generateOtpStatus,
           copyBcAddressStatus: copyBcAddressStatus ?? this.copyBcAddressStatus,
           copyOtpStatus: copyOtpStatus ?? this.copyOtpStatus,
-          isOutdated: isOutdated ?? this.isOutdated);
+          isOutdated: isOutdated ?? this.isOutdated,
+          provenanceInfo: provenanceInfo ?? this.provenanceInfo);
 }

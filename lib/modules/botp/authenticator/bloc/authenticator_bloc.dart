@@ -1,5 +1,4 @@
 import 'package:botp_auth/common/models/authenticator_model.dart';
-import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/constants/pagination.dart';

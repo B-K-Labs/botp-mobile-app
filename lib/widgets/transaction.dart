@@ -1,6 +1,8 @@
 import 'package:botp_auth/common/models/common_model.dart';
+import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/constants/transaction.dart';
+import 'package:botp_auth/modules/botp/home/cubit/botp_home_state.dart';
 import 'package:botp_auth/utils/helpers/transaction.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/common.dart';
@@ -452,6 +454,7 @@ class TransactionDetailWidget extends StatelessWidget {
   final VoidCallback opTapBcAddress;
   final int timestamp;
   final TransactionStatus transactionStatus;
+  final VoidCallback onViewProvenance;
 
   const TransactionDetailWidget(
       {Key? key,
@@ -461,7 +464,8 @@ class TransactionDetailWidget extends StatelessWidget {
       required this.agentBcAddress,
       required this.opTapBcAddress,
       required this.timestamp,
-      required this.transactionStatus})
+      required this.transactionStatus,
+      required this.onViewProvenance})
       : super(key: key);
 
   @override
@@ -520,8 +524,10 @@ class TransactionDetailWidget extends StatelessWidget {
                 _TransactionStatusWidget(
                     status: transactionStatus, hasBorder: true)),
             const SizedBox(height: kAppPaddingBetweenItemNormalSize),
-            _transactionDetailTextLineWidget(Container(),
-                ButtonTextWidget(text: "View provenance", onPressed: () {}))
+            _transactionDetailTextLineWidget(
+                Container(),
+                ButtonTextWidget(
+                    text: "View provenance", onPressed: onViewProvenance))
           ],
         ));
   }

@@ -33,6 +33,7 @@ class TransactionDetailBloc
   bool _isGenerateOtpSubmitting = false;
   bool _isGetTransactionDetailTimerRunning = false;
   bool _isGenerateOtpTimerRunning = false;
+  bool _isEmittingProvenanceInfo = false;
 
   TransactionDetailBloc(
       {required this.authenticatorRepository,
@@ -249,6 +250,21 @@ class TransactionDetailBloc
         _isUserRequestSubmitting = false;
         emit(state.copyWith(userRequestStatus: const RequestStatusInitial()));
       }
+    });
+
+    // View provenance
+    on<TransactionDetailEventViewProvenance>((event, emit) async {
+      if (_isEmittingProvenanceInfo) return;
+      _isEmittingProvenanceInfo = true;
+      final userBcAddress =
+          (await UserData.getCredentialAccountData())!.bcAddress;
+      emit(state.copyWith(
+          provenanceInfo: ProvenanceInfo(
+              agentBcAddress: (state.otpSessionInfo?.agentBcAddress)!,
+              userBcAddress: userBcAddress,
+              secretId: otpSessionSecretInfo.secretId)));
+      emit(state.copyWith(provenanceInfo: null));
+      _isEmittingProvenanceInfo = false;
     });
 
     // Timers

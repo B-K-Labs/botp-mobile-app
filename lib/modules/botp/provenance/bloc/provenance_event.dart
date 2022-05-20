@@ -1,19 +1,19 @@
 import 'package:botp_auth/constants/provenance.dart';
 
-abstract class ProvenanceDetailEvent {
-  const ProvenanceDetailEvent();
+abstract class ProvenanceEvent {
+  const ProvenanceEvent();
 }
 
-class ProvenanceEventGetProvenanceEvents extends ProvenanceDetailEvent {}
+class ProvenanceEventGetProvenanceEvents extends ProvenanceEvent {}
 
-class ProvenanceEventCopyData extends ProvenanceDetailEvent {
+class ProvenanceEventCopyData extends ProvenanceEvent {
   final String dataName;
   final String dataValue;
 
   ProvenanceEventCopyData({required this.dataName, required this.dataValue});
 }
 
-class ProvenanceEventScanBlockchainExplorer extends ProvenanceDetailEvent {
+class ProvenanceEventScanBlockchainExplorer extends ProvenanceEvent {
   final ProvenanceEventType eventType;
 
   ProvenanceEventScanBlockchainExplorer({required this.eventType});

@@ -15,6 +15,7 @@ class Routes {
   // 2. BOTP modules
   static String home = "/botp";
   static String transaction = "/botp/transaction";
+  static String provenance = "/botp/transaction/provenance";
   static String settingsAccount = "/botp/settings/account";
   static String settingsAccountSetupKYC = "/botp/settings/account/setupKyc";
   static String settingsAccountAgentSetup = "/botp/settings/account/agentSetup";
@@ -57,6 +58,9 @@ class Routes {
         handler: botpHomeHandler, transitionType: TransitionType.inFromRight);
     router.define(transaction,
         handler: botpTransactionHandler,
+        transitionType: TransitionType.inFromRight);
+    router.define(provenance,
+        handler: botpProvenanceHandler,
         transitionType: TransitionType.inFromRight);
     router.define(settingsAccount,
         handler: botpSettingsAccountHandler,

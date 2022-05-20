@@ -1,5 +1,7 @@
 import 'package:botp_auth/common/models/common_model.dart';
+import 'package:botp_auth/widgets/common.dart';
 import "package:flutter/material.dart";
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProvenanceScreen extends StatelessWidget {
   final ProvenanceInfo provenanceInfo;
@@ -7,7 +9,7 @@ class ProvenanceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProvenanceBody(provenanceInfo);
+    return ScreenWidget(body: ProvenanceBody(provenanceInfo));
   }
 }
 
@@ -17,6 +19,16 @@ class ProvenanceBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return BlocProvider<ProvenanceBloc>(
+        create: (context) => TransactionDetailBloc(
+            authenticatorRepository: context.read<AuthenticatorRepository>(),
+            otpSessionSecretInfo: widget.transactionDetail.otpSessionSecretInfo)
+          ..add(TransactionDetailEventGetTransactionDetailAndRunSetupTimers()),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [_transactionDetailSection(), _actionButtons()],
+        ));
+    ;
   }
 }
