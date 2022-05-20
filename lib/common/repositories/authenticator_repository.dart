@@ -100,7 +100,7 @@ class AuthenticatorRepository {
     final data = provenanceInfo.toJSON();
     final path = eventType == ProvenanceEventType.broadcast
         ? "/provenance/eventBroadcast"
-        : "/provenance/eventBroadcast";
+        : "/provenance/eventHistory";
     // Especially the provenance case: use try catch
     try {
       http.Response result = await post(makeApiUrlString(path: path), data);
@@ -123,8 +123,8 @@ class AuthenticatorRepository {
         );
       }
       throw Exception(result.body);
-    } on Exception catch (_) {
-      print("error");
+    } on Exception catch (e) {
+      print(e);
       return ProvenanceEventResponseModel(eventType: eventType);
     }
   }

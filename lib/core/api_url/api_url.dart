@@ -6,14 +6,15 @@ final bcExplorerApiUrl = Environment().config.bcExplorerApiUri;
 
 String makeApiUrlString(
     {String path = "",
-    Map<String, dynamic> queryParameters = const {},
+    Map<String, dynamic>? queryParameters,
     urlType = ApiUrlType.main}) {
   final Uri baseApiUri = Uri.parse(mainApiUrl);
-  return Uri(
+  final String url = Uri(
     scheme: baseApiUri.scheme,
     host: baseApiUri.host,
     port: baseApiUri.port,
     path: '${baseApiUri.path}$path',
     queryParameters: queryParameters,
   ).toString();
+  return url;
 }
