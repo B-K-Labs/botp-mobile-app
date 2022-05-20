@@ -13,6 +13,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/configs/routes/routes.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import 'package:fluro/fluro.dart';
 
 void main() async {
@@ -59,6 +60,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     // (not used) Initiate backend services e.g AWS, Firebase
+    // Web view
+    WebView.platform = AndroidWebView();
     // Remove splash screens
     FlutterNativeSplash.remove();
   }
