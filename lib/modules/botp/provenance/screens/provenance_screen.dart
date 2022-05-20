@@ -1,11 +1,13 @@
 import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
+import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/modules/botp/provenance/bloc/provenance_bloc.dart';
 import 'package:botp_auth/modules/botp/provenance/bloc/provenance_event.dart';
 import 'package:botp_auth/modules/botp/provenance/bloc/provenance_state.dart';
+import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/provenance.dart';
@@ -44,8 +46,15 @@ class ProvenanceBody extends StatelessWidget {
   }
 
   Widget _provenanceDetailsSection() {
-    return BlocBuilder<ProvenanceBloc, ProvenanceState>(
-        builder: (context, state) {
+    return BlocConsumer<ProvenanceBloc, ProvenanceState>(
+        listener: (context, state) {
+      final SetClipboardStatus copyDataStatus = state.copyDataStatus;
+      if (copyDataStatus is SetClipboardStatusSuccess) {
+        showSnackBar(context, copyDataStatus.message, SnackBarType.success);
+      } else if (copyDataStatus is SetClipboardStatusFailed) {
+        showSnackBar(context, copyDataStatus.exception.toString());
+      }
+    }, builder: (context, state) {
       // Theme
       final TextStyle? _titleStyle = Theme.of(context)
           .textTheme
@@ -114,6 +123,7 @@ class ProvenanceBody extends StatelessWidget {
           child: Column(children: [
             BroadcastEventDetailWidget(
                 data: state.broadcastEventData,
+                matchingInfo: state.matchingInfo!,
                 onTapCopyData: onTapCopyData,
                 onTapScanExplorer: onTapScanExplorer),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize)
@@ -138,6 +148,7 @@ class ProvenanceBody extends StatelessWidget {
           child: Column(children: [
             HistoryEventDetailWidget(
                 data: state.historyEventData,
+                matchingInfo: state.matchingInfo!,
                 onTapCopyData: onTapCopyData,
                 onTapScanExplorer: onTapScanExplorer),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize)

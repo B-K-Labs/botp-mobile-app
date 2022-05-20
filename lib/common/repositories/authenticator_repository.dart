@@ -103,26 +103,26 @@ class AuthenticatorRepository {
         : "/provenance/eventHistory";
     // Especially the provenance case: use try catch
     try {
-      http.Response result = await post(makeApiUrlString(path: path), data);
-      if (result.statusCode == HttpStatus.ok) {
-        return ProvenanceEventResponseModel(
-          eventType: eventType,
-          broadcastEventData: BroadcastEventData(
-              agentBcAddress: "123",
-              userBcAddress: "123",
-              id: "123",
-              encryptedMessage: "123",
-              explorerId: "123"),
-          historyEventData: HistoryEventData(
-              agentBcAddress: "123",
-              userBcAddress: "123",
-              id: "123",
-              encryptedMessage: "123",
-              signature: "123",
-              explorerId: "123"),
-        );
-      }
-      throw Exception(result.body);
+      // http.Response result = await post(makeApiUrlString(path: path), data);
+      // if (result.statusCode == HttpStatus.ok) {
+      return ProvenanceEventResponseModel(
+        eventType: eventType,
+        broadcastEventData: BroadcastEventData(
+            agentBcAddress: "0x123456",
+            userBcAddress: "0x123456",
+            id: "0x123456",
+            encryptedMessage: "0x123456",
+            explorerId: "0x123456"),
+        historyEventData: HistoryEventData(
+            agentBcAddress: "0x123456",
+            userBcAddress: "0x123456",
+            id: "0x123456",
+            encryptedMessage: "0x123456",
+            signature: "0x123456",
+            explorerId: "0x123456"),
+      );
+      // }
+      // throw Exception(result.body);
     } on Exception catch (e) {
       print(e);
       return ProvenanceEventResponseModel(eventType: eventType);

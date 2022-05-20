@@ -7,14 +7,14 @@ class ProvenanceState {
   final HistoryEventData? historyEventData;
   final ProvenanceMatchingInfo? matchingInfo;
   final RequestStatus getProvenanceStatus;
-  final SetClipboardStatus copyData;
+  final SetClipboardStatus copyDataStatus;
 
   ProvenanceState(
       {this.broadcastEventData,
       this.historyEventData,
       this.matchingInfo,
       this.getProvenanceStatus = const RequestStatusInitial(),
-      this.copyData = const SetClipboardStatusInitial()});
+      this.copyDataStatus = const SetClipboardStatusInitial()});
 
   ProvenanceState copyWith({
     BroadcastEventData? broadcastEventData,
@@ -28,5 +28,5 @@ class ProvenanceState {
           historyEventData: historyEventData ?? this.historyEventData,
           matchingInfo: matchingInfo ?? this.matchingInfo,
           getProvenanceStatus: getProvenanceStatus ?? this.getProvenanceStatus,
-          copyData: copyData ?? this.copyData);
+          copyDataStatus: copyData ?? this.copyDataStatus);
 }

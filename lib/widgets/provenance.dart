@@ -7,12 +7,14 @@ import "package:flutter/material.dart";
 
 class BroadcastEventDetailWidget extends StatelessWidget {
   final BroadcastEventData? data;
+  final ProvenanceMatchingInfo matchingInfo;
   final void Function(String, String) onTapCopyData;
   final void Function(String) onTapScanExplorer;
 
   const BroadcastEventDetailWidget(
       {Key? key,
       required this.data,
+      required this.matchingInfo,
       required this.onTapCopyData,
       required this.onTapScanExplorer})
       : super(key: key);
@@ -20,11 +22,17 @@ class BroadcastEventDetailWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Theme
+    // - Color
+    final Color _matchedColor = Theme.of(context).colorScheme.secondary;
+    final Color _unmatchedColor = Theme.of(context).colorScheme.error;
+    // - Text
     final _headlineStyle = Theme.of(context)
         .textTheme
         .bodyText1
         ?.copyWith(fontWeight: FontWeight.bold);
     final _labelStyle = Theme.of(context).textTheme.bodyText2;
+    _genLabelStyle(bool isMatched) => _labelStyle?.copyWith(
+        color: isMatched ? _matchedColor : _unmatchedColor);
 
     return Container(
         decoration: BoxDecoration(
@@ -40,7 +48,8 @@ class BroadcastEventDetailWidget extends StatelessWidget {
                 ? Column(children: [
                     const SizedBox(height: 18.0),
                     _provenanceEventDetailTextLineWidget(
-                        Text("Agent address", style: _labelStyle),
+                        Text("Agent address",
+                            style: _genLabelStyle(matchingInfo.agentBcAddress)),
                         BcAddressWidget(
                             bcAddress: data!.agentBcAddress,
                             onTap: () {
@@ -49,7 +58,8 @@ class BroadcastEventDetailWidget extends StatelessWidget {
                             })),
                     const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                     _provenanceEventDetailTextLineWidget(
-                        Text("User address", style: _labelStyle),
+                        Text("User address",
+                            style: _genLabelStyle(matchingInfo.userBcAddress)),
                         BcAddressWidget(
                             bcAddress: data!.userBcAddress,
                             onTap: () {
@@ -58,7 +68,7 @@ class BroadcastEventDetailWidget extends StatelessWidget {
                             })),
                     const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                     _provenanceEventDetailTextLineWidget(
-                        Text("Id", style: _labelStyle),
+                        Text("Id", style: _genLabelStyle(matchingInfo.id)),
                         BcAddressWidget(
                             bcAddress: data!.id,
                             onTap: () {
@@ -66,7 +76,9 @@ class BroadcastEventDetailWidget extends StatelessWidget {
                             })),
                     const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                     _provenanceEventDetailTextLineWidget(
-                        Text("Encrypted message", style: _labelStyle),
+                        Text("Encrypted message",
+                            style:
+                                _genLabelStyle(matchingInfo.encryptedMessage)),
                         BcAddressWidget(
                             bcAddress: data!.encryptedMessage,
                             onTap: () {
@@ -96,12 +108,14 @@ class BroadcastEventDetailWidget extends StatelessWidget {
 
 class HistoryEventDetailWidget extends StatelessWidget {
   final HistoryEventData? data;
+  final ProvenanceMatchingInfo matchingInfo;
   final void Function(String, String) onTapCopyData;
   final void Function(String) onTapScanExplorer;
 
   const HistoryEventDetailWidget(
       {Key? key,
       required this.data,
+      required this.matchingInfo,
       required this.onTapCopyData,
       required this.onTapScanExplorer})
       : super(key: key);
@@ -109,11 +123,17 @@ class HistoryEventDetailWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Theme
+    // - Color
+    final Color _matchedColor = Theme.of(context).colorScheme.secondary;
+    final Color _unmatchedColor = Theme.of(context).colorScheme.error;
+    // - Text
     final _headlineStyle = Theme.of(context)
         .textTheme
         .bodyText1
         ?.copyWith(fontWeight: FontWeight.bold);
     final _labelStyle = Theme.of(context).textTheme.bodyText2;
+    _genLabelStyle(bool isMatched) => _labelStyle?.copyWith(
+        color: isMatched ? _matchedColor : _unmatchedColor);
 
     return Container(
         decoration: BoxDecoration(
@@ -129,7 +149,8 @@ class HistoryEventDetailWidget extends StatelessWidget {
                 ? Column(children: [
                     const SizedBox(height: 18.0),
                     _provenanceEventDetailTextLineWidget(
-                        Text("Agent address", style: _labelStyle),
+                        Text("Agent address",
+                            style: _genLabelStyle(matchingInfo.agentBcAddress)),
                         BcAddressWidget(
                             bcAddress: data!.agentBcAddress,
                             onTap: () {
@@ -138,7 +159,8 @@ class HistoryEventDetailWidget extends StatelessWidget {
                             })),
                     const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                     _provenanceEventDetailTextLineWidget(
-                        Text("User address", style: _labelStyle),
+                        Text("User address",
+                            style: _genLabelStyle(matchingInfo.userBcAddress)),
                         BcAddressWidget(
                             bcAddress: data!.userBcAddress,
                             onTap: () {
@@ -147,15 +169,17 @@ class HistoryEventDetailWidget extends StatelessWidget {
                             })),
                     const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                     _provenanceEventDetailTextLineWidget(
-                        Text("Id", style: _labelStyle),
+                        Text("Id", style: _genLabelStyle(matchingInfo.id)),
                         BcAddressWidget(
                             bcAddress: data!.id,
                             onTap: () {
                               onTapCopyData("Id", data!.id);
                             })),
-                    const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+                    const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                     _provenanceEventDetailTextLineWidget(
-                        Text("Encrypted message", style: _labelStyle),
+                        Text("Encrypted message",
+                            style:
+                                _genLabelStyle(matchingInfo.encryptedMessage)),
                         BcAddressWidget(
                             bcAddress: data!.encryptedMessage,
                             onTap: () {
