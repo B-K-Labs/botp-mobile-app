@@ -527,7 +527,9 @@ class TransactionDetailWidget extends StatelessWidget {
             _transactionDetailTextLineWidget(
                 Container(),
                 ButtonTextWidget(
-                    text: "View provenance", onPressed: onTapViewProvenance))
+                    text: "View provenance",
+                    iconData: Icons.arrow_forward,
+                    onPressed: onTapViewProvenance))
           ],
         ));
   }

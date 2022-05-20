@@ -90,6 +90,7 @@ class BroadcastEventDetailWidget extends StatelessWidget {
                         Container(),
                         ButtonTextWidget(
                             text: "Scan on Blockchain Explorer",
+                            iconData: Icons.launch,
                             onPressed: () {
                               onTapScanExplorer(data!.explorerId);
                             }))
@@ -201,6 +202,7 @@ class HistoryEventDetailWidget extends StatelessWidget {
                         Container(),
                         ButtonTextWidget(
                             text: "Scan on Blockchain Explorer",
+                            iconData: Icons.launch,
                             onPressed: () {
                               onTapScanExplorer(data!.explorerId);
                             }))
