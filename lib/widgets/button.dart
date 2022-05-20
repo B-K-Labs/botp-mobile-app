@@ -123,12 +123,14 @@ class ButtonTextWidget extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final ButtonTextType? type;
+  final IconData? iconData;
 
   const ButtonTextWidget({
     Key? key,
     required this.text,
     required this.onPressed,
     this.type = ButtonTextType.primary,
+    this.iconData,
   }) : super(key: key);
 
   @override
@@ -141,15 +143,23 @@ class ButtonTextWidget extends StatelessWidget {
     // - Text
     final _textStyle = Theme.of(context).textTheme.bodyText2;
 
-    return TextButton(
-        style: TextButton.styleFrom(
-            textStyle: _textStyle,
-            primary: _primary,
-            padding: EdgeInsets.zero,
-            minimumSize: Size.zero,
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-        onPressed: onPressed,
-        child: Text(text));
+    return iconData != null
+        ? InkWell(
+            onTap: onPressed,
+            child: Row(children: [
+              Text(text, style: _textStyle?.copyWith(color: _primary)),
+              const SizedBox(width: 8.0),
+              Icon(iconData, color: _primary)
+            ]))
+        : TextButton(
+            style: TextButton.styleFrom(
+                textStyle: _textStyle,
+                primary: _primary,
+                padding: EdgeInsets.zero,
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+            onPressed: onPressed,
+            child: Text(text));
   }
 }
 

@@ -107,3 +107,37 @@ class CategorizedTransactionsInfo {
       required this.isHavingNewTransactions,
       this.historyTransactionSecretIdsList});
 }
+
+class BroadcastEventRequestModel {
+  final String agentBcAddress;
+  final String userBcAddress;
+  final String id;
+  BroadcastEventRequestModel(
+      {required this.agentBcAddress,
+      required this.userBcAddress,
+      required this.id});
+  Map<String, dynamic> toJSON() =>
+      ({"agentAddr": agentBcAddress, "userAddr": userBcAddress, "id": id});
+}
+
+class BroadcastEventResponseModel {
+  BroadcastEventData? data;
+  BroadcastEventResponseModel({this.data});
+}
+
+class HistoryEventRequestModel {
+  final String agentBcAddress;
+  final String userBcAddress;
+  final String id;
+  HistoryEventRequestModel(
+      {required this.agentBcAddress,
+      required this.userBcAddress,
+      required this.id});
+  Map<String, dynamic> toJSON() =>
+      ({"agentAddr": agentBcAddress, "userAddr": userBcAddress, "id": id});
+}
+
+class HistoryEventResponseModel {
+  HistoryEventData? data;
+  HistoryEventResponseModel({this.data});
+}

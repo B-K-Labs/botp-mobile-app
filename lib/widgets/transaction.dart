@@ -2,6 +2,7 @@ import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/utils/helpers/transaction.dart';
+import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/setting.dart';
 import 'package:flutter/material.dart';
@@ -504,9 +505,9 @@ class TransactionDetailWidget extends StatelessWidget {
                 Text("Address", style: _labelStyle),
                 BcAddressWidget(
                     bcAddress: agentBcAddress, onTap: opTapBcAddress)),
-            const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+            const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             const DividerWidget(),
-            const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+            const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             _transactionDetailTextLineWidget(
                 Text("Date", style: _labelStyle),
                 Text(
@@ -518,6 +519,9 @@ class TransactionDetailWidget extends StatelessWidget {
                 Text("Status", style: _labelStyle),
                 _TransactionStatusWidget(
                     status: transactionStatus, hasBorder: true)),
+            const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+            _transactionDetailTextLineWidget(Container(),
+                ButtonTextWidget(text: "View provenance", onPressed: () {}))
           ],
         ));
   }

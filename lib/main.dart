@@ -87,7 +87,7 @@ class _MyAppState extends State<MyApp> {
                   // Themes
                   theme: lightThemeData,
                   darkTheme: darkThemeData,
-                  themeMode: themeMode ?? ThemeMode.system,
+                  themeMode: themeMode ?? ThemeMode.light,
                   title: 'BOTP Authenticator',
                   // Fluro routes generation
                   onGenerateRoute: Application.router

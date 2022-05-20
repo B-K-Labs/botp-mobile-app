@@ -145,3 +145,31 @@ class AgentInfo {
       required this.avatarUrl,
       required this.isVerified});
 }
+
+class BroadcastEventData {
+  final String agentBcAddress;
+  final String userBcAddress;
+  final String id;
+  final String encryptedMessage;
+
+  BroadcastEventData(
+      {required this.agentBcAddress,
+      required this.userBcAddress,
+      required this.id,
+      required this.encryptedMessage});
+}
+
+class HistoryEventData {
+  final String agentBcAddress;
+  final String userBcAddress;
+  final String id;
+  final String encryptedMessage;
+  final String signature;
+
+  HistoryEventData(
+      {required this.agentBcAddress,
+      required this.userBcAddress,
+      required this.id,
+      required this.encryptedMessage,
+      required this.signature});
+}
