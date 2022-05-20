@@ -146,6 +146,17 @@ class AgentInfo {
       required this.isVerified});
 }
 
+class ProvenanceInfo {
+  final String agentBcAddress;
+  final String userBcAddress;
+  final String id;
+
+  ProvenanceInfo(
+      {required this.agentBcAddress,
+      required this.userBcAddress,
+      required this.id});
+}
+
 class BroadcastEventData {
   final String agentBcAddress;
   final String userBcAddress;

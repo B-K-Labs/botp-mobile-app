@@ -100,6 +100,8 @@ flutter:
     - assets/images/temp/botp_temp.png
     - assets/images/logo/botp_logo_embedded_qr.png
     - assets/images/logo/botp_logo_disabled.png
+    - assets/images/status/status_success.png
+    - assets/images/status/status_failed.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

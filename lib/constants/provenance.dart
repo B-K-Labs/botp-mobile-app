@@ -1,0 +1,4 @@
+enum ProvenanceEventType {
+  broadcast,
+  history,
+}

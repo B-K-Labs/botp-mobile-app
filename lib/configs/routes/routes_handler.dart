@@ -9,6 +9,7 @@ import 'package:botp_auth/modules/authentication/signup/screens/signup_screen.da
 import 'package:botp_auth/modules/authentication/walkthroughs/screens/walkthrough_screen.dart';
 import 'package:botp_auth/modules/authentication/init/screens/init_screen.dart';
 import 'package:botp_auth/modules/botp/home/screens/botp_home_screen.dart';
+import 'package:botp_auth/modules/botp/provenance/screens/provenance_screen.dart';
 import 'package:botp_auth/modules/botp/settings/about/home/screens/about_home_screen.dart';
 import 'package:botp_auth/modules/botp/settings/account/agent_setup/screens/agent_setup_screen.dart';
 import 'package:botp_auth/modules/botp/settings/account/home/screens/account_home_screen.dart';
@@ -86,6 +87,13 @@ var botpTransactionHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
   final transactionDetail = context?.settings?.arguments as TransactionDetail;
   return TransactionDetailScreen(transactionDetail);
+});
+
+// - Provenance
+var botpProvenanceHandler =
+    Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  final provenanceInfo = context?.settings?.arguments as ProvenanceInfo;
+  return ProvenanceScreen(provenanceInfo);
 });
 
 // - Settings
