@@ -8,7 +8,11 @@ class SetClipboardStatusInitial extends SetClipboardStatus {
 
 class SetClipboardStatusSubmitting extends SetClipboardStatus {}
 
-class SetClipboardStatusSuccess extends SetClipboardStatus {}
+class SetClipboardStatusSuccess extends SetClipboardStatus {
+  final String? message;
+
+  SetClipboardStatusSuccess({this.message});
+}
 
 class SetClipboardStatusFailed extends SetClipboardStatus {
   final Exception exception;

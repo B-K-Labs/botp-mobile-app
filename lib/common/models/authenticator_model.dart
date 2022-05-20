@@ -111,9 +111,11 @@ class CategorizedTransactionsInfo {
 
 class ProvenanceEventResponseModel {
   ProvenanceEventType eventType;
-  HistoryEventData? historyData;
-  BroadcastEventData? broadcastData;
+  HistoryEventData? historyEventData;
+  BroadcastEventData? broadcastEventData;
 
   ProvenanceEventResponseModel(
-      {required this.eventType, this.historyData, this.broadcastData});
+      {required this.eventType,
+      this.historyEventData,
+      this.broadcastEventData});
 }

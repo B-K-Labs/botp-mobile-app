@@ -96,7 +96,7 @@ class AuthenticatorRepository {
 
   // Provenance
   Future<ProvenanceEventResponseModel> getProvenanceEvent(
-  ProvenanceEventType eventType, ProvenanceInfo provenanceInfo) async {
+      ProvenanceEventType eventType, ProvenanceInfo provenanceInfo) async {
     final data = provenanceInfo.toJSON();
     final path = eventType == ProvenanceEventType.broadcast
         ? "/provenance/eventBroadcast"
@@ -107,13 +107,13 @@ class AuthenticatorRepository {
       if (result.statusCode == HttpStatus.ok) {
         return ProvenanceEventResponseModel(
           eventType: eventType,
-          broadcastData: BroadcastEventData(
+          broadcastEventData: BroadcastEventData(
               agentBcAddress: "123",
               userBcAddress: "123",
               id: "123",
               encryptedMessage: "123",
               explorerId: "123"),
-          historyData: HistoryEventData(
+          historyEventData: HistoryEventData(
               agentBcAddress: "123",
               userBcAddress: "123",
               id: "123",

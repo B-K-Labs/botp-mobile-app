@@ -1,4 +1,5 @@
 import 'package:botp_auth/common/models/common_model.dart';
+import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 
 class ProvenanceState {
@@ -6,22 +7,26 @@ class ProvenanceState {
   final HistoryEventData? historyEventData;
   final ProvenanceMatchingInfo? matchingInfo;
   final RequestStatus getProvenanceStatus;
+  final SetClipboardStatus copyData;
 
   ProvenanceState(
       {this.broadcastEventData,
       this.historyEventData,
       this.matchingInfo,
-      this.getProvenanceStatus = const RequestStatusInitial()});
+      this.getProvenanceStatus = const RequestStatusInitial(),
+      this.copyData = const SetClipboardStatusInitial()});
 
   ProvenanceState copyWith({
     BroadcastEventData? broadcastEventData,
     HistoryEventData? historyEventData,
     ProvenanceMatchingInfo? matchingInfo,
     RequestStatus? getProvenanceStatus,
+    SetClipboardStatus? copyData,
   }) =>
       ProvenanceState(
           broadcastEventData: broadcastEventData ?? this.broadcastEventData,
           historyEventData: historyEventData ?? this.historyEventData,
           matchingInfo: matchingInfo ?? this.matchingInfo,
-          getProvenanceStatus: getProvenanceStatus ?? this.getProvenanceStatus);
+          getProvenanceStatus: getProvenanceStatus ?? this.getProvenanceStatus,
+          copyData: copyData ?? this.copyData);
 }
