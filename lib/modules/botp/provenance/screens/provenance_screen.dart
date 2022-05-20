@@ -37,7 +37,6 @@ class ProvenanceBody extends StatelessWidget {
           ..add(ProvenanceEventGetProvenanceEvents(
               provenanceInfo: provenanceInfo)),
         child: Column(
-          mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [_provenanceDetailsSection(), _actionButtons()],
@@ -47,22 +46,41 @@ class ProvenanceBody extends StatelessWidget {
   Widget _provenanceDetailsSection() {
     return BlocBuilder<ProvenanceBloc, ProvenanceState>(
         builder: (context, state) {
+      // Theme
+      final TextStyle? _titleStyle = Theme.of(context)
+          .textTheme
+          .headline6
+          ?.copyWith(color: Theme.of(context).colorScheme.primary);
+      // Data
       final hasResult = state.getProvenanceStatus is RequestStatusSuccess ||
           state.getProvenanceStatus is RequestStatusFailed;
-      return Expanded(
-          child: SingleChildScrollView(
-              child: hasResult
-                  ? Column(children: [
-                      _provenanceStatus(),
-                      _broadcastEventDetail(),
-                      _historyEventDetail(),
-                    ])
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: const [
-                          Center(child: CircularProgressIndicator())
-                        ])));
+
+      return hasResult
+          ? Expanded(
+              child: SingleChildScrollView(
+                  child: Column(children: [
+              _provenanceStatus(),
+              _broadcastEventDetail(),
+              _historyEventDetail(),
+            ])))
+          : Expanded(
+              child: Stack(children: [
+              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
+                Text("It would take a bit!",
+                    style: Theme.of(context).textTheme.bodyText2,
+                    textAlign: TextAlign.center),
+                const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+                Text("Getting data from Blockchain",
+                    style: Theme.of(context).textTheme.headline5?.copyWith(
+                        color: Theme.of(context).colorScheme.primary),
+                    textAlign: TextAlign.center),
+              ]),
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [Center(child: CircularProgressIndicator())]),
+            ]));
     });
   }
 
@@ -130,9 +148,9 @@ class ProvenanceBody extends StatelessWidget {
   Widget _actionButtons() {
     return BlocBuilder<ProvenanceBloc, ProvenanceState>(
         builder: (context, state) {
-      Widget _returnActionButtons = const SkeletonAvatar(
-          style: SkeletonAvatarStyle(width: double.infinity, height: 50.0));
-
+      // Widget _returnActionButtons = const SkeletonAvatar(
+      //     style: SkeletonAvatarStyle(width: double.infinity, height: 50.0));
+      Widget _returnActionButtons = Container();
       if (state.getProvenanceStatus is RequestStatusSuccess ||
           state.getProvenanceStatus is RequestStatusFailed) {
         _returnActionButtons = ButtonNormalWidget(
