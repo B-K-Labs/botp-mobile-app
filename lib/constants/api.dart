@@ -1,0 +1,4 @@
+enum ApiUrlType {
+  main,
+  explorer,
+}

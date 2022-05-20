@@ -3,7 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class DevelopmentConfig extends BaseConfig {
   @override
-  String get baseApiUri =>
+  String get mainApiUri =>
       dotenv.env["MAIN_API_URL"] ?? "http://localhost:8000/api/v1";
 
   @override

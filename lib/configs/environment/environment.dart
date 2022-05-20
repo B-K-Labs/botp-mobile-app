@@ -41,7 +41,7 @@ class Environment {
 }
 
 abstract class BaseConfig {
-  String get baseApiUri;
+  String get mainApiUri;
   String get bcExplorerApiUri;
   bool get freshAppData;
 }

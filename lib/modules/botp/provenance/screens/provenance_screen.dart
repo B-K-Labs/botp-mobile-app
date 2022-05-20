@@ -154,7 +154,7 @@ class ProvenanceBody extends StatelessWidget {
       if (state.getProvenanceStatus is RequestStatusSuccess ||
           state.getProvenanceStatus is RequestStatusFailed) {
         _returnActionButtons = ButtonNormalWidget(
-            text: "Go to home",
+            text: "Go back",
             onPressed: () {
               Application.router.pop(context);
             });

@@ -2,7 +2,7 @@ import 'package:botp_auth/configs/environment/environment.dart';
 
 class ProductionConfig extends BaseConfig {
   @override
-  String get baseApiUri =>
+  String get mainApiUri =>
       "https://botp-backend-logic-api.herokuapp.com/api/v1";
 
   @override
