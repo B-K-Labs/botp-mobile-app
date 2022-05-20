@@ -38,6 +38,3 @@ class TransactionDetailEventChangeTransactionStatusTemporarily
 class TransactionDetailEventCopyOTP extends TransactionDetailEvent {}
 
 class TransactionDetailEventCopyBcAddress extends TransactionDetailEvent {}
-
-// View provenance
-class TransactionDetailEventViewProvenance extends TransactionDetailEvent {}

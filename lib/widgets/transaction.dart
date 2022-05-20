@@ -454,7 +454,7 @@ class TransactionDetailWidget extends StatelessWidget {
   final VoidCallback opTapBcAddress;
   final int timestamp;
   final TransactionStatus transactionStatus;
-  final VoidCallback onViewProvenance;
+  final VoidCallback onTapViewProvenance;
 
   const TransactionDetailWidget(
       {Key? key,
@@ -465,7 +465,7 @@ class TransactionDetailWidget extends StatelessWidget {
       required this.opTapBcAddress,
       required this.timestamp,
       required this.transactionStatus,
-      required this.onViewProvenance})
+      required this.onTapViewProvenance})
       : super(key: key);
 
   @override
@@ -527,7 +527,7 @@ class TransactionDetailWidget extends StatelessWidget {
             _transactionDetailTextLineWidget(
                 Container(),
                 ButtonTextWidget(
-                    text: "View provenance", onPressed: onViewProvenance))
+                    text: "View provenance", onPressed: onTapViewProvenance))
           ],
         ));
   }
