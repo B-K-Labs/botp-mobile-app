@@ -7,10 +7,14 @@ import "package:flutter/material.dart";
 
 class BroadcastEventDetailWidget extends StatelessWidget {
   final BroadcastEventData? data;
-  final void Function(String, String) opTapCopyData;
+  final void Function(String, String) onTapCopyData;
+  final void Function(String) onTapScanExplorer;
 
   const BroadcastEventDetailWidget(
-      {Key? key, required this.data, required this.opTapCopyData})
+      {Key? key,
+      required this.data,
+      required this.onTapCopyData,
+      required this.onTapScanExplorer})
       : super(key: key);
 
   @override
@@ -40,7 +44,7 @@ class BroadcastEventDetailWidget extends StatelessWidget {
                         BcAddressWidget(
                             bcAddress: data!.agentBcAddress,
                             onTap: () {
-                              opTapCopyData("Agent blockchain address",
+                              onTapCopyData("Agent blockchain address",
                                   data!.agentBcAddress);
                             })),
                     const SizedBox(height: kAppPaddingBetweenItemSmallSize),
@@ -49,7 +53,7 @@ class BroadcastEventDetailWidget extends StatelessWidget {
                         BcAddressWidget(
                             bcAddress: data!.userBcAddress,
                             onTap: () {
-                              opTapCopyData("User blockchain address",
+                              onTapCopyData("User blockchain address",
                                   data!.userBcAddress);
                             })),
                     const SizedBox(height: kAppPaddingBetweenItemSmallSize),
@@ -58,7 +62,7 @@ class BroadcastEventDetailWidget extends StatelessWidget {
                         BcAddressWidget(
                             bcAddress: data!.id,
                             onTap: () {
-                              opTapCopyData("Id", data!.id);
+                              onTapCopyData("Id", data!.id);
                             })),
                     const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                     _provenanceEventDetailTextLineWidget(
@@ -66,7 +70,7 @@ class BroadcastEventDetailWidget extends StatelessWidget {
                         BcAddressWidget(
                             bcAddress: data!.encryptedMessage,
                             onTap: () {
-                              opTapCopyData(
+                              onTapCopyData(
                                   "Encrypted message", data!.encryptedMessage);
                             })),
                     const SizedBox(height: kAppPaddingBetweenItemNormalSize),
@@ -74,9 +78,17 @@ class BroadcastEventDetailWidget extends StatelessWidget {
                         Container(),
                         ButtonTextWidget(
                             text: "Scan on Blockchain Explorer",
-                            onPressed: () {}))
+                            onPressed: () {
+                              onTapScanExplorer(data!.explorerId);
+                            }))
                   ])
-                : const Text("Data is not found"),
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: const [
+                        SizedBox(height: kAppPaddingBetweenItemLargeSize),
+                        Center(child: Text("Data is not found")),
+                        SizedBox(height: kAppPaddingBetweenItemNormalSize)
+                      ]),
           ],
         ));
   }
@@ -84,10 +96,14 @@ class BroadcastEventDetailWidget extends StatelessWidget {
 
 class HistoryEventDetailWidget extends StatelessWidget {
   final HistoryEventData? data;
-  final void Function(String, String) opTapCopyData;
+  final void Function(String, String) onTapCopyData;
+  final void Function(String) onTapScanExplorer;
 
   const HistoryEventDetailWidget(
-      {Key? key, required this.data, required this.opTapCopyData})
+      {Key? key,
+      required this.data,
+      required this.onTapCopyData,
+      required this.onTapScanExplorer})
       : super(key: key);
 
   @override
@@ -117,7 +133,7 @@ class HistoryEventDetailWidget extends StatelessWidget {
                         BcAddressWidget(
                             bcAddress: data!.agentBcAddress,
                             onTap: () {
-                              opTapCopyData("Agent blockchain address",
+                              onTapCopyData("Agent blockchain address",
                                   data!.agentBcAddress);
                             })),
                     const SizedBox(height: kAppPaddingBetweenItemSmallSize),
@@ -126,7 +142,7 @@ class HistoryEventDetailWidget extends StatelessWidget {
                         BcAddressWidget(
                             bcAddress: data!.userBcAddress,
                             onTap: () {
-                              opTapCopyData("User blockchain address",
+                              onTapCopyData("User blockchain address",
                                   data!.userBcAddress);
                             })),
                     const SizedBox(height: kAppPaddingBetweenItemSmallSize),
@@ -135,7 +151,7 @@ class HistoryEventDetailWidget extends StatelessWidget {
                         BcAddressWidget(
                             bcAddress: data!.id,
                             onTap: () {
-                              opTapCopyData("Id", data!.id);
+                              onTapCopyData("Id", data!.id);
                             })),
                     const SizedBox(height: kAppPaddingBetweenItemNormalSize),
                     _provenanceEventDetailTextLineWidget(
@@ -143,9 +159,10 @@ class HistoryEventDetailWidget extends StatelessWidget {
                         BcAddressWidget(
                             bcAddress: data!.encryptedMessage,
                             onTap: () {
-                              opTapCopyData(
+                              onTapCopyData(
                                   "Encrypted message", data!.encryptedMessage);
                             })),
+                    const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                     const DividerWidget(),
                     const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                     _provenanceEventDetailTextLineWidget(
@@ -153,16 +170,24 @@ class HistoryEventDetailWidget extends StatelessWidget {
                         BcAddressWidget(
                             bcAddress: data!.signature,
                             onTap: () {
-                              opTapCopyData("Signature", data!.signature);
+                              onTapCopyData("Signature", data!.signature);
                             })),
                     const SizedBox(height: kAppPaddingBetweenItemNormalSize),
                     _provenanceEventDetailTextLineWidget(
                         Container(),
                         ButtonTextWidget(
                             text: "Scan on Blockchain Explorer",
-                            onPressed: () {}))
+                            onPressed: () {
+                              onTapScanExplorer(data!.explorerId);
+                            }))
                   ])
-                : const Text("Data is not found"),
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: const [
+                        SizedBox(height: kAppPaddingBetweenItemLargeSize),
+                        Center(child: Text("Data is not found")),
+                        SizedBox(height: kAppPaddingBetweenItemNormalSize)
+                      ]),
           ],
         ));
   }
@@ -182,10 +207,41 @@ class ProvenanceStatusWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _matchedStatus =
-        Column(children: [Text("All information is matched.")]);
-    final _unmatchedStatus =
-        Column(children: [Text("Some information is unmatched.")]);
+    // Theme
+    final Color _color = isMatched
+        ? Theme.of(context).colorScheme.secondary
+        : Theme.of(context).colorScheme.error;
+    final TextStyle? _titleStyle =
+        Theme.of(context).textTheme.headline5?.copyWith(color: _color);
+    final TextStyle? _textStyle = Theme.of(context).textTheme.bodyText2;
+
+    final _matchedStatus = Column(children: [
+      const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+      SizedBox(
+        height: 80.0,
+        width: 80.0,
+        child: Image.asset("assets/images/status/status_success.png",
+            scale: 1, fit: BoxFit.contain),
+      ),
+      const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+      Text("Matched events", style: _titleStyle),
+      const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+      Text("All information between two events is matched.", style: _textStyle),
+    ]);
+    final _unmatchedStatus = Column(children: [
+      const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+      SizedBox(
+        height: 80.0,
+        width: 80.0,
+        child: Image.asset("assets/images/status/status_failed.png",
+            scale: 1, fit: BoxFit.contain),
+      ),
+      const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+      Text("Unmatched events", style: _titleStyle),
+      const SizedBox(height: kAppPaddingBetweenItemSmallSize),
+      Text("Exists unmatched information between two events.",
+          style: _textStyle),
+    ]);
     return isMatched ? _matchedStatus : _unmatchedStatus;
   }
 }

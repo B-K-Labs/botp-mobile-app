@@ -201,6 +201,9 @@ class ProvenanceMatchingInfo {
   bool id;
   bool encryptedMessage;
 
+  bool get isMatched =>
+      agentBcAddress && userBcAddress && id && encryptedMessage;
+
   ProvenanceMatchingInfo(
       {required this.agentBcAddress,
       required this.userBcAddress,

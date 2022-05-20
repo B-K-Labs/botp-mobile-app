@@ -5,6 +5,7 @@ import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/constants/provenance.dart';
 import 'package:botp_auth/modules/botp/provenance/bloc/provenance_event.dart';
 import 'package:botp_auth/modules/botp/provenance/bloc/provenance_state.dart';
+import 'package:botp_auth/utils/helpers/provenance.dart';
 import 'package:botp_auth/utils/services/clipboard_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,6 +35,7 @@ class ProvenanceBloc extends Bloc<ProvenanceEvent, ProvenanceState> {
         List<ProvenanceEventResponseModel> provenanceEventsList =
             await Future.wait(
                 [_getBroadcastEventAsync(), _getHistoryEventAsync()]);
+        // - Get result
         final _broadcastEventData = provenanceEventsList
             .where((event) => event.eventType == ProvenanceEventType.broadcast)
             .toList()[0]
@@ -42,11 +44,15 @@ class ProvenanceBloc extends Bloc<ProvenanceEvent, ProvenanceState> {
             .where((event) => event.eventType == ProvenanceEventType.history)
             .toList()[0]
             .historyEventData;
-
+        // - Compare events
+        final _matchingInfo =
+            compareProvenanceEvents(_broadcastEventData, _historyEventData);
+        // - Update state
         emit(state.copyWith(
             getProvenanceStatus: RequestStatusSuccess(),
             broadcastEventData: _broadcastEventData,
-            historyEventData: _historyEventData));
+            historyEventData: _historyEventData,
+            matchingInfo: _matchingInfo));
       } on Exception catch (e) {
         emit(state.copyWith(getProvenanceStatus: RequestStatusFailed(e)));
       }
@@ -56,8 +62,7 @@ class ProvenanceBloc extends Bloc<ProvenanceEvent, ProvenanceState> {
     on<ProvenanceEventScanBlockchainExplorer>((event, emit) async {
       if (_isScanningProvenanceEvents) return;
       _isScanningProvenanceEvents = true;
-      if (event.eventType == ProvenanceEventType.broadcast) {
-      } else {}
+      // TODO: open webview
       _isScanningProvenanceEvents = false;
     });
 

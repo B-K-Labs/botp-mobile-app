@@ -19,7 +19,7 @@ class ProvenanceEventCopyData extends ProvenanceEvent {
 }
 
 class ProvenanceEventScanBlockchainExplorer extends ProvenanceEvent {
-  final ProvenanceEventType eventType;
+  final String explorerId;
 
-  ProvenanceEventScanBlockchainExplorer({required this.eventType});
+  ProvenanceEventScanBlockchainExplorer({required this.explorerId});
 }
