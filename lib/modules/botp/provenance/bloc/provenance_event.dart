@@ -23,3 +23,5 @@ class ProvenanceEventScanBlockchainExplorer extends ProvenanceEvent {
 
   ProvenanceEventScanBlockchainExplorer({required this.explorerId});
 }
+
+class ProvenanceEventEasterEgg extends ProvenanceEvent {}

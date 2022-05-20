@@ -17,6 +17,11 @@ class ProvenanceBloc extends Bloc<ProvenanceEvent, ProvenanceState> {
   bool _isGettingProvenanceInfo = false;
   bool _isScanningProvenanceEvents = false;
   bool _isCopyingData = false;
+  bool _isChangingData = false;
+
+  // Easter egg
+  int _broadcastFieldIndex = 0;
+  bool _isBroadcastValid = true;
 
   ProvenanceBloc({required this.authenticatorRepository})
       : super(ProvenanceState()) {
@@ -78,7 +83,32 @@ class ProvenanceBloc extends Bloc<ProvenanceEvent, ProvenanceState> {
       } on Exception catch (e) {
         emit(state.copyWith(copyData: SetClipboardStatusFailed(e)));
       }
+      emit(state.copyWith(copyData: const SetClipboardStatusInitial()));
       _isCopyingData = false;
+    });
+
+    // Make broadcast field invalid
+    on<ProvenanceEventEasterEgg>((event, emit) async {
+      final broadcastEventData = state.broadcastEventData;
+      if (_isChangingData || broadcastEventData == null) return;
+      _isChangingData = true;
+      // Choose new index field when currently valid
+      if (_isBroadcastValid) {
+        _broadcastFieldIndex = chooseRandomBroadcastField();
+      }
+      // Modify broadcast data
+      final newBroadcastEventData = modifyBroadcastEventData(
+          broadcastEventData, _broadcastFieldIndex, _isBroadcastValid);
+      // Swap valid state
+      _isBroadcastValid = !_isBroadcastValid;
+      // Compare events
+      final _matchingInfo = compareProvenanceEvents(
+          newBroadcastEventData, state.historyEventData);
+      // Update state
+      emit(state.copyWith(
+          broadcastEventData: newBroadcastEventData,
+          matchingInfo: _matchingInfo));
+      _isChangingData = false;
     });
   }
 }

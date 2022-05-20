@@ -176,6 +176,20 @@ class BroadcastEventData {
       required this.id,
       required this.encryptedMessage,
       required this.explorerId});
+
+  BroadcastEventData copyWith({
+    String? agentBcAddress,
+    String? userBcAddress,
+    String? id,
+    String? encryptedMessage,
+    String? explorerId,
+  }) =>
+      BroadcastEventData(
+          agentBcAddress: agentBcAddress ?? this.agentBcAddress,
+          userBcAddress: userBcAddress ?? this.userBcAddress,
+          id: id ?? this.id,
+          encryptedMessage: encryptedMessage ?? this.encryptedMessage,
+          explorerId: explorerId ?? this.explorerId);
 }
 
 class HistoryEventData {

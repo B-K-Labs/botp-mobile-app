@@ -96,13 +96,18 @@ class ProvenanceBody extends StatelessWidget {
   Widget _provenanceStatus() {
     return BlocBuilder<ProvenanceBloc, ProvenanceState>(
         builder: (context, state) {
-      return Container(
-          padding:
-              const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
-          child: Column(children: [
-            ProvenanceStatusWidget(isMatched: state.matchingInfo!.isMatched),
-            const SizedBox(height: kAppPaddingBetweenItemNormalSize)
-          ]));
+      return GestureDetector(
+          onTap: () {
+            context.read<ProvenanceBloc>().add(ProvenanceEventEasterEgg());
+          },
+          child: Container(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: kAppPaddingHorizontalSize),
+              child: Column(children: [
+                ProvenanceStatusWidget(
+                    isMatched: state.matchingInfo!.isMatched),
+                const SizedBox(height: kAppPaddingBetweenItemNormalSize)
+              ])));
     });
   }
 
