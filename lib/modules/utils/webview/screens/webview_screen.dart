@@ -10,7 +10,7 @@ class WebViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenWidget(
-        appBarTitle: "VBC Blockchain Explorer", body: WebViewBody(url));
+        appBarTitle: "Blockchain Explorer", body: WebViewBody(url));
   }
 }
 
