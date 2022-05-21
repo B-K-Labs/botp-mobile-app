@@ -10,7 +10,7 @@ class SessionCubit extends Cubit<SessionState> {
 
   // Mark that user has skipped
   bool didSkipKyc = false;
-  bool didSkipBiometric = false;
+  bool didSkipBiometric = true; // TODO: Implement fingerprint
 
   resetDidSkipReminder() {
     didSkipKyc = false;
