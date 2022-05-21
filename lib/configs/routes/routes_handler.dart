@@ -22,6 +22,7 @@ import 'package:botp_auth/modules/botp/transaction/screens/transaction_detail_sc
 import 'package:botp_auth/modules/utils/biometric_setup/screens/biometric_setup_screen.dart';
 import 'package:botp_auth/modules/utils/qr_scanner/screens/qr_scanner.dart';
 import 'package:botp_auth/modules/botp/settings/account/kyc_setup/screens/kyc_setup_screen.dart';
+import 'package:botp_auth/modules/utils/webview/screens/webview_screen.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
@@ -158,4 +159,10 @@ var qrScannerHandler =
 var biometricSetupHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
   return const BiometricSetupScreen();
+});
+
+var webViewHandler =
+    Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
+  final url = context?.settings?.arguments as String;
+  return WebViewScreen(url);
 });

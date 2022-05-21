@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
@@ -61,7 +63,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     // (not used) Initiate backend services e.g AWS, Firebase
     // Web view
-    WebView.platform = AndroidWebView();
+    if (Platform.isAndroid) WebView.platform = AndroidWebView();
     // Remove splash screens
     FlutterNativeSplash.remove();
   }

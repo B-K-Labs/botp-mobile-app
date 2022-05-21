@@ -4,6 +4,7 @@ import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
+import 'package:botp_auth/core/api_url/api_url.dart';
 import 'package:botp_auth/modules/botp/provenance/bloc/provenance_bloc.dart';
 import 'package:botp_auth/modules/botp/provenance/bloc/provenance_event.dart';
 import 'package:botp_auth/modules/botp/provenance/bloc/provenance_state.dart';
@@ -120,8 +121,11 @@ class ProvenanceBody extends StatelessWidget {
       }
 
       onTapScanExplorer(explorerId) {
-        // TODO: Open web view
+        String url = '$bcExplorerApiUrl/$explorerId';
+        Application.router.navigateTo(context, "/utils/webView",
+            routeSettings: RouteSettings(arguments: url));
       }
+
       return Container(
           padding:
               const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),
@@ -145,8 +149,11 @@ class ProvenanceBody extends StatelessWidget {
       }
 
       onTapScanExplorer(explorerId) {
-        // TODO: Open web view
+        String url = '$bcExplorerApiUrl/$explorerId';
+        Application.router.navigateTo(context, "/utils/webView",
+            routeSettings: RouteSettings(arguments: url));
       }
+
       return Container(
           padding:
               const EdgeInsets.symmetric(horizontal: kAppPaddingHorizontalSize),

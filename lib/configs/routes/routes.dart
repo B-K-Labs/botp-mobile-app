@@ -29,6 +29,7 @@ class Routes {
   // 3. Utils modules
   static String qrScanner = "/utils/qrScanner";
   static String biometricSetup = "/utils/biometricSetup";
+  static String webView = "/utils/webView";
 
   // Routes configuration
   static void configureRoutes(FluroRouter router) {
@@ -92,5 +93,7 @@ class Routes {
     router.define(biometricSetup,
         handler: biometricSetupHandler,
         transitionType: TransitionType.inFromRight);
+    router.define(webView,
+        handler: webViewHandler, transitionType: TransitionType.inFromRight);
   }
 }
