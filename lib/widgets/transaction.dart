@@ -571,9 +571,9 @@ class TransactionDetailSkeletonWidget extends StatelessWidget {
                 Text("Address", style: _labelStyle),
                 const SkeletonLine(
                     style: SkeletonLineStyle(height: 24.0, width: 120))),
-            const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+            const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             const DividerWidget(),
-            const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+            const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             _transactionDetailTextLineWidget(
                 Text("Date", style: _labelStyle),
                 const SkeletonLine(
@@ -587,6 +587,11 @@ class TransactionDetailSkeletonWidget extends StatelessWidget {
                         minLength: 50,
                         maxLength: 100,
                         randomLength: true))),
+            const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+            _transactionDetailTextLineWidget(
+                Container(),
+                const SkeletonLine(
+                    style: SkeletonLineStyle(height: 24.0, width: 142))),
           ],
         ));
   }
