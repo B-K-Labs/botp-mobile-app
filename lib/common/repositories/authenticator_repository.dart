@@ -103,26 +103,37 @@ class AuthenticatorRepository {
         : "/provenance/eventHistory";
     // Especially the provenance case: use try catch
     try {
-      // http.Response result = await post(makeApiUrlString(path: path), data);
-      // if (result.statusCode == HttpStatus.ok) {
-      return ProvenanceEventResponseModel(
-        eventType: eventType,
-        broadcastEventData: BroadcastEventData(
-            agentBcAddress: "0x123456",
-            userBcAddress: "0x123456",
-            id: "0x123456",
-            encryptedMessage: "0x123456",
-            explorerId: "0x123456"),
-        historyEventData: HistoryEventData(
-            agentBcAddress: "0x123456",
-            userBcAddress: "0x123456",
-            id: "0x123456",
-            encryptedMessage: "0x123456",
-            signature: "0x123456",
-            explorerId: "0x123456"),
-      );
-      // }
-      // throw Exception(result.body);
+      http.Response result = await post(makeApiUrlString(path: path), data);
+      if (result.statusCode == HttpStatus.ok) {
+        // - Extract data
+        final provenanceEventData = json.decode(result.body);
+        final explorerId =
+            provenanceEventData["logs"]["data"][0]["transactionHash"];
+        final decodeResultData = provenanceEventData["decode"]["result"];
+        // - Map data
+        return ProvenanceEventResponseModel(
+          eventType: eventType,
+          broadcastEventData: eventType == ProvenanceEventType.broadcast
+              ? BroadcastEventData(
+                  agentBcAddress: decodeResultData["agentAddr"],
+                  userBcAddress: decodeResultData["userAddr"],
+                  id: decodeResultData["id"],
+                  encryptedMessage: decodeResultData["encMessage"],
+                  explorerId: explorerId)
+              : null,
+          historyEventData: eventType == ProvenanceEventType.history
+              ? HistoryEventData(
+                  agentBcAddress: decodeResultData["agentAddr"],
+                  userBcAddress: decodeResultData["userAddr"],
+                  id: decodeResultData["id"],
+                  signature: decodeResultData["signature"],
+                  encryptedMessage: decodeResultData["encMessage"],
+                  explorerId: explorerId,
+                )
+              : null,
+        );
+      }
+      throw Exception(result.body);
     } on Exception catch (e) {
       return ProvenanceEventResponseModel(eventType: eventType);
     }

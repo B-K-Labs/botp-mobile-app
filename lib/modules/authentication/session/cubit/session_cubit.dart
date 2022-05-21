@@ -14,7 +14,7 @@ class SessionCubit extends Cubit<SessionState> {
 
   resetDidSkipReminder() {
     didSkipKyc = false;
-    didSkipBiometric = false;
+    didSkipBiometric = true; // TODO: Implement fingerprint;
   }
 
   SessionCubit({required this.authenticationRepository})
