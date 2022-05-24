@@ -31,6 +31,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
             (await UserData.getCredentialAccountData())!.privateKey;
         // Extracted password from Biometric auth/User input
         final password = event.password ?? state.password;
+        emit(state.copyWith(password: password));
         // Sign in
         final signInResult = await authRepository.signIn(privateKey, password);
         // Save session
