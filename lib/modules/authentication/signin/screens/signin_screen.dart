@@ -103,6 +103,7 @@ class _SignInBodyState extends State<SignInBody> {
           textInputAction: TextInputAction.done,
           autofocus: true,
           hintText: "******",
+          controller: context.read<SignInBloc>().passwordController,
           validator: _passwordValidator,
           onChanged: _passwordOnChanged);
     });

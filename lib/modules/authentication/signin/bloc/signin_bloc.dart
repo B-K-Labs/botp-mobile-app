@@ -3,6 +3,7 @@ import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/utils/services/local_auth_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:botp_auth/modules/authentication/signin/bloc/signin_event.dart';
 import 'package:botp_auth/modules/authentication/signin/bloc/signin_state.dart';
@@ -11,6 +12,8 @@ import 'package:botp_auth/common/states/request_status.dart';
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
   final AuthenticationRepository authRepository;
   final SessionCubit sessionCubit;
+  // Text controller
+  final passwordController = TextEditingController();
   // Flags
   bool _isSubmitting = false;
   bool _isBiometricAuthenticating = false;
@@ -31,7 +34,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
             (await UserData.getCredentialAccountData())!.privateKey;
         // Extracted password from Biometric auth/User input
         final password = event.password ?? state.password;
+        // Update password
         emit(state.copyWith(password: password));
+        passwordController.text = password;
         // Sign in
         final signInResult = await authRepository.signIn(privateKey, password);
         // Save session
