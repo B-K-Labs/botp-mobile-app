@@ -1,17 +1,14 @@
-import 'package:botp_auth/common/models/common_model.dart';
-import 'package:botp_auth/common/states/clipboard_status.dart';
-import 'package:botp_auth/common/states/request_status.dart';
-import 'package:local_auth/local_auth.dart';
+import 'package:botp_auth/common/states/biometric_auth_status.dart';
 
 class SecurityBiometricSetupState {
-  final RequestStatus setupBiometricStatus;
+  final BiometricAuthStatus setupBiometricStatus;
 
   SecurityBiometricSetupState({
-    this.setupBiometricStatus = const RequestStatusInitial(),
+    this.setupBiometricStatus = const BiometricAuthStatusInitial(),
   });
 
   SecurityBiometricSetupState copyWith({
-    RequestStatus? setupBiometricStatus,
+    BiometricAuthStatus? setupBiometricStatus,
   }) =>
       SecurityBiometricSetupState(
         setupBiometricStatus: setupBiometricStatus ?? this.setupBiometricStatus,

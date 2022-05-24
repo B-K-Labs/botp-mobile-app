@@ -40,7 +40,7 @@ class _AccountAgentSetupBodyState extends State<AccountAgentSetupBody> {
               // Update user info
               final setupAgentStatus = state.setupAgentStatus;
               if (setupAgentStatus is RequestStatusSuccess) {
-                context.read<BOTPHomeCubit>().loadCommonUserData();
+                context.read<BOTPHomeCubit>().reloadCommonData();
               }
               // Copy address
               final copyBcAddressStatus = state.copyBcAddressStatus;

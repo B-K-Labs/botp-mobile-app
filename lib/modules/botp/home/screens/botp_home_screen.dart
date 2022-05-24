@@ -38,7 +38,7 @@ class _BOTPHomeScreenState extends State<BOTPHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    context.read<BOTPHomeCubit>().loadCommonUserData();
+    context.read<BOTPHomeCubit>().reloadCommonData();
     return BlocConsumer<BOTPHomeCubit, BOTPHomeState>(
         listener: (context, state) {
           // Copy bc address

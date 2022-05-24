@@ -1,6 +1,8 @@
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/constants/settings.dart';
+import 'package:botp_auth/modules/botp/home/cubit/botp_home_cubit.dart';
+import 'package:botp_auth/modules/botp/home/cubit/botp_home_state.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/setting.dart';
@@ -38,26 +40,53 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
   }
 
   Widget _account() {
-    return SettingsSectionWidget(title: "Account security", children: [
-      const SettingsOptionWidget(
-        label: "Change password",
-        type: SettingsOptionType.labelNavigable,
-      ),
-      SettingsOptionWidget(
-        label: "Transfer account",
-        type: SettingsOptionType.labelNavigable,
-        navigateDescription: "Export/Import",
-        onTap: () {
-          Application.router
-              .navigateTo(context, "/botp/settings/security/transfer");
-        },
-      ),
-      const SettingsOptionWidget(
-        label: "Fingerprint authentication",
-        type: SettingsOptionType.labelNavigable,
-        navigateDescription: "Not set up yet",
-      ),
-    ]);
+    return BlocBuilder<BOTPHomeCubit, BOTPHomeState>(builder: (context, state) {
+      final String biometricStatus;
+      dynamic onTapBiometricSetup = () {
+        Application.router
+            .navigateTo(context, "/botp/settings/security/setupBiometric");
+      };
+      switch (state.biometricSetupStatus) {
+        case BiometricSetupStatus.unsupported:
+          biometricStatus = "Unsupported";
+          onTapBiometricSetup = null;
+          break;
+        case BiometricSetupStatus.notSetup:
+          biometricStatus = "Not setup yet";
+          break;
+        case BiometricSetupStatus.disabled:
+          biometricStatus = "Disabled";
+          break;
+        case BiometricSetupStatus.enabled:
+        default:
+          biometricStatus = "Enabled";
+          onTapBiometricSetup = () {
+            context.read<BOTPHomeCubit>().removeBiometricSetup();
+          };
+      }
+
+      return SettingsSectionWidget(title: "Account security", children: [
+        const SettingsOptionWidget(
+          label: "Change password",
+          type: SettingsOptionType.labelNavigable,
+        ),
+        SettingsOptionWidget(
+          label: "Transfer account",
+          type: SettingsOptionType.labelNavigable,
+          navigateDescription: "Export/Import",
+          onTap: () {
+            Application.router
+                .navigateTo(context, "/botp/settings/security/transfer");
+          },
+        ),
+        SettingsOptionWidget(
+          label: "Fingerprint authentication",
+          type: SettingsOptionType.labelNavigable,
+          navigateDescription: biometricStatus,
+          onTap: onTapBiometricSetup,
+        ),
+      ]);
+    });
   }
 
   Widget _session() {

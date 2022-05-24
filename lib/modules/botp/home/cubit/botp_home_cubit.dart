@@ -5,6 +5,7 @@ import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:botp_auth/modules/botp/home/cubit/botp_home_state.dart';
+import 'package:botp_auth/utils/helpers/biometric.dart';
 import 'package:botp_auth/utils/services/clipboard_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,13 +18,18 @@ class BOTPHomeCubit extends Cubit<BOTPHomeState> {
   // Flag
   bool _isLoadingUserData = false;
 
-  loadCommonUserData() async {
+  reloadCommonData() async {
     if (_isLoadingUserData) return;
     _isLoadingUserData = true;
+    // Get biometric status;
+    final biometricSetupStatus = await getBiometricSetupStatus();
+    emit(state.copyWith(biometricSetupStatus: biometricSetupStatus));
+
     // Read user data from storage
     final accountData = await UserData.getCredentialAccountData();
     final profileData = await UserData.getCredentialProfileData();
     final agentsData = await UserData.getCredentialAgentsData();
+
     if (profileData!.didKyc) {
       final kycData = await UserData.getCredentialKYCData();
       emit(state.copyWith(
@@ -53,6 +59,7 @@ class BOTPHomeCubit extends Cubit<BOTPHomeState> {
         loadUserDataStatus: LoadUserDataStatusSuccess(),
       ));
     }
+
     // Get user agent list
     try {
       emit(state.copyWith(getAgentsListStatus: RequestStatusSubmitting()));
@@ -71,6 +78,7 @@ class BOTPHomeCubit extends Cubit<BOTPHomeState> {
     _isLoadingUserData = false;
   }
 
+  // Copy bcAddress
   Future<void> copyBcAddress() async {
     emit(state.copyWith(copyBcAddressStatus: SetClipboardStatusSubmitting()));
     try {
@@ -82,5 +90,12 @@ class BOTPHomeCubit extends Cubit<BOTPHomeState> {
       emit(state.copyWith(
           copyBcAddressStatus: const SetClipboardStatusInitial()));
     }
+  }
+
+  // Remove biometric
+  Future<void> removeBiometricSetup() async {
+    await UserData.setCredentialBiometricData(false);
+    final biometricSetupStatus = await getBiometricSetupStatus();
+    emit(state.copyWith(biometricSetupStatus: biometricSetupStatus));
   }
 }

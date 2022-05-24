@@ -1,8 +1,10 @@
 import 'package:botp_auth/common/models/common_model.dart';
+import 'package:botp_auth/constants/settings.dart';
 import 'package:botp_auth/constants/storage.dart';
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_state.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
+import 'package:botp_auth/utils/helpers/biometric.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SessionCubit extends Cubit<SessionState> {
@@ -10,11 +12,11 @@ class SessionCubit extends Cubit<SessionState> {
 
   // Mark that user has skipped
   bool didSkipKyc = false;
-  bool didSkipBiometric = true; // TODO: Implement fingerprint
+  bool didSkipBiometric = false;
 
   resetDidSkipReminder() {
     didSkipKyc = false;
-    didSkipBiometric = true; // TODO: Implement fingerprint;
+    didSkipBiometric = false;
   }
 
   SessionCubit({required this.authenticationRepository})
@@ -63,7 +65,8 @@ class SessionCubit extends Cubit<SessionState> {
     if (skipSetupKyc == true) {
       didSkipKyc = true;
     }
-    if (skipSetupBiometric == true) {
+    if (skipSetupBiometric == true ||
+        (await getBiometricSetupStatus()) == BiometricSetupStatus.unsupported) {
       didSkipBiometric = true;
     }
 

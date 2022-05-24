@@ -24,11 +24,12 @@ class Routes {
       "/botp/settings/security/transfer";
   static String settingsSecurityExportAccount =
       "/botp/settings/security/transfer/export";
+  static String settingsSecuritySetupBiometric =
+      "/botp/settings/security/setupBiometric";
   static String settingsSystem = "/botp/settings/system";
   static String settingsAbout = "/botp/settings/about";
   // 3. Utils modules
   static String qrScanner = "/utils/qrScanner";
-  static String biometricSetup = "/utils/biometricSetup";
   static String webView = "/utils/webView";
 
   // Routes configuration
@@ -81,6 +82,9 @@ class Routes {
     router.define(settingsSecurityExportAccount,
         handler: botpSettingsSecurityExportAccountHandler,
         transitionType: TransitionType.inFromRight);
+    router.define(settingsSecuritySetupBiometric,
+        handler: botpSettingsSecuritySetupBiometricHandler,
+        transitionType: TransitionType.inFromRight);
     router.define(settingsSystem,
         handler: botpSettingsSystemHandler,
         transitionType: TransitionType.inFromRight);
@@ -90,9 +94,6 @@ class Routes {
     // 3. Utils modules
     router.define(qrScanner,
         handler: qrScannerHandler, transitionType: TransitionType.inFromRight);
-    router.define(biometricSetup,
-        handler: biometricSetupHandler,
-        transitionType: TransitionType.inFromRight);
     router.define(webView,
         handler: webViewHandler, transitionType: TransitionType.inFromRight);
   }

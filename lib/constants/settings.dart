@@ -14,8 +14,9 @@ enum OptionButtonOneSide {
   right,
 }
 
-enum LocalAuthSupportState {
-  unknown,
-  supported,
+enum BiometricSetupStatus {
   unsupported,
+  notSetup,
+  disabled,
+  enabled,
 }

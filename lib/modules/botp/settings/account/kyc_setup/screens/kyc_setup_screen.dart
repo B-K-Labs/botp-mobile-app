@@ -75,7 +75,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
                 widget.fromScreen == FromScreen.botpAuthenticator) {
               context
                   .read<BOTPHomeCubit>()
-                  .loadCommonUserData(); // Update new data;
+                  .reloadCommonData(); // Update new data;
               Application.router.pop(context, true);
             } else {
               context
