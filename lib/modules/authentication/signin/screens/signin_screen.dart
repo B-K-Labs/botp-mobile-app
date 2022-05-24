@@ -15,16 +15,20 @@ import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
 
 class SignInScreen extends StatelessWidget {
-  const SignInScreen({Key? key}) : super(key: key);
+  final bool autoSignInWithBiometric;
+  const SignInScreen(this.autoSignInWithBiometric, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const ScreenWidget(hasAppBar: false, body: SignInBody());
+    return ScreenWidget(
+        hasAppBar: false, body: SignInBody(autoSignInWithBiometric));
   }
 }
 
 class SignInBody extends StatefulWidget {
-  const SignInBody({Key? key}) : super(key: key);
+  final bool autoSignInWithBiometric;
+  const SignInBody(this.autoSignInWithBiometric, {Key? key}) : super(key: key);
 
   @override
   _SignInBodyState createState() => _SignInBodyState();
@@ -39,7 +43,8 @@ class _SignInBodyState extends State<SignInBody> {
         create: (context) => SignInBloc(
             authRepository: context.read<AuthenticationRepository>(),
             sessionCubit: context.read<SessionCubit>())
-          ..add(SignInEventBiometricAuth(auto: true)),
+          ..add(SignInEventBiometricAuth(
+              isSilent: true, isEnabled: widget.autoSignInWithBiometric)),
         child: Container(
             padding: const EdgeInsets.symmetric(
                 horizontal: kAppPaddingHorizontalSize),

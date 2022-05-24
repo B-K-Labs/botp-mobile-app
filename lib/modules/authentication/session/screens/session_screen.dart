@@ -51,7 +51,7 @@ class _SessionBodyState extends State<SessionBody> {
       } else if (state is UnauthenticatedSessionState) {
         return const InitScreen();
       } else if (state is ExpiredSessionState) {
-        return const SignInScreen();
+        return SignInScreen(state.autoSignInWithBiometric);
       } else {
         return const Scaffold();
       }

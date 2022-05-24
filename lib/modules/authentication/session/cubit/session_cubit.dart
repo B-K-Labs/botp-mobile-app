@@ -44,7 +44,7 @@ class SessionCubit extends Cubit<SessionState> {
     } else if (sessionData.sessionType == UserDataSession.unauthenticated) {
       emit(UnauthenticatedSessionState());
     } else {
-      emit(ExpiredSessionState());
+      emit(ExpiredSessionState(autoSignInWithBiometric: true));
     }
   }
 

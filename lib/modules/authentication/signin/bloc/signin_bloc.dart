@@ -53,12 +53,13 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     });
 
     on<SignInEventBiometricAuth>((event, emit) async {
+      if (!event.isEnabled) return;
       if (_isBiometricAuthenticating) return;
       _isBiometricAuthenticating = true;
       emit(
           state.copyWith(biometricAuthStatus: BiometricAuthStatusSubmitting()));
       // Auto biometric sign in
-      bool isNotSilent = !event.auto;
+      bool isNotSilent = !event.isSilent;
 
       try {
         // Check if biometric supported

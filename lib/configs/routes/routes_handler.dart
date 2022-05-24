@@ -52,7 +52,8 @@ var authSignUpHandler =
 // - Sign in
 var authSignInHandler =
     Handler(handlerFunc: (BuildContext? context, Map<String, dynamic> params) {
-  return const SignInScreen();
+  // Why false? Auto sign in with biometric makes this page must be loaded FIRSTLY, not from other screen
+  return const SignInScreen(false);
 });
 
 // - Import

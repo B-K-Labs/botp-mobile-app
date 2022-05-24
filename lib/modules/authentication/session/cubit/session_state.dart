@@ -10,7 +10,11 @@ class FirstTimeSessionState extends SessionState {}
 class UnauthenticatedSessionState extends SessionState {}
 
 // Out-of-session user i.e only password is required when signing in
-class ExpiredSessionState extends SessionState {}
+class ExpiredSessionState extends SessionState {
+  // Auto sign in with biometric
+  final bool autoSignInWithBiometric;
+  ExpiredSessionState({this.autoSignInWithBiometric = false});
+}
 
 // (update): remind user to setup
 // Reminder

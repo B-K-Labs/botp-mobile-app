@@ -12,6 +12,7 @@ class SignInEventSubmitted extends SignInEvent {
 }
 
 class SignInEventBiometricAuth extends SignInEvent {
-  final bool auto;
-  SignInEventBiometricAuth({this.auto = false});
+  final bool isSilent;
+  final bool isEnabled;
+  SignInEventBiometricAuth({this.isSilent = false, this.isEnabled = true});
 }

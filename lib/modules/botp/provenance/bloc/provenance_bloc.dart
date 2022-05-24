@@ -15,7 +15,6 @@ class ProvenanceBloc extends Bloc<ProvenanceEvent, ProvenanceState> {
 
   // Flag
   bool _isGettingProvenanceInfo = false;
-  bool _isScanningProvenanceEvents = false;
   bool _isCopyingData = false;
   bool _isChangingData = false;
 
