@@ -140,8 +140,7 @@ class _SecurityBiometricSetupBodyState
                     const Expanded(
                         child: BiometricSetupStatusWidget(
                             isSuccess: true,
-                            message:
-                                "You can use your biometric in the next sign-in.")),
+                            message: "You can use it in the next sign-in.")),
                     Container(
                         padding: const EdgeInsets.symmetric(
                             vertical: kAppPaddingVerticalSize),
