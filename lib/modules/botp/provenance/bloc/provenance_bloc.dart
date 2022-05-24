@@ -64,13 +64,6 @@ class ProvenanceBloc extends Bloc<ProvenanceEvent, ProvenanceState> {
       _isGettingProvenanceInfo = false;
     });
 
-    on<ProvenanceEventScanBlockchainExplorer>((event, emit) async {
-      if (_isScanningProvenanceEvents) return;
-      _isScanningProvenanceEvents = true;
-      // TODO: open webview
-      _isScanningProvenanceEvents = false;
-    });
-
     on<ProvenanceEventCopyData>((event, emit) async {
       if (_isCopyingData) return;
       _isCopyingData = true;

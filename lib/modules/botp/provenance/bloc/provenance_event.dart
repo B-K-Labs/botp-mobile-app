@@ -17,10 +17,4 @@ class ProvenanceEventCopyData extends ProvenanceEvent {
   ProvenanceEventCopyData({required this.dataName, required this.dataValue});
 }
 
-class ProvenanceEventScanBlockchainExplorer extends ProvenanceEvent {
-  final String explorerId;
-
-  ProvenanceEventScanBlockchainExplorer({required this.explorerId});
-}
-
 class ProvenanceEventEasterEgg extends ProvenanceEvent {}
