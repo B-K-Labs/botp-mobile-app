@@ -19,7 +19,7 @@ class BiometricSetupStatusWidget extends StatelessWidget {
     final TextStyle? _textStyle = Theme.of(context).textTheme.bodyText2;
 
     final _matchedStatus = Column(children: [
-      const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+      const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
       SizedBox(
         height: 80.0,
         width: 80.0,

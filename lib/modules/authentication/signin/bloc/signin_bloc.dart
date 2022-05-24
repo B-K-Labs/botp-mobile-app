@@ -38,7 +38,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
             signInResult.bcAddress,
             signInResult.publicKey,
             privateKey,
-            state.password,
+            password,
             signInResult.avatarUrl,
             signInResult.userKyc);
         // Launch session

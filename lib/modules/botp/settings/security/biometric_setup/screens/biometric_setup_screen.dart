@@ -53,6 +53,13 @@ class _SecurityBiometricSetupBodyState
       if (setupBiometricStatus is BiometricAuthStatusSuccess) {
         // Update settings data
         context.read<BOTPHomeCubit>().reloadCommonData();
+        // If is from reminder
+        if (widget.fromScreen != FromScreen.botpSettingsSecurity) {
+          Application.router.navigateTo(context, "/");
+          context
+              .read<SessionCubit>()
+              .remindSettingUpAndLaunchSession(skipSetupBiometric: true);
+        }
       }
     }, builder: (context, state) {
       final setupBiometricStatus = state.setupBiometricStatus;
@@ -134,7 +141,7 @@ class _SecurityBiometricSetupBodyState
                         child: BiometricSetupStatusWidget(
                             isSuccess: true,
                             message:
-                                "You can use biometric authentication in the next sign in.")),
+                                "You can use your biometric in the next sign-in.")),
                     Container(
                         padding: const EdgeInsets.symmetric(
                             vertical: kAppPaddingVerticalSize),
