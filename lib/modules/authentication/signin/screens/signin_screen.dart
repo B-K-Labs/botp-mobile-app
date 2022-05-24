@@ -1,3 +1,4 @@
+import 'package:botp_auth/common/states/biometric_auth_status.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
@@ -37,7 +38,8 @@ class _SignInBodyState extends State<SignInBody> {
     return BlocProvider<SignInBloc>(
         create: (context) => SignInBloc(
             authRepository: context.read<AuthenticationRepository>(),
-            sessionCubit: context.read<SessionCubit>()),
+            sessionCubit: context.read<SessionCubit>())
+          ..add(SignInEventBiometricAuth(auto: true)),
         child: Container(
             padding: const EdgeInsets.symmetric(
                 horizontal: kAppPaddingHorizontalSize),
@@ -52,8 +54,12 @@ class _SignInBodyState extends State<SignInBody> {
     return BlocListener<SignInBloc, SignInState>(
         listener: (context, state) {
           final formStatus = state.formStatus;
+          final biometricAuthStatus = state.biometricAuthStatus;
           if (formStatus is RequestStatusFailed) {
             showSnackBar(context, formStatus.exception.toString());
+          }
+          if (biometricAuthStatus is BiometricAuthStatusFailed) {
+            showSnackBar(context, biometricAuthStatus.exception.toString());
           }
         },
         child: Form(
@@ -114,14 +120,16 @@ class _SignInBodyState extends State<SignInBody> {
   }
 
   Widget _signInFingerprint() {
-    return ButtonIconWidget(
-        iconData: Icons.fingerprint,
-        onTap: () {
-          // TODO: local auth
-        },
-        type: ButtonIconType.primaryOutlined,
-        size: ButtonIconSize.big,
-        shape: ButtonIconShape.normal);
+    return BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
+      return ButtonIconWidget(
+          iconData: Icons.fingerprint,
+          onTap: () {
+            context.read<SignInBloc>().add(SignInEventBiometricAuth());
+          },
+          type: ButtonIconType.primaryOutlined,
+          size: ButtonIconSize.big,
+          shape: ButtonIconShape.normal);
+    });
   }
 
   Widget _otherOptions() {

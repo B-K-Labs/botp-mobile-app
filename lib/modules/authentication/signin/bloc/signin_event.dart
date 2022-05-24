@@ -6,4 +6,12 @@ class SignInEventPasswordChanged extends SignInEvent {
   SignInEventPasswordChanged({required this.password});
 }
 
-class SignInEventSubmitted extends SignInEvent {}
+class SignInEventSubmitted extends SignInEvent {
+  final String? password;
+  SignInEventSubmitted({this.password});
+}
+
+class SignInEventBiometricAuth extends SignInEvent {
+  final bool auto;
+  SignInEventBiometricAuth({this.auto = false});
+}

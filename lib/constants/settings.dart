@@ -13,3 +13,9 @@ enum OptionButtonOneSide {
   left,
   right,
 }
+
+enum LocalAuthSupportState {
+  unknown,
+  supported,
+  unsupported,
+}

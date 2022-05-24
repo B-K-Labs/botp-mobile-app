@@ -7,6 +7,7 @@ import 'package:botp_auth/configs/environment/environment.dart';
 import 'package:botp_auth/configs/themes/app_theme.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/botp/home/cubit/botp_home_cubit.dart';
+import 'package:botp_auth/utils/services/local_auth_service.dart';
 import 'package:botp_auth/utils/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,6 +51,8 @@ class _MyAppState extends State<MyApp> {
 
   _MyAppState() {
     // Setting up
+    // - Biometric authentication
+    LocalAuth.init();
     // - Routes
     final router = FluroRouter();
     Routes.configureRoutes(router);

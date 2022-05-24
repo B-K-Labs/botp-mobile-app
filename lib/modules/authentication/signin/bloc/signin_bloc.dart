@@ -1,7 +1,9 @@
+import 'package:botp_auth/common/states/biometric_auth_status.dart';
 import 'package:botp_auth/constants/storage.dart';
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
+import 'package:botp_auth/utils/services/local_auth_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:botp_auth/modules/authentication/signin/bloc/signin_event.dart';
 import 'package:botp_auth/modules/authentication/signin/bloc/signin_state.dart';
@@ -10,7 +12,9 @@ import 'package:botp_auth/common/states/request_status.dart';
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
   final AuthenticationRepository authRepository;
   final SessionCubit sessionCubit;
+  // Flags
   bool _isSubmitting = false;
+  bool _isBiometricAuthenticating = false;
 
   SignInBloc({required this.authRepository, required this.sessionCubit})
       : super(SignInState()) {
@@ -26,8 +30,10 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       try {
         final privateKey =
             (await UserData.getCredentialAccountData())!.privateKey;
-        final signInResult =
-            await authRepository.signIn(privateKey, state.password);
+        // Extracted password from Biometric auth/User input
+        final password = event.password ?? state.password;
+        // Sign in
+        final signInResult = await authRepository.signIn(privateKey, password);
         // Save session
         await sessionCubit.saveNewSessionFromSignIn(
             signInResult.bcAddress,
@@ -44,6 +50,51 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       }
       emit(state.copyWith(formStatus: const RequestStatusInitial()));
       _isSubmitting = false;
+    });
+
+    on<SignInEventBiometricAuth>((event, emit) async {
+      if (_isBiometricAuthenticating) return;
+      _isBiometricAuthenticating = true;
+
+      // Auto biometric sign in
+      bool isNotSilent = !event.auto;
+
+      try {
+        // Check if biometric supported
+        final isBiometricHardwareSupported =
+            await LocalAuth.isBiometricSupported();
+        if (!isBiometricHardwareSupported) {
+          throw Exception(
+              "Your device does not support biometric authentication.");
+        }
+
+        // Check if enabled
+        final biometricData = await UserData.getCredentialBiometricData();
+        final isBiometricActivated = biometricData?.isActivated ?? false;
+        if (!isBiometricActivated) {
+          throw Exception(
+              "Biometric authentication is not enabled. Please enter password.");
+        }
+
+        // Authenticating
+        final biometricAuthResult = await LocalAuth.authenticateWithBiometric();
+        if (biometricAuthResult) {
+          // Sign in
+          final password =
+              (await UserData.getCredentialAccountData())!.password;
+          add(SignInEventSubmitted(password: password));
+        } else {
+          // Not return error
+        }
+      } on Exception catch (e) {
+        if (isNotSilent) {
+          emit(state.copyWith(
+              biometricAuthStatus: BiometricAuthStatusFailed(e)));
+        }
+      }
+      _isBiometricAuthenticating = false;
+      emit(state.copyWith(
+          biometricAuthStatus: const BiometricAuthStatusInitial()));
     });
   }
 }

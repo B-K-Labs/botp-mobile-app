@@ -29,14 +29,14 @@ class ReminderBiometricSetupBody extends StatelessWidget {
         children: [
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
-            Text("Setup fingerprint",
+            Text("Setup biometric",
                 style: Theme.of(context)
                     .textTheme
                     .headline4
                     ?.copyWith(color: Theme.of(context).colorScheme.primary)),
             const SizedBox(height: 24.0),
             Text(
-              "Do you want to use fingerprint authentication for the next sign-in time?",
+              "Do you want to use biometric authentication for the next sign-in time?",
               style: Theme.of(context).textTheme.bodyText2,
             )
           ]),
