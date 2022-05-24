@@ -245,7 +245,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
               }
             };
       return ButtonNormalWidget(
-        text: "I'll do later",
+        text: "Do later",
         type: ButtonNormalType.secondaryOutlined,
         onPressed: onCancelEdit,
       );
