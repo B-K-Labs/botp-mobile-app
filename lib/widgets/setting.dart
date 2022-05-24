@@ -257,7 +257,7 @@ class SettingsOptionWidget extends StatelessWidget {
     // Option Theme
     // - Style
     final _labelStyle = Theme.of(context).textTheme.bodyText2;
-    final _valueStyle = Theme.of(context).textTheme.caption;
+    // final _valueStyle = Theme.of(context).textTheme.caption;
     final _descriptionStyle = Theme.of(context).textTheme.caption;
     // Child widget
     final Widget _optionWidget;
@@ -423,7 +423,7 @@ class AgentInfoWidget extends StatelessWidget {
         .bodyText1
         ?.copyWith(fontWeight: FontWeight.bold);
     final _labelStyle = Theme.of(context).textTheme.bodyText2;
-    final _textStyle = Theme.of(context).textTheme.bodyText2;
+    // final _textStyle = Theme.of(context).textTheme.bodyText2;
     return Container(
         decoration: BoxDecoration(
             border: Border.all(

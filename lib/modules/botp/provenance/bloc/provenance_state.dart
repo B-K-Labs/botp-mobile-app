@@ -21,12 +21,12 @@ class ProvenanceState {
     HistoryEventData? historyEventData,
     ProvenanceMatchingInfo? matchingInfo,
     RequestStatus? getProvenanceStatus,
-    SetClipboardStatus? copyData,
+    SetClipboardStatus? copyDataStatus,
   }) =>
       ProvenanceState(
           broadcastEventData: broadcastEventData ?? this.broadcastEventData,
           historyEventData: historyEventData ?? this.historyEventData,
           matchingInfo: matchingInfo ?? this.matchingInfo,
           getProvenanceStatus: getProvenanceStatus ?? this.getProvenanceStatus,
-          copyDataStatus: copyData ?? this.copyDataStatus);
+          copyDataStatus: copyDataStatus ?? this.copyDataStatus);
 }

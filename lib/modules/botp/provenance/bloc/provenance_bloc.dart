@@ -74,16 +74,16 @@ class ProvenanceBloc extends Bloc<ProvenanceEvent, ProvenanceState> {
     on<ProvenanceEventCopyData>((event, emit) async {
       if (_isCopyingData) return;
       _isCopyingData = true;
-      emit(state.copyWith(copyData: SetClipboardStatusSubmitting()));
+      emit(state.copyWith(copyDataStatus: SetClipboardStatusSubmitting()));
       try {
         await setClipboardData(event.dataValue);
         emit(state.copyWith(
-            copyData: SetClipboardStatusSuccess(
+            copyDataStatus: SetClipboardStatusSuccess(
                 message: '${event.dataName} copied.')));
       } on Exception catch (e) {
-        emit(state.copyWith(copyData: SetClipboardStatusFailed(e)));
+        emit(state.copyWith(copyDataStatus: SetClipboardStatusFailed(e)));
       }
-      emit(state.copyWith(copyData: const SetClipboardStatusInitial()));
+      emit(state.copyWith(copyDataStatus: const SetClipboardStatusInitial()));
       _isCopyingData = false;
     });
 

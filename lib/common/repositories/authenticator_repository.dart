@@ -134,7 +134,7 @@ class AuthenticatorRepository {
         );
       }
       throw Exception(result.body);
-    } on Exception catch (e) {
+    } on Exception {
       return ProvenanceEventResponseModel(eventType: eventType);
     }
   }

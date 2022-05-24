@@ -13,7 +13,7 @@ class LocalAuth {
     try {
       // Note: isDeviceSupported() is just for device-level support
       return await auth.canCheckBiometrics;
-    } on PlatformException catch (e) {
+    } on PlatformException {
       return false;
     }
   }
@@ -24,7 +24,7 @@ class LocalAuth {
   static Future<List<BiometricType>> _getAvailableBiometricsList() async {
     try {
       return await auth.getAvailableBiometrics();
-    } on PlatformException catch (e) {
+    } on PlatformException {
       return <BiometricType>[];
     }
   }
@@ -41,7 +41,7 @@ class LocalAuth {
           localizedReason: "Scan your fingerprint/face to continue",
           options: const AuthenticationOptions(
               useErrorDialogs: true, stickyAuth: true, biometricOnly: true));
-    } on Exception catch (e) {
+    } on Exception {
       return false;
     }
   }

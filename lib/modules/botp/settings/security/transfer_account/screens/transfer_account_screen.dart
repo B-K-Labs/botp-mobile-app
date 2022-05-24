@@ -4,7 +4,6 @@ import 'package:botp_auth/constants/routing_param.dart';
 import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/setting.dart';
 import "package:flutter/material.dart";
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SecurityTransferAccountScreen extends StatelessWidget {
   const SecurityTransferAccountScreen({Key? key}) : super(key: key);

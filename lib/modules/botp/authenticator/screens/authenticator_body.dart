@@ -19,7 +19,6 @@ import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/filter.dart';
 import 'package:botp_auth/widgets/transaction.dart';
-import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletons/skeletons.dart';
@@ -117,7 +116,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                 child: FieldNormalWidget(
                     prefixIconData: Icons.search,
                     hintText: "Agent name, agent address, notify message",
-                    validator: (_) {},
+                    validator: (_) => null,
                     onChanged: (_) {},
                     textInputAction: TextInputAction.search)),
             const SizedBox(width: kAppPaddingBetweenItemSmallSize),

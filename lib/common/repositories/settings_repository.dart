@@ -42,7 +42,7 @@ class SettingsRepository {
     if (result.statusCode == HttpStatus.ok) {
       try {
         return SetupAgentResponseModel.fromJSON(json.decode(result.body));
-      } on Exception catch (e) {
+      } on Exception {
         throw Exception(result.body);
       }
     }

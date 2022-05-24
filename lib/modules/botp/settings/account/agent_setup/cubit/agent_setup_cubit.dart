@@ -1,5 +1,3 @@
-import 'package:botp_auth/common/models/common_model.dart';
-import 'package:botp_auth/common/models/settings_model.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
 import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/common/states/request_status.dart';

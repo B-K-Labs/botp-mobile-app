@@ -2,20 +2,13 @@ import 'package:botp_auth/common/models/authenticator_model.dart';
 import 'package:botp_auth/common/models/common_model.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/common/states/request_status.dart';
-import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
-import 'package:botp_auth/constants/routing_param.dart';
 import 'package:botp_auth/constants/transaction.dart';
 import 'package:botp_auth/modules/botp/history/bloc/history_bloc.dart';
 import 'package:botp_auth/modules/botp/history/bloc/history_event.dart';
 import 'package:botp_auth/modules/botp/history/bloc/history_state.dart';
-import 'package:botp_auth/modules/botp/home/cubit/botp_home_cubit.dart';
-import 'package:botp_auth/modules/botp/home/cubit/botp_home_state.dart';
-import 'package:botp_auth/utils/helpers/transaction.dart';
-import 'package:botp_auth/utils/services/notifications_service.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
-import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/filter.dart';
 import 'package:botp_auth/widgets/transaction.dart';
@@ -67,7 +60,7 @@ class _HistoryBodyState extends State<HistoryBody> {
                 child: FieldNormalWidget(
                     prefixIconData: Icons.search,
                     hintText: "Agent name, agent address, notify message",
-                    validator: (_) {},
+                    validator: (_) => null,
                     onChanged: (_) {},
                     textInputAction: TextInputAction.search)),
             const SizedBox(width: kAppPaddingBetweenItemSmallSize),

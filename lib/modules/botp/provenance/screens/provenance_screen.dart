@@ -14,7 +14,6 @@ import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/provenance.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skeletons/skeletons.dart';
 
 class ProvenanceScreen extends StatelessWidget {
   final ProvenanceInfo provenanceInfo;
@@ -57,10 +56,10 @@ class ProvenanceBody extends StatelessWidget {
       }
     }, builder: (context, state) {
       // Theme
-      final TextStyle? _titleStyle = Theme.of(context)
-          .textTheme
-          .headline6
-          ?.copyWith(color: Theme.of(context).colorScheme.primary);
+      // final TextStyle? _titleStyle = Theme.of(context)
+      //     .textTheme
+      //     .headline6
+      //     ?.copyWith(color: Theme.of(context).colorScheme.primary);
       // Data
       final hasResult = state.getProvenanceStatus is RequestStatusSuccess ||
           state.getProvenanceStatus is RequestStatusFailed;

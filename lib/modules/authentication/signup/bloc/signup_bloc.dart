@@ -1,9 +1,7 @@
 import 'package:botp_auth/common/states/request_status.dart';
-import 'package:botp_auth/constants/storage.dart';
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/modules/authentication/signup/bloc/signup_event.dart';
 import 'package:botp_auth/modules/authentication/signup/bloc/signup_state.dart';
-import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

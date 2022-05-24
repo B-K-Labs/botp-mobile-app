@@ -1,4 +1,3 @@
-import 'package:botp_auth/common/repositories/settings_repository.dart';
 import 'package:botp_auth/common/states/clipboard_status.dart';
 import 'package:botp_auth/common/states/user_data_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';

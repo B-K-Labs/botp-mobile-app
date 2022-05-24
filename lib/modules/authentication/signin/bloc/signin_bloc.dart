@@ -1,5 +1,4 @@
 import 'package:botp_auth/common/states/biometric_auth_status.dart';
-import 'package:botp_auth/constants/storage.dart';
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
@@ -55,7 +54,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     on<SignInEventBiometricAuth>((event, emit) async {
       if (_isBiometricAuthenticating) return;
       _isBiometricAuthenticating = true;
-
+      emit(
+          state.copyWith(biometricAuthStatus: BiometricAuthStatusSubmitting()));
       // Auto biometric sign in
       bool isNotSilent = !event.auto;
 
@@ -73,7 +73,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         final isBiometricActivated = biometricData?.isActivated ?? false;
         if (!isBiometricActivated) {
           throw Exception(
-              "Biometric authentication is not enabled. Please enter password.");
+              "Biometric authentication is not enabled. Please enter password instead.");
         }
 
         // Authenticating

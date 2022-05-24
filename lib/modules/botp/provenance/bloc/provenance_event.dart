@@ -1,5 +1,4 @@
 import 'package:botp_auth/common/models/common_model.dart';
-import 'package:botp_auth/constants/provenance.dart';
 
 abstract class ProvenanceEvent {
   const ProvenanceEvent();

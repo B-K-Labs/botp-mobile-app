@@ -25,9 +25,9 @@ class FilterTransactionStatus2Widget extends StatelessWidget {
           value: selectedValue,
           onChanged: onChanged,
           dropdownColor: _color,
-          icon: Icon(Icons.arrow_drop_down),
+          icon: const Icon(Icons.arrow_drop_down),
           // iconSize: 24,
-          underline: SizedBox(),
+          underline: const SizedBox(),
           items: [
             DropdownMenuItem(
                 child: Text(TransactionStatus.requesting.toCapitalizedString(),
@@ -67,7 +67,7 @@ class FilterTime2Widget extends StatelessWidget {
           dropdownColor: _color,
           icon: const Icon(Icons.arrow_drop_down),
           // iconSize: 24,
-          underline: SizedBox(),
+          underline: const SizedBox(),
           items: [
             DropdownMenuItem(
                 child:
