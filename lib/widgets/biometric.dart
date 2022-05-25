@@ -32,7 +32,7 @@ class BiometricSetupStatusWidget extends StatelessWidget {
       Text(message, style: _textStyle),
     ]);
     final _unmatchedStatus = Column(children: [
-      const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+      const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
       SizedBox(
         height: 80.0,
         width: 80.0,
