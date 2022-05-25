@@ -52,14 +52,14 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         emit(state.copyWith(formStatus: RequestStatusSuccess()));
       } on Exception catch (e) {
         emit(state.copyWith(formStatus: RequestStatusFailed(e)));
+        emit(state.copyWith(formStatus: const RequestStatusInitial()));
+        _isSubmitting = false;
       }
-      emit(state.copyWith(formStatus: const RequestStatusInitial()));
-      _isSubmitting = false;
     });
 
     on<SignInEventBiometricAuth>((event, emit) async {
       if (!event.isEnabled) return;
-      if (_isBiometricAuthenticating) return;
+      if (_isBiometricAuthenticating || _isSubmitting) return;
       _isBiometricAuthenticating = true;
       emit(
           state.copyWith(biometricAuthStatus: BiometricAuthStatusSubmitting()));
