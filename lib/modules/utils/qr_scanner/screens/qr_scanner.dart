@@ -1,14 +1,15 @@
 import 'dart:async';
 import 'dart:math';
+
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/configs/themes/color_palette.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/common.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:flutter/material.dart';
 
 class QRScannerScreen extends StatefulWidget {
   const QRScannerScreen({Key? key}) : super(key: key);
@@ -18,7 +19,8 @@ class QRScannerScreen extends StatefulWidget {
 }
 
 class _QRScannerScreenState extends State<QRScannerScreen> {
-  MobileScannerController cameraController = MobileScannerController();
+  MobileScannerController cameraController =
+      MobileScannerController(detectionSpeed: DetectionSpeed.noDuplicates);
 
   @override
   Widget build(BuildContext context) {
@@ -56,11 +58,13 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
         ),
         body: Stack(children: [
           MobileScanner(
-              allowDuplicates: false,
               controller: cameraController,
-              onDetect: (barcode, args) {
+              onDetect: (barcode) {
                 // Return rawValue directly
-                Application.router.pop(context, barcode.rawValue);
+                Application.router.pop(
+                  context,
+                  barcode.raw,
+                );
               }),
           QRScannerFunctionalityOverlay(
             ratio: 0.8,

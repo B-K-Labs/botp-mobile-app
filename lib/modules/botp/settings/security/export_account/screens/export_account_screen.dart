@@ -122,7 +122,7 @@ class _SecurityExportAccountBodyState extends State<SecurityExportAccountBody> {
                     child: Stack(children: [
                       RepaintBoundary(
                           key: qrKey,
-                          child: QrImage(
+                          child: QrImageView(
                               backgroundColor: Colors.white,
                               version: QrVersions.auto,
                               errorCorrectionLevel: QrErrorCorrectLevel.M,
@@ -131,8 +131,8 @@ class _SecurityExportAccountBodyState extends State<SecurityExportAccountBody> {
                               gapless: false,
                               embeddedImage: const AssetImage(
                                   "assets/images/logo/botp_logo_embedded_qr.png"),
-                              embeddedImageStyle: QrEmbeddedImageStyle(
-                                size: const Size(60, 60),
+                              embeddedImageStyle: const QrEmbeddedImageStyle(
+                                size: Size(60, 60),
                               ))),
                       Container(
                           color: Colors.white

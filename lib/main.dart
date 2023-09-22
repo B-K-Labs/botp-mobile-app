@@ -1,23 +1,20 @@
-import 'dart:io';
-
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/common/repositories/authenticator_repository.dart';
 import 'package:botp_auth/common/repositories/settings_repository.dart';
 import 'package:botp_auth/configs/environment/environment.dart';
+import 'package:botp_auth/configs/routes/application.dart';
+import 'package:botp_auth/configs/routes/routes.dart';
 import 'package:botp_auth/configs/themes/app_theme.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/botp/home/cubit/botp_home_cubit.dart';
 import 'package:botp_auth/utils/services/local_auth_service.dart';
 import 'package:botp_auth/utils/services/notifications_service.dart';
+import 'package:fluro/fluro.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
-import 'package:botp_auth/configs/routes/application.dart';
-import 'package:botp_auth/configs/routes/routes.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:fluro/fluro.dart';
 
 void main() async {
   // Configuration from .env aka dotenv
@@ -65,8 +62,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     // (not used) Initiate backend services e.g AWS, Firebase
-    // Web view
-    if (Platform.isAndroid) WebView.platform = AndroidWebView();
     // Remove splash screens
     FlutterNativeSplash.remove();
   }

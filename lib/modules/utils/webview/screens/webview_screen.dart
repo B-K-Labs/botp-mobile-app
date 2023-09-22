@@ -22,9 +22,13 @@ class WebViewBody extends StatefulWidget {
 }
 
 class _WebViewBodyState extends State<WebViewBody> {
+  final controller = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted);
   @override
   Widget build(BuildContext context) {
-    return WebView(
-        initialUrl: widget.url, javascriptMode: JavascriptMode.unrestricted);
+    return WebViewWidget(
+      //TODO: Handle exception come from Uri.parse
+      controller: controller..loadRequest(Uri.parse(widget.url)),
+    );
   }
 }

@@ -5,11 +5,20 @@ class NotificationApi {
   static final _notifications = FlutterLocalNotificationsPlugin();
 
   static Future init() async {
+    // Request notification on Android 13 and above
+    _notifications
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestPermission();
+
     // (Android) Custom notification icon: https://stackoverflow.com/questions/55820299/flutter-local-notifications-platformexception-platformexceptioninvalid-icon
     const android = AndroidInitializationSettings("notification_icon");
-    const iOS = IOSInitializationSettings();
+    const iOS = DarwinInitializationSettings();
     const settings = InitializationSettings(android: android, iOS: iOS);
-    _notifications.initialize(settings, onSelectNotification: (payload) {});
+    _notifications.initialize(
+      settings,
+      onDidReceiveNotificationResponse: (payload) {},
+    );
   }
 
   static Future<void> showBigTextNotification(
