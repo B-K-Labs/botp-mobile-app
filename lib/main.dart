@@ -46,7 +46,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   ThemeMode? themeMode;
 
-  MyAppState() {
+  _MyAppState() {
     // Setting up
     // - Biometric authentication
     LocalAuth.init();
