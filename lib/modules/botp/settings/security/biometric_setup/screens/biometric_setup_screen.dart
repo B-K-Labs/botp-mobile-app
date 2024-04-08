@@ -70,20 +70,20 @@ class _SecurityBiometricSetupBodyState
           Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
             Text("Follow the instruction.",
-                style: Theme.of(context).textTheme.bodyText2,
+                style: Theme.of(context).textTheme.bodyMedium,
                 textAlign: TextAlign.center),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             Text("Setting up your biometric",
                 style: Theme.of(context)
                     .textTheme
-                    .headline5
+                    .headlineSmall
                     ?.copyWith(color: Theme.of(context).colorScheme.primary),
                 textAlign: TextAlign.center),
           ]),
-          Column(
+          const Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [Center(child: CircularProgressIndicator())]),
+              children: [Center(child: CircularProgressIndicator())]),
         ]);
       } else if (setupBiometricStatus is BiometricAuthStatusFailed) {
         return Column(

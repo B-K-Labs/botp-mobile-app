@@ -1,18 +1,18 @@
+import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/common/states/biometric_auth_status.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
-import 'package:botp_auth/common/repositories/authentication_repository.dart';
+import 'package:botp_auth/constants/common.dart';
+import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/authentication/signin/bloc/signin_bloc.dart';
 import 'package:botp_auth/modules/authentication/signin/bloc/signin_event.dart';
 import 'package:botp_auth/modules/authentication/signin/bloc/signin_state.dart';
-import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
+import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/common.dart';
+import 'package:botp_auth/widgets/field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:botp_auth/constants/common.dart';
-import 'package:botp_auth/widgets/field.dart';
-import 'package:botp_auth/widgets/button.dart';
 
 class SignInScreen extends StatelessWidget {
   final bool autoSignInWithBiometric;
@@ -31,7 +31,7 @@ class SignInBody extends StatefulWidget {
   const SignInBody(this.autoSignInWithBiometric, {Key? key}) : super(key: key);
 
   @override
-  _SignInBodyState createState() => _SignInBodyState();
+  State<SignInBody> createState() => _SignInBodyState();
 }
 
 class _SignInBodyState extends State<SignInBody> {
@@ -75,7 +75,7 @@ class _SignInBodyState extends State<SignInBody> {
               children: <Widget>[
                 const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
                 Text("Welcome back!",
-                    style: Theme.of(context).textTheme.headline4?.copyWith(
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         color: Theme.of(context).colorScheme.primary)),
                 const SizedBox(height: 24.0),
                 const Text("Enter your password"),
@@ -95,8 +95,8 @@ class _SignInBodyState extends State<SignInBody> {
 
   Widget _passwordField() {
     return BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
-      _passwordValidator(value) => state.validatePassword;
-      _passwordOnChanged(value) => context
+      passwordValidator(value) => state.validatePassword;
+      passwordOnChanged(value) => context
           .read<SignInBloc>()
           .add(SignInEventPasswordChanged(password: value));
       return FieldPasswordWidget(
@@ -104,8 +104,8 @@ class _SignInBodyState extends State<SignInBody> {
           autofocus: true,
           hintText: "******",
           controller: context.read<SignInBloc>().passwordController,
-          validator: _passwordValidator,
-          onChanged: _passwordOnChanged);
+          validator: passwordValidator,
+          onChanged: passwordOnChanged);
     });
   }
 

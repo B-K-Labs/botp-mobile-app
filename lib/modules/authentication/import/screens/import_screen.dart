@@ -1,17 +1,17 @@
+import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/configs/routes/application.dart';
-import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/constants/routing_param.dart';
 import 'package:botp_auth/modules/authentication/import/bloc/import_bloc.dart';
-import 'package:botp_auth/modules/authentication/import/bloc/import_state.dart';
 import 'package:botp_auth/modules/authentication/import/bloc/import_event.dart';
+import 'package:botp_auth/modules/authentication/import/bloc/import_state.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/utils/ui/toast.dart';
-import 'package:botp_auth/widgets/common.dart';
-import 'package:flutter/material.dart';
-import 'package:botp_auth/widgets/field.dart';
 import 'package:botp_auth/widgets/button.dart';
+import 'package:botp_auth/widgets/common.dart';
+import 'package:botp_auth/widgets/field.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ImportScreen extends StatelessWidget {
@@ -36,7 +36,7 @@ class ImportBody extends StatefulWidget {
   const ImportBody({Key? key, required this.fromScreen}) : super(key: key);
 
   @override
-  _ImportBodyState createState() => _ImportBodyState();
+  State<ImportBody> createState() => _ImportBodyState();
 }
 
 class _ImportBodyState extends State<ImportBody> {
@@ -87,7 +87,7 @@ class _ImportBodyState extends State<ImportBody> {
                         Text("Import account",
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headlineMedium
                                 ?.copyWith(
                                     color:
                                         Theme.of(context).colorScheme.primary)),
@@ -95,12 +95,12 @@ class _ImportBodyState extends State<ImportBody> {
                       ])
                     : Container(),
                 Text("Private key",
-                    style: Theme.of(context).textTheme.bodyText2),
+                    style: Theme.of(context).textTheme.bodyMedium),
                 const SizedBox(height: 12.0),
                 _privateKeyField(),
                 const SizedBox(height: 24.0),
                 Text("New password",
-                    style: Theme.of(context).textTheme.bodyText2),
+                    style: Theme.of(context).textTheme.bodyMedium),
                 const SizedBox(height: 12.0),
                 _passwordField(),
                 const SizedBox(height: 24.0),
@@ -115,13 +115,14 @@ class _ImportBodyState extends State<ImportBody> {
 
   Widget _privateKeyField() {
     return BlocBuilder<ImportBloc, ImportState>(builder: (context, state) {
-      _privateKeyValidator(value) => state.validatePrivateKey;
-      _privateKeyOnChanged(value) => context
+      privateKeyValidator(value) => state.validatePrivateKey;
+      privateKeyOnChanged(value) => context
           .read<ImportBloc>()
           .add(ImportEventPrivateKeyChanged(privateKey: value));
-      _onNavigateQrCode() async {
+      onNavigateQrCode() async {
         final scannedPrivateKey = await Application.router
             .navigateTo(context, "/utils/qrScanner") as String?;
+        if (!context.mounted) return;
         context.read<ImportBloc>().add(
             ImportEventScanQRPrivateKey(scannedPrivateKey: scannedPrivateKey));
       }
@@ -131,24 +132,24 @@ class _ImportBodyState extends State<ImportBody> {
           autofocus: true,
           controller: context.read<ImportBloc>().privateKeyController,
           hintText: "123xxxxxx",
-          validator: _privateKeyValidator,
-          onChanged: _privateKeyOnChanged,
+          validator: privateKeyValidator,
+          onChanged: privateKeyOnChanged,
           suffixIconData: Icons.qr_code_scanner,
-          onTapSuffixIcon: _onNavigateQrCode);
+          onTapSuffixIcon: onNavigateQrCode);
     });
   }
 
   Widget _passwordField() {
     return BlocBuilder<ImportBloc, ImportState>(builder: (context, state) {
-      _newPasswordValidator(value) => state.validateNewPassword;
-      _newPasswordOnChanged(value) => context
+      newPasswordValidator(value) => state.validateNewPassword;
+      newPasswordOnChanged(value) => context
           .read<ImportBloc>()
           .add(ImportEventNewPasswordChanged(newPassword: value));
       return FieldPasswordWidget(
           textInputAction: TextInputAction.done,
           hintText: "******",
-          validator: _newPasswordValidator,
-          onChanged: _newPasswordOnChanged);
+          validator: newPasswordValidator,
+          onChanged: newPasswordOnChanged);
     });
   }
 

@@ -98,12 +98,12 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
                               children: [
                         const SizedBox(height: kAppPaddingVerticalSize),
                         Text("Full name",
-                            style: Theme.of(context).textTheme.bodyText2),
+                            style: Theme.of(context).textTheme.bodyMedium),
                         const SizedBox(height: 12.0),
                         _fullNameField(),
                         const SizedBox(height: 24.0),
                         Text("Address",
-                            style: Theme.of(context).textTheme.bodyText2),
+                            style: Theme.of(context).textTheme.bodyMedium),
                         const SizedBox(height: 12.0),
                         _addressField(),
                         const SizedBox(height: 24.0),
@@ -113,7 +113,7 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text("Age",
-                                  style: Theme.of(context).textTheme.bodyText2),
+                                  style: Theme.of(context).textTheme.bodyMedium),
                               const SizedBox(height: 12.0),
                               _ageField(),
                             ],
@@ -126,14 +126,14 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
                                   children: [
                                 Text("Gender",
                                     style:
-                                        Theme.of(context).textTheme.bodyText2),
+                                        Theme.of(context).textTheme.bodyMedium),
                                 const SizedBox(height: 12.0),
                                 _genderField(),
                               ]))
                         ]),
                         const SizedBox(height: 24.0),
                         Text("Phone number",
-                            style: Theme.of(context).textTheme.bodyText2),
+                            style: Theme.of(context).textTheme.bodyMedium),
                         const SizedBox(height: 12.0),
                         _debitorField(),
                       ]))),
@@ -156,76 +156,76 @@ class _AccountSetupKYCBodyState extends State<AccountSetupKYCBody> {
   Widget _fullNameField() {
     return BlocBuilder<AccountSetupKYCBloc, AccountSetupKYCState>(
         builder: (context, state) {
-      _fullNameValidator(value) => state.validateFullName;
-      _fullNameOnChanged(value) => context
+      fullNameValidator(value) => state.validateFullName;
+      fullNameOnChanged(value) => context
           .read<AccountSetupKYCBloc>()
           .add(AccountSetupKYCEventFullNameChanged(value));
       return FieldNormalWidget(
           textInputAction: TextInputAction.next,
           autofocus: true,
           hintText: "Harry Jayson",
-          validator: _fullNameValidator,
-          onChanged: _fullNameOnChanged);
+          validator: fullNameValidator,
+          onChanged: fullNameOnChanged);
     });
   }
 
   Widget _addressField() {
     return BlocBuilder<AccountSetupKYCBloc, AccountSetupKYCState>(
         builder: (context, state) {
-      _addressValidator(value) => state.validateAddress;
-      _addressOnChanged(value) => context
+      addressValidator(value) => state.validateAddress;
+      addressOnChanged(value) => context
           .read<AccountSetupKYCBloc>()
           .add(AccountSetupKYCEventAddressChanged(value));
       return FieldNormalWidget(
           textInputAction: TextInputAction.next,
           hintText: "District 10, HCM, Viet Nam",
-          validator: _addressValidator,
-          onChanged: _addressOnChanged);
+          validator: addressValidator,
+          onChanged: addressOnChanged);
     });
   }
 
   Widget _ageField() {
     return BlocBuilder<AccountSetupKYCBloc, AccountSetupKYCState>(
         builder: (context, state) {
-      _ageValidator(value) => state.validateAge;
-      _ageOnChanged(value) => context
+      ageValidator(value) => state.validateAge;
+      ageOnChanged(value) => context
           .read<AccountSetupKYCBloc>()
           .add(AccountSetupKYCEventAgeChanged(value));
       return FieldNormalWidget(
           textInputAction: TextInputAction.next,
           hintText: "18",
-          validator: _ageValidator,
-          onChanged: _ageOnChanged);
+          validator: ageValidator,
+          onChanged: ageOnChanged);
     });
   }
 
   Widget _genderField() {
     return BlocBuilder<AccountSetupKYCBloc, AccountSetupKYCState>(
         builder: (context, state) {
-      _genderValidator(value) => state.validateGender;
-      _genderOnChanged(value) => context
+      genderValidator(value) => state.validateGender;
+      genderOnChanged(value) => context
           .read<AccountSetupKYCBloc>()
           .add(AccountSetupKYCEventGenderChanged(value));
       return FieldNormalWidget(
           textInputAction: TextInputAction.next,
           hintText: "Male",
-          validator: _genderValidator,
-          onChanged: _genderOnChanged);
+          validator: genderValidator,
+          onChanged: genderOnChanged);
     });
   }
 
   Widget _debitorField() {
     return BlocBuilder<AccountSetupKYCBloc, AccountSetupKYCState>(
         builder: (context, state) {
-      _debitorValidator(value) => state.validateDebitor;
-      _debitorOnChanged(value) => context
+      debitorValidator(value) => state.validateDebitor;
+      debitorOnChanged(value) => context
           .read<AccountSetupKYCBloc>()
           .add(AccountSetupKYCEventDebitorChanged(value));
       return FieldNormalWidget(
           textInputAction: TextInputAction.done,
           hintText: "999-999-9999",
-          validator: _debitorValidator,
-          onChanged: _debitorOnChanged);
+          validator: debitorValidator,
+          onChanged: debitorOnChanged);
     });
   }
 

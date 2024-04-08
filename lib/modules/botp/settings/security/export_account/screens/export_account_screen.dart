@@ -49,9 +49,9 @@ class _SecurityExportAccountBodyState extends State<SecurityExportAccountBody> {
   }
 
   Widget _reminder() {
-    final _reminderTextStyle = Theme.of(context)
+    final reminderTextStyle = Theme.of(context)
         .textTheme
-        .caption
+        .bodySmall
         ?.copyWith(color: Theme.of(context).colorScheme.onErrorContainer);
 
     return Container(
@@ -68,22 +68,22 @@ class _SecurityExportAccountBodyState extends State<SecurityExportAccountBody> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text("1. ", style: _reminderTextStyle),
+                  Text("1. ", style: reminderTextStyle),
                   Expanded(
                     child: Text(
                         "If you’re in a public place, be careful to display the QR code.",
-                        style: _reminderTextStyle),
+                        style: reminderTextStyle),
                   ),
                 ],
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text("2. ", style: _reminderTextStyle),
+                  Text("2. ", style: reminderTextStyle),
                   Expanded(
                     child: Text(
                         "Keep the QR image in external storage with encryption.",
-                        style: _reminderTextStyle),
+                        style: reminderTextStyle),
                   ),
                 ],
               )
@@ -93,7 +93,7 @@ class _SecurityExportAccountBodyState extends State<SecurityExportAccountBody> {
   }
 
   Widget _privateKeyQr() {
-    const double _qrSize = 240.0;
+    const double qrSize = 240.0;
 
     return BlocBuilder<SecurityExportAccountCubit, SecurityExportAccountState>(
         builder: (context, state) {
@@ -105,7 +105,7 @@ class _SecurityExportAccountBodyState extends State<SecurityExportAccountBody> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text("Your BOTP Account",
-                    style: Theme.of(context).textTheme.bodyText1),
+                    style: Theme.of(context).textTheme.bodyLarge),
                 const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                 Container(
                     decoration: BoxDecoration(
@@ -127,7 +127,7 @@ class _SecurityExportAccountBodyState extends State<SecurityExportAccountBody> {
                               version: QrVersions.auto,
                               errorCorrectionLevel: QrErrorCorrectLevel.M,
                               data: state.privateKey!,
-                              size: _qrSize,
+                              size: qrSize,
                               gapless: false,
                               embeddedImage: const AssetImage(
                                   "assets/images/logo/botp_logo_embedded_qr.png"),
@@ -137,8 +137,8 @@ class _SecurityExportAccountBodyState extends State<SecurityExportAccountBody> {
                       Container(
                           color: Colors.white
                               .withOpacity(state.isHiddenQrImage ? 1.0 : 0.0),
-                          width: _qrSize,
-                          height: _qrSize),
+                          width: qrSize,
+                          height: qrSize),
                     ])),
                 const SizedBox(height: kAppPaddingBetweenItemNormalSize),
                 ButtonTextWidget(

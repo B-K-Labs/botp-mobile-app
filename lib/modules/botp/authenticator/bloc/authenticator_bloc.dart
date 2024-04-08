@@ -114,11 +114,11 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
           commonSize += kTransactionItemsPagSize;
         }
         // Call request
-        _getRequestingTransactionsListAsync() async =>
+        getRequestingTransactionsListAsync() async =>
             await authenticatorRepository.getTransactionsList(
                 accountData!.bcAddress, TransactionStatus.requesting,
                 currentPage: commonPage, pageSize: commonSize);
-        _getWaitingTransactionsListAsync() async =>
+        getWaitingTransactionsListAsync() async =>
             await authenticatorRepository.getTransactionsList(
                 accountData!.bcAddress, TransactionStatus.waiting,
                 currentPage: commonPage, pageSize: commonSize);
@@ -126,15 +126,15 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
         // Get lists
         final List<GetTransactionsListResponseModel>
             getTransactionsListResults = await Future.wait([
-          _getRequestingTransactionsListAsync(),
-          _getWaitingTransactionsListAsync()
+          getRequestingTransactionsListAsync(),
+          getWaitingTransactionsListAsync()
         ]);
 
-        final _requestingTransactionList = getTransactionsListResults
+        final requestingTransactionList = getTransactionsListResults
             .where((result) =>
                 result.transactionStatus == TransactionStatus.requesting)
             .toList()[0];
-        final _waitingTransactionList = getTransactionsListResults
+        final waitingTransactionList = getTransactionsListResults
             .where((result) =>
                 result.transactionStatus == TransactionStatus.waiting)
             .toList()[0];
@@ -159,15 +159,15 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
         final List<String> historyWaitingTransactionSecretIdsList =
             historyTransactionData.waitingTransactionSecretIdsList;
         // - Categorize
-        final _categorizedRequestingTransactionsInfo = categorizeTransactions(
-            newTransactionsList: _requestingTransactionList.transactionsList,
+        final categorizedRequestingTransactionsInfo = categorizeTransactions(
+            newTransactionsList: requestingTransactionList.transactionsList,
             currentTransactionSecretIdsList:
                 currentRequestingTransactionSecretIdsList,
             historyTransactionSecretIdsList:
                 historyRequestingTransactionSecretIdsList,
             isNotFetchedFirstTime: isNotFetchedFirstTime);
-        final _categorizedWaitingTransactionsInfo = categorizeTransactions(
-            newTransactionsList: _waitingTransactionList.transactionsList,
+        final categorizedWaitingTransactionsInfo = categorizeTransactions(
+            newTransactionsList: waitingTransactionList.transactionsList,
             currentTransactionSecretIdsList:
                 currentWaitingTransactionSecretIdsList,
             historyTransactionSecretIdsList:
@@ -175,9 +175,9 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
             isNotFetchedFirstTime: isNotFetchedFirstTime);
         // - Update new history to storage
         await UserData.setCredentialTransactionsHistoryData(
-            _categorizedRequestingTransactionsInfo
+            categorizedRequestingTransactionsInfo
                 .historyTransactionSecretIdsList!,
-            _categorizedWaitingTransactionsInfo
+            categorizedWaitingTransactionsInfo
                 .historyTransactionSecretIdsList!);
         // Change the flag: to mark new transaction
         isNotFetchedFirstTime = true;
@@ -185,13 +185,13 @@ class AuthenticatorBloc extends Bloc<AuthenticatorEvent, AuthenticatorState> {
         // Update new state
         emit(state.copyWith(
             categorizedRequestingTransactionsInfo:
-                _categorizedRequestingTransactionsInfo,
+                categorizedRequestingTransactionsInfo,
             categorizedWaitingTransactionsInfo:
-                _categorizedWaitingTransactionsInfo,
+                categorizedWaitingTransactionsInfo,
             notifiedRequestingTransactionsList:
-                _categorizedRequestingTransactionsInfo.notifiedTransactionsList,
+                categorizedRequestingTransactionsInfo.notifiedTransactionsList,
             notifiedWaitingTransactionsList:
-                _categorizedWaitingTransactionsInfo.notifiedTransactionsList,
+                categorizedWaitingTransactionsInfo.notifiedTransactionsList,
             getTransactionListStatus: RequestStatusSuccess()));
 
         // Setup timer

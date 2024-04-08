@@ -48,11 +48,11 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           }
         }
         // Call request
-        _getSucceededTransactionsListAsync() async =>
+        getSucceededTransactionsListAsync() async =>
             await authenticatorRepository.getTransactionsList(
                 accountData!.bcAddress, TransactionStatus.succeeded,
                 currentPage: commonPage, pageSize: succeededSize);
-        _getFailedTransactionsListAsync() async =>
+        getFailedTransactionsListAsync() async =>
             await authenticatorRepository.getTransactionsList(
                 accountData!.bcAddress, TransactionStatus.failed,
                 currentPage: commonPage, pageSize: failedSize);
@@ -60,15 +60,15 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         // Get lists
         final List<GetTransactionsListResponseModel>
             getTransactionsListResults = await Future.wait([
-          _getSucceededTransactionsListAsync(),
-          _getFailedTransactionsListAsync()
+          getSucceededTransactionsListAsync(),
+          getFailedTransactionsListAsync()
         ]);
 
-        final _succeededTransactionList = getTransactionsListResults
+        final succeededTransactionList = getTransactionsListResults
             .where((result) =>
                 result.transactionStatus == TransactionStatus.succeeded)
             .toList()[0];
-        final _failedTransactionList = getTransactionsListResults
+        final failedTransactionList = getTransactionsListResults
             .where((result) =>
                 result.transactionStatus == TransactionStatus.failed)
             .toList()[0];
@@ -76,17 +76,17 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         //  (imp) Categorize the transactions list
         // - Get current and history state (no need)
         // - Categorize
-        final _categorizedSucceededTransactionsInfo = categorizeTransactions(
-            newTransactionsList: _succeededTransactionList.transactionsList);
-        final _categorizedFailedTransactionsInfo = categorizeTransactions(
-            newTransactionsList: _failedTransactionList.transactionsList);
+        final categorizedSucceededTransactionsInfo = categorizeTransactions(
+            newTransactionsList: succeededTransactionList.transactionsList);
+        final categorizedFailedTransactionsInfo = categorizeTransactions(
+            newTransactionsList: failedTransactionList.transactionsList);
 
         // Update new state
         emit(state.copyWith(
             categorizedSucceededTransactionsInfo:
-                _categorizedSucceededTransactionsInfo,
+                categorizedSucceededTransactionsInfo,
             categorizedFailedTransactionsInfo:
-                _categorizedFailedTransactionsInfo,
+                categorizedFailedTransactionsInfo,
             getTransactionListStatus: RequestStatusSuccess()));
 
         // Setup timer

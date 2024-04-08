@@ -157,10 +157,10 @@ class WalkThroughItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // WalkThrough theme
     // - Text
-    final _titleStyle = Theme.of(context).textTheme.bodyText2;
-    final _descriptionStyle = Theme.of(context)
+    final titleStyle = Theme.of(context).textTheme.bodyMedium;
+    final descriptionStyle = Theme.of(context)
         .textTheme
-        .headline5
+        .headlineSmall
         ?.copyWith(color: Theme.of(context).colorScheme.primary);
     return Container(
         padding:
@@ -182,9 +182,9 @@ class WalkThroughItemWidget extends StatelessWidget {
                           scale: 1, fit: BoxFit.contain),
                     ),
               const SizedBox(height: 60.0),
-              Text(title, style: _titleStyle),
+              Text(title, style: titleStyle),
               const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-              Text(description, style: _descriptionStyle),
+              Text(description, style: descriptionStyle),
             ]));
   }
 }

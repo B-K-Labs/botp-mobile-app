@@ -146,7 +146,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
         NotificationApi.showBigTextNotification(title: title, bigText: body);
       }
     }, builder: (context, state) {
-      final _itemList = [
+      final itemList = [
         {
           "type": ColorType.tertiary,
           "status": TransactionStatus.requesting,
@@ -179,8 +179,8 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
           child: Center(
               child: Wrap(
                   direction: Axis.horizontal,
-                  children: List.generate(_itemList.length, (index) {
-                    final filterItem = _itemList[index];
+                  children: List.generate(itemList.length, (index) {
+                    final filterItem = itemList[index];
                     return Container(
                         margin: const EdgeInsets.only(right: 6.0),
                         child: FilterTransactionStatusWidget(
@@ -235,7 +235,7 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                   ),
                   const SizedBox(height: kAppPaddingBetweenItemNormalSize),
                   Text("You don't have any transactions.",
-                      style: Theme.of(context).textTheme.caption)
+                      style: Theme.of(context).textTheme.bodySmall)
                 ]))))
               : Expanded(
                   child: NotificationListener<ScrollEndNotification>(
@@ -274,10 +274,10 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                       padding: const EdgeInsets.symmetric(
                           vertical: kAppPaddingBetweenItemSmallSize,
                           horizontal: kAppPaddingHorizontalSize),
-                      child: Column(
+                      child: const Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Row(children: const [
+                            Row(children: [
                               SizedBox(width: 16.0),
                               Expanded(
                                   child: SkeletonLine(
@@ -288,12 +288,12 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
                                           height: 16.0,
                                           alignment: Alignment.centerLeft)))
                             ]),
-                            const SizedBox(
+                            SizedBox(
                                 height: kAppPaddingBetweenItemNormalSize),
-                            const TransactionItemSkeletonWidget(),
-                            const SizedBox(
+                            TransactionItemSkeletonWidget(),
+                            SizedBox(
                                 height: kAppPaddingBetweenItemSmallSize),
-                            const TransactionItemSkeletonWidget()
+                            TransactionItemSkeletonWidget()
                           ]))));
     }, listener: (context, state) {
       final getTransactionsListStatus = state.getTransactionListStatus;
@@ -340,11 +340,10 @@ class _AuthenticatorBodyState extends State<AuthenticatorBody> {
               // Icon(Icons.date_range, color: primary),
               const SizedBox(width: 16.0),
               Text(
-                  categorizedTransactions.categoryName +
-                      " (${categorizedTransactions.transactionsList.length})",
+                  "${categorizedTransactions.categoryName} (${categorizedTransactions.transactionsList.length})",
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText2
+                      .bodyMedium
                       ?.copyWith(color: primary, fontWeight: FontWeight.bold))
             ],
           )),

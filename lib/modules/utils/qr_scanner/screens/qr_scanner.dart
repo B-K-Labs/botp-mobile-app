@@ -41,7 +41,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
               icon: ValueListenableBuilder(
                 valueListenable: cameraController.torchState,
                 builder: (context, state, child) {
-                  switch (state as TorchState) {
+                  switch (state) {
                     case TorchState.off:
                       return const Icon(Icons.flash_off,
                           color: ColorPalette.gray50);
@@ -105,7 +105,7 @@ class _QRScannerFunctionalityOverlayState
   void initState() {
     super.initState();
     // Run method on Widget build completed: https://stackoverflow.com/questions/49466556/flutter-run-method-on-widget-build-complete
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       switchQrBoxBarHitTop();
       setupSwitchQrBoxBarHitTopTimer();
     });
@@ -188,7 +188,7 @@ class _QRScannerFunctionalityOverlayState
           Text("Place your QR code inside this box",
               style: Theme.of(context)
                   .textTheme
-                  .bodyText1
+                  .bodyLarge
                   ?.copyWith(color: ColorPalette.gray50)),
           SizedBox(
               width: qrBoxSize,
@@ -198,10 +198,10 @@ class _QRScannerFunctionalityOverlayState
               text: "Choose from gallery",
               onPressed: () async {
                 // Create image picker
-                final ImagePicker _picker = ImagePicker();
+                final ImagePicker picker = ImagePicker();
                 // Pick an image
                 final XFile? image =
-                    await _picker.pickImage(source: ImageSource.gallery);
+                    await picker.pickImage(source: ImageSource.gallery);
                 final imagePath = image?.path;
                 // If user chose an image
                 if (imagePath != null) {

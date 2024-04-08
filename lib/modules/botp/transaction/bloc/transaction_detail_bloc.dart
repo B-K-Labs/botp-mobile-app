@@ -89,7 +89,7 @@ class TransactionDetailBloc
         // Get provenance info
         final userBcAddress =
             (await UserData.getCredentialAccountData())!.bcAddress;
-        final _provenanceInfo = ProvenanceInfo(
+        final provenanceInfo = ProvenanceInfo(
             agentBcAddress: newOtpSessionInfo.agentBcAddress,
             userBcAddress: userBcAddress,
             secretId: otpSessionSecretInfo.secretId);
@@ -99,7 +99,7 @@ class TransactionDetailBloc
             otpSessionInfo: newOtpSessionInfo,
             getTransactionDetailStatus: RequestStatusSubmitting(),
             isOutdated: false,
-            provenanceInfo: _provenanceInfo));
+            provenanceInfo: provenanceInfo));
       } on Exception catch (e) {
         emit(state.copyWith(userRequestStatus: RequestStatusFailed(e)));
       }

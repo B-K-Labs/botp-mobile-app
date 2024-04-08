@@ -40,13 +40,13 @@ class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
   ThemeMode? themeMode;
 
-  _MyAppState() {
+  MyAppState() {
     // Setting up
     // - Biometric authentication
     LocalAuth.init();

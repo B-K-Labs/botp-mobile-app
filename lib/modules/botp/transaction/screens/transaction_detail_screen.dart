@@ -59,7 +59,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
   Widget _actionButtons() {
     return BlocBuilder<TransactionDetailBloc, TransactionDetailState>(
         builder: (context, state) {
-      Widget _returnActionButtons = const SkeletonAvatar(
+      Widget returnActionButtons = const SkeletonAvatar(
           style: SkeletonAvatarStyle(width: double.infinity, height: 50.0));
 
       final TransactionStatus? transactionStatus =
@@ -67,7 +67,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
       if (!state.isOutdated) {
         switch (transactionStatus) {
           case TransactionStatus.waiting:
-            _returnActionButtons = Row(children: [
+            returnActionButtons = Row(children: [
               Expanded(
                   child: ButtonNormalWidget(
                       text: "Cancel",
@@ -92,14 +92,14 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
             ]);
             break;
           case TransactionStatus.succeeded:
-            _returnActionButtons = ButtonNormalWidget(
+            returnActionButtons = ButtonNormalWidget(
                 text: "Go to home",
                 onPressed: () {
                   Application.router.pop(context);
                 });
             break;
           case TransactionStatus.failed:
-            _returnActionButtons = ButtonNormalWidget(
+            returnActionButtons = ButtonNormalWidget(
                 text: "Go to home",
                 onPressed: () {
                   Application.router.pop(context);
@@ -107,7 +107,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
             break;
           case TransactionStatus.requesting:
           default:
-            _returnActionButtons = Row(children: [
+            returnActionButtons = Row(children: [
               Expanded(
                   child: ButtonNormalWidget(
                       text: "Reject",
@@ -139,7 +139,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
           padding: const EdgeInsets.symmetric(
               horizontal: kAppPaddingHorizontalSize,
               vertical: kAppPaddingVerticalSize),
-          child: _returnActionButtons);
+          child: returnActionButtons);
     });
   }
 
@@ -213,7 +213,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
     return BlocBuilder<TransactionDetailBloc, TransactionDetailState>(
         builder: (context, state) {
       final otpValueInfo = isSkeleton ? OTPValueInfo() : state.otpValueInfo;
-      _onTapOtp() {
+      onTapOtp() {
         context
             .read<TransactionDetailBloc>()
             .add(TransactionDetailEventCopyOTP());
@@ -224,7 +224,7 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
             padding: const EdgeInsets.symmetric(
                 horizontal: kAppPaddingHorizontalSize),
             child: TransactionOTPWidget(
-                otpValueInfo: otpValueInfo, onTap: _onTapOtp)),
+                otpValueInfo: otpValueInfo, onTap: onTapOtp)),
         const SizedBox(height: kAppPaddingBetweenItemSmallSize),
       ]);
     });
@@ -237,13 +237,13 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
       final provenanceInfo = state.provenanceInfo;
 
       // On tap functions
-      _onTapBcAddress() {
+      onTapBcAddress() {
         context
             .read<TransactionDetailBloc>()
             .add(TransactionDetailEventCopyBcAddress());
       }
 
-      _onTapViewProvenance() {
+      onTapViewProvenance() {
         Application.router.navigateTo(context, "/botp/transaction/provenance",
             routeSettings: RouteSettings(arguments: provenanceInfo));
       }
@@ -260,8 +260,8 @@ class _TransactionDetailBodyState extends State<TransactionDetailBody> {
                     agentBcAddress: otpSessionInfo.agentBcAddress,
                     timestamp: otpSessionInfo.timestamp,
                     transactionStatus: otpSessionInfo.transactionStatus,
-                    opTapBcAddress: _onTapBcAddress,
-                    onTapViewProvenance: _onTapViewProvenance,
+                    opTapBcAddress: onTapBcAddress,
+                    onTapViewProvenance: onTapViewProvenance,
                   )),
               const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             ])

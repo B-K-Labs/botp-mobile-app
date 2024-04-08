@@ -19,37 +19,37 @@ class BcAddressWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Transaction Item theme
     // - Colors
-    final Color _primary = Theme.of(context).colorScheme.onSurfaceVariant;
-    final Color _backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
+    final Color primary = Theme.of(context).colorScheme.onSurfaceVariant;
+    final Color backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
     // - Text
-    final _textStyle =
-        Theme.of(context).textTheme.caption?.copyWith(color: _primary);
+    final textStyle =
+        Theme.of(context).textTheme.bodySmall?.copyWith(color: primary);
     // - Border
-    final _borderRadius = BorderRadius.circular(BorderRadiusSize.small);
+    final borderRadius = BorderRadius.circular(BorderRadiusSize.small);
     // - Padding
-    const _padding = EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0);
+    const padding = EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0);
     // - Decoration
-    final _decoration =
-        BoxDecoration(color: _backgroundColor, borderRadius: _borderRadius);
+    final decoration =
+        BoxDecoration(color: backgroundColor, borderRadius: borderRadius);
 
     return Tooltip(
         message: bcAddress,
         child: Container(
-            decoration: _decoration,
+            decoration: decoration,
             child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  borderRadius: _borderRadius,
+                  borderRadius: borderRadius,
                   onTap: onTap,
                   child: Container(
-                      padding: _padding,
+                      padding: padding,
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(shortenBcAddress(bcAddress),
-                                style: _textStyle),
+                                style: textStyle),
                             const SizedBox(width: 8.0),
-                            Icon(Icons.copy, size: 16.0, color: _primary)
+                            Icon(Icons.copy, size: 16.0, color: primary)
                           ])),
                 ))));
   }
@@ -98,7 +98,7 @@ class SettingsHomeInfo extends StatelessWidget {
       Text(fullName,
           style: Theme.of(context)
               .textTheme
-              .headline5
+              .headlineSmall
               ?.copyWith(color: Theme.of(context).colorScheme.primary)),
       const SizedBox(height: 12.0),
       // Blockchain address
@@ -132,13 +132,13 @@ class SettingsCategoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Category theme
     // - Text
-    final _titleStyle = Theme.of(context)
+    final titleStyle = Theme.of(context)
         .textTheme
-        .bodyText1
+        .bodyLarge
         ?.copyWith(fontWeight: FontWeight.bold);
-    final _descriptionStyle = Theme.of(context).textTheme.bodyText2;
+    final descriptionStyle = Theme.of(context).textTheme.bodyMedium;
     // - Padding
-    const _padding = EdgeInsets.symmetric(
+    const padding = EdgeInsets.symmetric(
         vertical: kAppPaddingBetweenItemSmallSize,
         horizontal: kAppPaddingBetweenItemNormalSize);
 
@@ -147,7 +147,7 @@ class SettingsCategoryWidget extends StatelessWidget {
         //     // color: Theme.of(context).colorScheme.surface,
         //     // border: Border.all(color: Theme.of(context).colorScheme.outline),
         //     borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
-        padding: _padding,
+        padding: padding,
         child: Row(children: [
           DecoratedIconWidget(
               colorType: colorType,
@@ -159,9 +159,9 @@ class SettingsCategoryWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                Text(title, style: _titleStyle),
+                Text(title, style: titleStyle),
                 const SizedBox(height: 8.0),
-                Text(description, style: _descriptionStyle)
+                Text(description, style: descriptionStyle)
               ])),
           Icon(Icons.navigate_next_outlined,
               color: Theme.of(context).colorScheme.onSurfaceVariant)
@@ -201,7 +201,7 @@ class SettingsSectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _titleStyle = Theme.of(context).textTheme.bodyText1?.copyWith(
+    final titleStyle = Theme.of(context).textTheme.bodyLarge?.copyWith(
         color: Theme.of(context).colorScheme.onSurface,
         fontWeight: FontWeight.bold);
     return Container(
@@ -213,7 +213,7 @@ class SettingsSectionWidget extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: kAppPaddingHorizontalSize,
                         vertical: kAppPaddingBetweenItemSmallSize),
-                    child: Text(title!, style: _titleStyle)),
+                    child: Text(title!, style: titleStyle)),
                 ...children,
               ])
             : Column(
@@ -256,27 +256,27 @@ class SettingsOptionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Option Theme
     // - Style
-    final _labelStyle = Theme.of(context).textTheme.bodyText2;
+    final labelStyle = Theme.of(context).textTheme.bodyMedium;
     // final _valueStyle = Theme.of(context).textTheme.caption;
-    final _descriptionStyle = Theme.of(context).textTheme.caption;
+    final descriptionStyle = Theme.of(context).textTheme.bodySmall;
     // Child widget
-    final Widget _optionWidget;
+    final Widget optionWidget;
     switch (type) {
       case SettingsOptionType.labelAndCustomWidget:
-        _optionWidget = Row(
+        optionWidget = Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(label, style: _labelStyle),
+              Text(label, style: labelStyle),
               customWidget ?? Container()
             ]);
         break;
       case SettingsOptionType.labelNavigable:
-        _optionWidget =
+        optionWidget =
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Text(label, style: _labelStyle),
+          Text(label, style: labelStyle),
           Row(
             children: [
-              Text(navigateDescription, style: _descriptionStyle),
+              Text(navigateDescription, style: descriptionStyle),
               const SizedBox(width: 8.0),
               Icon(Icons.navigate_next_outlined,
                   color: Theme.of(context).colorScheme.onSurfaceVariant)
@@ -285,9 +285,9 @@ class SettingsOptionWidget extends StatelessWidget {
         ]);
         break;
       case SettingsOptionType.labelSelectable:
-        _optionWidget =
+        optionWidget =
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Text(label, style: _labelStyle),
+          Text(label, style: labelStyle),
           Icon(Icons.check_circle,
               color: Theme.of(context).colorScheme.secondary)
         ]);
@@ -295,13 +295,13 @@ class SettingsOptionWidget extends StatelessWidget {
       case SettingsOptionType.labelSwitchable:
         return _wrapSettingsOptionWidget(
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text(label, style: _labelStyle),
+              Text(label, style: labelStyle),
               Switch.adaptive(value: switchValue, onChanged: onSwitched)
             ]),
             onTap,
             hasPadding: false);
       case SettingsOptionType.buttonTextOneSide:
-        final _buttonType = buttonSideColorType == ColorType.primary
+        final buttonType = buttonSideColorType == ColorType.primary
             ? ButtonNormalType.primary
             : ButtonNormalType.error;
         return _wrapSettingsOptionWidget(
@@ -311,7 +311,7 @@ class SettingsOptionWidget extends StatelessWidget {
                     : MainAxisAlignment.end,
                 children: [
                   ButtonNormalWidget(
-                      type: _buttonType,
+                      type: buttonType,
                       text: label,
                       onPressed: onTap,
                       mode: ButtonNormalMode.normal,
@@ -321,20 +321,20 @@ class SettingsOptionWidget extends StatelessWidget {
             hasPadding: false);
       case SettingsOptionType.labelAndValue:
       default:
-        _optionWidget =
+        optionWidget =
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Expanded(flex: 1, child: Text(label, style: _labelStyle)),
+          Expanded(flex: 1, child: Text(label, style: labelStyle)),
           Expanded(
               flex: 1,
               child: Text(
                 value,
-                style: _labelStyle,
+                style: labelStyle,
                 textAlign: TextAlign.right,
               ))
         ]);
         break;
     }
-    return _wrapSettingsOptionWidget(_optionWidget, onTap);
+    return _wrapSettingsOptionWidget(optionWidget, onTap);
   }
 
   Widget _wrapSettingsOptionWidget(Widget child, VoidCallback? onTap,
@@ -372,11 +372,11 @@ class SettingsTransferWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Text style
-    final _titleStyle = Theme.of(context)
+    final titleStyle = Theme.of(context)
         .textTheme
-        .bodyText2
+        .bodyMedium
         ?.copyWith(fontWeight: FontWeight.bold);
-    final _descriptionStyle = Theme.of(context).textTheme.caption;
+    final descriptionStyle = Theme.of(context).textTheme.bodySmall;
 
     return Material(
         color: Colors.transparent,
@@ -401,9 +401,9 @@ class SettingsTransferWidget extends StatelessWidget {
                           size: DecoratedIconSize.normal,
                           iconData: iconData),
                       const SizedBox(height: kAppPaddingBetweenItemNormalSize),
-                      Text(title, style: _titleStyle),
+                      Text(title, style: titleStyle),
                       const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-                      Text(description, style: _descriptionStyle),
+                      Text(description, style: descriptionStyle),
                     ]))));
   }
 }
@@ -418,11 +418,11 @@ class AgentInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _headlineStyle = Theme.of(context)
+    final headlineStyle = Theme.of(context)
         .textTheme
-        .bodyText1
+        .bodyLarge
         ?.copyWith(fontWeight: FontWeight.bold);
-    final _labelStyle = Theme.of(context).textTheme.bodyText2;
+    final labelStyle = Theme.of(context).textTheme.bodyMedium;
     // final _textStyle = Theme.of(context).textTheme.bodyText2;
     return Container(
         decoration: BoxDecoration(
@@ -433,29 +433,29 @@ class AgentInfoWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Agent details", style: _headlineStyle),
+            Text("Agent details", style: headlineStyle),
             const SizedBox(height: 18.0),
             _agentInfoTextLineWidget(
               agentInfo.isVerified
                   ? Row(children: [
                       Text(agentInfo.name,
-                          style: _labelStyle?.copyWith(
+                          style: labelStyle?.copyWith(
                               fontWeight: FontWeight.bold)),
                       const SizedBox(width: 8.0),
                       Tooltip(
+                          message: '${agentInfo.name} is verified',
                           child: Icon(Icons.verified,
                               size: 18,
-                              color: Theme.of(context).colorScheme.secondary),
-                          message: '${agentInfo.name} is verified')
+                              color: Theme.of(context).colorScheme.secondary))
                     ])
                   : Text(agentInfo.name,
                       style:
-                          _labelStyle?.copyWith(fontWeight: FontWeight.bold)),
+                          labelStyle?.copyWith(fontWeight: FontWeight.bold)),
               AgentAvatar(avatarUrl: agentInfo.avatarUrl),
             ),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             _agentInfoTextLineWidget(
-                Text("Address", style: _labelStyle),
+                Text("Address", style: labelStyle),
                 BcAddressWidget(
                     bcAddress: agentInfo.bcAddress, onTap: opTapBcAddress)),
           ],

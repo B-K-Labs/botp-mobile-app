@@ -22,76 +22,76 @@ class ButtonNormalWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Button theme
     // - Width
-    final _width = mode == ButtonNormalMode.full ? double.infinity : null;
+    final width = mode == ButtonNormalMode.full ? double.infinity : null;
     // - Colors
-    final Color? _borderColor;
-    final Color _primary;
-    final Color? _backgroundColor;
+    final Color? borderColor;
+    final Color primary;
+    final Color? backgroundColor;
     if (onPressed == null) {
-      _borderColor = null;
-      _primary = Theme.of(context).colorScheme.onSurfaceVariant;
-      _backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
+      borderColor = null;
+      primary = Theme.of(context).colorScheme.onSurfaceVariant;
+      backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
     } else {
       switch (type) {
         case ButtonNormalType.primaryOutlined:
-          _borderColor = Theme.of(context).colorScheme.primary;
-          _primary = Theme.of(context).colorScheme.primary;
-          _backgroundColor = null;
+          borderColor = Theme.of(context).colorScheme.primary;
+          primary = Theme.of(context).colorScheme.primary;
+          backgroundColor = null;
           break;
         case ButtonNormalType.primaryGhost:
-          _borderColor = null;
-          _primary = Theme.of(context).colorScheme.primary;
-          _backgroundColor = null;
+          borderColor = null;
+          primary = Theme.of(context).colorScheme.primary;
+          backgroundColor = null;
           break;
         case ButtonNormalType.secondaryOutlined:
-          _borderColor = Theme.of(context).colorScheme.outline;
-          _primary = Theme.of(context).colorScheme.onSurfaceVariant;
-          _backgroundColor = null;
+          borderColor = Theme.of(context).colorScheme.outline;
+          primary = Theme.of(context).colorScheme.onSurfaceVariant;
+          backgroundColor = null;
           break;
         case ButtonNormalType.secondaryGhost:
-          _borderColor = null;
-          _primary = Theme.of(context).colorScheme.onSurfaceVariant;
-          _backgroundColor = null;
+          borderColor = null;
+          primary = Theme.of(context).colorScheme.onSurfaceVariant;
+          backgroundColor = null;
           break;
         case ButtonNormalType.error:
-          _borderColor = Theme.of(context).colorScheme.error;
-          _primary = Theme.of(context).colorScheme.onError;
-          _backgroundColor = Theme.of(context).colorScheme.error;
+          borderColor = Theme.of(context).colorScheme.error;
+          primary = Theme.of(context).colorScheme.onError;
+          backgroundColor = Theme.of(context).colorScheme.error;
           break;
         case ButtonNormalType.errorOutlined:
-          _borderColor = Theme.of(context).colorScheme.error;
-          _primary = Theme.of(context).colorScheme.error;
-          _backgroundColor = null;
+          borderColor = Theme.of(context).colorScheme.error;
+          primary = Theme.of(context).colorScheme.error;
+          backgroundColor = null;
           break;
         case ButtonNormalType.disabled:
-          _borderColor = null;
-          _primary = Theme.of(context).colorScheme.onSurfaceVariant;
-          _backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
+          borderColor = null;
+          primary = Theme.of(context).colorScheme.onSurfaceVariant;
+          backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
           break;
         case ButtonNormalType.primary:
         default:
-          _borderColor = null;
-          _primary = Theme.of(context).colorScheme.onPrimary;
-          _backgroundColor = Theme.of(context).colorScheme.primary;
+          borderColor = null;
+          primary = Theme.of(context).colorScheme.onPrimary;
+          backgroundColor = Theme.of(context).colorScheme.primary;
           break;
       }
     }
 
-    final _side = _borderColor == null
+    final side = borderColor == null
         ? BorderSide.none
-        : BorderSide(color: _borderColor, width: 1.0, style: BorderStyle.solid);
+        : BorderSide(color: borderColor, width: 1.0, style: BorderStyle.solid);
     // - Text
-    final _textStyle = size == ButtonNormalSize.normal
+    final textStyle = size == ButtonNormalSize.normal
         ? Theme.of(context)
             .textTheme
-            .bodyText1
+            .bodyLarge
             ?.copyWith(fontWeight: FontWeight.bold)
         : Theme.of(context)
             .textTheme
-            .bodyText2
+            .bodyMedium
             ?.copyWith(fontWeight: FontWeight.bold);
     // - Padding
-    final _padding = size == ButtonNormalSize.normal
+    final padding = size == ButtonNormalSize.normal
         ? EdgeInsets.symmetric(
             vertical: 16, horizontal: type == ButtonNormalMode.short ? 8 : 32)
         : EdgeInsets.symmetric(
@@ -99,17 +99,17 @@ class ButtonNormalWidget extends StatelessWidget {
 
     // Return button
     return SizedBox(
-      width: _width,
+      width: width,
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-          foregroundColor: _primary,
+          foregroundColor: primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
           ),
-          side: _side,
-          backgroundColor: _backgroundColor,
-          textStyle: _textStyle,
-          padding: _padding,
+          side: side,
+          backgroundColor: backgroundColor,
+          textStyle: textStyle,
+          padding: padding,
         ),
         onPressed: onPressed,
         child: Text(text),
@@ -137,24 +137,24 @@ class ButtonTextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Button theme
     // - Color
-    final _primary = type == ButtonTextType.primary
+    final primary = type == ButtonTextType.primary
         ? Theme.of(context).colorScheme.primary
         : Theme.of(context).colorScheme.error;
     // - Text
-    final _textStyle = Theme.of(context).textTheme.bodyText2;
+    final textStyle = Theme.of(context).textTheme.bodyMedium;
 
     return iconData != null
         ? InkWell(
             onTap: onPressed,
             child: Row(children: [
-              Text(text, style: _textStyle?.copyWith(color: _primary)),
+              Text(text, style: textStyle?.copyWith(color: primary)),
               const SizedBox(width: 8.0),
-              Icon(iconData, color: _primary)
+              Icon(iconData, color: primary)
             ]))
         : TextButton(
             style: TextButton.styleFrom(
-              foregroundColor: _primary,
-              textStyle: _textStyle,
+              foregroundColor: primary,
+              textStyle: textStyle,
               padding: EdgeInsets.zero,
               minimumSize: Size.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -185,53 +185,53 @@ class ButtonIconWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Button theme
     // - Size
-    final double _size = size == ButtonIconSize.big ? 36 : 24;
+    final double size = this.size == ButtonIconSize.big ? 36 : 24;
     // - Colors
-    final Color? _borderColor;
-    final Color _primary; // Icon color
-    final Color? _backgroundColor;
+    final Color? borderColor;
+    final Color primary; // Icon color
+    final Color? backgroundColor;
     switch (type) {
       case ButtonIconType.secondaryGhost:
-        _borderColor = Theme.of(context).colorScheme.background;
-        _primary = Theme.of(context).colorScheme.onSurfaceVariant;
-        _backgroundColor = null;
+        borderColor = Theme.of(context).colorScheme.background;
+        primary = Theme.of(context).colorScheme.onSurfaceVariant;
+        backgroundColor = null;
         break;
       case ButtonIconType.error:
-        _borderColor = null;
-        _primary = Theme.of(context).colorScheme.onError;
-        _backgroundColor = Theme.of(context).colorScheme.error;
+        borderColor = null;
+        primary = Theme.of(context).colorScheme.onError;
+        backgroundColor = Theme.of(context).colorScheme.error;
         break;
       case ButtonIconType.primaryOutlined:
       default:
-        _borderColor = Theme.of(context).colorScheme.primary;
-        _primary = Theme.of(context).colorScheme.primary;
-        _backgroundColor = null;
+        borderColor = Theme.of(context).colorScheme.primary;
+        primary = Theme.of(context).colorScheme.primary;
+        backgroundColor = null;
         break;
     }
     // - Shape
-    final _borderRadius = BorderRadius.circular(
+    final borderRadius = BorderRadius.circular(
         shape == ButtonIconShape.round ? 1000 : BorderRadiusSize.normal);
     // - Padding
-    const _padding = EdgeInsets.all(6.0);
+    const padding = EdgeInsets.all(6.0);
 
     return Container(
         decoration: BoxDecoration(
-            border: _borderColor != null
-                ? Border.all(color: _borderColor, width: 1.0)
+            border: borderColor != null
+                ? Border.all(color: borderColor, width: 1.0)
                 : null,
-            borderRadius: _borderRadius,
-            color: _backgroundColor),
+            borderRadius: borderRadius,
+            color: backgroundColor),
         child: Material(
             color: Colors.transparent,
             child: InkWell(
-                borderRadius: _borderRadius,
+                borderRadius: borderRadius,
                 onTap: onTap,
                 child: Padding(
-                    padding: _padding,
+                    padding: padding,
                     child: Icon(
                       iconData,
-                      size: _size,
-                      color: _primary,
+                      size: size,
+                      color: primary,
                     )))));
   }
 }

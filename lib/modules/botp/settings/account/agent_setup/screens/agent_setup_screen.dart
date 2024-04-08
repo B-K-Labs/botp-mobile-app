@@ -76,7 +76,7 @@ class _AccountAgentSetupBodyState extends State<AccountAgentSetupBody> {
                         child: Text("Add new agent",
                             style: Theme.of(context)
                                 .textTheme
-                                .headline4
+                                .headlineMedium
                                 ?.copyWith(
                                     color: Theme.of(context)
                                         .colorScheme
@@ -128,20 +128,20 @@ class _AccountAgentSetupBodyState extends State<AccountAgentSetupBody> {
           Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
             Text("It would take a bit!",
-                style: Theme.of(context).textTheme.bodyText2,
+                style: Theme.of(context).textTheme.bodyMedium,
                 textAlign: TextAlign.center),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             Text("Setting up your agent.",
                 style: Theme.of(context)
                     .textTheme
-                    .headline5
+                    .headlineSmall
                     ?.copyWith(color: Theme.of(context).colorScheme.primary),
                 textAlign: TextAlign.center),
           ]),
-          Column(
+          const Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [Center(child: CircularProgressIndicator())]),
+              children: [Center(child: CircularProgressIndicator())]),
         ]);
       } else if (state.setupAgentStatus is RequestStatusFailed) {
         return Column(
@@ -151,12 +151,12 @@ class _AccountAgentSetupBodyState extends State<AccountAgentSetupBody> {
                   child: Column(children: [
                 const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
                 Text("Couldn't add your agent. Please try again.",
-                    style: Theme.of(context).textTheme.bodyText2),
+                    style: Theme.of(context).textTheme.bodyMedium),
                 const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                 Text("Somethings went wrong.",
                     style: Theme.of(context)
                         .textTheme
-                        .headline5
+                        .headlineSmall
                         ?.copyWith(color: Theme.of(context).colorScheme.error)),
                 Expanded(
                     child: Center(
@@ -208,10 +208,10 @@ class _AccountAgentSetupBodyState extends State<AccountAgentSetupBody> {
                       child: Column(children: [
                 const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
                 Text("Here is the agent detail.",
-                    style: Theme.of(context).textTheme.bodyText2),
+                    style: Theme.of(context).textTheme.bodyMedium),
                 const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                 Text("Your agent was added!",
-                    style: Theme.of(context).textTheme.headline5?.copyWith(
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                         color: Theme.of(context).colorScheme.primary)),
                 const SizedBox(height: kAppPaddingBetweenItemVeryLargeSize),
                 AgentInfoWidget(

@@ -90,16 +90,16 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
   }
 
   Widget _session() {
-    Future<bool?> _signOutConfirmation() => showModalBottomSheet<bool>(
+    Future<bool?> signOutConfirmation() => showModalBottomSheet<bool>(
         context: context,
         builder: (context) {
-          final _titleStyle = Theme.of(context)
+          final titleStyle = Theme.of(context)
               .textTheme
-              .headline6
+              .titleLarge
               ?.copyWith(color: Theme.of(context).colorScheme.primary);
-          final _descriptionStyle = Theme.of(context)
+          final descriptionStyle = Theme.of(context)
               .textTheme
-              .caption
+              .bodySmall
               ?.copyWith(color: Theme.of(context).colorScheme.primary);
 
           return Container(
@@ -111,14 +111,14 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text("Are you sure you want to sign out?",
-                        style: _titleStyle),
+                        style: titleStyle),
                     const SizedBox(height: kAppPaddingBetweenItemNormalSize),
                     SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.8,
                       child: const Text(
                         "Your current account data would be kept.",
                         textAlign: TextAlign.center,
                       ),
-                      width: MediaQuery.of(context).size.width * 0.8,
                     ),
                     const SizedBox(height: kAppPaddingBetweenItemNormalSize),
                     ReminderWidget(
@@ -135,7 +135,7 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
                           },
                           child: Text(
                             "If you haven't yet, click here to export your account",
-                            style: _descriptionStyle,
+                            style: descriptionStyle,
                           )),
                     ),
                     const SizedBox(height: kAppPaddingBetweenItemNormalSize),
@@ -164,9 +164,9 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
                   ]));
         });
 
-    _onSignOut() async {
+    onSignOut() async {
       // Wait for confirmation
-      final signOutConfirmationResult = await _signOutConfirmation();
+      final signOutConfirmationResult = await signOutConfirmation();
       // Perform action
       if (signOutConfirmationResult == true) {
         await context.read<SessionCubit>().signOut();
@@ -180,7 +180,7 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
         label: "Sign out",
         type: SettingsOptionType.buttonTextOneSide,
         buttonSideColorType: ColorType.error,
-        onTap: _onSignOut,
+        onTap: onSignOut,
       ),
     ]);
   }

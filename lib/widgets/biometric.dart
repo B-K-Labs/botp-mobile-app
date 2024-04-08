@@ -11,14 +11,14 @@ class BiometricSetupStatusWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Theme
-    final Color _color = isSuccess
+    final Color color = isSuccess
         ? Theme.of(context).colorScheme.secondary
         : Theme.of(context).colorScheme.error;
-    final TextStyle? _titleStyle =
-        Theme.of(context).textTheme.headline5?.copyWith(color: _color);
-    final TextStyle? _textStyle = Theme.of(context).textTheme.bodyText2;
+    final TextStyle? titleStyle =
+        Theme.of(context).textTheme.headlineSmall?.copyWith(color: color);
+    final TextStyle? textStyle = Theme.of(context).textTheme.bodyMedium;
 
-    final _matchedStatus = Column(children: [
+    final matchedStatus = Column(children: [
       const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
       SizedBox(
         height: 80.0,
@@ -27,11 +27,11 @@ class BiometricSetupStatusWidget extends StatelessWidget {
             scale: 1, fit: BoxFit.contain),
       ),
       const SizedBox(height: kAppPaddingBetweenItemNormalSize),
-      Text("Setup biometric successfully", style: _titleStyle),
+      Text("Setup biometric successfully", style: titleStyle),
       const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-      Text(message, style: _textStyle),
+      Text(message, style: textStyle),
     ]);
-    final _unmatchedStatus = Column(children: [
+    final unmatchedStatus = Column(children: [
       const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
       SizedBox(
         height: 80.0,
@@ -40,10 +40,10 @@ class BiometricSetupStatusWidget extends StatelessWidget {
             scale: 1, fit: BoxFit.contain),
       ),
       const SizedBox(height: kAppPaddingBetweenItemNormalSize),
-      Text("Failed to setup biometric", style: _titleStyle),
+      Text("Failed to setup biometric", style: titleStyle),
       const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-      Text(message, style: _textStyle),
+      Text(message, style: textStyle),
     ]);
-    return isSuccess ? _matchedStatus : _unmatchedStatus;
+    return isSuccess ? matchedStatus : unmatchedStatus;
   }
 }

@@ -30,7 +30,7 @@ class InitBody extends StatelessWidget {
               Text("Experience the novel authenticator.",
                   style: Theme.of(context)
                       .textTheme
-                      .headline4
+                      .headlineMedium
                       ?.copyWith(color: Theme.of(context).colorScheme.primary))
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [

@@ -28,7 +28,7 @@ class _SessionBodyState extends State<SessionBody> {
   void initState() {
     super.initState();
     // Reload state (if needed) on Widget build completed
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<SessionCubit>().reloadSessionState();
     });
   }

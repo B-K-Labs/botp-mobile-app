@@ -23,16 +23,16 @@ class BroadcastEventDetailWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Theme
     // - Color
-    final Color _matchedColor = Theme.of(context).colorScheme.secondary;
-    final Color _unmatchedColor = Theme.of(context).colorScheme.error;
+    final Color matchedColor = Theme.of(context).colorScheme.secondary;
+    final Color unmatchedColor = Theme.of(context).colorScheme.error;
     // - Text
-    final _headlineStyle = Theme.of(context)
+    final headlineStyle = Theme.of(context)
         .textTheme
-        .bodyText1
+        .bodyLarge
         ?.copyWith(fontWeight: FontWeight.bold);
-    final _labelStyle = Theme.of(context).textTheme.bodyText2;
-    _genLabelStyle(bool isMatched) => _labelStyle?.copyWith(
-        color: isMatched ? _matchedColor : _unmatchedColor);
+    final labelStyle = Theme.of(context).textTheme.bodyMedium;
+    genLabelStyle(bool isMatched) => labelStyle?.copyWith(
+        color: isMatched ? matchedColor : unmatchedColor);
 
     return Container(
         decoration: BoxDecoration(
@@ -43,13 +43,13 @@ class BroadcastEventDetailWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Broadcast event", style: _headlineStyle),
+            Text("Broadcast event", style: headlineStyle),
             data != null
                 ? Column(children: [
                     const SizedBox(height: 18.0),
                     _provenanceEventDetailTextLineWidget(
                         Text("Agent address",
-                            style: _genLabelStyle(matchingInfo.agentBcAddress)),
+                            style: genLabelStyle(matchingInfo.agentBcAddress)),
                         BcAddressWidget(
                             bcAddress: data!.agentBcAddress,
                             onTap: () {
@@ -59,7 +59,7 @@ class BroadcastEventDetailWidget extends StatelessWidget {
                     const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                     _provenanceEventDetailTextLineWidget(
                         Text("User address",
-                            style: _genLabelStyle(matchingInfo.userBcAddress)),
+                            style: genLabelStyle(matchingInfo.userBcAddress)),
                         BcAddressWidget(
                             bcAddress: data!.userBcAddress,
                             onTap: () {
@@ -68,7 +68,7 @@ class BroadcastEventDetailWidget extends StatelessWidget {
                             })),
                     const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                     _provenanceEventDetailTextLineWidget(
-                        Text("Id", style: _genLabelStyle(matchingInfo.id)),
+                        Text("Id", style: genLabelStyle(matchingInfo.id)),
                         BcAddressWidget(
                             bcAddress: data!.id,
                             onTap: () {
@@ -78,7 +78,7 @@ class BroadcastEventDetailWidget extends StatelessWidget {
                     _provenanceEventDetailTextLineWidget(
                         Text("Encrypted message",
                             style:
-                                _genLabelStyle(matchingInfo.encryptedMessage)),
+                                genLabelStyle(matchingInfo.encryptedMessage)),
                         BcAddressWidget(
                             bcAddress: data!.encryptedMessage,
                             onTap: () {
@@ -95,9 +95,9 @@ class BroadcastEventDetailWidget extends StatelessWidget {
                               onTapScanExplorer(data!.explorerId);
                             }))
                   ])
-                : Column(
+                : const Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: const [
+                    children: [
                         SizedBox(height: kAppPaddingBetweenItemLargeSize),
                         Center(child: Text("Data is not found")),
                         SizedBox(height: kAppPaddingBetweenItemNormalSize)
@@ -125,16 +125,16 @@ class HistoryEventDetailWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Theme
     // - Color
-    final Color _matchedColor = Theme.of(context).colorScheme.secondary;
-    final Color _unmatchedColor = Theme.of(context).colorScheme.error;
+    final Color matchedColor = Theme.of(context).colorScheme.secondary;
+    final Color unmatchedColor = Theme.of(context).colorScheme.error;
     // - Text
-    final _headlineStyle = Theme.of(context)
+    final headlineStyle = Theme.of(context)
         .textTheme
-        .bodyText1
+        .bodyLarge
         ?.copyWith(fontWeight: FontWeight.bold);
-    final _labelStyle = Theme.of(context).textTheme.bodyText2;
-    _genLabelStyle(bool isMatched) => _labelStyle?.copyWith(
-        color: isMatched ? _matchedColor : _unmatchedColor);
+    final labelStyle = Theme.of(context).textTheme.bodyMedium;
+    genLabelStyle(bool isMatched) => labelStyle?.copyWith(
+        color: isMatched ? matchedColor : unmatchedColor);
 
     return Container(
         decoration: BoxDecoration(
@@ -145,13 +145,13 @@ class HistoryEventDetailWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("History event", style: _headlineStyle),
+            Text("History event", style: headlineStyle),
             data != null
                 ? Column(children: [
                     const SizedBox(height: 18.0),
                     _provenanceEventDetailTextLineWidget(
                         Text("Agent address",
-                            style: _genLabelStyle(matchingInfo.agentBcAddress)),
+                            style: genLabelStyle(matchingInfo.agentBcAddress)),
                         BcAddressWidget(
                             bcAddress: data!.agentBcAddress,
                             onTap: () {
@@ -161,7 +161,7 @@ class HistoryEventDetailWidget extends StatelessWidget {
                     const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                     _provenanceEventDetailTextLineWidget(
                         Text("User address",
-                            style: _genLabelStyle(matchingInfo.userBcAddress)),
+                            style: genLabelStyle(matchingInfo.userBcAddress)),
                         BcAddressWidget(
                             bcAddress: data!.userBcAddress,
                             onTap: () {
@@ -170,7 +170,7 @@ class HistoryEventDetailWidget extends StatelessWidget {
                             })),
                     const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                     _provenanceEventDetailTextLineWidget(
-                        Text("Id", style: _genLabelStyle(matchingInfo.id)),
+                        Text("Id", style: genLabelStyle(matchingInfo.id)),
                         BcAddressWidget(
                             bcAddress: data!.id,
                             onTap: () {
@@ -180,7 +180,7 @@ class HistoryEventDetailWidget extends StatelessWidget {
                     _provenanceEventDetailTextLineWidget(
                         Text("Encrypted message",
                             style:
-                                _genLabelStyle(matchingInfo.encryptedMessage)),
+                                genLabelStyle(matchingInfo.encryptedMessage)),
                         BcAddressWidget(
                             bcAddress: data!.encryptedMessage,
                             onTap: () {
@@ -191,7 +191,7 @@ class HistoryEventDetailWidget extends StatelessWidget {
                     const DividerWidget(),
                     const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                     _provenanceEventDetailTextLineWidget(
-                        Text("Signature", style: _labelStyle),
+                        Text("Signature", style: labelStyle),
                         BcAddressWidget(
                             bcAddress: data!.signature,
                             onTap: () {
@@ -207,9 +207,9 @@ class HistoryEventDetailWidget extends StatelessWidget {
                               onTapScanExplorer(data!.explorerId);
                             }))
                   ])
-                : Column(
+                : const Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: const [
+                    children: [
                         SizedBox(height: kAppPaddingBetweenItemLargeSize),
                         Center(child: Text("Data is not found")),
                         SizedBox(height: kAppPaddingBetweenItemNormalSize)
@@ -234,14 +234,14 @@ class ProvenanceStatusWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Theme
-    final Color _color = isMatched
+    final Color color = isMatched
         ? Theme.of(context).colorScheme.secondary
         : Theme.of(context).colorScheme.error;
-    final TextStyle? _titleStyle =
-        Theme.of(context).textTheme.headline5?.copyWith(color: _color);
-    final TextStyle? _textStyle = Theme.of(context).textTheme.bodyText2;
+    final TextStyle? titleStyle =
+        Theme.of(context).textTheme.headlineSmall?.copyWith(color: color);
+    final TextStyle? textStyle = Theme.of(context).textTheme.bodyMedium;
 
-    final _matchedStatus = Column(children: [
+    final matchedStatus = Column(children: [
       const SizedBox(height: kAppPaddingBetweenItemNormalSize),
       SizedBox(
         height: 80.0,
@@ -250,11 +250,11 @@ class ProvenanceStatusWidget extends StatelessWidget {
             scale: 1, fit: BoxFit.contain),
       ),
       const SizedBox(height: kAppPaddingBetweenItemNormalSize),
-      Text("Matched events", style: _titleStyle),
+      Text("Matched events", style: titleStyle),
       const SizedBox(height: kAppPaddingBetweenItemSmallSize),
-      Text("All information between two events is matched.", style: _textStyle),
+      Text("All information between two events is matched.", style: textStyle),
     ]);
-    final _unmatchedStatus = Column(children: [
+    final unmatchedStatus = Column(children: [
       const SizedBox(height: kAppPaddingBetweenItemNormalSize),
       SizedBox(
         height: 80.0,
@@ -263,11 +263,11 @@ class ProvenanceStatusWidget extends StatelessWidget {
             scale: 1, fit: BoxFit.contain),
       ),
       const SizedBox(height: kAppPaddingBetweenItemNormalSize),
-      Text("Unmatched events", style: _titleStyle),
+      Text("Unmatched events", style: titleStyle),
       const SizedBox(height: kAppPaddingBetweenItemSmallSize),
       Text("Exists unmatched information between two events.",
-          style: _textStyle),
+          style: textStyle),
     ]);
-    return isMatched ? _matchedStatus : _unmatchedStatus;
+    return isMatched ? matchedStatus : unmatchedStatus;
   }
 }

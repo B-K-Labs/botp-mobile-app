@@ -21,9 +21,9 @@ class SecurityTransferAccountBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Transfer account theme
-    final _titleStyle = Theme.of(context)
+    final titleStyle = Theme.of(context)
         .textTheme
-        .headline5
+        .headlineSmall
         ?.copyWith(color: Theme.of(context).colorScheme.primary);
 
     return Container(
@@ -33,14 +33,14 @@ class SecurityTransferAccountBody extends StatelessWidget {
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           const SizedBox(height: kAppPaddingVerticalSize),
           Text("Transfer your account",
-              style: _titleStyle, textAlign: TextAlign.center),
+              style: titleStyle, textAlign: TextAlign.center),
           const SizedBox(height: kAppPaddingBetweenItemSmallSize),
           SizedBox(
+            width: MediaQuery.of(context).size.width * 0.8,
             child: const Text(
               "Easily switch your accounts between any devices that have BOTP Authenticator",
               textAlign: TextAlign.center,
             ),
-            width: MediaQuery.of(context).size.width * 0.8,
           ),
           const SizedBox(height: 96.0),
           Row(children: [

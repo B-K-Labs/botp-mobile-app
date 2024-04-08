@@ -22,43 +22,43 @@ class _TransactionStatusWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Transaction Item theme
     // - Colors
-    final Color _primary;
-    final Color _backgroundColor;
+    final Color primary;
+    final Color backgroundColor;
     switch (status) {
       case TransactionStatus.waiting:
-        _primary = Theme.of(context).colorScheme.onPrimaryContainer;
-        _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
+        primary = Theme.of(context).colorScheme.onPrimaryContainer;
+        backgroundColor = Theme.of(context).colorScheme.primaryContainer;
         break;
       case TransactionStatus.succeeded:
-        _primary = Theme.of(context).colorScheme.onSecondaryContainer;
-        _backgroundColor = Theme.of(context).colorScheme.secondaryContainer;
+        primary = Theme.of(context).colorScheme.onSecondaryContainer;
+        backgroundColor = Theme.of(context).colorScheme.secondaryContainer;
         break;
       case TransactionStatus.failed:
-        _primary = Theme.of(context).colorScheme.onErrorContainer;
-        _backgroundColor = Theme.of(context).colorScheme.errorContainer;
+        primary = Theme.of(context).colorScheme.onErrorContainer;
+        backgroundColor = Theme.of(context).colorScheme.errorContainer;
         break;
       case TransactionStatus.requesting:
       default:
-        _primary = Theme.of(context).colorScheme.onTertiaryContainer;
-        _backgroundColor = Theme.of(context).colorScheme.tertiaryContainer;
+        primary = Theme.of(context).colorScheme.onTertiaryContainer;
+        backgroundColor = Theme.of(context).colorScheme.tertiaryContainer;
         break;
     }
     // - Text
-    final _textStyle =
-        Theme.of(context).textTheme.caption?.copyWith(color: _primary);
+    final textStyle =
+        Theme.of(context).textTheme.bodySmall?.copyWith(color: primary);
     // - Padding
-    const _padding = EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0);
+    const padding = EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0);
     // - Decoration
-    final _decoration = hasBorder
+    final decoration = hasBorder
         ? BoxDecoration(
-            color: _backgroundColor,
+            color: backgroundColor,
             borderRadius: BorderRadius.circular(BorderRadiusSize.small))
-        : BoxDecoration(color: _backgroundColor);
+        : BoxDecoration(color: backgroundColor);
 
     return Container(
-      decoration: _decoration,
-      padding: _padding,
-      child: Text(status.toCapitalizedString(), style: _textStyle),
+      decoration: decoration,
+      padding: padding,
+      child: Text(status.toCapitalizedString(), style: textStyle),
     );
   }
 }
@@ -110,28 +110,28 @@ class TransactionItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Transaction Item theme
     // - Colors
-    final _border = isNewest
+    final border = isNewest
         ? Border.all(color: Theme.of(context).colorScheme.primary, width: 2.0)
         : null;
     // - Border
-    final _borderRadius = BorderRadius.circular(BorderRadiusSize.normal);
+    final borderRadius = BorderRadius.circular(BorderRadiusSize.normal);
     // - Text
-    final TextStyle? _textStyle = Theme.of(context)
+    final TextStyle? textStyle = Theme.of(context)
         .textTheme
-        .bodyText2
+        .bodyMedium
         ?.copyWith(fontWeight: FontWeight.bold);
-    final TextStyle? _smallTextStyle = Theme.of(context).textTheme.caption;
+    final TextStyle? smallTextStyle = Theme.of(context).textTheme.bodySmall;
     return Container(
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
-          borderRadius: _borderRadius,
-          border: _border,
+          borderRadius: borderRadius,
+          border: border,
         ),
         height: 80,
         child: Material(
-            borderRadius: _borderRadius,
+            borderRadius: borderRadius,
             child: InkWell(
-                borderRadius: _borderRadius,
+                borderRadius: borderRadius,
                 onTap: onTap,
                 child: Stack(alignment: AlignmentDirectional.topEnd, children: [
                   Positioned.fill(
@@ -159,7 +159,7 @@ class TransactionItemWidget extends StatelessWidget {
                                           ? Row(children: [
                                               Text(
                                                 agentName,
-                                                style: _textStyle,
+                                                style: textStyle,
                                               ),
                                               const SizedBox(width: 6.0),
                                               Icon(Icons.verified,
@@ -170,7 +170,7 @@ class TransactionItemWidget extends StatelessWidget {
                                             ])
                                           : Text(
                                               agentName,
-                                              style: _textStyle,
+                                              style: textStyle,
                                             ),
                                       const SizedBox(height: 6.0),
                                       Text(
@@ -178,13 +178,13 @@ class TransactionItemWidget extends StatelessWidget {
                                             .format(DateTime
                                                 .fromMillisecondsSinceEpoch(
                                                     timestamp)),
-                                        style: _smallTextStyle,
+                                        style: smallTextStyle,
                                       ),
                                       const SizedBox(height: 4.0),
                                       Text(
                                         shortenNotifyMessage(
                                             'Message: $notifyMessage'),
-                                        style: _smallTextStyle,
+                                        style: smallTextStyle,
                                       ),
                                     ],
                                   )
@@ -214,7 +214,7 @@ class TransactionItemSkeletonWidget extends StatelessWidget {
                     horizontal: 16.0, vertical: 16.0),
                 child: const SkeletonAvatar(
                     style: SkeletonAvatarStyle(width: 48.0, height: 48.0))),
-            Expanded(
+            const Expanded(
                 flex: 1,
                 child: Center(
                     child: Row(
@@ -224,7 +224,7 @@ class TransactionItemSkeletonWidget extends StatelessWidget {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const <Widget>[
+                        children: <Widget>[
                           SkeletonLine(
                               style: SkeletonLineStyle(
                                   height: 18.0,
@@ -278,47 +278,47 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
   Widget build(BuildContext context) {
     // OTP theme
     // - Color
-    final Color _primary;
-    final Color _backgroundColor;
+    final Color primary;
+    final Color backgroundColor;
     switch (widget.otpValueInfo.status) {
       case OTPValueStatus.valid:
-        _primary = Theme.of(context).colorScheme.primary;
-        _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
+        primary = Theme.of(context).colorScheme.primary;
+        backgroundColor = Theme.of(context).colorScheme.primaryContainer;
         break;
       case OTPValueStatus.nearlyExpired:
-        _primary = Theme.of(context).colorScheme.error;
-        _backgroundColor = Theme.of(context).colorScheme.errorContainer;
+        primary = Theme.of(context).colorScheme.error;
+        backgroundColor = Theme.of(context).colorScheme.errorContainer;
         break;
       case OTPValueStatus.expired:
-        _primary = Theme.of(context).colorScheme.error;
-        _backgroundColor = Theme.of(context).colorScheme.errorContainer;
+        primary = Theme.of(context).colorScheme.error;
+        backgroundColor = Theme.of(context).colorScheme.errorContainer;
         break;
       case OTPValueStatus.notAvailable:
-        _primary = Theme.of(context).colorScheme.error;
-        _backgroundColor = Theme.of(context).colorScheme.errorContainer;
+        primary = Theme.of(context).colorScheme.error;
+        backgroundColor = Theme.of(context).colorScheme.errorContainer;
         break;
       case OTPValueStatus.initial:
       default:
-        _primary = Theme.of(context).colorScheme.primary;
-        _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
+        primary = Theme.of(context).colorScheme.primary;
+        backgroundColor = Theme.of(context).colorScheme.primaryContainer;
         break;
     }
     // - Border
-    final _border = Border.all(color: _primary, width: 3.0);
-    final _borderRadius = BorderRadius.circular(BorderRadiusSize.normal);
+    final border = Border.all(color: primary, width: 3.0);
+    final borderRadius = BorderRadius.circular(BorderRadiusSize.normal);
     // - Text
-    final _titleStyle = Theme.of(context)
+    final titleStyle = Theme.of(context)
         .textTheme
-        .headline6
+        .titleLarge
         ?.copyWith(fontWeight: FontWeight.bold);
-    final _otpStyle =
-        Theme.of(context).textTheme.headline4?.copyWith(color: _primary);
-    final _captionStyle = Theme.of(context)
+    final otpStyle =
+        Theme.of(context).textTheme.headlineMedium?.copyWith(color: primary);
+    final captionStyle = Theme.of(context)
         .textTheme
-        .caption
+        .bodySmall
         ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
     // - Padding
-    const _padding = EdgeInsets.symmetric(vertical: 24.0, horizontal: 18.0);
+    const padding = EdgeInsets.symmetric(vertical: 24.0, horizontal: 18.0);
 
     // Otp
     final otpValueInfo = widget.otpValueInfo;
@@ -332,7 +332,7 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
         curve: Curves.easeInOutCubic,
         decoration: BoxDecoration(
           border: Border.all(
-              color: _backgroundColor,
+              color: backgroundColor,
               width: isValidOtp && otpValueInfo.remainingSecond % 2 == 0 ||
                       isNotAvailableOtp
                   ? 7.5
@@ -342,26 +342,26 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
         height: 266,
       ),
       Material(
-          borderRadius: _borderRadius,
+          borderRadius: borderRadius,
           color: Colors.transparent,
           child: InkWell(
             onTap: widget.onTap,
             child: Container(
               decoration:
-                  BoxDecoration(border: _border, borderRadius: _borderRadius),
-              padding: _padding,
+                  BoxDecoration(border: border, borderRadius: borderRadius),
+              padding: padding,
               height: 266,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(children: [
-                      Text("OTP", style: _titleStyle),
+                      Text("OTP", style: titleStyle),
                       const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                       const DividerWidget(),
                       const SizedBox(height: kAppPaddingBetweenItemLargeSize),
                       [OTPValueStatus.valid, OTPValueStatus.nearlyExpired]
                               .contains(otpValueInfo.status)
-                          ? Text(otpValueInfo.value, style: _otpStyle)
+                          ? Text(otpValueInfo.value, style: otpStyle)
                           : [OTPValueStatus.initial, OTPValueStatus.expired]
                                   .contains(otpValueInfo.status)
                               ? SkeletonLine(
@@ -373,14 +373,14 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
                                   borderRadius: BorderRadius.circular(
                                       BorderRadiusSize.normal),
                                 ))
-                              : Text("Not available", style: _otpStyle),
+                              : Text("Not available", style: otpStyle),
                       const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                       [OTPValueStatus.valid, OTPValueStatus.nearlyExpired]
                               .contains(otpValueInfo.status)
-                          ? Text("Tap to copy OTP", style: _captionStyle)
+                          ? Text("Tap to copy OTP", style: captionStyle)
                           : otpValueInfo.status == OTPValueStatus.notAvailable
                               ? Text("Cannot generate OTP in this device",
-                                  style: _captionStyle)
+                                  style: captionStyle)
                               : SkeletonLine(
                                   style: SkeletonLineStyle(
                                   width: 100,
@@ -397,10 +397,9 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
                               .contains(otpValueInfo.status)
                           ? Row(children: [
                               Text(
-                                  otpValueInfo.remainingSecond.toString() +
-                                      "s left",
+                                  "${otpValueInfo.remainingSecond}s left",
                                   style:
-                                      _captionStyle?.copyWith(color: _primary)),
+                                      captionStyle?.copyWith(color: primary)),
                               const SizedBox(
                                   width: kAppPaddingBetweenItemSmallSize),
                               Center(
@@ -424,8 +423,8 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
                                                             .totalSeconds,
                                                     strokeWidth: 12,
                                                     backgroundColor:
-                                                        _backgroundColor,
-                                                    color: _primary,
+                                                        backgroundColor,
+                                                    color: primary,
                                                   )))))
                             ])
                           : Text(
@@ -435,7 +434,7 @@ class _TransactionOTPWidgetState extends State<TransactionOTPWidget> {
                                           OTPValueStatus.notAvailable
                                       ? "Failed to generate OTP"
                                       : "Requesting",
-                              style: _captionStyle?.copyWith(color: _primary))
+                              style: captionStyle?.copyWith(color: primary))
                     ]),
                   ]),
             ),
@@ -468,12 +467,12 @@ class TransactionDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _headlineStyle = Theme.of(context)
+    final headlineStyle = Theme.of(context)
         .textTheme
-        .bodyText1
+        .bodyLarge
         ?.copyWith(fontWeight: FontWeight.bold);
-    final _labelStyle = Theme.of(context).textTheme.bodyText2;
-    final _textStyle = Theme.of(context).textTheme.bodyText2;
+    final labelStyle = Theme.of(context).textTheme.bodyMedium;
+    final textStyle = Theme.of(context).textTheme.bodyMedium;
     return Container(
         decoration: BoxDecoration(
             border: Border.all(
@@ -483,42 +482,42 @@ class TransactionDetailWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Transaction details", style: _headlineStyle),
+            Text("Transaction details", style: headlineStyle),
             const SizedBox(height: 18.0),
             _transactionDetailTextLineWidget(
                 agentIsVerified
                     ? Row(children: [
                         Text(agentName,
-                            style: _textStyle?.copyWith(
+                            style: textStyle?.copyWith(
                                 fontWeight: FontWeight.bold)),
                         const SizedBox(width: 8.0),
                         Tooltip(
+                            message: '$agentName is verified',
                             child: Icon(Icons.verified,
                                 size: 18,
-                                color: Theme.of(context).colorScheme.secondary),
-                            message: '$agentName is verified')
+                                color: Theme.of(context).colorScheme.secondary))
                       ])
                     : Text(agentName,
                         style:
-                            _textStyle?.copyWith(fontWeight: FontWeight.bold)),
+                            textStyle?.copyWith(fontWeight: FontWeight.bold)),
                 AgentAvatar(avatarUrl: agentAvatarUrl)),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             _transactionDetailTextLineWidget(
-                Text("Address", style: _labelStyle),
+                Text("Address", style: labelStyle),
                 BcAddressWidget(
                     bcAddress: agentBcAddress, onTap: opTapBcAddress)),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             const DividerWidget(),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             _transactionDetailTextLineWidget(
-                Text("Date", style: _labelStyle),
+                Text("Date", style: labelStyle),
                 Text(
                     DateFormat('yyyy-MM-dd – kk:mm:ss')
                         .format(DateTime.fromMillisecondsSinceEpoch(timestamp)),
-                    style: _textStyle)),
+                    style: textStyle)),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             _transactionDetailTextLineWidget(
-                Text("Status", style: _labelStyle),
+                Text("Status", style: labelStyle),
                 _TransactionStatusWidget(
                     status: transactionStatus, hasBorder: true)),
             const SizedBox(height: kAppPaddingBetweenItemNormalSize),
@@ -538,11 +537,11 @@ class TransactionDetailSkeletonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _headlineStyle = Theme.of(context)
+    final headlineStyle = Theme.of(context)
         .textTheme
-        .bodyText1
+        .bodyLarge
         ?.copyWith(fontWeight: FontWeight.bold);
-    final _labelStyle = Theme.of(context).textTheme.bodyText2;
+    final labelStyle = Theme.of(context).textTheme.bodyMedium;
     return Container(
         decoration: BoxDecoration(
             border: Border.all(
@@ -552,7 +551,7 @@ class TransactionDetailSkeletonWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Transaction details", style: _headlineStyle),
+            Text("Transaction details", style: headlineStyle),
             const SizedBox(height: 18.0),
             _transactionDetailTextLineWidget(
               const SkeletonLine(
@@ -566,19 +565,19 @@ class TransactionDetailSkeletonWidget extends StatelessWidget {
             ),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             _transactionDetailTextLineWidget(
-                Text("Address", style: _labelStyle),
+                Text("Address", style: labelStyle),
                 const SkeletonLine(
                     style: SkeletonLineStyle(height: 24.0, width: 120))),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             const DividerWidget(),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             _transactionDetailTextLineWidget(
-                Text("Date", style: _labelStyle),
+                Text("Date", style: labelStyle),
                 const SkeletonLine(
                     style: SkeletonLineStyle(height: 16.0, width: 146))),
             const SizedBox(height: kAppPaddingBetweenItemSmallSize),
             _transactionDetailTextLineWidget(
-                Text("Status", style: _labelStyle),
+                Text("Status", style: labelStyle),
                 const SkeletonLine(
                     style: SkeletonLineStyle(
                         height: 22.0,
@@ -602,13 +601,13 @@ class TransactionNotifyMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _headlineStyle = Theme.of(context)
+    final headlineStyle = Theme.of(context)
         .textTheme
-        .bodyText1
+        .bodyLarge
         ?.copyWith(fontWeight: FontWeight.bold);
-    final _textStyle = Theme.of(context)
+    final textStyle = Theme.of(context)
         .textTheme
-        .bodyText2
+        .bodyMedium
         ?.copyWith(color: Theme.of(context).colorScheme.onSurface);
     return Container(
         decoration: BoxDecoration(
@@ -619,10 +618,10 @@ class TransactionNotifyMessageWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Notify message", style: _headlineStyle),
+            Text("Notify message", style: headlineStyle),
             const SizedBox(height: 18.0),
             _transactionDetailTextLineWidget(
-                Text(notifyMessage, style: _textStyle), null)
+                Text(notifyMessage, style: textStyle), null)
           ],
         ));
   }
@@ -633,9 +632,9 @@ class TransactionNotifyMessageSkeletonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _headlineStyle = Theme.of(context)
+    final headlineStyle = Theme.of(context)
         .textTheme
-        .bodyText1
+        .bodyLarge
         ?.copyWith(fontWeight: FontWeight.bold);
     return Container(
         decoration: BoxDecoration(
@@ -646,7 +645,7 @@ class TransactionNotifyMessageSkeletonWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Notify message", style: _headlineStyle),
+            Text("Notify message", style: headlineStyle),
             const SizedBox(height: 18.0),
             _transactionDetailTextLineWidget(
                 const SkeletonLine(

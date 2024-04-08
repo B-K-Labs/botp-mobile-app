@@ -62,10 +62,10 @@ class _SignUpBodyState extends State<SignUpBody> {
               children: <Widget>[
                 const SizedBox(height: kAppPaddingVerticalSize),
                 Text("Create account",
-                    style: Theme.of(context).textTheme.headline4?.copyWith(
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         color: Theme.of(context).colorScheme.primary)),
                 const SizedBox(height: 24.0),
-                Text('Password', style: Theme.of(context).textTheme.bodyText2),
+                Text('Password', style: Theme.of(context).textTheme.bodyMedium),
                 const SizedBox(height: 12.0),
                 _passwordField(),
                 const SizedBox(height: 24.0),
@@ -76,16 +76,16 @@ class _SignUpBodyState extends State<SignUpBody> {
 
   Widget _passwordField() {
     return BlocBuilder<SignUpBloc, SignUpState>(builder: (context, state) {
-      _passwordValidator(value) => state.validatePassword;
-      _passwordOnChanged(value) => context
+      passwordValidator(value) => state.validatePassword;
+      passwordOnChanged(value) => context
           .read<SignUpBloc>()
           .add(SignUpEventPasswordChanged(password: value));
       return FieldPasswordWidget(
         textInputAction: TextInputAction.done,
         autofocus: true,
         hintText: "******",
-        validator: _passwordValidator,
-        onChanged: _passwordOnChanged,
+        validator: passwordValidator,
+        onChanged: passwordOnChanged,
       );
     });
   }

@@ -29,32 +29,32 @@ class ScreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppBar? _appBar;
+    final AppBar? appBar;
     // AppBar theme
     // - Colors
-    final Color _appbarBackgroundColor =
+    final Color appbarBackgroundColor =
         Theme.of(context).scaffoldBackgroundColor;
 
     if (hasAppBar) {
       switch (appBarType) {
         case AppBarType.blank:
-          _appBar = AppBar(
+          appBar = AppBar(
             automaticallyImplyLeading: false,
             centerTitle: true,
             elevation: appBarElevation,
-            backgroundColor: _appbarBackgroundColor,
+            backgroundColor: appbarBackgroundColor,
           );
           break;
         case AppBarType.authenticator:
-          _appBar = AppBar(
+          appBar = AppBar(
             automaticallyImplyLeading: false,
             title: const Text("BOTP Authenticator"),
             titleTextStyle: Theme.of(context)
                 .textTheme
-                .headline6
+                .titleLarge
                 ?.copyWith(color: Theme.of(context).colorScheme.primary),
             elevation: appBarElevation,
-            backgroundColor: _appbarBackgroundColor,
+            backgroundColor: appbarBackgroundColor,
             actions: [
               AvatarWidget(
                   avatarUrl: appBarAvatarUrl, onPressed: appBarOnPressedAvatar),
@@ -65,36 +65,36 @@ class ScreenWidget extends StatelessWidget {
           );
           break;
         case AppBarType.history:
-          _appBar = AppBar(
+          appBar = AppBar(
             automaticallyImplyLeading: false,
             title: const Text("BOTP History"),
             titleTextStyle: Theme.of(context)
                 .textTheme
-                .headline6
+                .titleLarge
                 ?.copyWith(color: Theme.of(context).colorScheme.primary),
             // centerTitle: true,
             elevation: appBarElevation,
             // backgroundColor: Colors.transparent,
-            backgroundColor: _appbarBackgroundColor,
+            backgroundColor: appbarBackgroundColor,
           );
           break;
         case AppBarType.normal:
         default:
-          _appBar = AppBar(
+          appBar = AppBar(
             automaticallyImplyLeading: appBarImplyLeading,
             title: appBarTitle != null ? Text(appBarTitle!) : null,
-            titleTextStyle: Theme.of(context).textTheme.headline6,
+            titleTextStyle: Theme.of(context).textTheme.titleLarge,
             centerTitle: true,
             elevation: appBarElevation,
             // backgroundColor: Colors.transparent,
-            backgroundColor: _appbarBackgroundColor,
+            backgroundColor: appbarBackgroundColor,
             iconTheme: IconThemeData(
               color: Theme.of(context).colorScheme.onSurface,
             ),
           );
       }
     } else {
-      _appBar = null;
+      appBar = null;
     }
     // Status bar: Use SystemChrome/Annotated region
     // Safe area: inside scaffold
@@ -112,7 +112,7 @@ class ScreenWidget extends StatelessWidget {
                   : Brightness.light,
         ),
         child: Scaffold(
-            appBar: _appBar,
+            appBar: appBar,
             bottomNavigationBar: bottomNavigationBar,
             body: SafeArea(child: body)));
   }
@@ -157,39 +157,39 @@ class DecoratedIconWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Decorated icon theme
     // - Color
-    final Color _onColorContainer;
-    final Color _colorContainer;
+    final Color onColorContainer;
+    final Color colorContainer;
     switch (colorType) {
       case ColorType.error:
-        _onColorContainer = Theme.of(context).colorScheme.onErrorContainer;
-        _colorContainer = Theme.of(context).colorScheme.errorContainer;
+        onColorContainer = Theme.of(context).colorScheme.onErrorContainer;
+        colorContainer = Theme.of(context).colorScheme.errorContainer;
         break;
       case ColorType.secondary:
-        _onColorContainer = Theme.of(context).colorScheme.onSecondaryContainer;
-        _colorContainer = Theme.of(context).colorScheme.secondaryContainer;
+        onColorContainer = Theme.of(context).colorScheme.onSecondaryContainer;
+        colorContainer = Theme.of(context).colorScheme.secondaryContainer;
         break;
       case ColorType.tertiary:
-        _onColorContainer = Theme.of(context).colorScheme.onTertiaryContainer;
-        _colorContainer = Theme.of(context).colorScheme.tertiaryContainer;
+        onColorContainer = Theme.of(context).colorScheme.onTertiaryContainer;
+        colorContainer = Theme.of(context).colorScheme.tertiaryContainer;
         break;
       case ColorType.primary:
       default:
-        _onColorContainer = Theme.of(context).colorScheme.onPrimaryContainer;
-        _colorContainer = Theme.of(context).colorScheme.primaryContainer;
+        onColorContainer = Theme.of(context).colorScheme.onPrimaryContainer;
+        colorContainer = Theme.of(context).colorScheme.primaryContainer;
         break;
     }
     // - Size
-    final _containerSize = size == DecoratedIconSize.normal ? 48.0 : 36.0;
-    final _onContainerSize = size == DecoratedIconSize.normal ? 24.0 : 18.0;
+    final containerSize = size == DecoratedIconSize.normal ? 48.0 : 36.0;
+    final onContainerSize = size == DecoratedIconSize.normal ? 24.0 : 18.0;
 
     return Container(
         decoration: BoxDecoration(
-            color: _colorContainer, borderRadius: BorderRadius.circular(100)),
-        width: _containerSize,
-        height: _containerSize,
+            color: colorContainer, borderRadius: BorderRadius.circular(100)),
+        width: containerSize,
+        height: containerSize,
         child: Center(
             child: Icon(iconData,
-                color: _onColorContainer, size: _onContainerSize)));
+                color: onColorContainer, size: onContainerSize)));
   }
 }
 
@@ -205,14 +205,14 @@ class DividerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _color = color ?? Theme.of(context).colorScheme.outline;
+    final color = this.color ?? Theme.of(context).colorScheme.outline;
     return padding != null
         ? Container(
             padding: padding,
-            child: Divider(height: height, color: _color, thickness: thickness))
+            child: Divider(height: height, color: color, thickness: thickness))
         : Divider(
             height: height,
-            color: _color,
+            color: color,
             thickness: thickness,
           );
   }
@@ -240,44 +240,44 @@ class ReminderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Reminder theme
     // - Color
-    final Color _onContainer;
-    final Color _container;
-    final Color _primary;
+    final Color onContainer;
+    final Color container;
+    final Color primary;
     switch (colorType) {
       case ColorType.secondary:
-        _onContainer = Theme.of(context).colorScheme.onSecondaryContainer;
-        _container = Theme.of(context).colorScheme.secondaryContainer;
-        _primary = Theme.of(context).colorScheme.secondary;
+        onContainer = Theme.of(context).colorScheme.onSecondaryContainer;
+        container = Theme.of(context).colorScheme.secondaryContainer;
+        primary = Theme.of(context).colorScheme.secondary;
         break;
       case ColorType.tertiary:
-        _onContainer = Theme.of(context).colorScheme.onTertiaryContainer;
-        _container = Theme.of(context).colorScheme.tertiaryContainer;
-        _primary = Theme.of(context).colorScheme.tertiary;
+        onContainer = Theme.of(context).colorScheme.onTertiaryContainer;
+        container = Theme.of(context).colorScheme.tertiaryContainer;
+        primary = Theme.of(context).colorScheme.tertiary;
         break;
       case ColorType.error:
-        _onContainer = Theme.of(context).colorScheme.onErrorContainer;
-        _container = Theme.of(context).colorScheme.errorContainer;
-        _primary = Theme.of(context).colorScheme.error;
+        onContainer = Theme.of(context).colorScheme.onErrorContainer;
+        container = Theme.of(context).colorScheme.errorContainer;
+        primary = Theme.of(context).colorScheme.error;
         break;
       case ColorType.primary:
       default:
-        _onContainer = Theme.of(context).colorScheme.onPrimaryContainer;
-        _container = Theme.of(context).colorScheme.primaryContainer;
-        _primary = Theme.of(context).colorScheme.primary;
+        onContainer = Theme.of(context).colorScheme.onPrimaryContainer;
+        container = Theme.of(context).colorScheme.primaryContainer;
+        primary = Theme.of(context).colorScheme.primary;
         break;
     }
     // - Text
-    final _titleStyle = Theme.of(context)
+    final titleStyle = Theme.of(context)
         .textTheme
-        .bodyText2
-        ?.copyWith(color: _onContainer, fontWeight: FontWeight.bold);
-    final _descriptionStyle =
-        Theme.of(context).textTheme.caption?.copyWith(color: _onContainer);
+        .bodyMedium
+        ?.copyWith(color: onContainer, fontWeight: FontWeight.bold);
+    final descriptionStyle =
+        Theme.of(context).textTheme.bodySmall?.copyWith(color: onContainer);
     // - Border
-    final _borderRadius = BorderRadius.circular(BorderRadiusSize.normal);
+    final borderRadius = BorderRadius.circular(BorderRadiusSize.normal);
     return Container(
         decoration: BoxDecoration(
-            color: _container,
+            color: container,
             boxShadow: [
               BoxShadow(
                   offset: const Offset(boxShadowOffsetX, boxShadowOffsetY),
@@ -286,11 +286,11 @@ class ReminderWidget extends StatelessWidget {
                       .shadowColor
                       .withOpacity(boxShadowOpacity))
             ],
-            borderRadius: _borderRadius),
+            borderRadius: borderRadius),
         child: Material(
             color: Colors.transparent,
             child: InkWell(
-                borderRadius: _borderRadius,
+                borderRadius: borderRadius,
                 onTap: onTap,
                 child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -306,9 +306,9 @@ class ReminderWidget extends StatelessWidget {
                                   children: [
                                 Row(
                                   children: [
-                                    Icon(iconData, color: _onContainer),
+                                    Icon(iconData, color: onContainer),
                                     const SizedBox(width: 8.0),
-                                    Text(title, style: _titleStyle),
+                                    Text(title, style: titleStyle),
                                   ],
                                 ),
                                 description != null
@@ -318,7 +318,7 @@ class ReminderWidget extends StatelessWidget {
                                           Expanded(
                                               child: Text(
                                             description!,
-                                            style: _descriptionStyle,
+                                            style: descriptionStyle,
                                           ))
                                         ])
                                       ])
@@ -344,7 +344,7 @@ class ReminderWidget extends StatelessWidget {
                                             .scaffoldBackgroundColor,
                                       ),
                                       child: Icon(Icons.navigate_next_outlined,
-                                          color: _primary))
+                                          color: primary))
                                 ])
                               : Container()
                         ])))));

@@ -38,38 +38,38 @@ class _FieldNormalWidgetState extends State<FieldNormalWidget> {
   Widget build(BuildContext context) {
     // Field theme
     // - Colors
-    final Color _iconsColor = Theme.of(context).colorScheme.outline;
-    final Color _cursorColor = Theme.of(context).colorScheme.onSurface;
-    OutlineInputBorder _border = OutlineInputBorder(
+    final Color iconsColor = Theme.of(context).colorScheme.outline;
+    final Color cursorColor = Theme.of(context).colorScheme.onSurface;
+    OutlineInputBorder border = OutlineInputBorder(
       borderSide:
           BorderSide(color: Theme.of(context).colorScheme.outline, width: 1.0),
       borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
     );
-    OutlineInputBorder _focusedBorder = OutlineInputBorder(
+    OutlineInputBorder focusedBorder = OutlineInputBorder(
       borderSide:
           BorderSide(color: Theme.of(context).colorScheme.primary, width: 2.0),
       borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
     );
-    OutlineInputBorder _errorBorder = OutlineInputBorder(
+    OutlineInputBorder errorBorder = OutlineInputBorder(
       borderSide:
           BorderSide(color: Theme.of(context).colorScheme.error, width: 2.0),
       borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
     );
     // - Text
-    final TextStyle? _style = Theme.of(context).textTheme.bodyText2;
+    final TextStyle? style = Theme.of(context).textTheme.bodyMedium;
     // - Icons
-    Widget? _prefixIcon = widget.prefixIconData != null
+    Widget? prefixIcon = widget.prefixIconData != null
         ? GestureDetector(
             onTap: widget.onTapPrefixIcon,
-            child: Icon((widget.prefixIconData)!, color: _iconsColor))
+            child: Icon((widget.prefixIconData)!, color: iconsColor))
         : null;
-    Widget? _suffixIcon = widget.suffixIconData != null
+    Widget? suffixIcon = widget.suffixIconData != null
         ? GestureDetector(
             onTap: widget.onTapSuffixIcon,
-            child: Icon(widget.suffixIconData, color: _iconsColor))
+            child: Icon(widget.suffixIconData, color: iconsColor))
         : null;
     // - Padding
-    const _padding = EdgeInsets.all(16.0);
+    const padding = EdgeInsets.all(16.0);
 
     return TextFormField(
       autofocus: widget.autofocus,
@@ -77,17 +77,17 @@ class _FieldNormalWidgetState extends State<FieldNormalWidget> {
       initialValue: widget.initialValue,
       validator: widget.validator,
       onChanged: widget.onChanged,
-      cursorColor: _cursorColor,
-      style: _style,
+      cursorColor: cursorColor,
+      style: style,
       textInputAction: widget.textInputAction,
       decoration: InputDecoration(
-        prefixIcon: _prefixIcon,
-        suffixIcon: _suffixIcon,
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
         hintText: widget.hintText,
-        contentPadding: _padding,
-        border: _border,
-        focusedBorder: _focusedBorder,
-        errorBorder: _errorBorder,
+        contentPadding: padding,
+        border: border,
+        focusedBorder: focusedBorder,
+        errorBorder: errorBorder,
       ),
     );
   }
@@ -125,37 +125,37 @@ class _FieldPasswordWidgetState extends State<FieldPasswordWidget> {
   Widget build(BuildContext context) {
     // Field theme
     // - Colors
-    final Color _iconsColor = Theme.of(context).colorScheme.outline;
-    final Color _cursorColor = Theme.of(context).colorScheme.onSurface;
-    OutlineInputBorder _border = OutlineInputBorder(
+    final Color iconsColor = Theme.of(context).colorScheme.outline;
+    final Color cursorColor = Theme.of(context).colorScheme.onSurface;
+    OutlineInputBorder border = OutlineInputBorder(
       borderSide:
           BorderSide(color: Theme.of(context).colorScheme.outline, width: 1.0),
       borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
     );
-    OutlineInputBorder _focusedBorder = OutlineInputBorder(
+    OutlineInputBorder focusedBorder = OutlineInputBorder(
       borderSide:
           BorderSide(color: Theme.of(context).colorScheme.primary, width: 2.0),
       borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
     );
-    OutlineInputBorder _errorBorder = OutlineInputBorder(
+    OutlineInputBorder errorBorder = OutlineInputBorder(
       borderSide:
           BorderSide(color: Theme.of(context).colorScheme.error, width: 2.0),
       borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
     );
     // - Text
-    final TextStyle? _style = Theme.of(context).textTheme.bodyText2;
+    final TextStyle? style = Theme.of(context).textTheme.bodyMedium;
     // - Suffix icon
-    Widget _suffixIcon = GestureDetector(
+    Widget suffixIcon = GestureDetector(
       onTap: () {
         setState(() {
           _obscureText = !_obscureText;
         });
       },
       child: Icon(_obscureText ? Icons.visibility : Icons.visibility_off,
-          color: _iconsColor),
+          color: iconsColor),
     );
     // - Padding
-    const _padding = EdgeInsets.all(16.0);
+    const padding = EdgeInsets.all(16.0);
 
     // Return final text field
     return TextFormField(
@@ -163,18 +163,18 @@ class _FieldPasswordWidgetState extends State<FieldPasswordWidget> {
       initialValue: widget.initialValue,
       validator: widget.validator,
       onChanged: widget.onChanged,
-      cursorColor: _cursorColor,
+      cursorColor: cursorColor,
       obscureText: _obscureText,
-      style: _style,
+      style: style,
       autofocus: widget.autofocus,
       textInputAction: widget.textInputAction,
       decoration: InputDecoration(
-        suffixIcon: _suffixIcon,
+        suffixIcon: suffixIcon,
         hintText: widget.hintText,
-        contentPadding: _padding,
-        border: _border,
-        focusedBorder: _focusedBorder,
-        errorBorder: _errorBorder,
+        contentPadding: padding,
+        border: border,
+        focusedBorder: focusedBorder,
+        errorBorder: errorBorder,
       ),
     );
   }

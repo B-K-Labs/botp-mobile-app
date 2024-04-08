@@ -14,29 +14,29 @@ class FilterTransactionStatus2Widget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Dropdown Theme
     // - Color
-    final _color = Theme.of(context).colorScheme.surface;
+    final color = Theme.of(context).colorScheme.surface;
     return Container(
         padding: const EdgeInsets.symmetric(
             horizontal: kAppPaddingBetweenItemSmallSize),
         decoration: BoxDecoration(
-            color: _color,
+            color: color,
             borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
         child: DropdownButton<TransactionStatus>(
           value: selectedValue,
           onChanged: onChanged,
-          dropdownColor: _color,
+          dropdownColor: color,
           icon: const Icon(Icons.arrow_drop_down),
           // iconSize: 24,
           underline: const SizedBox(),
           items: [
             DropdownMenuItem(
+                value: TransactionStatus.requesting,
                 child: Text(TransactionStatus.requesting.toCapitalizedString(),
-                    style: Theme.of(context).textTheme.bodyText2),
-                value: TransactionStatus.requesting),
+                    style: Theme.of(context).textTheme.bodyMedium)),
             DropdownMenuItem(
+                value: TransactionStatus.waiting,
                 child: Text(TransactionStatus.waiting.toCapitalizedString(),
-                    style: Theme.of(context).textTheme.bodyText2),
-                value: TransactionStatus.waiting)
+                    style: Theme.of(context).textTheme.bodyMedium))
           ],
         ));
   }
@@ -54,41 +54,41 @@ class FilterTime2Widget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Dropdown Theme
     // - Color
-    final _color = Theme.of(context).colorScheme.surface;
+    final color = Theme.of(context).colorScheme.surface;
     return Container(
         padding: const EdgeInsets.symmetric(
             horizontal: kAppPaddingBetweenItemSmallSize),
         decoration: BoxDecoration(
-            color: _color,
+            color: color,
             borderRadius: BorderRadius.circular(BorderRadiusSize.normal)),
         child: DropdownButton<CommonTimeRange>(
           value: selectedValue,
           onChanged: onChanged,
-          dropdownColor: _color,
+          dropdownColor: color,
           icon: const Icon(Icons.arrow_drop_down),
           // iconSize: 24,
           underline: const SizedBox(),
           items: [
             DropdownMenuItem(
+                value: CommonTimeRange.all,
                 child:
-                    Text("All", style: Theme.of(context).textTheme.bodyText2),
-                value: CommonTimeRange.all),
+                    Text("All", style: Theme.of(context).textTheme.bodyMedium)),
             DropdownMenuItem(
+                value: CommonTimeRange.lastDay,
                 child: Text("Last day",
-                    style: Theme.of(context).textTheme.bodyText2),
-                value: CommonTimeRange.lastDay),
+                    style: Theme.of(context).textTheme.bodyMedium)),
             DropdownMenuItem(
+                value: CommonTimeRange.lastWeek,
                 child: Text("Last week",
-                    style: Theme.of(context).textTheme.bodyText2),
-                value: CommonTimeRange.lastWeek),
+                    style: Theme.of(context).textTheme.bodyMedium)),
             DropdownMenuItem(
+                value: CommonTimeRange.lastMonth,
                 child: Text("Last month",
-                    style: Theme.of(context).textTheme.bodyText2),
-                value: CommonTimeRange.lastMonth),
+                    style: Theme.of(context).textTheme.bodyMedium)),
             DropdownMenuItem(
+                value: CommonTimeRange.customRange,
                 child: Text("Pick a range ...",
-                    style: Theme.of(context).textTheme.bodyText2),
-                value: CommonTimeRange.customRange)
+                    style: Theme.of(context).textTheme.bodyMedium))
           ],
         ));
   }
@@ -114,63 +114,63 @@ class FilterTransactionStatusWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Transaction Status Filter Theme
     // - Colors
-    final Color _primary;
-    final Color? _backgroundColor;
+    final Color primary;
+    final Color? backgroundColor;
     if (isSelected) {
       switch (colorType) {
         case ColorType.secondary:
-          _primary = Theme.of(context).colorScheme.onSecondaryContainer;
-          _backgroundColor = Theme.of(context).colorScheme.secondaryContainer;
+          primary = Theme.of(context).colorScheme.onSecondaryContainer;
+          backgroundColor = Theme.of(context).colorScheme.secondaryContainer;
           break;
         case ColorType.tertiary:
-          _primary = Theme.of(context).colorScheme.onTertiaryContainer;
-          _backgroundColor = Theme.of(context).colorScheme.tertiaryContainer;
+          primary = Theme.of(context).colorScheme.onTertiaryContainer;
+          backgroundColor = Theme.of(context).colorScheme.tertiaryContainer;
           break;
         case ColorType.error:
-          _primary = Theme.of(context).colorScheme.onErrorContainer;
-          _backgroundColor = Theme.of(context).colorScheme.errorContainer;
+          primary = Theme.of(context).colorScheme.onErrorContainer;
+          backgroundColor = Theme.of(context).colorScheme.errorContainer;
           break;
         case ColorType.normal:
-          _primary = Theme.of(context).colorScheme.onSurfaceVariant;
-          _backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
+          primary = Theme.of(context).colorScheme.onSurfaceVariant;
+          backgroundColor = Theme.of(context).colorScheme.surfaceVariant;
           break;
         case ColorType.primary:
         default:
-          _primary = Theme.of(context).colorScheme.onPrimaryContainer;
-          _backgroundColor = Theme.of(context).colorScheme.primaryContainer;
+          primary = Theme.of(context).colorScheme.onPrimaryContainer;
+          backgroundColor = Theme.of(context).colorScheme.primaryContainer;
           break;
       }
     } else {
-      _primary = Theme.of(context).colorScheme.onSurface;
-      _backgroundColor = null;
+      primary = Theme.of(context).colorScheme.onSurface;
+      backgroundColor = null;
     }
 
     // - Font
-    TextStyle? _textStyle = Theme.of(context).textTheme.bodyText2?.copyWith(
-        color: _primary,
+    TextStyle? textStyle = Theme.of(context).textTheme.bodyMedium?.copyWith(
+        color: primary,
         fontWeight: isSelected ? FontWeight.bold : FontWeight.normal);
     // - Padding
-    const _padding = EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0);
+    const padding = EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0);
     // - Decoration
-    final _borderRadius = BorderRadius.circular(100);
-    final _decoration =
-        BoxDecoration(color: _backgroundColor, borderRadius: _borderRadius);
+    final borderRadius = BorderRadius.circular(100);
+    final decoration =
+        BoxDecoration(color: backgroundColor, borderRadius: borderRadius);
 
     return Stack(children: [
       FittedBox(
           fit: BoxFit.scaleDown,
           child: Container(
-              decoration: _decoration,
+              decoration: decoration,
               child: Material(
                   color: Colors.transparent,
-                  borderRadius: _borderRadius,
+                  borderRadius: borderRadius,
                   child: InkWell(
                       onTap: onSelected,
-                      borderRadius: _borderRadius,
+                      borderRadius: borderRadius,
                       child: Container(
-                          padding: _padding,
+                          padding: padding,
                           child: Text(transactionStatus.toCapitalizedString(),
-                              style: _textStyle)))))),
+                              style: textStyle)))))),
       Positioned(
           top: 0,
           right: 0,

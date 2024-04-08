@@ -77,18 +77,18 @@ class ProvenanceBody extends StatelessWidget {
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
                 const SizedBox(height: kAppPaddingTopWithoutAppBarSize),
                 Text("It would take a bit!",
-                    style: Theme.of(context).textTheme.bodyText2,
+                    style: Theme.of(context).textTheme.bodyMedium,
                     textAlign: TextAlign.center),
                 const SizedBox(height: kAppPaddingBetweenItemSmallSize),
                 Text("Getting data from Blockchain",
-                    style: Theme.of(context).textTheme.headline5?.copyWith(
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                         color: Theme.of(context).colorScheme.primary),
                     textAlign: TextAlign.center),
               ]),
-              Column(
+              const Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [Center(child: CircularProgressIndicator())]),
+                  children: [Center(child: CircularProgressIndicator())]),
             ]));
     });
   }
@@ -172,10 +172,10 @@ class ProvenanceBody extends StatelessWidget {
         builder: (context, state) {
       // Widget _returnActionButtons = const SkeletonAvatar(
       //     style: SkeletonAvatarStyle(width: double.infinity, height: 50.0));
-      Widget _returnActionButtons = Container();
+      Widget returnActionButtons = Container();
       if (state.getProvenanceStatus is RequestStatusSuccess ||
           state.getProvenanceStatus is RequestStatusFailed) {
-        _returnActionButtons = ButtonNormalWidget(
+        returnActionButtons = ButtonNormalWidget(
             text: "Go back",
             onPressed: () {
               Application.router.pop(context);
@@ -186,7 +186,7 @@ class ProvenanceBody extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
               horizontal: kAppPaddingHorizontalSize,
               vertical: kAppPaddingVerticalSize),
-          child: _returnActionButtons);
+          child: returnActionButtons);
     });
   }
 }

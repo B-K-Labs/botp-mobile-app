@@ -27,11 +27,11 @@ CategorizedTransactionsInfo categorizeTransactions(
   final bool isFilteringNewest = currentTransactionSecretIdsList != null &&
       historyTransactionSecretIdsList != null;
   // 1. Categorized list
-  List<CategorizedTransactions> _categorizedTransactions = [];
-  List<TransactionDetail> _olderTransactionsList =
+  List<CategorizedTransactions> categorizedTransactions = [];
+  List<TransactionDetail> olderTransactionsList =
       isFilteringNewest ? [] : newTransactionsList;
   // 2. History secret ids
-  List<String> _newHistoryTransactionSecretIdsList = [];
+  List<String> newHistoryTransactionSecretIdsList = [];
   // 4. Flag: Is Having new transaction flag
   bool isHavingNewTransactions = false;
   // 5. Number of incoming transactions to be notified
@@ -39,35 +39,35 @@ CategorizedTransactionsInfo categorizeTransactions(
 
   // Split newest transactions list and make new old transaction ids list
   if (isFilteringNewest) {
-    final List<TransactionDetail> _newestTransactionsList = [];
+    final List<TransactionDetail> newestTransactionsList = [];
     for (var trans in newTransactionsList) {
       final transId = trans.otpSessionSecretInfo.secretId;
       // Old transactions but are marked as new
       if (historyTransactionSecretIdsList.contains(transId)) {
-        _newestTransactionsList.add(trans);
+        newestTransactionsList.add(trans);
       }
       // Incoming transactions
       else if (!currentTransactionSecretIdsList.contains(transId) &&
           isNotFetchedFirstTime) {
-        _newestTransactionsList.add(trans);
+        newestTransactionsList.add(trans);
         notifiedTransactionsList.add(trans.otpSessionInfo.agentName);
       }
       // Old transactions
       else {
-        _olderTransactionsList.add(trans);
+        olderTransactionsList.add(trans);
       }
     }
 
-    _newHistoryTransactionSecretIdsList = [
-      ..._newestTransactionsList.map((e) => e.otpSessionSecretInfo.secretId)
+    newHistoryTransactionSecretIdsList = [
+      ...newestTransactionsList.map((e) => e.otpSessionSecretInfo.secretId)
     ];
 
     // Append to categorized list
     // - Newest
-    if (_newestTransactionsList.isNotEmpty) {
-      _categorizedTransactions.add(CategorizedTransactions(
+    if (newestTransactionsList.isNotEmpty) {
+      categorizedTransactions.add(CategorizedTransactions(
           categoryType: TimeFilters.newest,
-          transactionsList: _newestTransactionsList));
+          transactionsList: newestTransactionsList));
       isHavingNewTransactions = true;
     }
   }
@@ -77,44 +77,44 @@ CategorizedTransactionsInfo categorizeTransactions(
   List<TimeFilters> timeFiltersList = [...TimeFilters.values];
   timeFiltersList.removeWhere(
       (element) => [TimeFilters.newest, TimeFilters.older].contains(element));
-  final _currentTimestamp = DateTime.now().millisecondsSinceEpoch;
+  final currentTimestamp = DateTime.now().millisecondsSinceEpoch;
   for (var timeFilter in timeFiltersList) {
-    final List<TransactionDetail> _timestampFilteredTransactionsList = [];
-    final List<TransactionDetail> _newOlderTransactionsList = [];
-    final _compareTimestamp =
-        _currentTimestamp - timeFiltersTimeMap[timeFilter]!;
-    for (var trans in _olderTransactionsList) {
+    final List<TransactionDetail> timestampFilteredTransactionsList = [];
+    final List<TransactionDetail> newOlderTransactionsList = [];
+    final compareTimestamp =
+        currentTimestamp - timeFiltersTimeMap[timeFilter]!;
+    for (var trans in olderTransactionsList) {
       // Filter by timestamp here
-      if (trans.otpSessionInfo.timestamp >= _compareTimestamp) {
-        _timestampFilteredTransactionsList.add(trans);
+      if (trans.otpSessionInfo.timestamp >= compareTimestamp) {
+        timestampFilteredTransactionsList.add(trans);
       } else {
-        _newOlderTransactionsList.add(trans);
+        newOlderTransactionsList.add(trans);
       }
     }
     // Assign old transactions list to the new filtered one
-    _olderTransactionsList = _newOlderTransactionsList;
+    olderTransactionsList = newOlderTransactionsList;
     // Push new categorized transactions into the list
-    if (_timestampFilteredTransactionsList.isNotEmpty) {
-      _categorizedTransactions.add(CategorizedTransactions(
+    if (timestampFilteredTransactionsList.isNotEmpty) {
+      categorizedTransactions.add(CategorizedTransactions(
           categoryType: timeFilter,
-          transactionsList: _timestampFilteredTransactionsList));
+          transactionsList: timestampFilteredTransactionsList));
     }
   }
   // - The very old transactions
-  if (_olderTransactionsList.isNotEmpty) {
-    _categorizedTransactions.add(CategorizedTransactions(
+  if (olderTransactionsList.isNotEmpty) {
+    categorizedTransactions.add(CategorizedTransactions(
         categoryType: TimeFilters.older,
-        transactionsList: _olderTransactionsList));
+        transactionsList: olderTransactionsList));
   }
 
   return isFilteringNewest
       ? CategorizedTransactionsInfo(
-          categorizedTransactions: _categorizedTransactions,
-          historyTransactionSecretIdsList: _newHistoryTransactionSecretIdsList,
+          categorizedTransactions: categorizedTransactions,
+          historyTransactionSecretIdsList: newHistoryTransactionSecretIdsList,
           isHavingNewTransactions: isHavingNewTransactions,
           notifiedTransactionsList: notifiedTransactionsList)
       : CategorizedTransactionsInfo(
-          categorizedTransactions: _categorizedTransactions,
+          categorizedTransactions: categorizedTransactions,
           isHavingNewTransactions: isHavingNewTransactions,
           notifiedTransactionsList: notifiedTransactionsList);
 }

@@ -68,6 +68,7 @@ dependencies:
   flutter_local_notifications: ^15.1.1
   webview_flutter: ^4.2.4
 
+  crypto: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

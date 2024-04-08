@@ -32,12 +32,12 @@ class ReminderBiometricSetupBody extends StatelessWidget {
             Text("Setup biometric",
                 style: Theme.of(context)
                     .textTheme
-                    .headline4
+                    .headlineMedium
                     ?.copyWith(color: Theme.of(context).colorScheme.primary)),
             const SizedBox(height: 24.0),
             Text(
               "Do you want to use biometric authentication for the next sign-in time?",
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyMedium,
             )
           ]),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [

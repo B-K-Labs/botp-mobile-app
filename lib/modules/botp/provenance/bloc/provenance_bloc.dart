@@ -32,31 +32,31 @@ class ProvenanceBloc extends Bloc<ProvenanceEvent, ProvenanceState> {
         emit(state.copyWith(getProvenanceStatus: RequestStatusSubmitting()));
         // Get provenance events
         final provenanceInfo = event.provenanceInfo;
-        _getBroadcastEventAsync() async => await authenticatorRepository
+        getBroadcastEventAsync() async => await authenticatorRepository
             .getProvenanceEvent(ProvenanceEventType.broadcast, provenanceInfo);
-        _getHistoryEventAsync() async => await authenticatorRepository
+        getHistoryEventAsync() async => await authenticatorRepository
             .getProvenanceEvent(ProvenanceEventType.history, provenanceInfo);
         List<ProvenanceEventResponseModel> provenanceEventsList =
             await Future.wait(
-                [_getBroadcastEventAsync(), _getHistoryEventAsync()]);
+                [getBroadcastEventAsync(), getHistoryEventAsync()]);
         // - Get result
-        final _broadcastEventData = provenanceEventsList
+        final broadcastEventData = provenanceEventsList
             .where((event) => event.eventType == ProvenanceEventType.broadcast)
             .toList()[0]
             .broadcastEventData;
-        final _historyEventData = provenanceEventsList
+        final historyEventData = provenanceEventsList
             .where((event) => event.eventType == ProvenanceEventType.history)
             .toList()[0]
             .historyEventData;
         // - Compare events
-        final _matchingInfo =
-            compareProvenanceEvents(_broadcastEventData, _historyEventData);
+        final matchingInfo =
+            compareProvenanceEvents(broadcastEventData, historyEventData);
         // - Update state
         emit(state.copyWith(
             getProvenanceStatus: RequestStatusSuccess(),
-            broadcastEventData: _broadcastEventData,
-            historyEventData: _historyEventData,
-            matchingInfo: _matchingInfo));
+            broadcastEventData: broadcastEventData,
+            historyEventData: historyEventData,
+            matchingInfo: matchingInfo));
       } on Exception catch (e) {
         emit(state.copyWith(getProvenanceStatus: RequestStatusFailed(e)));
       }
@@ -94,12 +94,12 @@ class ProvenanceBloc extends Bloc<ProvenanceEvent, ProvenanceState> {
       // Swap valid state
       _isBroadcastValid = !_isBroadcastValid;
       // Compare events
-      final _matchingInfo = compareProvenanceEvents(
+      final matchingInfo = compareProvenanceEvents(
           newBroadcastEventData, state.historyEventData);
       // Update state
       emit(state.copyWith(
           broadcastEventData: newBroadcastEventData,
-          matchingInfo: _matchingInfo));
+          matchingInfo: matchingInfo));
       _isChangingData = false;
     });
   }
