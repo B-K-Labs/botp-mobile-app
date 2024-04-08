@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:botp_auth/constants/common.dart';
+import 'package:flutter/material.dart';
 
 // Normal Button
 class ButtonNormalWidget extends StatelessWidget {
@@ -102,11 +102,11 @@ class ButtonNormalWidget extends StatelessWidget {
       width: _width,
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
+          foregroundColor: _primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(BorderRadiusSize.normal),
           ),
           side: _side,
-          primary: _primary,
           backgroundColor: _backgroundColor,
           textStyle: _textStyle,
           padding: _padding,
@@ -153,11 +153,12 @@ class ButtonTextWidget extends StatelessWidget {
             ]))
         : TextButton(
             style: TextButton.styleFrom(
-                textStyle: _textStyle,
-                primary: _primary,
-                padding: EdgeInsets.zero,
-                minimumSize: Size.zero,
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+              foregroundColor: _primary,
+              textStyle: _textStyle,
+              padding: EdgeInsets.zero,
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
             onPressed: onPressed,
             child: Text(text));
   }
