@@ -57,7 +57,7 @@ dependencies:
   base32: ^2.1.1
   otp: ^3.0.2
   flutter_dotenv: ^5.0.2
-  mobile_scanner: ^3.4.1
+  mobile_scanner: ^4.0.1
   skeletons: ^0.0.3
   image_picker: ^1.0.4
   permission_handler: ^11.0.0

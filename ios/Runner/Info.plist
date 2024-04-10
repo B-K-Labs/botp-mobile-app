@@ -46,7 +46,7 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>We need to access your camera to snap photo</string>
+	<string>This app needs camera access to scan QR codes</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need this permission to get your Location.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
