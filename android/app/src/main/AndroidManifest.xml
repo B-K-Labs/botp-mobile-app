@@ -7,7 +7,7 @@
 
     <!-- Application -->
     <application
-        android:label="BOTP Authenticator"
+        android:label="BOTP"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
