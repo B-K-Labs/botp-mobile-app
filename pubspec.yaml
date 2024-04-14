@@ -51,7 +51,7 @@ dependencies:
   equatable: ^2.0.3
   flutter_secure_storage: ^9.0.0
   universal_html: ^2.0.8
-  local_auth: ^2.0.0
+  local_auth: ^2.2.0
   intl: ^0.18.1
   qr_flutter: ^4.0.0
   base32: ^2.1.1

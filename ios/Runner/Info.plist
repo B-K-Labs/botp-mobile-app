@@ -51,5 +51,7 @@
 	<string>We need this permission to get your Location.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need to access your Photos for your to select a photo</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>We need this permission to use Face ID</string>
 </dict>
 </plist>
