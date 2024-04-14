@@ -61,9 +61,10 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
               controller: cameraController,
               onDetect: (barcode) {
                 // Return rawValue directly
+                print("QR code detected: ${barcode.raw}");
                 Application.router.pop(
                   context,
-                  barcode.raw,
+                  barcode.barcodes.first.rawValue,
                 );
               }),
           QRScannerFunctionalityOverlay(
