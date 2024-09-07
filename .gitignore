@@ -11,6 +11,7 @@
 
 # IntelliJ related
 *.iml
+!packages/**/*.iml
 *.ipr
 *.iws
 .idea/
