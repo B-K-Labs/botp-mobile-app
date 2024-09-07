@@ -1,13 +1,13 @@
 import 'package:botp_auth/configs/routes/application.dart';
 import 'package:botp_auth/constants/common.dart';
 import 'package:botp_auth/constants/settings.dart';
+import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:botp_auth/modules/botp/home/cubit/botp_home_cubit.dart';
 import 'package:botp_auth/modules/botp/home/cubit/botp_home_state.dart';
 import 'package:botp_auth/widgets/button.dart';
 import 'package:botp_auth/widgets/common.dart';
 import 'package:botp_auth/widgets/setting.dart';
 import 'package:flutter/material.dart';
-import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SecurityHomeScreen extends StatelessWidget {
@@ -84,6 +84,11 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
           type: SettingsOptionType.labelNavigable,
           navigateDescription: biometricStatus,
           onTap: onTapBiometricSetup,
+        ),
+        SettingsOptionWidget(
+          label: "Delete your account",
+          type: SettingsOptionType.labelNavigable,
+          onTap: onDeleteAccount,
         ),
       ]);
     });
@@ -184,4 +189,75 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
       ),
     ]);
   }
+
+  onDeleteAccount() async {
+    // Wait for confirmation
+    final deleteAccountResult = await deleteAccountConfirmation();
+    // Perform action
+    if (deleteAccountResult == true) {
+      await context.read<SessionCubit>().signOut();
+      // Navigate to Session Screen
+      Application.router.navigateTo(context, "/", clearStack: true);
+    }
+  }
+
+  Future<bool?> deleteAccountConfirmation() => showModalBottomSheet<bool>(
+      context: context,
+      builder: (context) {
+        final titleStyle = Theme.of(context)
+            .textTheme
+            .titleLarge
+            ?.copyWith(color: Theme.of(context).colorScheme.primary);
+
+        return Container(
+            padding: const EdgeInsets.symmetric(
+                horizontal: kAppPaddingHorizontalSize,
+                vertical: kAppPaddingVerticalSize),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text("Do you want to delete your account?",
+                      style: titleStyle),
+                  const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: const Text(
+                      "Your account data would be permanently deleted. You won't be able to recover it.",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+                  const ReminderWidget(
+                    iconData: Icons.warning_rounded,
+                    colorType: ColorType.error,
+                    title: "Caution!",
+                    description:
+                        "Please make sure you've exported your account data before deleting it.",
+                  ),
+                  const SizedBox(height: kAppPaddingBetweenItemNormalSize),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                          flex: 1,
+                          child: ButtonNormalWidget(
+                              text: "Cancel",
+                              onPressed: () {
+                                Application.router.pop(context, false);
+                              },
+                              type: ButtonNormalType.secondaryOutlined)),
+                      const SizedBox(width: kAppPaddingBetweenItemSmallSize),
+                      Expanded(
+                          flex: 1,
+                          child: ButtonNormalWidget(
+                              text: "Delete account",
+                              onPressed: () {
+                                Application.router.pop(context, true);
+                              },
+                              type: ButtonNormalType.error))
+                    ],
+                  ),
+                ]));
+      });
 }
