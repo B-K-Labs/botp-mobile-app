@@ -1,9 +1,9 @@
 import 'package:botp_auth/common/models/common_model.dart';
+import 'package:botp_auth/common/repositories/authentication_repository.dart';
 import 'package:botp_auth/constants/settings.dart';
 import 'package:botp_auth/constants/storage.dart';
-import 'package:botp_auth/common/repositories/authentication_repository.dart';
-import 'package:botp_auth/modules/authentication/session/cubit/session_state.dart';
 import 'package:botp_auth/core/storage/user_data.dart';
+import 'package:botp_auth/modules/authentication/session/cubit/session_state.dart';
 import 'package:botp_auth/utils/helpers/biometric.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -142,5 +142,10 @@ class SessionCubit extends Cubit<SessionState> {
   Future<void> signOut() async {
     await UserData.setCredentialSessionData(UserDataSession.expired);
     emit(ExpiredSessionState()); // Use the same instance
+  }
+
+  Future<void> signOutAndClearData() async {
+    await UserData.clearData();
+    emit(UnauthenticatedSessionState());
   }
 }

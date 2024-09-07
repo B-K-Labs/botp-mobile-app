@@ -195,7 +195,7 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
     final deleteAccountResult = await deleteAccountConfirmation();
     // Perform action
     if (deleteAccountResult == true) {
-      await context.read<SessionCubit>().signOut();
+      await context.read<SessionCubit>().signOutAndClearData();
       // Navigate to Session Screen
       Application.router.navigateTo(context, "/", clearStack: true);
     }
