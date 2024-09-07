@@ -1,0 +1,17 @@
+name: skeletons
+version: 0.0.4
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+  flutter: ">=3.14.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+# The following section is specific to Flutter.
+flutter:

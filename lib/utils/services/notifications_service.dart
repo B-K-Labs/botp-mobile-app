@@ -9,7 +9,7 @@ class NotificationApi {
     _notifications
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
-        ?.requestPermission();
+        ?.requestNotificationsPermission();
 
     // (Android) Custom notification icon: https://stackoverflow.com/questions/55820299/flutter-local-notifications-platformexception-platformexceptioninvalid-icon
     const android = AndroidInitializationSettings("notification_icon");
