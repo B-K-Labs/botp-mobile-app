@@ -66,10 +66,10 @@ class _SecurityHomeBodyState extends State<SecurityHomeBody> {
       }
 
       return SettingsSectionWidget(title: "Account security", children: [
-        const SettingsOptionWidget(
-          label: "Change password",
-          type: SettingsOptionType.labelNavigable,
-        ),
+        // const SettingsOptionWidget(
+        //   label: "Change password",
+        //   type: SettingsOptionType.labelNavigable,
+        // ),
         SettingsOptionWidget(
           label: "Transfer account",
           type: SettingsOptionType.labelNavigable,

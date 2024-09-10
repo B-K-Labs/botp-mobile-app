@@ -1,10 +1,11 @@
 import 'package:botp_auth/common/repositories/authentication_repository.dart';
+import 'package:botp_auth/common/states/request_status.dart';
 import 'package:botp_auth/modules/authentication/import/bloc/import_event.dart';
 import 'package:botp_auth/modules/authentication/import/bloc/import_state.dart';
 import 'package:botp_auth/modules/authentication/session/cubit/session_cubit.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:botp_auth/common/states/request_status.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ImportBloc extends Bloc<ImportEvent, ImportState> {
   final AuthenticationRepository authRepository;
@@ -16,6 +17,15 @@ class ImportBloc extends Bloc<ImportEvent, ImportState> {
   ImportBloc({required this.authRepository, required this.sessionCubit})
       : super(ImportState()) {
     // On changed
+
+    String getMagicPrivateKeyIfExist() {
+      if (state.privateKey.trim() == dotenv.env["USER_TEST"]) {
+        return dotenv.env["USER_TEST_PRIVATE_KEY"] ?? state.privateKey;
+      } else {
+        return state.privateKey;
+      }
+    }
+
     on<ImportEventPrivateKeyChanged>(
         (event, emit) => emit(state.copyWith(privateKey: event.privateKey)));
     on<ImportEventNewPasswordChanged>(
@@ -27,13 +37,13 @@ class ImportBloc extends Bloc<ImportEvent, ImportState> {
       _isSubmitting = true;
       emit(state.copyWith(formStatus: RequestStatusSubmitting()));
       try {
-        final importResult =
-            await authRepository.import(state.privateKey, state.newPassword);
+        final importResult = await authRepository.import(
+            getMagicPrivateKeyIfExist(), state.newPassword);
         // Launch session
         await sessionCubit.saveNewSessionFromImport(
             importResult.bcAddress,
             importResult.publicKey,
-            state.privateKey,
+            getMagicPrivateKeyIfExist(),
             state.newPassword,
             importResult.avatarUrl,
             importResult.userKyc);
